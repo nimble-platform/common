@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,20 +30,17 @@ public class PersistenceConfig {
     }
 
     public static PersistenceConfig getInstance() {
+        if(instance != null) {
+            instance.setupDbConnections();
+        }
         return instance;
     }
 
     @Autowired
     private Environment environment;
 
-    private Map<String, String> ubl;
-    private Map<String, String> modaml;
-
-    @Value("persistence.orm.ubl.bluemix.connection.uri")
-    private String bluemixUblDbUri;
-
-    @Value("persistence.orm.modaml.bluemix.connection.uri")
-    private String bluemixModamlDbUri;
+    private Map<String, String> ubl = new HashMap<>();
+    private Map<String, String> modaml = new HashMap<>();
 
     public Map<String, String> getUbl() {
         return ubl;
@@ -60,29 +58,21 @@ public class PersistenceConfig {
         this.modaml = modaml;
     }
 
-    public String getBluemixUblDbUri() {
-        return bluemixUblDbUri;
-    }
+    private void setupDbConnections() {
+        if (environment != null) {
+            // check for "kubernetes" profile
+            if (Arrays.stream(environment.getActiveProfiles()).anyMatch(profile -> profile.contentEquals("kubernetes"))) {
 
-    public void setBluemixUblDbUri(@NotNull String bluemixUblDbUri) {
-        this.bluemixUblDbUri = bluemixUblDbUri;
-        // update persistence properties if kubernetes profile is active
-        if(Arrays.stream(environment.getActiveProfiles()).anyMatch(profile -> profile.contentEquals("kubernetes"))) {
-            BluemixDatabaseConfig config = new BluemixDatabaseConfig(bluemixUblDbUri);
-            config.copyToHibernatePersistenceParameters(config, ubl);
-        }
-    }
+                // setup ubl database
+                String UblDBCredentialsJson = environment.getProperty("persistence.orm.ubl.bluemix.credentials_json");
+                BluemixDatabaseConfig ublDBconfig = new BluemixDatabaseConfig(UblDBCredentialsJson);
+                ublDBconfig.copyToHibernatePersistenceParameters(ubl);
 
-    public String getBluemixModamlDbUri() {
-        return bluemixModamlDbUri;
-    }
-
-    public void setBluemixModamlDbUri(String bluemixModamlDbUri) {
-        this.bluemixModamlDbUri = bluemixModamlDbUri;
-        // update persistence properties if kubernetes profile is active
-        if(Arrays.stream(environment.getActiveProfiles()).anyMatch(profile -> profile.contentEquals("kubernetes"))) {
-            BluemixDatabaseConfig config = new BluemixDatabaseConfig(bluemixModamlDbUri);
-            config.copyToHibernatePersistenceParameters(config, modaml);
+                // setup ubl database
+                String modaMlDBCredentialsJson = environment.getProperty("persistence.orm.modaml.bluemix.credentials_json");
+                BluemixDatabaseConfig modaMlDBconfig = new BluemixDatabaseConfig(modaMlDBCredentialsJson);
+                modaMlDBconfig.copyToHibernatePersistenceParameters(modaml);
+            }
         }
     }
 
