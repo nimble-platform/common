@@ -29,9 +29,11 @@ public class PersistenceConfig {
         instance = this;
     }
 
+    private static boolean dbInitialized = false;
     public static PersistenceConfig getInstance() {
-        if(instance != null) {
+        if(instance != null && dbInitialized == false) {
             instance.setupDbConnections();
+            dbInitialized = true;
         }
         return instance;
     }
