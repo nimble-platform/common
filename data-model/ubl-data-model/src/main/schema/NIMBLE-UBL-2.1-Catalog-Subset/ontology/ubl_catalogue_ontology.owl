@@ -2017,10 +2017,10 @@ Long Term: (Possible not necessary)
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#AllowanceChargeType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#BranchType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueLineType"/>
-                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CertificateType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#DeliveryTermsType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#DocumentReferenceType"/>
@@ -3081,7 +3081,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
         <translation xml:lang="de">Katalog Linie Art</translation>
     </owl:Class>
     
-    
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CertificateType -->
@@ -3430,7 +3429,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
         <translation xml:lang="it">Qualità Indicatore Genere</translation>
     </owl:Class>
     
-    
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#RelatedItemType -->
@@ -3441,17 +3439,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
         <translation xml:lang="en">Related Item Type</translation>
         <translation xml:lang="es">Ser  pariente  de  alguien Artìculo Tipo</translation>
         <translation xml:lang="de">Verbunden Punkt Art</translation>
-    </owl:Class>
-    
-
-
-    <!-- http://www.nimble-project.org/catalogue#ResourceFeature -->
-
-    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#ResourceFeature">
-        <translation xml:lang="es">Recurso Rasgo</translation>
-        <translation xml:lang="en">Resource Feature</translation>
-        <translation xml:lang="de">Ressource Merkmal</translation>
-        <translation xml:lang="it">Risorsa Caratteristica</translation>
     </owl:Class>
     
 
@@ -3539,12 +3526,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
     
 
 
-    <!-- http://www.aidima.eu/ontologies/furniture#BabyCradle -->
-
-    <owl:NamedIndividual rdf:about="http://www.aidima.eu/ontologies/furniture#BabyCradle"/>
-    
-
-
     <!-- http://www.aidima.eu/ontologies/furniture#GlobitoPolishing -->
 
     <owl:NamedIndividual rdf:about="http://www.aidima.eu/ontologies/furniture#GlobitoPolishing">
@@ -3553,9 +3534,15 @@ Option 2: Create an individual in product domain ontology and let it have also p
     
 
 
-    <!-- http://www.aidima.eu/ontologies/furniture#Globito_White -->
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Cradle -->
 
-    <owl:NamedIndividual rdf:about="http://www.aidima.eu/ontologies/furniture#Globito_White"/>
+    <owl:NamedIndividual rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Cradle"/>
+    
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Globito_White -->
+
+    <owl:NamedIndividual rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Globito_White"/>
     
 
 
@@ -3806,7 +3793,7 @@ Option 2: Create an individual in product domain ontology and let it have also p
 
     <owl:NamedIndividual rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#micunaGlobitoAIDIMAFurnitureClassification">
         <rdf:type rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CommodityClassificationType"/>
-        <ItemInstanceURI rdf:resource="http://www.aidima.eu/ontologies/furniture#Globito_White"/>
+        <ItemInstanceURI rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#Globito_White"/>
         <cbc:ItemClassificationCode rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#aidimaFurnitureBabyCradle"/>
     </owl:NamedIndividual>
     
@@ -4054,7 +4041,7 @@ Option 2: Create an individual in product domain ontology and let it have also p
 
     <owl:NamedIndividual rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#aidimaFurnitureBabyCradle">
         <rdf:type rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#CodeType"/>
-        <linkedDataURI rdf:resource="http://www.aidima.eu/ontologies/furniture#BabyCradle"/>
+        <linkedDataURI rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#Cradle"/>
         <cbc:Value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BabyCradle</cbc:Value>
         <cbc:listID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AIDIMA Furniture Product Ontology</cbc:listID>
     </owl:NamedIndividual>
