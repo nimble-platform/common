@@ -918,7 +918,7 @@ Long Term: (Possible not necessary)
 
     <owl:ObjectProperty rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#ProviderParty">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType"/>
+        <rdfs:domain rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
         <rdfs:range rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#PartyType"/>
         <translation xml:lang="es">Cuando  mi  padre  murió me  convertì en  el  sostén  económico  de  la  familia Fiesta</translation>
         <translation xml:lang="it">Fornitore Festa</translation>
@@ -1073,7 +1073,7 @@ Long Term: (Possible not necessary)
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType"/>
+                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#PartyType"/>
                 </owl:unionOf>
             </owl:Class>
@@ -1093,7 +1093,7 @@ Long Term: (Possible not necessary)
         <rdfs:domain>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType"/>
+                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#PriceType"/>
                 </owl:unionOf>
             </owl:Class>
@@ -2020,7 +2020,7 @@ Long Term: (Possible not necessary)
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#AllowanceChargeType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#BranchType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueLineType"/>
-                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType"/>
+                    <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:Catalogue-2#CatalogueType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CertificateType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#DeliveryTermsType"/>
                     <rdf:Description rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#DocumentReferenceType"/>
@@ -3081,16 +3081,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
         <translation xml:lang="de">Katalog Linie Art</translation>
     </owl:Class>
     
-
-
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType -->
-
-    <owl:Class rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#CatalogueType">
-        <translation xml:lang="es">Cat álogo Tipo</translation>
-        <translation xml:lang="it">Catalogo Genere</translation>
-        <translation xml:lang="en">Catalogue Type</translation>
-        <translation xml:lang="de">Katalog Art</translation>
-    </owl:Class>
     
 
 
@@ -3440,16 +3430,6 @@ Option 2: Create an individual in product domain ontology and let it have also p
         <translation xml:lang="it">Qualità Indicatore Genere</translation>
     </owl:Class>
     
-
-
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#QuantityType -->
-
-    <owl:Class rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#QuantityType">
-        <translation xml:lang="es">Cantidad Tipo</translation>
-        <translation xml:lang="de">Menge Art</translation>
-        <translation xml:lang="en">Quantity Type</translation>
-        <translation xml:lang="it">Quantità Genere</translation>
-    </owl:Class>
     
 
 
@@ -3465,9 +3445,9 @@ Option 2: Create an individual in product domain ontology and let it have also p
     
 
 
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#ResourceFeature -->
+    <!-- http://www.nimble-project.org/catalogue#ResourceFeature -->
 
-    <owl:Class rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#ResourceFeature">
+    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#ResourceFeature">
         <translation xml:lang="es">Recurso Rasgo</translation>
         <translation xml:lang="en">Resource Feature</translation>
         <translation xml:lang="de">Ressource Merkmal</translation>
@@ -3527,7 +3507,7 @@ Option 2: Create an individual in product domain ontology and let it have also p
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#CodeType -->
 
     <owl:Class rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#CodeType">
-        <rdfs:subClassOf rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#ResourceFeature"/>
+        <rdfs:subClassOf rdf:resource="http://www.nimble-project.org/catalogue#ResourceFeature"/>
         <translation xml:lang="es">Clave Tipo</translation>
         <translation xml:lang="en">Code Type</translation>
         <translation xml:lang="it">Codice Genere</translation>
@@ -4253,7 +4233,7 @@ Option 2: Create an individual in product domain ontology and let it have also p
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#micunaSettelmentDuration -->
 
     <owl:NamedIndividual rdf:about="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#micunaSettelmentDuration">
-        <rdf:type rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2#QuantityType"/>
+        <rdf:type rdf:resource="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#QuantityType"/>
         <cbc:ValueDecimal rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">10.25</cbc:ValueDecimal>
         <cbc:unitCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DAY</cbc:unitCode>
     </owl:NamedIndividual>
