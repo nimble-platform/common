@@ -649,6 +649,7 @@
 	<xsd:element name="TransportUserResponseRequiredPeriod" type="PeriodType"/>
 	<xsd:element name="TransportationSegment" type="TransportationSegmentType"/>
 	<xsd:element name="TransportationService" type="TransportationServiceType"/>
+	<xsd:element name="TransportationServiceDetails" type="TransportationServiceType"/>
 	<xsd:element name="TransportationStatusRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="TransshipPortLocation" type="LocationType"/>
 	<xsd:element name="UnloadingLocation" type="LocationType"/>
@@ -1935,6 +1936,7 @@
 			<xsd:element ref="cac:ItemInstance" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Dimension" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemComparisonType">
@@ -2760,6 +2762,7 @@
 			<xsd:element ref="cbc:Instructions" minOccurs="0"/>
 			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
 			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
+			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="SignatureType">
@@ -3322,6 +3325,7 @@
 			<xsd:element ref="cac:MaritimeTransport" minOccurs="0"/>
 			<xsd:element ref="cac:OwnerParty" minOccurs="0"/>
 			<xsd:element ref="cac:MeasurementDimension" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportEquipment" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TransportScheduleType">
