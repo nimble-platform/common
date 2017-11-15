@@ -321,7 +321,7 @@
 	<xsd:element name="MainOnAccountPayment" type="OnAccountPaymentType"/>
 	<xsd:element name="MainPeriod" type="PeriodType"/>
 	<xsd:element name="MainQualifyingParty" type="QualifyingPartyType"/>
-	<xsd:element name="MainTransportationService" type="TransportationServiceType"/>
+	<xsd:element name="MainTransportationService" type="ItemType"/>
 	<xsd:element name="MandateDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ManufacturerParty" type="PartyType"/>
 	<xsd:element name="ManufacturersItemIdentification" type="ItemIdentificationType"/>
@@ -2743,15 +2743,16 @@
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:ShippingPriorityLevelCode" minOccurs="0"/>
-			<xsd:element ref="cbc:HandlingCode" minOccurs="0"/>
 			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0"/>
-			<xsd:element ref="cbc:Information" minOccurs="0"/>
+			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:InsuranceValueAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:DeclaredForCarriageValueAmount" minOccurs="0"/>
+			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:GoodsItem" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:ShipmentStage" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportHandlingUnit" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:ReturnAddress" minOccurs="0"/>
+			<xsd:element ref="cac:OriginAddress" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentStageType">

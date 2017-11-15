@@ -48,4 +48,14 @@
 			<package name="eu.nimble.service.model.ubl.requestforquotation" />
 		</schemaBindings>
 	</bindings>
+	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-TransportExecutionPlanRequest-2.1.xsd" node="/xsd:schema">
+		<schemaBindings>
+			<package name="eu.nimble.service.model.ubl.transportexecutionplanrequest" />
+		</schemaBindings>
+	</bindings>
+	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-TransportExecutionPlan-2.1.xsd" node="/xsd:schema">
+		<schemaBindings>
+			<package name="eu.nimble.service.model.ubl.transportexecutionplan" />
+		</schemaBindings>
+	</bindings>
 </bindings>
