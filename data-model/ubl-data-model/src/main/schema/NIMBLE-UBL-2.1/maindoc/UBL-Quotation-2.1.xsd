@@ -10,6 +10,8 @@
 			<xsd:element ref="cbc:IssueDate"/>
 			<xsd:element ref="cbc:IssueTime" minOccurs="0"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:DocumentStatusCode" minOccurs="0"/>
+			<xsd:element ref="cbc:DocumentStatusReasonCode" minOccurs="0"/>
 			<xsd:element ref="cbc:PricingCurrencyCode" minOccurs="0"/>
 			<xsd:element ref="cbc:LineCountNumeric" minOccurs="0"/>
 			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
@@ -17,7 +19,7 @@
 			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:SellerSupplierParty"/>
 			<xsd:element ref="cac:BuyerCustomerParty" minOccurs="0"/>
-			<xsd:element ref="cac:Delivery" minOccurs="0"/>
+			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PaymentMeans" minOccurs="0"/>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:TaxTotal" minOccurs="0"/>
