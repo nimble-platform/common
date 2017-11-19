@@ -288,6 +288,7 @@
 	<xsd:element name="Item" type="ItemType"/>
 	<xsd:element name="ItemComparison" type="ItemComparisonType"/>
 	<xsd:element name="ItemIdentification" type="ItemIdentificationType"/>
+	<xsd:element name="ItemInformationRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemInstance" type="ItemInstanceType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
@@ -2048,7 +2049,7 @@
 			<xsd:element ref="cbc:PartialDeliveryIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:BackOrderAllowedIndicator" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
-			<xsd:element ref="cac:Delivery" minOccurs="0"/>
+			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
 			<xsd:element ref="cac:Item"/>
@@ -2225,6 +2226,7 @@
 			<xsd:element ref="cbc:LogoReferenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:EndpointID" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:PartyType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cac:Language" minOccurs="0"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
@@ -2360,6 +2362,7 @@
 			<xsd:element ref="cbc:BirthDate" minOccurs="0"/>
 			<xsd:element ref="cbc:BirthplaceName" minOccurs="0"/>
 			<xsd:element ref="cbc:OrganizationDepartment" minOccurs="0"/>
+			<xsd:element ref="cbc:Role" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
 			<xsd:element ref="cac:FinancialAccount" minOccurs="0"/>
 			<xsd:element ref="cac:IdentityDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
