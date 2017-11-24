@@ -288,6 +288,7 @@
 	<xsd:element name="Item" type="ItemType"/>
 	<xsd:element name="ItemComparison" type="ItemComparisonType"/>
 	<xsd:element name="ItemIdentification" type="ItemIdentificationType"/>
+	<xsd:element name="ItemInformationRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemInstance" type="ItemInstanceType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
@@ -321,7 +322,7 @@
 	<xsd:element name="MainOnAccountPayment" type="OnAccountPaymentType"/>
 	<xsd:element name="MainPeriod" type="PeriodType"/>
 	<xsd:element name="MainQualifyingParty" type="QualifyingPartyType"/>
-	<xsd:element name="MainTransportationService" type="TransportationServiceType"/>
+	<xsd:element name="MainTransportationService" type="ItemType"/>
 	<xsd:element name="MandateDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ManufacturerParty" type="PartyType"/>
 	<xsd:element name="ManufacturersItemIdentification" type="ItemIdentificationType"/>
@@ -650,6 +651,7 @@
 	<xsd:element name="TransportUserResponseRequiredPeriod" type="PeriodType"/>
 	<xsd:element name="TransportationSegment" type="TransportationSegmentType"/>
 	<xsd:element name="TransportationService" type="TransportationServiceType"/>
+	<xsd:element name="TransportationServiceDetails" type="TransportationServiceType"/>
 	<xsd:element name="TransportationStatusRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="TransshipPortLocation" type="LocationType"/>
 	<xsd:element name="UnloadingLocation" type="LocationType"/>
@@ -1430,6 +1432,7 @@
 			<xsd:element ref="cbc:SpecialTerms" minOccurs="0"/>
 			<xsd:element ref="cbc:Amount" minOccurs="0"/>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
+			<xsd:element ref="cac:DeliveryLocation" minOccurs="0"/>
 			<xsd:element ref="cac:EstimatedDeliveryPeriod" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -1454,6 +1457,7 @@
 			<xsd:element ref="cbc:Instructions" minOccurs="0"/>
 			<xsd:element ref="cac:DespatchAddress" minOccurs="0"/>
 			<xsd:element ref="cac:EstimatedDespatchPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:Shipment" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DespatchLineType">
@@ -1469,6 +1473,7 @@
 			<xsd:element ref="cac:OrderLineReference"/>
 			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Item"/>
+			<xsd:element ref="cac:Shipment" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DimensionType">
@@ -1938,6 +1943,7 @@
 			<xsd:element ref="cac:ItemInstance" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Dimension" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemComparisonType">
@@ -2048,7 +2054,8 @@
 			<xsd:element ref="cbc:MaximumQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:PartialDeliveryIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:BackOrderAllowedIndicator" minOccurs="0"/>
-			<xsd:element ref="cac:Delivery" minOccurs="0"/>
+			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
 			<xsd:element ref="cac:Item"/>
@@ -2225,6 +2232,7 @@
 			<xsd:element ref="cbc:LogoReferenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:EndpointID" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:PartyType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cac:Language" minOccurs="0"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
@@ -2360,6 +2368,7 @@
 			<xsd:element ref="cbc:BirthDate" minOccurs="0"/>
 			<xsd:element ref="cbc:BirthplaceName" minOccurs="0"/>
 			<xsd:element ref="cbc:OrganizationDepartment" minOccurs="0"/>
+			<xsd:element ref="cbc:Role" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
 			<xsd:element ref="cac:FinancialAccount" minOccurs="0"/>
 			<xsd:element ref="cac:IdentityDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
@@ -2743,15 +2752,16 @@
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:ShippingPriorityLevelCode" minOccurs="0"/>
-			<xsd:element ref="cbc:HandlingCode" minOccurs="0"/>
 			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0"/>
-			<xsd:element ref="cbc:Information" minOccurs="0"/>
+			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:InsuranceValueAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:DeclaredForCarriageValueAmount" minOccurs="0"/>
+			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:GoodsItem" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:ShipmentStage" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportHandlingUnit" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:ReturnAddress" minOccurs="0"/>
+			<xsd:element ref="cac:OriginAddress" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentStageType">
@@ -2760,6 +2770,9 @@
 			<xsd:element ref="cbc:LoadingSequenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:SuccessiveSequenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:Instructions" minOccurs="0"/>
+			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
+			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
+			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="SignatureType">
@@ -3322,6 +3335,7 @@
 			<xsd:element ref="cac:MaritimeTransport" minOccurs="0"/>
 			<xsd:element ref="cac:OwnerParty" minOccurs="0"/>
 			<xsd:element ref="cac:MeasurementDimension" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TransportEquipment" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TransportScheduleType">
