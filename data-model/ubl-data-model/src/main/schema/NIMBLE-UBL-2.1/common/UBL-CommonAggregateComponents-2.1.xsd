@@ -1003,7 +1003,6 @@
 			<xsd:element ref="cbc:NatureCode" minOccurs="0"/>
 			<xsd:element ref="cbc:CargoTypeCode" minOccurs="0"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
-			<xsd:element ref="cbc:ItemPropertyURI" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CommunicationType">
@@ -2009,8 +2008,7 @@
 			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueBinary" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueQualifier" minOccurs="0"/>
-			<!-- TODO remove the demo-specific element -->
-			<xsd:element ref="cbc:DemoSpecificMultipleContent" minOccurs="0"/>
+			<xsd:element ref="cbc:URI"/>
 			<xsd:element ref="cac:UsabilityPeriod" minOccurs="0"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
 			<xsd:element ref="cac:RangeDimension" minOccurs="0"/>

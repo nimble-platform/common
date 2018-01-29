@@ -911,6 +911,7 @@
 			<xsd:extension base="xsd:normalizedString">
 				<xsd:attribute name="name" type="xsd:normalizedString" use="optional"/>
 				<xsd:attribute name="listID" type="xsd:normalizedString" use="optional"/>
+				<xsd:attribute name="URI" type="xsd:anyURI" use="optional"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
