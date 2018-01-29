@@ -421,7 +421,7 @@
 	<xsd:element name="PositioningTransportEvent" type="TransportEventType"/>
 	<xsd:element name="PostalAddress" type="AddressType"/>
 	<xsd:element name="PowerOfAttorney" type="PowerOfAttorneyType"/>
-	<xsd:element name="PpapDocument" type="PpapDocumentType"/>
+	<xsd:element name="PpapDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="PreCarriageShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="PreSelectedParty" type="PartyType"/>
 	<xsd:element name="PrepaidPayment" type="PaymentType"/>
@@ -487,6 +487,7 @@
 	<xsd:element name="ReplacementRelatedItem" type="RelatedItemType"/>
 	<xsd:element name="ReportedShipment" type="ShipmentType"/>
 	<xsd:element name="ReportingPerson" type="PersonType"/>
+	<xsd:element name="RequestedDocument" type="DocumentReferenceType"/>
 	<xsd:element name="RequestForQuotationDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="RequestForQuotationLine" type="RequestForQuotationLineType"/>
 	<xsd:element name="RequestForTenderLine" type="RequestForTenderLineType"/>
@@ -677,11 +678,6 @@
 	<xsd:element name="WitnessParty" type="PartyType"/>
 	<xsd:element name="WorkOrderDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="WorkPhaseReference" type="WorkPhaseReferenceType"/>
-	<xsd:complexType name="PpapDocumentType">
-		<xsd:sequence>
-			<xsd:element ref="DocumentReference"/>
-		</xsd:sequence>
-	</xsd:complexType>
 	<xsd:complexType name="ActivityDataLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>

@@ -14,8 +14,8 @@
             <xsd:element ref="cbc:RejectionNote" minOccurs="0"/>
             <xsd:element ref="cac:SellerSupplierParty"/>
             <xsd:element ref="cac:BuyerCustomerParty"/>
-            <xsd:element ref="cac:DocumentReference"/>
-            <xsd:element ref="cac:PpapDocument" maxOccurs="unbounded"/>
+            <xsd:element ref="cac:PpapDocumentReference"/>
+            <xsd:element ref="cac:RequestedDocument" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>

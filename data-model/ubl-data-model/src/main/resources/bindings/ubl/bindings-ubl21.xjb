@@ -68,4 +68,16 @@
 			<package name="eu.nimble.service.model.ubl.iteminformationresponse" />
 		</schemaBindings>
 	</bindings>
+
+	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/PpapResponse-2.1.xsd" node="/xsd:schema">
+    		<schemaBindings>
+    			<package name="eu.nimble.service.model.ubl.ppapresponse" />
+    		</schemaBindings>
+    </bindings>
+
+    <bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/PpapRequest-2.1.xsd" node="/xsd:schema">
+    		<schemaBindings>
+    			<package name="eu.nimble.service.model.ubl.ppaprequest" />
+    		</schemaBindings>
+    </bindings>
 </bindings>
