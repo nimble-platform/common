@@ -51,7 +51,7 @@ public class HibernateUtility {
 		}
 
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, persistenceProperties);
-		log.info(" $$$ HibernateUtility is initialized");
+		log.info(" $$$ HibernateUtility is initialized for: {}", persistenceUnitName);
 	}
 
 	public static HibernateUtility getInstance() {
@@ -131,7 +131,6 @@ public class HibernateUtility {
 				.createEntityManager();
 
 			Object result = loadManager.find(classToLoad, hid);
-
 			loadManager.close();
 
 			return result;
@@ -149,6 +148,7 @@ public class HibernateUtility {
 
 			result = loadManager.createQuery(query).getResultList();
 			loadManager.getTransaction().commit();
+			loadManager.close();
 
 			return result;
 		}
@@ -167,6 +167,8 @@ public class HibernateUtility {
 				result = loadManager.createQuery(query).getResultList();
 				Hibernate.initialize(result);
 				loadManager.getTransaction().commit();
+				loadManager.close();
+
 			} catch (Exception e) {
 				log.error(" $$$ HibernateUtility loadAll function has thrown error");
 				log.error("", e);
@@ -190,6 +192,7 @@ public class HibernateUtility {
 		result = loadManager.createQuery(query).getResultList();
 
 		loadManager.getTransaction().commit();
+		loadManager.close();
 
 		if (result == null || result.size() == 0) {
 			return null;

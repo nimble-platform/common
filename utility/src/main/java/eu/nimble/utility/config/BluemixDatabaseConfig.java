@@ -37,11 +37,11 @@ public class BluemixDatabaseConfig {
     }
 
 
-    public void copyToHibernatePersistenceParameters(BluemixDatabaseConfig bluemixConfig, Map<String, String> existingProperties) {
-        existingProperties.put("hibernate.connection.url", bluemixConfig.getUrl());
-        existingProperties.put("hibernate.connection.username", bluemixConfig.getUsername());
-        existingProperties.put("hibernate.connection.password", bluemixConfig.getPassword());
-        existingProperties.put("hibernate.connection.driver_class", bluemixConfig.getDriver());
+    public void copyToHibernatePersistenceParameters(Map<String, String> existingProperties) {
+        existingProperties.put("hibernate.connection.url", getUrl());
+        existingProperties.put("hibernate.connection.username", getUsername());
+        existingProperties.put("hibernate.connection.password", getPassword());
+        existingProperties.put("hibernate.connection.driver_class", getDriver());
     }
 
     public String getUrl() {

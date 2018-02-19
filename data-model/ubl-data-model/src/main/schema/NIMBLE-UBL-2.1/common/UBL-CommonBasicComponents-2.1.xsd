@@ -274,7 +274,7 @@
 	<xsd:element name="Extension" type="xsd:string"/>
 	<xsd:element name="ExternalAward" type="xsd:string"/>
 	<xsd:element name="FaceValueAmount" type="AmountType"/>
-	<xsd:element name="FacilityDetails" type="xsd:string"/>	
+	<xsd:element name="FacilityDetails" type="xsd:string"/>
 	<xsd:element name="FamilyName" type="xsd:string"/>
 	<xsd:element name="FeatureTacticTypeCode" type="CodeType"/>
 	<xsd:element name="FeeAmount" type="AmountType"/>
@@ -330,7 +330,7 @@
 	<xsd:element name="IdentificationID" type="xsd:string"/>
 	<xsd:element name="ImmobilizationCertificateID" type="xsd:string"/>
 	<xsd:element name="ImportanceCode" type="CodeType"/>
-	<xsd:element name="Incoterms" type="xsd:string"/>	
+	<xsd:element name="Incoterms" type="xsd:string"/>
 	<xsd:element name="IndicationIndicator" type="xsd:boolean"/>
 	<xsd:element name="IndustryClassificationCode" type="CodeType"/>
 	<xsd:element name="Information" type="xsd:string"/>
@@ -684,6 +684,7 @@
 	<xsd:element name="RevisionStatusCode" type="CodeType"/>
 	<xsd:element name="RevisionTime" type="xsd:time"/>
 	<xsd:element name="RoamingPartnerName" type="xsd:string"/>
+	<xsd:element name="Role" type="xsd:string"/>
 	<xsd:element name="RoleCode" type="CodeType"/>
 	<xsd:element name="RoleDescription" type="xsd:decimal"/>
 	<xsd:element name="Room" type="xsd:string"/>
@@ -777,7 +778,7 @@
 	<xsd:element name="TaxTypeCode" type="CodeType"/>
 	<xsd:element name="TaxableAmount" type="AmountType"/>
 	<xsd:element name="TechnicalAdviceSupport" type="xsd:boolean"/>
-	<xsd:element name="TechnicalCommitteeDescription" type="xsd:decimal"/>	
+	<xsd:element name="TechnicalCommitteeDescription" type="xsd:decimal"/>
 	<xsd:element name="TechnicalName" type="xsd:string"/>
 	<xsd:element name="TelecommunicationsServiceCall" type="xsd:string"/>
 	<xsd:element name="TelecommunicationsServiceCallCode" type="CodeType"/>
