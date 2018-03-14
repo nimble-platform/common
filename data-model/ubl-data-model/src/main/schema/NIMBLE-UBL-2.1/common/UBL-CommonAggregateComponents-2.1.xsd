@@ -1907,10 +1907,26 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Description" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="2047"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:PackQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:PackSizeNumeric" minOccurs="0"/>
-			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Name" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="1023"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:HazardousRiskIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:AdditionalInformation" minOccurs="0"/>
 			<xsd:element ref="cbc:Keyword" minOccurs="0"/>
@@ -2005,7 +2021,15 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Name"/>
-			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="2047"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:ValueQuantity" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueBinary" minOccurs="0" maxOccurs="unbounded"/>
