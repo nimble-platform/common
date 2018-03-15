@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class HibernateUtility {
 
 	private static HashMap<String, HibernateUtility> engineInstances = new HashMap<>();
 	private static org.h2.tools.Server server = null;
-	
+
 	public static void startH2DB() {
 		try {
 			server = org.h2.tools.Server.createTcpServer(
@@ -108,7 +109,7 @@ public class HibernateUtility {
 			List<?> result = new ArrayList<Object>();
 			String query = "select c from " + c.getSimpleName()
 				+ " as c where c.hjid=" + hjid.longValue() + "";
-			
+
 			log.debug(" $$$ Delete query = {}", query);
 			result = saveManager.createQuery(query).getResultList();
 
@@ -121,6 +122,18 @@ public class HibernateUtility {
 			saveManager.getTransaction().commit();
 			saveManager.close();
 			return deleted;
+		}
+	}
+
+	public void delete(Object o) {
+		synchronized (HibernateUtility.class) {
+			boolean deleted = false;
+			EntityManager saveManager = entityManagerFactory
+					.createEntityManager();
+			saveManager.getTransaction().begin();
+            saveManager.remove(o);
+			saveManager.getTransaction().commit();
+			saveManager.close();
 		}
 	}
 
@@ -184,6 +197,34 @@ public class HibernateUtility {
 		}
 	}
 
+	public List<?> loadAll(String query, int offset, int limit) {
+		synchronized (HibernateUtility.class) {
+
+			List<?> result;
+			// int attempt = 0;
+			try {
+				EntityManager loadManager = entityManagerFactory
+						.createEntityManager();
+				loadManager.getTransaction().begin();
+
+				Query queryObj = loadManager.createQuery(query);
+				queryObj.setFirstResult(offset);
+				queryObj.setMaxResults(limit);
+
+				result = queryObj.getResultList();
+				Hibernate.initialize(result);
+				loadManager.getTransaction().commit();
+				loadManager.close();
+
+			} catch (Exception e) {
+				log.error(" $$$ HibernateUtility loadAll function has thrown error");
+				log.error("", e);
+				return new ArrayList<Object>();
+			}
+			return result;
+		}
+	}
+
 	public Object loadIndividualItem(String query) {
 		List<?> result = new ArrayList<Object>();
 		EntityManager loadManager = entityManagerFactory.createEntityManager();
@@ -198,6 +239,16 @@ public class HibernateUtility {
 			return null;
 		}
 		return result.get(0);
+	}
+
+	public void executeUpdate(String query) {
+		EntityManager loadManager = entityManagerFactory.createEntityManager();
+		loadManager.getTransaction().begin();
+
+		loadManager.createQuery(query).executeUpdate();
+
+		loadManager.getTransaction().commit();
+		loadManager.close();
 	}
 
 	public static Object copySerializableObject(Object object, Class clazz) {
@@ -225,7 +276,7 @@ public class HibernateUtility {
 				new String[]{"-tcpAllowOthers"}).start();
 		} catch (Exception ex1) {
 			ex1.printStackTrace();
-		}	
+		}
 	}
 
 	private String specifyPersistencePropertiesFileName(String persistenceUnitName) {

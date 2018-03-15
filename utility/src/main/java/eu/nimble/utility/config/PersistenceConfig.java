@@ -1,6 +1,6 @@
 package eu.nimble.utility.config;
 
-import com.sun.istack.NotNull;
+
 import eu.nimble.utility.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

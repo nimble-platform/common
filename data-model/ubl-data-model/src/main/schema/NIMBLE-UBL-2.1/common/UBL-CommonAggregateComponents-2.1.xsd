@@ -421,6 +421,7 @@
 	<xsd:element name="PositioningTransportEvent" type="TransportEventType"/>
 	<xsd:element name="PostalAddress" type="AddressType"/>
 	<xsd:element name="PowerOfAttorney" type="PowerOfAttorneyType"/>
+	<xsd:element name="PpapDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="PreCarriageShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="PreSelectedParty" type="PartyType"/>
 	<xsd:element name="PrepaidPayment" type="PaymentType"/>
@@ -486,6 +487,7 @@
 	<xsd:element name="ReplacementRelatedItem" type="RelatedItemType"/>
 	<xsd:element name="ReportedShipment" type="ShipmentType"/>
 	<xsd:element name="ReportingPerson" type="PersonType"/>
+	<xsd:element name="RequestedDocument" type="DocumentReferenceType"/>
 	<xsd:element name="RequestForQuotationDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="RequestForQuotationLine" type="RequestForQuotationLineType"/>
 	<xsd:element name="RequestForTenderLine" type="RequestForTenderLineType"/>
@@ -1003,7 +1005,6 @@
 			<xsd:element ref="cbc:NatureCode" minOccurs="0"/>
 			<xsd:element ref="cbc:CargoTypeCode" minOccurs="0"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
-			<xsd:element ref="cbc:ItemPropertyURI" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CommunicationType">
@@ -1906,10 +1907,26 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Description" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="2047"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:PackQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:PackSizeNumeric" minOccurs="0"/>
-			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Name" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="1023"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:HazardousRiskIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:AdditionalInformation" minOccurs="0"/>
 			<xsd:element ref="cbc:Keyword" minOccurs="0"/>
@@ -2004,13 +2021,20 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Name"/>
-			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:basic>
+							<orm:column length="2047"/>
+						</hj:basic>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:ValueQuantity" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueBinary" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:ValueQualifier" minOccurs="0"/>
-			<!-- TODO remove the demo-specific element -->
-			<xsd:element ref="cbc:DemoSpecificMultipleContent" minOccurs="0"/>
+			<xsd:element ref="cbc:URI"/>
 			<xsd:element ref="cac:UsabilityPeriod" minOccurs="0"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
 			<xsd:element ref="cac:RangeDimension" minOccurs="0"/>
