@@ -251,6 +251,18 @@ public class HibernateUtility {
 		loadManager.close();
 	}
 
+	public int getCount(String query) {
+		EntityManager loadManager = entityManagerFactory.createEntityManager();
+		loadManager.getTransaction().begin();
+
+		int result = (int) loadManager.createQuery(query).getSingleResult();
+
+		loadManager.getTransaction().commit();
+		loadManager.close();
+
+		return result;
+	}
+
 	public static Object copySerializableObject(Object object, Class clazz) {
 		ObjectMapper om = new ObjectMapper();
 		String serializedObject;
