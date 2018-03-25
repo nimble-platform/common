@@ -88,14 +88,15 @@ public class HibernateUtility {
 		}
 	}
 
-	public void update(Object object) {
+	public Object update(Object object) {
 		synchronized (HibernateUtility.class) {
 			EntityManager saveManager = entityManagerFactory
 				.createEntityManager();
 			saveManager.getTransaction().begin();
-			saveManager.merge(object);
+			Object result = saveManager.merge(object);
 			saveManager.getTransaction().commit();
 			saveManager.close();
+			return result;
 		}
 	}
 
