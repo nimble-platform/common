@@ -223,7 +223,7 @@
 	<xsd:element name="DocumentID" type="xsd:string"/>
 	<xsd:element name="DocumentStatusCode" type="CodeType"/>
 	<xsd:element name="DocumentStatusReasonCode" type="CodeType"/>
-	<xsd:element name="DocumentStatusReasonDescription" type="xsd:decimal"/>
+	<xsd:element name="DocumentStatusReasonDescription" type="xsd:string"/>
 	<xsd:element name="DocumentType" type="xsd:string"/>
 	<xsd:element name="DocumentTypeCode" type="CodeType"/>
 	<xsd:element name="DocumentationFeeAmount" type="AmountType"/>
