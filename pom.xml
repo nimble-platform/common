@@ -32,5 +32,6 @@
 	<modules>
 		<module>data-model</module>
 		<module>utility</module>
+		<module>rest-client</module>
 	</modules>
 </project>
