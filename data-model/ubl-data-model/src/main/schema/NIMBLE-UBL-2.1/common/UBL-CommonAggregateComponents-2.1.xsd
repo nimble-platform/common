@@ -90,6 +90,7 @@
 	<xsd:element name="ClassificationScheme" type="ClassificationSchemeType"/>
 	<xsd:element name="ClassifiedTaxCategory" type="TaxCategoryType"/>
 	<xsd:element name="Clause" type="ClauseType"/>
+	<xsd:element name="ClauseDocumentRef" type="DocumentReferenceType"/>
 	<xsd:element name="CollectPaymentTerms" type="PaymentTermsType"/>
 	<xsd:element name="CollectedPayment" type="PaymentType"/>
 	<xsd:element name="CommissionPaymentTerms" type="PaymentTermsType"/>
@@ -142,6 +143,7 @@
 	<xsd:element name="CustomerParty" type="CustomerPartyType"/>
 	<xsd:element name="CustomsAgentParty" type="PartyType"/>
 	<xsd:element name="CustomsDeclaration" type="CustomsDeclarationType"/>
+	<xsd:element name="DataMonitoringClause" type="DataMonitoringClauseType"/>
 	<xsd:element name="DebitNoteDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="DebitNoteLine" type="DebitNoteLineType"/>
 	<xsd:element name="Declaration" type="DeclarationType"/>
@@ -996,8 +998,9 @@
 	</xsd:complexType>
 	<xsd:complexType name="ClauseType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:ID" minOccurs="0"/>
-			<xsd:element ref="cbc:Content" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:ID" minOccurs="1" maxOccurs="1"/>
+			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Type" minOccurs="1" maxOccurs="1"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CommodityClassificationType">
@@ -1267,6 +1270,7 @@
 			<xsd:element ref="cac:ContractDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:NominationPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:ContractualDelivery" minOccurs="0"/>
+			<xsd:element ref="cac:Clause" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ContractExecutionRequirementType">
@@ -1372,6 +1376,20 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cac:IssuerParty" minOccurs="0"/>
 		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DataMonitoringClauseType">
+		<xsd:complexContent>
+			<xsd:extension base="ClauseType">
+				<xsd:sequence>
+					<xsd:element ref="cbc:MonitoringUserID" maxOccurs="unbounded"/>
+					<xsd:element ref="cbc:MonitoringCompanyID" maxOccurs="unbounded"/>
+					<xsd:element ref="cbc:MonitoredCompanyID" maxOccurs="unbounded"/>
+					<xsd:element ref="cbc:MonitoredMachineID" maxOccurs="unbounded"/>
+					<xsd:element ref="cbc:MonitoredSensorID" maxOccurs="unbounded"/>
+					<xsd:element ref="cbc:ChannelID" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="DebitNoteLineType">
 		<xsd:sequence>
@@ -1479,6 +1497,15 @@
 			<xsd:element ref="cbc:MinimumMeasure" minOccurs="0"/>
 			<xsd:element ref="cbc:MaximumMeasure" minOccurs="0"/>
 		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DocumentClauseType">
+		<xsd:complexContent>
+			<xsd:extension base="ClauseType">
+				<xsd:sequence>
+					<xsd:element ref="cac:ClauseDocumentRef" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="DocumentDistributionType">
 		<xsd:sequence>

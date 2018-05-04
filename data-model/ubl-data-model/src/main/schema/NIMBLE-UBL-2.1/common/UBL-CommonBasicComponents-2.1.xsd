@@ -112,6 +112,7 @@
 	<xsd:element name="ChangeConditions" type="xsd:string"/>
 	<xsd:element name="Channel" type="xsd:string"/>
 	<xsd:element name="ChannelCode" type="CodeType"/>
+	<xsd:element name="ChannelID" type="xsd:string"/>
 	<xsd:element name="CharacterSetCode" type="CodeType"/>
 	<xsd:element name="Characteristics" type="xsd:string"/>
 	<xsd:element name="ChargeIndicator" type="xsd:boolean"/>
@@ -458,6 +459,11 @@
 	<xsd:element name="MiscellaneousEventTypeCode" type="CodeType"/>
 	<xsd:element name="ModelName" type="xsd:string"/>
 	<xsd:element name="MonetaryScope" type="xsd:string"/>
+	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>	
+	<xsd:element name="MonitoredMachineID" type="xsd:string"/>
+	<xsd:element name="MonitoredSensorID" type="xsd:string"/>
+	<xsd:element name="MonitoringUserID" type="xsd:string"/>
+	<xsd:element name="MonitoringCompanyID" type="xsd:string"/>
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
@@ -851,6 +857,7 @@
 	<xsd:element name="TransportationServiceDescription" type="xsd:decimal"/>
 	<xsd:element name="TransportationServiceDetailsURI" type="xsd:string"/>
 	<xsd:element name="TransportationStatusTypeCode" type="CodeType"/>
+	<xsd:element name="Type" type="xsd:string"/>
 	<xsd:element name="TypeCode" type="CodeType"/>
 	<xsd:element name="UBLVersionID" type="xsd:string"/>
 	<xsd:element name="UNDGCode" type="CodeType"/>
