@@ -132,6 +132,7 @@ public class HibernateUtility {
 			EntityManager saveManager = entityManagerFactory
 					.createEntityManager();
 			saveManager.getTransaction().begin();
+			o = saveManager.merge(o);
             saveManager.remove(o);
 			saveManager.getTransaction().commit();
 			saveManager.close();
