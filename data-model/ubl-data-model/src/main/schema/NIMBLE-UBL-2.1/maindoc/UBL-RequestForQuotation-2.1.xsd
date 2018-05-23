@@ -12,6 +12,7 @@
 			<xsd:element ref="cbc:SubmissionDueDate" minOccurs="0"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:PricingCurrencyCode" minOccurs="0"/>
+			<xsd:element ref="cbc:DataMonitoringRequested" minOccurs="0"/>
 			<xsd:element ref="cac:RequestedValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:CatalogueDocumentReference" minOccurs="0"/>
 			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>

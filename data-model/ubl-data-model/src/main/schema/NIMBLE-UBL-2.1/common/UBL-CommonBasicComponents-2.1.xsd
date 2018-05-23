@@ -194,6 +194,8 @@
 	<xsd:element name="CustomsTariffQuantity" type="QuantityType"/>
 	<xsd:element name="DamageRemarks" type="xsd:string"/>
 	<xsd:element name="DangerousGoodsApprovedIndicator" type="xsd:boolean"/>
+	<xsd:element name="DataMonitoringRequested" type="xsd:boolean"/>
+	<xsd:element name="DataMonitoringPromised" type="xsd:boolean"/>
 	<xsd:element name="DataSendingCapability" type="xsd:string"/>
 	<xsd:element name="DataSourceCode" type="CodeType"/>
 	<xsd:element name="Date" type="xsd:date"/>
@@ -459,7 +461,7 @@
 	<xsd:element name="MiscellaneousEventTypeCode" type="CodeType"/>
 	<xsd:element name="ModelName" type="xsd:string"/>
 	<xsd:element name="MonetaryScope" type="xsd:string"/>
-	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>	
+	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>
 	<xsd:element name="MonitoredMachineID" type="xsd:string"/>
 	<xsd:element name="MonitoredSensorID" type="xsd:string"/>
 	<xsd:element name="MonitoringUserID" type="xsd:string"/>
