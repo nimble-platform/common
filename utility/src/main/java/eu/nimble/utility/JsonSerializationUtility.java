@@ -1,6 +1,7 @@
 package eu.nimble.utility;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,8 @@ public class JsonSerializationUtility {
     private static Logger logger = LoggerFactory.getLogger(JsonSerializationUtility.class);
 
     public static <T> T deserializeContent(InputStream serializedContent, TypeReference<T> typeReference) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         try {
             T deserializedObject = mapper.readValue(serializedContent, typeReference);
             return deserializedObject;
