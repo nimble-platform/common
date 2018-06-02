@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by ff (gg) -->
 <!--
   Library:           OASIS Universal Business Language (UBL) 2.1 OS
                      http://docs.oasis-open.org/ubl/os-UBL-2.1/
@@ -32,74 +33,6 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element ref="cbc:UBLVersionID" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. UBL Version Identifier. Identifier</ccts:DictionaryEntryName>
-							<ccts:Definition>Identifies the earliest version of the UBL 2 schema for this document type that defines all of the elements that might be encountered in the current instance.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>UBL Version Identifier</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Identifier</ccts:RepresentationTerm>
-							<ccts:DataType>Identifier. Type</ccts:DataType>
-							<ccts:Examples>2.0.5</ccts:Examples>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cbc:CustomizationID" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Customization Identifier. Identifier</ccts:DictionaryEntryName>
-							<ccts:Definition>Identifies a user-defined customization of UBL for a specific use.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Customization Identifier</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Identifier</ccts:RepresentationTerm>
-							<ccts:DataType>Identifier. Type</ccts:DataType>
-							<ccts:Examples>NES</ccts:Examples>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cbc:ProfileID" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Profile Identifier. Identifier</ccts:DictionaryEntryName>
-							<ccts:Definition>Identifies a user-defined profile of the customization of UBL being used.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Profile Identifier</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Identifier</ccts:RepresentationTerm>
-							<ccts:DataType>Identifier. Type</ccts:DataType>
-							<ccts:Examples>BasicProcurementProcess</ccts:Examples>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cbc:ProfileExecutionID" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Profile Execution Identifier. Identifier</ccts:DictionaryEntryName>
-							<ccts:Definition>Identifies an instance of executing a profile, to associate all transactions in a collaboration.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Profile Execution Identifier</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Identifier</ccts:RepresentationTerm>
-							<ccts:DataType>Identifier. Type</ccts:DataType>
-							<ccts:Examples>BPP-1001</ccts:Examples>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
 			<xsd:element ref="cbc:ID">
 				<xsd:annotation>
 					<xsd:documentation>
@@ -117,39 +50,6 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:CopyIndicator" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Copy_ Indicator. Indicator</ccts:DictionaryEntryName>
-							<ccts:Definition>Indicates whether this document is a copy (true) or not (false).</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTermQualifier>Copy</ccts:PropertyTermQualifier>
-							<ccts:PropertyTerm>Indicator</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Indicator</ccts:RepresentationTerm>
-							<ccts:DataType>Indicator. Type</ccts:DataType>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cbc:UUID" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. UUID. Identifier</ccts:DictionaryEntryName>
-							<ccts:Definition>A universally unique identifier for an instance of this document.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>UUID</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Identifier</ccts:RepresentationTerm>
-							<ccts:DataType>Identifier. Type</ccts:DataType>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
 			<xsd:element ref="cbc:IssueDate">
 				<xsd:annotation>
 					<xsd:documentation>
@@ -163,22 +63,6 @@
 							<ccts:RepresentationTerm>Date</ccts:RepresentationTerm>
 							<ccts:DataType>Date. Type</ccts:DataType>
 							<ccts:AlternativeBusinessTerms>Item Information Request Date</ccts:AlternativeBusinessTerms>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cbc:IssueTime" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>BBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Issue Time. Time</ccts:DictionaryEntryName>
-							<ccts:Definition>The time, assigned by the sender, at which this document was issued.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Issue Time</ccts:PropertyTerm>
-							<ccts:RepresentationTerm>Time</ccts:RepresentationTerm>
-							<ccts:DataType>Time. Type</ccts:DataType>
 						</ccts:Component>
 					</xsd:documentation>
 				</xsd:annotation>
@@ -211,38 +95,6 @@
 							<ccts:PropertyTerm>Period</ccts:PropertyTerm>
 							<ccts:AssociatedObjectClass>Period</ccts:AssociatedObjectClass>
 							<ccts:RepresentationTerm>Period</ccts:RepresentationTerm>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>ASBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Document Reference</ccts:DictionaryEntryName>
-							<ccts:Definition>A reference to another document associated with this document.</ccts:Definition>
-							<ccts:Cardinality>0..n</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Document Reference</ccts:PropertyTerm>
-							<ccts:AssociatedObjectClass>Document Reference</ccts:AssociatedObjectClass>
-							<ccts:RepresentationTerm>Document Reference</ccts:RepresentationTerm>
-						</ccts:Component>
-					</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="cac:Signature" minOccurs="0" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:documentation>
-						<ccts:Component>
-							<ccts:ComponentType>ASBIE</ccts:ComponentType>
-							<ccts:DictionaryEntryName>Item Information Request. Signature</ccts:DictionaryEntryName>
-							<ccts:Definition>A signature applied to this document.</ccts:Definition>
-							<ccts:Cardinality>0..n</ccts:Cardinality>
-							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
-							<ccts:PropertyTerm>Signature</ccts:PropertyTerm>
-							<ccts:AssociatedObjectClass>Signature</ccts:AssociatedObjectClass>
-							<ccts:RepresentationTerm>Signature</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
 				</xsd:annotation>
@@ -281,14 +133,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:BuyerCustomerParty" minOccurs="0">
+			<xsd:element ref="cac:BuyerCustomerParty">
 				<xsd:annotation>
 					<xsd:documentation>
 						<ccts:Component>
 							<ccts:ComponentType>ASBIE</ccts:ComponentType>
 							<ccts:DictionaryEntryName>Item Information Request. Buyer_ Customer Party. Customer Party</ccts:DictionaryEntryName>
 							<ccts:Definition>The buyer.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
+							<ccts:Cardinality>1</ccts:Cardinality>
 							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
 							<ccts:PropertyTermQualifier>Buyer</ccts:PropertyTermQualifier>
 							<ccts:PropertyTerm>Customer Party</ccts:PropertyTerm>
@@ -298,14 +150,14 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:SellerSupplierParty" minOccurs="0">
+			<xsd:element ref="cac:SellerSupplierParty">
 				<xsd:annotation>
 					<xsd:documentation>
 						<ccts:Component>
 							<ccts:ComponentType>ASBIE</ccts:ComponentType>
 							<ccts:DictionaryEntryName>Item Information Request. Seller_ Supplier Party. Supplier Party</ccts:DictionaryEntryName>
 							<ccts:Definition>The seller.</ccts:Definition>
-							<ccts:Cardinality>0..1</ccts:Cardinality>
+							<ccts:Cardinality>1</ccts:Cardinality>
 							<ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
 							<ccts:PropertyTermQualifier>Seller</ccts:PropertyTermQualifier>
 							<ccts:PropertyTerm>Supplier Party</ccts:PropertyTerm>

@@ -9,15 +9,10 @@
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
 			<xsd:element ref="cbc:IssueDate"/>
 			<xsd:element ref="cbc:IssueTime"/>
-			<xsd:element ref="cbc:SubmissionDueDate" minOccurs="0"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:PricingCurrencyCode" minOccurs="0"/>
 			<xsd:element ref="cbc:DataMonitoringRequested" minOccurs="0"/>
-			<xsd:element ref="cac:RequestedValidityPeriod" minOccurs="0"/>
-			<xsd:element ref="cac:CatalogueDocumentReference" minOccurs="0"/>
-			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:SellerSupplierParty"/>
-			<xsd:element ref="cac:BuyerCustomerParty" minOccurs="0"/>
+			<xsd:element ref="cac:BuyerCustomerParty"/>
 			<xsd:element ref="cac:Delivery" minOccurs="0"/>
 			<xsd:element ref="cac:RequestForQuotationLine" maxOccurs="unbounded"/>
 		</xsd:sequence>

@@ -998,9 +998,9 @@
 	</xsd:complexType>
 	<xsd:complexType name="ClauseType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:ID" minOccurs="1" maxOccurs="1"/>
+			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:Type" minOccurs="1" maxOccurs="1"/>
+			<xsd:element ref="cbc:Type"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CommodityClassificationType">
@@ -1386,7 +1386,7 @@
 					<xsd:element ref="cbc:MonitoredCompanyID" maxOccurs="unbounded"/>
 					<xsd:element ref="cbc:MonitoredMachineID" maxOccurs="unbounded"/>
 					<xsd:element ref="cbc:MonitoredSensorID" maxOccurs="unbounded"/>
-					<xsd:element ref="cbc:ChannelID" maxOccurs="1"/>
+					<xsd:element ref="cbc:ChannelID"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1502,7 +1502,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="ClauseType">
 				<xsd:sequence>
-					<xsd:element ref="cac:ClauseDocumentRef" minOccurs="1" maxOccurs="1"/>
+					<xsd:element ref="cac:ClauseDocumentRef"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1938,7 +1938,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<hj:basic>
-							<orm:column length="2047"/>
+							<orm:column column-definition="TEXT"/>
 						</hj:basic>
 					</xsd:appinfo>
 				</xsd:annotation>
