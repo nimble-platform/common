@@ -3436,6 +3436,12 @@
 			<xsd:element ref="cac:ScheduledServiceFrequency" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="UnitType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:UnitCode" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="UnstructuredPriceType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:PriceAmount" minOccurs="0"/>

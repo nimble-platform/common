@@ -863,6 +863,7 @@
 	<xsd:element name="TypeCode" type="CodeType"/>
 	<xsd:element name="UBLVersionID" type="xsd:string"/>
 	<xsd:element name="UNDGCode" type="CodeType"/>
+	<xsd:element name="UnitCode" type="xsd:string"/>
 	<xsd:element name="URI" type="xsd:string"/>
 	<xsd:element name="UUID" type="xsd:string"/>
 	<xsd:element name="UnknownPriceIndicator" type="xsd:boolean"/>
