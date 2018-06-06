@@ -46,7 +46,7 @@ public class HibernateUtility {
 		this(persistenceUnitName, null);
 	}
 
-	private HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
+	public HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
 		if(persistenceProperties == null) {
 			persistenceProperties = PersistenceConfig.getInstance().getPersistenceParameters(persistenceUnitName);
 		}
