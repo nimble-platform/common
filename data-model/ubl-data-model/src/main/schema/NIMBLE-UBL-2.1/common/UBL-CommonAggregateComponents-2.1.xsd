@@ -1938,7 +1938,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<hj:basic>
-							<orm:column length="2047"/>
+							<orm:column column-definition="TEXT"/>
 						</hj:basic>
 					</xsd:appinfo>
 				</xsd:annotation>
@@ -1949,7 +1949,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<hj:basic>
-							<orm:column length="1023"/>
+							<orm:column column-definition="TEXT"/>
 						</hj:basic>
 					</xsd:appinfo>
 				</xsd:annotation>
@@ -2052,7 +2052,7 @@
 				<xsd:annotation>
 					<xsd:appinfo>
 						<hj:basic>
-							<orm:column length="2047"/>
+							<orm:column column-definition="TEXT"/>
 						</hj:basic>
 					</xsd:appinfo>
 				</xsd:annotation>
