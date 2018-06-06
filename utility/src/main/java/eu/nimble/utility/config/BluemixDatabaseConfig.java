@@ -33,7 +33,7 @@ public class BluemixDatabaseConfig {
             driver = "org.postgresql.Driver";
             schema = "public";
 
-            logger.info("Parsed db config url {}, username: {}, password: {} driver: {}", url, username, password, driver, schema);
+            logger.info("Parsed db config url {}, username: {}, password: ******, driver: {}", url, username, driver, schema);
     }
 
 

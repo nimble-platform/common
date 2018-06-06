@@ -268,6 +268,7 @@
 			<xsd:element ref="cac:Item" minOccurs="0"/>
 			<xsd:element ref="cac:ContainingPackage" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemType">
@@ -556,6 +557,12 @@
 			<xsd:element ref="cac:EnvironmentalEmission" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:EstimatedDurationPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:ScheduledServiceFrequency" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UnitType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:UnitCode" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
