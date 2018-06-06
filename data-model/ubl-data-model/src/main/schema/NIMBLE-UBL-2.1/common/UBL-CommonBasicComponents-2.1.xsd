@@ -928,6 +928,7 @@
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:decimal">
 				<xsd:attribute name="unitCode" type="xsd:normalizedString" use="required"/>
+				<xsd:attribute name="unitCodeListID" type="xsd:normalizedString" use="required"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
