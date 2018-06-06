@@ -290,6 +290,7 @@
 	<xsd:element name="FollowupContractIndicator" type="xsd:boolean"/>
 	<xsd:element name="ForecastPurposeCode" type="CodeType"/>
 	<xsd:element name="ForecastTypeCode" type="CodeType"/>
+	<xsd:element name="TradingTermFormat" type="xsd:string"/>
 	<xsd:element name="FormatCode" type="CodeType"/>
 	<xsd:element name="ForwarderServiceInstructions" type="xsd:string"/>
 	<xsd:element name="FreeOfChargeIndicator" type="xsd:boolean"/>
@@ -574,6 +575,7 @@
 	<xsd:element name="PostalZone" type="xsd:string"/>
 	<xsd:element name="Postbox" type="xsd:string"/>
 	<xsd:element name="PowerIndicator" type="xsd:boolean"/>
+	<xsd:element name="PpapCompatibilityLevel" type="xsd:decimal"/>
 	<xsd:element name="PreCarriageIndicator" type="xsd:boolean"/>
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>

@@ -4,6 +4,7 @@
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
 	<xsd:element name="Address" type="AddressType"/>
+	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
 	<xsd:element name="ApplicableTerritoryAddress" type="AddressType"/>
 	<xsd:element name="Attachment" type="AttachmentType"/>
 	<xsd:element name="BuyerCustomerParty" type="CustomerPartyType"/>
@@ -36,6 +37,7 @@
 	<xsd:element name="EnvironmentalEmission" type="EnvironmentalEmissionType"/>
 	<xsd:element name="EstimatedDeliveryPeriod" type="PeriodType"/>
 	<xsd:element name="EstimatedDurationPeriod" type="PeriodType"/>
+	<xsd:element name="ExternalReference" type="ExternalReferenceType"/>
 	<xsd:element name="FromLocation" type="LocationType"/>
 	<xsd:element name="GoodsItem" type="GoodsItemType"/>
 	<xsd:element name="IssuerParty" type="PartyType"/>
@@ -85,6 +87,7 @@
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
 	<xsd:element name="TotalCapacityDimension" type="DimensionType"/>
+	<xsd:element name="TradingTerms" type="TradingTermType"/>
 	<xsd:element name="TransportContract" type="ContractType"/>
 	<xsd:element name="TransportEquipment" type="TransportEquipmentType"/>
 	<xsd:element name="TransportExecutionPlanRequestDocumentReference" type="DocumentReferenceType"/>
@@ -104,9 +107,18 @@
 			<xsd:element ref="cac:Country" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="AllowanceChargeType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ChargeIndicator"/>
+			<xsd:element ref="cbc:Amount"/>
+			<xsd:element ref="cbc:BatchQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:Percent" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="AttachmentType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:EmbeddedDocumentBinaryObject" minOccurs="0"/>
+			<xsd:element ref="cac:ExternalReference" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CatalogueLineType">
@@ -245,6 +257,11 @@
 			<xsd:element ref="cbc:ValueMeasure"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="ExternalReferenceType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:URI" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="GoodsItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
@@ -380,6 +397,7 @@
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
+			<xsd:element ref="cbc:PpapCompatibilityLevel" minOccurs="0"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
 			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
@@ -388,6 +406,8 @@
 			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PaymentMeans" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PartyTaxSchemeType">
@@ -495,6 +515,14 @@
 	<xsd:complexType name="TaxSchemeType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingTermType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:Description" minOccurs="0"/>
+			<xsd:element ref="cbc:TradingTermFormat" minOccurs="0"/>
+			<xsd:element ref="cbc:Value" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TransportEquipmentType">
