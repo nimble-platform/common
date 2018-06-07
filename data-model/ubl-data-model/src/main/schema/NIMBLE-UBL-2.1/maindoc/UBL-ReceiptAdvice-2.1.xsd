@@ -8,10 +8,8 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:IssueDate"/>
-			<xsd:element ref="cbc:IssueTime" minOccurs="0"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:DespatchDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:DeliveryCustomerParty"/>
 			<xsd:element ref="cac:DespatchSupplierParty"/>
 			<xsd:element ref="cac:ReceiptLine" maxOccurs="unbounded"/>

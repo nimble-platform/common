@@ -112,6 +112,7 @@
 	<xsd:element name="ChangeConditions" type="xsd:string"/>
 	<xsd:element name="Channel" type="xsd:string"/>
 	<xsd:element name="ChannelCode" type="CodeType"/>
+	<xsd:element name="ChannelID" type="xsd:string"/>
 	<xsd:element name="CharacterSetCode" type="CodeType"/>
 	<xsd:element name="Characteristics" type="xsd:string"/>
 	<xsd:element name="ChargeIndicator" type="xsd:boolean"/>
@@ -193,6 +194,8 @@
 	<xsd:element name="CustomsTariffQuantity" type="QuantityType"/>
 	<xsd:element name="DamageRemarks" type="xsd:string"/>
 	<xsd:element name="DangerousGoodsApprovedIndicator" type="xsd:boolean"/>
+	<xsd:element name="DataMonitoringRequested" type="xsd:boolean"/>
+	<xsd:element name="DataMonitoringPromised" type="xsd:boolean"/>
 	<xsd:element name="DataSendingCapability" type="xsd:string"/>
 	<xsd:element name="DataSourceCode" type="CodeType"/>
 	<xsd:element name="Date" type="xsd:date"/>
@@ -223,7 +226,7 @@
 	<xsd:element name="DocumentID" type="xsd:string"/>
 	<xsd:element name="DocumentStatusCode" type="CodeType"/>
 	<xsd:element name="DocumentStatusReasonCode" type="CodeType"/>
-	<xsd:element name="DocumentStatusReasonDescription" type="xsd:decimal"/>
+	<xsd:element name="DocumentStatusReasonDescription" type="xsd:string"/>
 	<xsd:element name="DocumentType" type="xsd:string"/>
 	<xsd:element name="DocumentTypeCode" type="CodeType"/>
 	<xsd:element name="DocumentationFeeAmount" type="AmountType"/>
@@ -287,6 +290,7 @@
 	<xsd:element name="FollowupContractIndicator" type="xsd:boolean"/>
 	<xsd:element name="ForecastPurposeCode" type="CodeType"/>
 	<xsd:element name="ForecastTypeCode" type="CodeType"/>
+	<xsd:element name="TradingTermFormat" type="xsd:string"/>
 	<xsd:element name="FormatCode" type="CodeType"/>
 	<xsd:element name="ForwarderServiceInstructions" type="xsd:string"/>
 	<xsd:element name="FreeOfChargeIndicator" type="xsd:boolean"/>
@@ -458,6 +462,11 @@
 	<xsd:element name="MiscellaneousEventTypeCode" type="CodeType"/>
 	<xsd:element name="ModelName" type="xsd:string"/>
 	<xsd:element name="MonetaryScope" type="xsd:string"/>
+	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>
+	<xsd:element name="MonitoredMachineID" type="xsd:string"/>
+	<xsd:element name="MonitoredSensorID" type="xsd:string"/>
+	<xsd:element name="MonitoringUserID" type="xsd:string"/>
+	<xsd:element name="MonitoringCompanyID" type="xsd:string"/>
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
@@ -566,6 +575,7 @@
 	<xsd:element name="PostalZone" type="xsd:string"/>
 	<xsd:element name="Postbox" type="xsd:string"/>
 	<xsd:element name="PowerIndicator" type="xsd:boolean"/>
+	<xsd:element name="PpapCompatibilityLevel" type="xsd:decimal"/>
 	<xsd:element name="PreCarriageIndicator" type="xsd:boolean"/>
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
@@ -851,9 +861,11 @@
 	<xsd:element name="TransportationServiceDescription" type="xsd:decimal"/>
 	<xsd:element name="TransportationServiceDetailsURI" type="xsd:string"/>
 	<xsd:element name="TransportationStatusTypeCode" type="CodeType"/>
+	<xsd:element name="Type" type="xsd:string"/>
 	<xsd:element name="TypeCode" type="CodeType"/>
 	<xsd:element name="UBLVersionID" type="xsd:string"/>
 	<xsd:element name="UNDGCode" type="CodeType"/>
+	<xsd:element name="UnitCode" type="xsd:string"/>
 	<xsd:element name="URI" type="xsd:string"/>
 	<xsd:element name="UUID" type="xsd:string"/>
 	<xsd:element name="UnknownPriceIndicator" type="xsd:boolean"/>
@@ -918,9 +930,8 @@
 	<xsd:complexType name="QuantityType">
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:decimal">
-				<xsd:attribute name="unitID" type="xsd:normalizedString" use="required"/>
-				<xsd:attribute name="unitCodeListID" type="xsd:normalizedString" use="required"/>
 				<xsd:attribute name="unitCode" type="xsd:normalizedString" use="required"/>
+				<xsd:attribute name="unitCodeListID" type="xsd:normalizedString" use="required"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>

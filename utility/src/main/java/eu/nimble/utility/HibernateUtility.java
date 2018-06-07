@@ -46,7 +46,7 @@ public class HibernateUtility {
 		this(persistenceUnitName, null);
 	}
 
-	private HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
+	public HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
 		if(persistenceProperties == null) {
 			persistenceProperties = PersistenceConfig.getInstance().getPersistenceParameters(persistenceUnitName);
 		}
@@ -88,14 +88,15 @@ public class HibernateUtility {
 		}
 	}
 
-	public void update(Object object) {
+	public Object update(Object object) {
 		synchronized (HibernateUtility.class) {
 			EntityManager saveManager = entityManagerFactory
 				.createEntityManager();
 			saveManager.getTransaction().begin();
-			saveManager.merge(object);
+			Object result = saveManager.merge(object);
 			saveManager.getTransaction().commit();
 			saveManager.close();
+			return result;
 		}
 	}
 
@@ -131,6 +132,7 @@ public class HibernateUtility {
 			EntityManager saveManager = entityManagerFactory
 					.createEntityManager();
 			saveManager.getTransaction().begin();
+			o = saveManager.merge(o);
             saveManager.remove(o);
 			saveManager.getTransaction().commit();
 			saveManager.close();
@@ -249,6 +251,18 @@ public class HibernateUtility {
 
 		loadManager.getTransaction().commit();
 		loadManager.close();
+	}
+
+	public int getCount(String query) {
+		EntityManager loadManager = entityManagerFactory.createEntityManager();
+		loadManager.getTransaction().begin();
+
+		int result = (int) loadManager.createQuery(query).getSingleResult();
+
+		loadManager.getTransaction().commit();
+		loadManager.close();
+
+		return result;
 	}
 
 	public static Object copySerializableObject(Object object, Class clazz) {
