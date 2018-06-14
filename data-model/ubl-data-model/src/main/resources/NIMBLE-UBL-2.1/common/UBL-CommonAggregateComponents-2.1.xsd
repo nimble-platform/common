@@ -5,6 +5,7 @@
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
+	<xsd:element name="AnticipatedMonetaryTotal" type="MonetaryTotalType"/>
 	<xsd:element name="ApplicableTerritoryAddress" type="AddressType"/>
 	<xsd:element name="Attachment" type="AttachmentType"/>
 	<xsd:element name="BuyerCustomerParty" type="CustomerPartyType"/>
