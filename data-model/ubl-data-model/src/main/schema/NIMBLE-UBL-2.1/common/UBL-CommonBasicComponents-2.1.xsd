@@ -258,6 +258,7 @@
 	<xsd:element name="EstimatedOverallContractAmount" type="AmountType"/>
 	<xsd:element name="EstimatedOverallContractQuantity" type="QuantityType"/>
 	<xsd:element name="EvaluationCriterionTypeCode" type="CodeType"/>
+	<xsd:element name="EventURL" type="xsd:string"/>
 	<xsd:element name="EvidenceTypeCode" type="CodeType"/>
 	<xsd:element name="ExceptionResolutionCode" type="CodeType"/>
 	<xsd:element name="ExceptionStatusCode" type="CodeType"/>
@@ -417,6 +418,7 @@
 	<xsd:element name="MandateTypeCode" type="CodeType"/>
 	<xsd:element name="ManufactureDate" type="xsd:date"/>
 	<xsd:element name="ManufactureTime" type="xsd:time"/>
+	<xsd:element name="MasterURL" type="xsd:string"/>
 	<xsd:element name="MarkAttention" type="xsd:string"/>
 	<xsd:element name="MarkAttentionIndicator" type="xsd:boolean"/>
 	<xsd:element name="MarkCare" type="xsd:string"/>
@@ -610,6 +612,7 @@
 	<xsd:element name="ProcurementSubTypeCode" type="CodeType"/>
 	<xsd:element name="ProcurementTypeCode" type="CodeType"/>
 	<xsd:element name="ProductImage" type="BinaryObjectType"/>
+	<xsd:element name="ProductionProcessTemplate" type="xsd:string"/>
 	<xsd:element name="ProductTraceID" type="xsd:string"/>
 	<xsd:element name="ProfileExecutionID" type="xsd:string"/>
 	<xsd:element name="ProfileID" type="xsd:string"/>

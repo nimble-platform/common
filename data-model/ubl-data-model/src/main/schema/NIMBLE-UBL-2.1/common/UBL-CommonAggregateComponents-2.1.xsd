@@ -88,6 +88,7 @@
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
 	<xsd:element name="TotalCapacityDimension" type="DimensionType"/>
+	<xsd:element name="TrackAndTraceDetails" type="TrackAndTraceDetailsType"/>
 	<xsd:element name="TradingTerms" type="TradingTermType"/>
 	<xsd:element name="TransportContract" type="ContractType"/>
 	<xsd:element name="TransportEquipment" type="TransportEquipmentType"/>
@@ -125,6 +126,7 @@
 	<xsd:complexType name="CatalogueLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:UUID"/>
 			<xsd:element ref="cbc:MinimumOrderQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:FreeOfChargeIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded"/>
@@ -303,6 +305,7 @@
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Dimension" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
+			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemIdentificationType">
@@ -520,6 +523,13 @@
 	<xsd:complexType name="TaxSchemeType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TrackAndTraceDetailsType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:EventURL"/>
+			<xsd:element ref="cbc:MasterURL"/>
+			<xsd:element ref="cbc:ProductionProcessTemplate"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TradingTermType">
