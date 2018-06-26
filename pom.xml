@@ -34,5 +34,6 @@
 		<module>utility</module>
 		<module>rest-client</module>
 		<module>data-channel</module>
-	</modules>
+        <module>statistics</module>
+    </modules>
 </project>
