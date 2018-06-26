@@ -1,5 +1,6 @@
 package eu.nimble.common.rest.identity;
 
+import domain.PlatformIdentityStatistics;
 import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ public interface IdentityClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/parties/{partyIds}", produces = "application/json")
     Response getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") String partyIds);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/statistics/platform", produces = "application/json")
+    PlatformIdentityStatistics getIdentityStatistics(@RequestHeader("Authorization") String bearerToken);
 }
 
 /**
