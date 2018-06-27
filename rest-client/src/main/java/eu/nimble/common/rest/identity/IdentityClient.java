@@ -21,7 +21,7 @@ public interface IdentityClient {
     Response getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") String partyIds);
 
     @RequestMapping(method = RequestMethod.GET, value = "/statistics/platform", produces = "application/json")
-    PlatformIdentityStatistics getIdentityStatistics(@RequestHeader("Authorization") String bearerToken);
+    PlatformIdentityStatistics getIdentityStatistics();
 }
 
 /**

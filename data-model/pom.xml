@@ -23,6 +23,5 @@
 	<modules>
 		<module>ubl-data-model</module>
 		<module>modaml-data-model</module>
-		<module>statistics-data-model</module>
 	</modules>
 </project>
