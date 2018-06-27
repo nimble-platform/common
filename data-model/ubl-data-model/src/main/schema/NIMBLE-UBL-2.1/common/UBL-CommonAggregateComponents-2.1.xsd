@@ -126,7 +126,6 @@
 	<xsd:complexType name="CatalogueLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:UUID"/>
 			<xsd:element ref="cbc:MinimumOrderQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:FreeOfChargeIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded"/>
@@ -404,6 +403,7 @@
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cbc:PpapCompatibilityLevel" minOccurs="0"/>
+			<xsd:element ref="cbc:PreferredItemClassificationCode" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
 			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>

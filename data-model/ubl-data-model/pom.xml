@@ -43,20 +43,20 @@
 			<id>re-jaxb-source-generator</id>
 
 			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<excludes>
-							<exclude>**/*.java</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>${generated-sources}</directory>
-						<excludes>
-							<exclude>**/*.java</exclude>
-						</excludes>
-					</resource>
-				</resources>
+				<!--<resources>-->
+					<!--<resource>-->
+						<!--<directory>src/main/resources</directory>-->
+						<!--<excludes>-->
+							<!--<exclude>**/*.java</exclude>-->
+						<!--</excludes>-->
+					<!--</resource>-->
+					<!--<resource>-->
+						<!--<directory>${generated-sources}</directory>-->
+						<!--<excludes>-->
+							<!--<exclude>**/*.java</exclude>-->
+						<!--</excludes>-->
+					<!--</resource>-->
+				<!--</resources>-->
 				<plugins>
 					<plugin>
 						<groupId>org.jvnet.jaxb2.maven2</groupId>
@@ -105,6 +105,32 @@
 							</execution>
 						</executions>
 					</plugin>
+					<!-- copy the META-INF directory from the source folder to the resources -->
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.0.2</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/src/main/java</directory>
+											<includes>
+												<include>META-INF/**</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- remove the META-INF directory from the source folder to the resources -->
 					<plugin>
 						<artifactId>maven-clean-plugin</artifactId>
 						<version>3.0.0</version>
