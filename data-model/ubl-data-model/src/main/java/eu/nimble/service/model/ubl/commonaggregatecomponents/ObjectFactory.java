@@ -95,6 +95,7 @@ public class ObjectFactory {
     private final static QName _PpapDocumentReference_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PpapDocumentReference");
     private final static QName _Price_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "Price");
     private final static QName _ProviderParty_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "ProviderParty");
+    private final static QName _PurchaseTerms_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PurchaseTerms");
     private final static QName _QualityIndicator_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "QualityIndicator");
     private final static QName _QuotationLine_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "QuotationLine");
     private final static QName _QuotedMonetaryTotal_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "QuotedMonetaryTotal");
@@ -106,6 +107,7 @@ public class ObjectFactory {
     private final static QName _RequestedDeliveryPeriod_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "RequestedDeliveryPeriod");
     private final static QName _RequiredItemLocationQuantity_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "RequiredItemLocationQuantity");
     private final static QName _SalesItem_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "SalesItem");
+    private final static QName _SalesTerms_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "SalesTerms");
     private final static QName _ScheduledServiceFrequency_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "ScheduledServiceFrequency");
     private final static QName _SellerSupplierParty_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "SellerSupplierParty");
     private final static QName _SenderParty_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "SenderParty");
@@ -470,6 +472,14 @@ public class ObjectFactory {
      */
     public PriceType createPriceType() {
         return new PriceType();
+    }
+
+    /**
+     * Create an instance of {@link TradingPreferences }
+     * 
+     */
+    public TradingPreferences createTradingPreferences() {
+        return new TradingPreferences();
     }
 
     /**
@@ -1185,6 +1195,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TradingPreferences }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "PurchaseTerms")
+    public JAXBElement<TradingPreferences> createPurchaseTerms(TradingPreferences value) {
+        return new JAXBElement<TradingPreferences>(_PurchaseTerms_QNAME, TradingPreferences.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link QualityIndicatorType }{@code >}}
      * 
      */
@@ -1281,6 +1300,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "SalesItem")
     public JAXBElement<SalesItemType> createSalesItem(SalesItemType value) {
         return new JAXBElement<SalesItemType>(_SalesItem_QNAME, SalesItemType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TradingPreferences }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "SalesTerms")
+    public JAXBElement<TradingPreferences> createSalesTerms(TradingPreferences value) {
+        return new JAXBElement<TradingPreferences>(_SalesTerms_QNAME, TradingPreferences.class, null, value);
     }
 
     /**
