@@ -3,7 +3,7 @@
 	<globalBindings typesafeEnumMaxMembers="2000" typesafeEnumMemberName="generateError" localScoping="toplevel">
 		<serializable uid="1"/>
 		<xjc:javaType name="java.math.BigDecimal" xmlType="xsd:decimal"
-            adapter="jaxb.adapter.BigDecimalXmlAdapter" />
+            adapter="eu.nimble.service.model.BigDecimalXmlAdapter" />
 	</globalBindings>
 	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/common/UBL-CommonAggregateComponents-2.1.xsd" node="/xsd:schema">
 		<schemaBindings>

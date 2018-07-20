@@ -8,7 +8,7 @@
 
 package eu.nimble.service.model.ubl.commonbasiccomponents;
 
-import jaxb.adapter.BigDecimalXmlAdapter;
+import eu.nimble.service.model.BigDecimalXmlAdapter;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;

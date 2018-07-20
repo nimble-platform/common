@@ -11,7 +11,7 @@ package eu.nimble.service.model.ubl.commonaggregatecomponents;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.QuantityType;
-import jaxb.adapter.BigDecimalXmlAdapter;
+import eu.nimble.service.model.BigDecimalXmlAdapter;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;

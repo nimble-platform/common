@@ -8,7 +8,7 @@
 
 package eu.nimble.service.model.ubl.commonbasiccomponents;
 
-import jaxb.adapter.BigDecimalXmlAdapter;
+import eu.nimble.service.model.BigDecimalXmlAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

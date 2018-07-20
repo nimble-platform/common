@@ -1,4 +1,4 @@
-package jaxb.adapter;
+package eu.nimble.service.model;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.math.BigDecimal;

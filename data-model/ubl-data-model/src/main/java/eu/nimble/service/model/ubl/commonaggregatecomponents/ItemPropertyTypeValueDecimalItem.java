@@ -8,7 +8,7 @@
 
 package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
-import jaxb.adapter.BigDecimalXmlAdapter;
+import eu.nimble.service.model.BigDecimalXmlAdapter;
 import org.jvnet.hyperjaxb3.item.Item;
 
 import javax.persistence.*;

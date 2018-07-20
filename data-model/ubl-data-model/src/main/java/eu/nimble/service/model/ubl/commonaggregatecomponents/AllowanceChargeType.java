@@ -10,7 +10,7 @@ package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
 import eu.nimble.service.model.ubl.commonbasiccomponents.AmountType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.QuantityType;
-import jaxb.adapter.BigDecimalXmlAdapter;
+import eu.nimble.service.model.BigDecimalXmlAdapter;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
