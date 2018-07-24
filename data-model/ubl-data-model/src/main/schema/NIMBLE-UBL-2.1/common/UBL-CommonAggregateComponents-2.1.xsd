@@ -518,6 +518,7 @@
 	<xsd:complexType name="ShipmentStageType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
 			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
 			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
 		</xsd:sequence>
