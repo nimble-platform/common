@@ -123,6 +123,7 @@
 	<xsd:element name="ChipApplicationID" type="xsd:string"/>
 	<xsd:element name="CityName" type="xsd:string"/>
 	<xsd:element name="CitySubdivisionName" type="xsd:string"/>
+	<xsd:element name="CNAE" type="CodeType"/>
 	<xsd:element name="CodeValue" type="xsd:string"/>
 	<xsd:element name="CollaborationPriorityCode" type="CodeType"/>
 	<xsd:element name="Comment" type="xsd:string"/>
@@ -281,6 +282,7 @@
 	<xsd:element name="FacilityDetails" type="xsd:string"/>
 	<xsd:element name="FamilyName" type="xsd:string"/>
 	<xsd:element name="FeatureTacticTypeCode" type="CodeType"/>
+	<xsd:element name="FederationInstanceID" type="xsd:string"/>
 	<xsd:element name="FeeAmount" type="AmountType"/>
 	<xsd:element name="FeeDescription" type="xsd:decimal"/>
 	<xsd:element name="FileName" type="xsd:string"/>
@@ -338,6 +340,7 @@
 	<xsd:element name="Incoterms" type="xsd:string"/>
 	<xsd:element name="IndicationIndicator" type="xsd:boolean"/>
 	<xsd:element name="IndustryClassificationCode" type="CodeType"/>
+	<xsd:element name="IndustrySector" type="CodeType"/>
 	<xsd:element name="Information" type="xsd:string"/>
 	<xsd:element name="InformationURI" type="xsd:string"/>
 	<xsd:element name="InhalationToxicityZoneCode" type="CodeType"/>
