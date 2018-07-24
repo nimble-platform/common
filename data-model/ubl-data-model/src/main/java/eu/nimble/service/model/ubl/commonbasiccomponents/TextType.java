@@ -6,7 +6,7 @@
 //
 
 
-package eu.nimble.service.model.ubl.commonaggregatecomponents;
+package eu.nimble.service.model.ubl.commonbasiccomponents;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -21,8 +21,11 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -31,43 +34,47 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * <p>Java class for LineReferenceType complex type.
+ * <p>Java class for TextType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="LineReferenceType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}LineID"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
+ * &lt;complexType name="TextType"&gt;
+ *   &lt;simpleContent&gt;
+ *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;normalizedString"&gt;
+ *       &lt;attribute name="languageID" type="{http://www.w3.org/2001/XMLSchema}normalizedString" /&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LineReferenceType", propOrder = {
-    "lineID"
+@XmlType(name = "TextType", propOrder = {
+    "value"
 })
-@Entity(name = "LineReferenceType")
-@Table(name = "LINE_REFERENCE_TYPE")
+@Entity(name = "TextType")
+@Table(name = "TEXT_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class LineReferenceType
+public class TextType
     implements Serializable, Equals
 {
 
     private final static long serialVersionUID = 1L;
-    @XmlElement(name = "LineID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
-    protected String lineID;
+    @XmlValue
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    @XmlSchemaType(name = "normalizedString")
+    protected String value;
+    @XmlAttribute(name = "languageID")
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    @XmlSchemaType(name = "normalizedString")
+    protected String languageID;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
 
     /**
-     * Gets the value of the lineID property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
@@ -75,21 +82,47 @@ public class LineReferenceType
      *     
      */
     @Basic
-    @Column(name = "LINE_ID", length = 255)
-    public String getLineID() {
-        return lineID;
+    @Column(name = "VALUE_", length = 255)
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the lineID property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setLineID(String value) {
-        this.lineID = value;
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Gets the value of the languageID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    @Basic
+    @Column(name = "LANGUAGE_ID", length = 255)
+    public String getLanguageID() {
+        return languageID;
+    }
+
+    /**
+     * Sets the value of the languageID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setLanguageID(String value) {
+        this.languageID = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
@@ -99,13 +132,22 @@ public class LineReferenceType
         if (this == object) {
             return true;
         }
-        final LineReferenceType that = ((LineReferenceType) object);
+        final TextType that = ((TextType) object);
         {
-            String lhsLineID;
-            lhsLineID = this.getLineID();
-            String rhsLineID;
-            rhsLineID = that.getLineID();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "lineID", lhsLineID), LocatorUtils.property(thatLocator, "lineID", rhsLineID), lhsLineID, rhsLineID)) {
+            String lhsValue;
+            lhsValue = this.getValue();
+            String rhsValue;
+            rhsValue = that.getValue();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "value", lhsValue), LocatorUtils.property(thatLocator, "value", rhsValue), lhsValue, rhsValue)) {
+                return false;
+            }
+        }
+        {
+            String lhsLanguageID;
+            lhsLanguageID = this.getLanguageID();
+            String rhsLanguageID;
+            rhsLanguageID = that.getLanguageID();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "languageID", lhsLanguageID), LocatorUtils.property(thatLocator, "languageID", rhsLanguageID), lhsLanguageID, rhsLanguageID)) {
                 return false;
             }
         }
