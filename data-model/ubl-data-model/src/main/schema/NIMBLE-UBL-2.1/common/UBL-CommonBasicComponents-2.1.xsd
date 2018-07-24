@@ -123,7 +123,6 @@
 	<xsd:element name="ChipApplicationID" type="xsd:string"/>
 	<xsd:element name="CityName" type="xsd:string"/>
 	<xsd:element name="CitySubdivisionName" type="xsd:string"/>
-	<xsd:element name="CNAE" type="CodeType"/>
 	<xsd:element name="CodeValue" type="xsd:string"/>
 	<xsd:element name="CollaborationPriorityCode" type="CodeType"/>
 	<xsd:element name="Comment" type="xsd:string"/>
@@ -475,6 +474,7 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
+	<xsd:element name="NACE" type="CodeType"/>
 	<xsd:element name="Name" type="xsd:string"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
