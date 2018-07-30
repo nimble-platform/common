@@ -45,6 +45,7 @@
 	<xsd:element name="Item" type="ItemType"/>
 	<xsd:element name="ItemInformationRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
+	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
@@ -65,6 +66,7 @@
 	<xsd:element name="PostalAddress" type="AddressType"/>
 	<xsd:element name="PpapDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="Price" type="PriceType"/>
+	<xsd:element name="PriceOption" type="PriceOptionType"/>
 	<xsd:element name="ProviderParty" type="PartyType"/>
 	<xsd:element name="QualityIndicator" type="QualityIndicatorType"/>
 	<xsd:element name="QuotationLine" type="QuotationLineType"/>
@@ -131,6 +133,7 @@
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:RequiredItemLocationQuantity" minOccurs="0"/>
+			<xsd:element ref="cac:PriceOption" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:GoodsItem"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -320,8 +323,10 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemLocationQuantityType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:MinimumQuantity"/>
 			<xsd:element ref="cac:ApplicableTerritoryAddress" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
+			<xsd:element ref="cac:AllowanceCharge" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemPropertyType">
@@ -430,7 +435,6 @@
 	</xsd:complexType>
 	<xsd:complexType name="PaymentTermsType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:PaymentConditions" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -453,6 +457,17 @@
 			<xsd:element ref="cbc:OrganizationDepartment" minOccurs="0"/>
 			<xsd:element ref="cbc:Role" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PriceOptionType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Incoterms" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:SpecialTerms"/>
+			<xsd:element ref="cac:EstimatedDeliveryPeriod"/>
+			<xsd:element ref="cac:AdditionalItemProperty" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PaymentMeans" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PaymentTerms"/>
+			<xsd:element ref="cac:ItemLocationQuantity"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PriceType">
