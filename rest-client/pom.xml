@@ -60,5 +60,10 @@
 			<artifactId>unirest-java</artifactId>
 			<version>1.4.9</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>eu.nimble.core.common</groupId>
+			<artifactId>utility</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+    </dependencies>
 </project>

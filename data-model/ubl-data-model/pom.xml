@@ -13,53 +13,50 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<generated-sources>${project.build.directory}/generated-sources/java</generated-sources>
+		<hyperjaxb-version>0.6.1</hyperjaxb-version>
+		<javax-persistence.version>1.0</javax-persistence.version>
 		<maven-jaxb2-plugin.version>0.13.1</maven-jaxb2-plugin.version>
 		<build-helper-plugin.version>3.0.0</build-helper-plugin.version>
+		<generated-sources>${project.basedir}/src/main/java</generated-sources>
 	</properties>
-	
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/schema</directory>
+				<includes>
+					<include>NIMBLE-UBL-2.1/**</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
 	<profiles>
 		<profile>
 			<!--
-			Profile used to generated classes based on XML/jaxb scheme.
-			The files are generated here : target/generated-sources
-
-			This profile is not active by default.
-			This profile get active if the the directory:
-			src/main/java/eu/apps/notification/model
-			does not exists.
-
 			If you want to activate this profile use a command with syntax :
 			mvn .... -P re-jaxb-source-generator
 			-->
 			<id>re-jaxb-source-generator</id>
 
-			<activation>
-				<file>
-					<missing>${generated-sources}</missing>
-					<!--<missing>target/generated-sources/java</missing>-->
-
-				</file>
-			</activation>
-
 			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<excludes>
-							<exclude>**/*.java</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>${generated-sources}</directory>
-						<excludes>
-							<exclude>**/*.java</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>src/main/schema</directory>
-					</resource>
-				</resources>
+				<!--<resources>-->
+					<!--<resource>-->
+						<!--<directory>src/main/resources</directory>-->
+						<!--<excludes>-->
+							<!--<exclude>**/*.java</exclude>-->
+						<!--</excludes>-->
+					<!--</resource>-->
+					<!--<resource>-->
+						<!--<directory>${generated-sources}</directory>-->
+						<!--<excludes>-->
+							<!--<exclude>**/*.java</exclude>-->
+						<!--</excludes>-->
+					<!--</resource>-->
+				<!--</resources>-->
 				<plugins>
 					<plugin>
 						<groupId>org.jvnet.jaxb2.maven2</groupId>
@@ -81,11 +78,11 @@
 										<include>**/*.xjb</include>
 									</bindingIncludes>
 									<plugins>
-										<plugin>
+										<dependency>
 											<groupId>org.jvnet.hyperjaxb3</groupId>
 											<artifactId>hyperjaxb3-ejb-plugin</artifactId>
-											<version>0.6.1</version>
-										</plugin>
+											<version>0.6.2</version>
+										</dependency>
 										<plugin>
 											<groupId>org.jvnet.jaxb2_commons</groupId>
 											<artifactId>jaxb2-basics</artifactId>
@@ -102,32 +99,59 @@
 										<arg>-Xequals</arg>
 										<arg>-Xinheritance</arg>
 										<arg>-Xhyperjaxb3-ejb</arg>
-										<arg>-Xhyperjaxb3-ejb-roundtripTestClassName=RoundtripTest</arg>
 										<arg>-Xhyperjaxb3-ejb-persistenceUnitName=ubl-data-model</arg>
 									</args>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
+					<!-- copy the META-INF directory from the source folder to the resources -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.0.2</version>
 						<executions>
 							<execution>
-								<id>add-source</id>
-								<phase>generate-sources</phase>
+								<id>copy-resources</id>
+								<phase>compile</phase>
 								<goals>
-									<goal>add-source</goal>
+									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<sources>
-										<source>${generated-sources}</source>
-									</sources>
+									<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/src/main/java</directory>
+											<includes>
+												<include>META-INF/**</include>
+											</includes>
+										</resource>
+									</resources>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
-
+					<!-- remove the META-INF directory from the source folder to the resources -->
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>remove-META-INF</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${project.basedir}/src/main/java/META-INF</directory>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -139,27 +163,22 @@
 			</dependencies>
 		</profile>
 	</profiles>
+
 	<dependencies>
-		<!-- Roudtrip -->
 		<dependency>
-			<groupId>org.jvnet.hyperjaxb3</groupId>
-			<artifactId>hyperjaxb3-ejb-roundtrip</artifactId>
-			<version>0.6.1</version>
-			<exclusions>
-				<exclusion> 
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion> 
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions> 
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${javax-persistence.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>eu.nimble.core.common</groupId>
-			<artifactId>utility</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.jvnet.hyperjaxb3</groupId>
+			<artifactId>hyperjaxb3-ejb-runtime</artifactId>
+			<version>${hyperjaxb-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
 		</dependency>
 	</dependencies>
 </project>

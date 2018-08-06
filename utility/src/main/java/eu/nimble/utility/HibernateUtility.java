@@ -46,7 +46,7 @@ public class HibernateUtility {
 		this(persistenceUnitName, null);
 	}
 
-	private HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
+	public HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
 		if(persistenceProperties == null) {
 			persistenceProperties = PersistenceConfig.getInstance().getPersistenceParameters(persistenceUnitName);
 		}
@@ -132,6 +132,7 @@ public class HibernateUtility {
 			EntityManager saveManager = entityManagerFactory
 					.createEntityManager();
 			saveManager.getTransaction().begin();
+			o = saveManager.merge(o);
             saveManager.remove(o);
 			saveManager.getTransaction().commit();
 			saveManager.close();
