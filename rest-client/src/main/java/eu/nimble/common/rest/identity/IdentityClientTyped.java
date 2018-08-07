@@ -36,7 +36,7 @@ public class IdentityClientTyped {
         }
 
         try {
-            return JsonSerializationUtility.deserializeContent(identityClient.getParty(bearerToken, storeId).body().asInputStream(), new TypeReference<PartyType>() {});
+            return JsonUtility.deserializeContent(identityClient.getParty(bearerToken, storeId).body().asInputStream(), new TypeReference<PartyType>() {});
         } catch (IOException e) {
             logger.error("Failed to deserialize the party");
             return null;
@@ -62,7 +62,7 @@ public class IdentityClientTyped {
             }
             commaSeparatedIds.append(partyIds.get(partyIds.size()-1));
 
-            return JsonSerializationUtility.deserializeContent(identityClient.getParties(bearerToken, commaSeparatedIds.toString()).body().asInputStream(), new TypeReference<List<PartyType>>(){});
+            return JsonUtility.deserializeContent(identityClient.getParties(bearerToken, commaSeparatedIds.toString()).body().asInputStream(), new TypeReference<List<PartyType>>(){});
         } catch (IOException e) {
             logger.error("Failed to deserialize the party");
             return null;

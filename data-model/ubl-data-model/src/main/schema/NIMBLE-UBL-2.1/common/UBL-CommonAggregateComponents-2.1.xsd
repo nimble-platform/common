@@ -461,6 +461,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="PriceOptionType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:Name" minOccurs="0"/>
 			<xsd:element ref="cbc:Incoterms" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:SpecialTerms"/>
 			<xsd:element ref="cac:EstimatedDeliveryPeriod"/>
