@@ -24,7 +24,6 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 
@@ -46,9 +45,20 @@
 			<artifactId>spring-cloud-starter-feign</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+            <version>1.4.1.RELEASE</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>eu.nimble.core.common</groupId>
 			<artifactId>ubl-data-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.nimble.core.common</groupId>
