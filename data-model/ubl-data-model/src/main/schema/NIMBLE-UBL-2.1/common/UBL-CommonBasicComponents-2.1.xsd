@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1">
+<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
 	<xsd:element name="AcceptedIndicator" type="xsd:boolean"/>
 	<xsd:element name="AcceptedVariantsDescription" type="xsd:decimal"/>
 	<xsd:element name="AccountFormatCode" type="CodeType"/>
@@ -887,7 +887,7 @@
 	<xsd:element name="ValidationTime" type="xsd:time"/>
 	<xsd:element name="ValidatorID" type="xsd:string"/>
 	<xsd:element name="ValidityStartDate" type="xsd:date"/>
-	<xsd:element name="Value" type="xsd:string"/>
+	<xsd:element name="Value" type="TextType"/>
 	<xsd:element name="ValueAmount" type="AmountType"/>
 	<xsd:element name="ValueBinary" type="BinaryObjectType"/>
 	<xsd:element name="ValueDecimal" type="xsd:decimal"/>
