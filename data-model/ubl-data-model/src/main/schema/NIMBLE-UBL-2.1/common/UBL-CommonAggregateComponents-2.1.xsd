@@ -400,6 +400,8 @@
 	<xsd:complexType name="PartyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:FederationInstanceID"/>
+			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
@@ -412,12 +414,7 @@
 			<xsd:element ref="cac:Person" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:PaymentMeans" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:DeliveryTerms" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:FederationInstanceID"/>
-			<xsd:element ref="cbc:CNAE" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:SalesTerms"/>
 			<xsd:element ref="cac:PurchaseTerms"/>
@@ -518,6 +515,7 @@
 	<xsd:complexType name="ShipmentStageType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
 			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
 			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
 		</xsd:sequence>
