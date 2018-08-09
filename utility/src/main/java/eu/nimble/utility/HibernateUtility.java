@@ -253,11 +253,15 @@ public class HibernateUtility {
 		loadManager.close();
 	}
 
-	public int getCount(String query) {
+	public long getCount(String queryStr, Object... parameters) {
 		EntityManager loadManager = entityManagerFactory.createEntityManager();
 		loadManager.getTransaction().begin();
 
-		int result = (int) loadManager.createQuery(query).getSingleResult();
+		Query query = loadManager.createQuery(queryStr);
+		for(int i=0; i<parameters.length; i++) {
+			query.setParameter(i+1, parameters[i]);
+		}
+		long result = (long) query.getSingleResult();
 
 		loadManager.getTransaction().commit();
 		loadManager.close();
