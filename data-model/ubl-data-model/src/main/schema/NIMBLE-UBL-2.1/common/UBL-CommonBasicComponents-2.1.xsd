@@ -585,6 +585,7 @@
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
 	<xsd:element name="PreferredItemClassificationCode" type="CodeType"/>
+	<xsd:element name="MostRecentItemsClassificationCode" type="CodeType"/>
 	<xsd:element name="PrepaidAmount" type="AmountType"/>
 	<xsd:element name="PrepaidIndicator" type="xsd:boolean"/>
 	<xsd:element name="PrepaidPaymentReferenceID" type="xsd:string"/>

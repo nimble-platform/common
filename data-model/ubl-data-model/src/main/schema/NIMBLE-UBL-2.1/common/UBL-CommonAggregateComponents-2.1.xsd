@@ -408,6 +408,7 @@
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cbc:PpapCompatibilityLevel" minOccurs="0"/>
 			<xsd:element ref="cbc:PreferredItemClassificationCode" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:MostRecentItemsClassificationCode" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
 			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
