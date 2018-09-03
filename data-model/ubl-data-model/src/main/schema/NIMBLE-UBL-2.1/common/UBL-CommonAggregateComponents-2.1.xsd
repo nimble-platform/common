@@ -435,6 +435,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="PaymentTermsType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:PaymentConditions" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
