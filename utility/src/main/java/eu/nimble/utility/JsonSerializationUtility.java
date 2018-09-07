@@ -2,6 +2,7 @@ package eu.nimble.utility;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +26,9 @@ public class JsonSerializationUtility {
             logger.error("Failed to deserialize the stream: ", e);
             throw e;
         }
+    }
+
+    public static ObjectMapper getMapperForTransientFields() {
+        return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
     }
 }
