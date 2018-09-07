@@ -68,6 +68,7 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.SupplierPartyType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TaxSchemeType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TrackAndTraceDetailsType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TradingPreferences</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TradingTermType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TradingTermTypeValueItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.TransportEquipmentType</class>

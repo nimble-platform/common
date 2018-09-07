@@ -281,6 +281,7 @@
 	<xsd:element name="FacilityDetails" type="xsd:string"/>
 	<xsd:element name="FamilyName" type="xsd:string"/>
 	<xsd:element name="FeatureTacticTypeCode" type="CodeType"/>
+	<xsd:element name="FederationInstanceID" type="xsd:string"/>
 	<xsd:element name="FeeAmount" type="AmountType"/>
 	<xsd:element name="FeeDescription" type="xsd:decimal"/>
 	<xsd:element name="FileName" type="xsd:string"/>
@@ -338,6 +339,7 @@
 	<xsd:element name="Incoterms" type="xsd:string"/>
 	<xsd:element name="IndicationIndicator" type="xsd:boolean"/>
 	<xsd:element name="IndustryClassificationCode" type="CodeType"/>
+	<xsd:element name="IndustrySector" type="CodeType"/>
 	<xsd:element name="Information" type="xsd:string"/>
 	<xsd:element name="InformationURI" type="xsd:string"/>
 	<xsd:element name="InhalationToxicityZoneCode" type="CodeType"/>
@@ -472,6 +474,7 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
+	<xsd:element name="NACE" type="CodeType"/>
 	<xsd:element name="Name" type="xsd:string"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
@@ -582,6 +585,7 @@
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
 	<xsd:element name="PreferredItemClassificationCode" type="CodeType"/>
+	<xsd:element name="MostRecentItemsClassificationCode" type="CodeType"/>
 	<xsd:element name="PrepaidAmount" type="AmountType"/>
 	<xsd:element name="PrepaidIndicator" type="xsd:boolean"/>
 	<xsd:element name="PrepaidPaymentReferenceID" type="xsd:string"/>
