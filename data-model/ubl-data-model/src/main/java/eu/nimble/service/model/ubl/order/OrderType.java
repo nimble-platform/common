@@ -42,6 +42,7 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.OrderLineType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PaymentMeansType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PaymentTermsType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.SupplierPartyType;
+import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XmlAdapterUtils;
 import org.jvnet.jaxb2_commons.lang.Equals;
@@ -63,7 +64,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *       &lt;sequence&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IssueDate"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Contract" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}BuyerCustomerParty"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}SellerSupplierParty"/&gt;
@@ -106,7 +107,7 @@ public class OrderType
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar issueDate;
     @XmlElement(name = "Note", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected String note;
+    protected List<String> note;
     @XmlElement(name = "Contract", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     protected List<ContractType> contract;
     @XmlElement(name = "BuyerCustomerParty", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
@@ -123,6 +124,7 @@ public class OrderType
     protected List<OrderLineType> orderLine;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+    protected transient List<OrderTypeNoteItem> noteItems;
 
     /**
      * Gets the value of the id property.
@@ -178,27 +180,39 @@ public class OrderType
     /**
      * Gets the value of the note property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the note property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getNote().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
      */
-    @Basic
-    @Column(name = "NOTE", length = 255)
-    public String getNote() {
-        return note;
+    @Transient
+    public List<String> getNote() {
+        if (note == null) {
+            note = new ArrayList<String>();
+        }
+        return this.note;
     }
 
     /**
-     * Sets the value of the note property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * 
      */
-    public void setNote(String value) {
-        this.note = value;
+    public void setNote(List<String> note) {
+        this.note = note;
     }
 
     /**
@@ -450,10 +464,10 @@ public class OrderType
             }
         }
         {
-            String lhsNote;
-            lhsNote = this.getNote();
-            String rhsNote;
-            rhsNote = that.getNote();
+            List<String> lhsNote;
+            lhsNote = (((this.note!= null)&&(!this.note.isEmpty()))?this.getNote():null);
+            List<String> rhsNote;
+            rhsNote = (((that.note!= null)&&(!that.note.isEmpty()))?that.getNote():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "note", lhsNote), LocatorUtils.property(thatLocator, "note", rhsNote), lhsNote, rhsNote)) {
                 return false;
             }
@@ -565,6 +579,32 @@ public class OrderType
 
     public void setIssueDateItem(Date target) {
         setIssueDate(XmlAdapterUtils.marshall(XMLGregorianCalendarAsDate.class, target));
+    }
+
+    @OneToMany(targetEntity = OrderTypeNoteItem.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "NOTE_ITEMS_ORDER_TYPE_HJID")
+    public List<OrderTypeNoteItem> getNoteItems() {
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<OrderTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, OrderTypeNoteItem.class);
+        }
+        return this.noteItems;
+    }
+
+    public void setNoteItems(List<OrderTypeNoteItem> value) {
+        this.note = null;
+        this.noteItems = null;
+        this.noteItems = value;
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<OrderTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, OrderTypeNoteItem.class);
+        }
     }
 
 }

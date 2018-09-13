@@ -52,7 +52,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}DocumentType" maxOccurs="unbounded"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}BuyerCustomerParty"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}SellerSupplierParty"/&gt;
@@ -85,7 +85,7 @@ public class PpapRequestType
     @XmlElement(name = "ID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected String id;
     @XmlElement(name = "Note", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected String note;
+    protected List<String> note;
     @XmlElement(name = "DocumentType", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected List<String> documentType;
     @XmlElement(name = "BuyerCustomerParty", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
@@ -96,6 +96,7 @@ public class PpapRequestType
     protected LineItemType lineItem;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+    protected transient List<PpapRequestTypeNoteItem> noteItems;
     protected transient List<PpapRequestTypeDocumentTypeItem> documentTypeItems;
 
     /**
@@ -127,27 +128,39 @@ public class PpapRequestType
     /**
      * Gets the value of the note property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the note property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getNote().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
      */
-    @Basic
-    @Column(name = "NOTE", length = 255)
-    public String getNote() {
-        return note;
+    @Transient
+    public List<String> getNote() {
+        if (note == null) {
+            note = new ArrayList<String>();
+        }
+        return this.note;
     }
 
     /**
-     * Sets the value of the note property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * 
      */
-    public void setNote(String value) {
-        this.note = value;
+    public void setNote(List<String> note) {
+        this.note = note;
     }
 
     /**
@@ -290,10 +303,10 @@ public class PpapRequestType
             }
         }
         {
-            String lhsNote;
-            lhsNote = this.getNote();
-            String rhsNote;
-            rhsNote = that.getNote();
+            List<String> lhsNote;
+            lhsNote = (((this.note!= null)&&(!this.note.isEmpty()))?this.getNote():null);
+            List<String> rhsNote;
+            rhsNote = (((that.note!= null)&&(!that.note.isEmpty()))?that.getNote():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "note", lhsNote), LocatorUtils.property(thatLocator, "note", rhsNote), lhsNote, rhsNote)) {
                 return false;
             }
@@ -367,6 +380,32 @@ public class PpapRequestType
      */
     public void setHjid(Long value) {
         this.hjid = value;
+    }
+
+    @OneToMany(targetEntity = PpapRequestTypeNoteItem.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "NOTE_ITEMS_PPAP_REQUEST_TYPE_0")
+    public List<PpapRequestTypeNoteItem> getNoteItems() {
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<PpapRequestTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, PpapRequestTypeNoteItem.class);
+        }
+        return this.noteItems;
+    }
+
+    public void setNoteItems(List<PpapRequestTypeNoteItem> value) {
+        this.note = null;
+        this.noteItems = null;
+        this.noteItems = value;
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<PpapRequestTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, PpapRequestTypeNoteItem.class);
+        }
     }
 
     @OneToMany(targetEntity = PpapRequestTypeDocumentTypeItem.class, cascade = {

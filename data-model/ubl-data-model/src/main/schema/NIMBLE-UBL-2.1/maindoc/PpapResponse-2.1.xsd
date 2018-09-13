@@ -7,7 +7,7 @@
 	<xsd:complexType name="PpapResponseType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Note" minOccurs="0"/>
+			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:AcceptedIndicator"/>
 			<xsd:element ref="cac:SellerSupplierParty"/>
 			<xsd:element ref="cac:BuyerCustomerParty"/>

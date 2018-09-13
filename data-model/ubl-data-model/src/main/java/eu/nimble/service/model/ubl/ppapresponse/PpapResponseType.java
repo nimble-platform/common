@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -32,6 +33,7 @@ import javax.xml.bind.annotation.XmlType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.CustomerPartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.SupplierPartyType;
+import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -50,7 +52,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}AcceptedIndicator"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}SellerSupplierParty"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}BuyerCustomerParty"/&gt;
@@ -85,7 +87,7 @@ public class PpapResponseType
     @XmlElement(name = "ID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected String id;
     @XmlElement(name = "Note", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected String note;
+    protected List<String> note;
     @XmlElement(name = "AcceptedIndicator", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected boolean acceptedIndicator;
     @XmlElement(name = "SellerSupplierParty", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
@@ -98,6 +100,7 @@ public class PpapResponseType
     protected List<DocumentReferenceType> requestedDocument;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+    protected transient List<PpapResponseTypeNoteItem> noteItems;
 
     /**
      * Gets the value of the id property.
@@ -128,27 +131,39 @@ public class PpapResponseType
     /**
      * Gets the value of the note property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the note property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getNote().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
      */
-    @Basic
-    @Column(name = "NOTE", length = 255)
-    public String getNote() {
-        return note;
+    @Transient
+    public List<String> getNote() {
+        if (note == null) {
+            note = new ArrayList<String>();
+        }
+        return this.note;
     }
 
     /**
-     * Sets the value of the note property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * 
      */
-    public void setNote(String value) {
-        this.note = value;
+    public void setNote(List<String> note) {
+        this.note = note;
     }
 
     /**
@@ -312,10 +327,10 @@ public class PpapResponseType
             }
         }
         {
-            String lhsNote;
-            lhsNote = this.getNote();
-            String rhsNote;
-            rhsNote = that.getNote();
+            List<String> lhsNote;
+            lhsNote = (((this.note!= null)&&(!this.note.isEmpty()))?this.getNote():null);
+            List<String> rhsNote;
+            rhsNote = (((that.note!= null)&&(!that.note.isEmpty()))?that.getNote():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "note", lhsNote), LocatorUtils.property(thatLocator, "note", rhsNote), lhsNote, rhsNote)) {
                 return false;
             }
@@ -398,6 +413,32 @@ public class PpapResponseType
      */
     public void setHjid(Long value) {
         this.hjid = value;
+    }
+
+    @OneToMany(targetEntity = PpapResponseTypeNoteItem.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "NOTE_ITEMS_PPAP_RESPONSE_TYP_0")
+    public List<PpapResponseTypeNoteItem> getNoteItems() {
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<PpapResponseTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, PpapResponseTypeNoteItem.class);
+        }
+        return this.noteItems;
+    }
+
+    public void setNoteItems(List<PpapResponseTypeNoteItem> value) {
+        this.note = null;
+        this.noteItems = null;
+        this.noteItems = value;
+        if (this.noteItems == null) {
+            this.noteItems = new ArrayList<PpapResponseTypeNoteItem>();
+        }
+        if (ItemUtils.shouldBeWrapped(this.note)) {
+            this.note = ItemUtils.wrap(this.note, this.noteItems, PpapResponseTypeNoteItem.class);
+        }
     }
 
 }

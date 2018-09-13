@@ -7,7 +7,7 @@
     <xsd:complexType name="PpapRequestType">
         <xsd:sequence>
             <xsd:element ref="cbc:ID"/>
-            <xsd:element ref="cbc:Note" minOccurs="0"/>
+            <xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element ref="cbc:DocumentType" maxOccurs="unbounded"/>
             <xsd:element ref="cac:BuyerCustomerParty"/>
             <xsd:element ref="cac:SellerSupplierParty"/>
