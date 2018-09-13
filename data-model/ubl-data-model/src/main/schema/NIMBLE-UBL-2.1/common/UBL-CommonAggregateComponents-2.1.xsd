@@ -45,6 +45,7 @@
 	<xsd:element name="Item" type="ItemType"/>
 	<xsd:element name="ItemInformationRequestDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
+	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
@@ -65,7 +66,9 @@
 	<xsd:element name="PostalAddress" type="AddressType"/>
 	<xsd:element name="PpapDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="Price" type="PriceType"/>
+	<xsd:element name="PriceOption" type="PriceOptionType"/>
 	<xsd:element name="ProviderParty" type="PartyType"/>
+	<xsd:element name="PurchaseTerms" type="TradingPreferences"/>
 	<xsd:element name="QualityIndicator" type="QualityIndicatorType"/>
 	<xsd:element name="QuotationLine" type="QuotationLineType"/>
 	<xsd:element name="QuotedMonetaryTotal" type="MonetaryTotalType"/>
@@ -77,6 +80,7 @@
 	<xsd:element name="RequestedDeliveryPeriod" type="PeriodType"/>
 	<xsd:element name="RequiredItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="SalesItem" type="SalesItemType"/>
+	<xsd:element name="SalesTerms" type="TradingPreferences"/>
 	<xsd:element name="ScheduledServiceFrequency" type="ServiceFrequencyType"/>
 	<xsd:element name="SellerSupplierParty" type="SupplierPartyType"/>
 	<xsd:element name="SenderParty" type="PartyType"/>
@@ -88,6 +92,7 @@
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
 	<xsd:element name="TotalCapacityDimension" type="DimensionType"/>
+	<xsd:element name="TrackAndTraceDetails" type="TrackAndTraceDetailsType"/>
 	<xsd:element name="TradingTerms" type="TradingTermType"/>
 	<xsd:element name="TransportContract" type="ContractType"/>
 	<xsd:element name="TransportEquipment" type="TransportEquipmentType"/>
@@ -130,6 +135,7 @@
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:RequiredItemLocationQuantity" minOccurs="0"/>
+			<xsd:element ref="cac:PriceOption" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:GoodsItem"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -303,6 +309,7 @@
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Dimension" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
+			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemIdentificationType">
@@ -318,8 +325,10 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemLocationQuantityType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:MinimumQuantity"/>
 			<xsd:element ref="cac:ApplicableTerritoryAddress" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
+			<xsd:element ref="cac:AllowanceCharge" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemPropertyType">
@@ -396,21 +405,25 @@
 	<xsd:complexType name="PartyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:FederationInstanceID"/>
+			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cbc:PpapCompatibilityLevel" minOccurs="0"/>
+			<xsd:element ref="cbc:PreferredItemClassificationCode" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:MostRecentItemsClassificationCode" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
 			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
 			<xsd:element ref="cac:Person" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:PaymentMeans" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:DeliveryTerms" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:SalesTerms"/>
+			<xsd:element ref="cac:PurchaseTerms"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PartyTaxSchemeType">
@@ -450,6 +463,18 @@
 			<xsd:element ref="cbc:OrganizationDepartment" minOccurs="0"/>
 			<xsd:element ref="cbc:Role" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PriceOptionType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Incoterms" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:SpecialTerms"/>
+			<xsd:element ref="cac:EstimatedDeliveryPeriod"/>
+			<xsd:element ref="cac:AdditionalItemProperty" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PaymentMeans" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PaymentTerms"/>
+			<xsd:element ref="cac:ItemLocationQuantity"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PriceType">
@@ -508,6 +533,7 @@
 	<xsd:complexType name="ShipmentStageType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
 			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
 			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
 		</xsd:sequence>
@@ -520,6 +546,20 @@
 	<xsd:complexType name="TaxSchemeType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TrackAndTraceDetailsType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:EventURL"/>
+			<xsd:element ref="cbc:MasterURL"/>
+			<xsd:element ref="cbc:ProductionProcessTemplate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TradingPreferences">
+		<xsd:sequence>
+			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:DeliveryTerms" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:PaymentMeans" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TradingTermType">

@@ -258,6 +258,7 @@
 	<xsd:element name="EstimatedOverallContractAmount" type="AmountType"/>
 	<xsd:element name="EstimatedOverallContractQuantity" type="QuantityType"/>
 	<xsd:element name="EvaluationCriterionTypeCode" type="CodeType"/>
+	<xsd:element name="EventURL" type="xsd:string"/>
 	<xsd:element name="EvidenceTypeCode" type="CodeType"/>
 	<xsd:element name="ExceptionResolutionCode" type="CodeType"/>
 	<xsd:element name="ExceptionStatusCode" type="CodeType"/>
@@ -280,6 +281,7 @@
 	<xsd:element name="FacilityDetails" type="xsd:string"/>
 	<xsd:element name="FamilyName" type="xsd:string"/>
 	<xsd:element name="FeatureTacticTypeCode" type="CodeType"/>
+	<xsd:element name="FederationInstanceID" type="xsd:string"/>
 	<xsd:element name="FeeAmount" type="AmountType"/>
 	<xsd:element name="FeeDescription" type="xsd:decimal"/>
 	<xsd:element name="FileName" type="xsd:string"/>
@@ -337,6 +339,7 @@
 	<xsd:element name="Incoterms" type="xsd:string"/>
 	<xsd:element name="IndicationIndicator" type="xsd:boolean"/>
 	<xsd:element name="IndustryClassificationCode" type="CodeType"/>
+	<xsd:element name="IndustrySector" type="CodeType"/>
 	<xsd:element name="Information" type="xsd:string"/>
 	<xsd:element name="InformationURI" type="xsd:string"/>
 	<xsd:element name="InhalationToxicityZoneCode" type="CodeType"/>
@@ -417,6 +420,7 @@
 	<xsd:element name="MandateTypeCode" type="CodeType"/>
 	<xsd:element name="ManufactureDate" type="xsd:date"/>
 	<xsd:element name="ManufactureTime" type="xsd:time"/>
+	<xsd:element name="MasterURL" type="xsd:string"/>
 	<xsd:element name="MarkAttention" type="xsd:string"/>
 	<xsd:element name="MarkAttentionIndicator" type="xsd:boolean"/>
 	<xsd:element name="MarkCare" type="xsd:string"/>
@@ -470,6 +474,7 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
+	<xsd:element name="NACE" type="CodeType"/>
 	<xsd:element name="Name" type="xsd:string"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
@@ -579,6 +584,8 @@
 	<xsd:element name="PreCarriageIndicator" type="xsd:boolean"/>
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
+	<xsd:element name="PreferredItemClassificationCode" type="CodeType"/>
+	<xsd:element name="MostRecentItemsClassificationCode" type="CodeType"/>
 	<xsd:element name="PrepaidAmount" type="AmountType"/>
 	<xsd:element name="PrepaidIndicator" type="xsd:boolean"/>
 	<xsd:element name="PrepaidPaymentReferenceID" type="xsd:string"/>
@@ -610,6 +617,7 @@
 	<xsd:element name="ProcurementSubTypeCode" type="CodeType"/>
 	<xsd:element name="ProcurementTypeCode" type="CodeType"/>
 	<xsd:element name="ProductImage" type="BinaryObjectType"/>
+	<xsd:element name="ProductionProcessTemplate" type="xsd:string"/>
 	<xsd:element name="ProductTraceID" type="xsd:string"/>
 	<xsd:element name="ProfileExecutionID" type="xsd:string"/>
 	<xsd:element name="ProfileID" type="xsd:string"/>

@@ -6,10 +6,7 @@ import eu.nimble.utility.config.PersistenceConfig;
 import org.hibernate.Hibernate;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,6 +149,28 @@ public class HibernateUtility {
 		}
 	}
 
+	public <T> T load(String queryStr, Object... parameters) {
+		EntityManager loadManager = entityManagerFactory
+				.createEntityManager();
+		loadManager.getTransaction().begin();
+
+		Query query = loadManager.createQuery(queryStr);
+		for(int i=0; i<parameters.length; i++) {
+			query.setParameter(i+1, parameters[i]);
+		}
+
+		T result = null;
+		try {
+			result = (T) query.getSingleResult();
+		} catch (NoResultException e) {
+			// do nothing
+		}
+
+		loadManager.getTransaction().commit();
+		loadManager.close();
+		return result;
+	}
+
 	public List<?> loadAll(Class<?> classToLoad) {
 		synchronized (HibernateUtility.class) {
 			List<?> result = new ArrayList<Object>();
@@ -251,18 +270,6 @@ public class HibernateUtility {
 
 		loadManager.getTransaction().commit();
 		loadManager.close();
-	}
-
-	public int getCount(String query) {
-		EntityManager loadManager = entityManagerFactory.createEntityManager();
-		loadManager.getTransaction().begin();
-
-		int result = (int) loadManager.createQuery(query).getSingleResult();
-
-		loadManager.getTransaction().commit();
-		loadManager.close();
-
-		return result;
 	}
 
 	public static Object copySerializableObject(Object object, Class clazz) {

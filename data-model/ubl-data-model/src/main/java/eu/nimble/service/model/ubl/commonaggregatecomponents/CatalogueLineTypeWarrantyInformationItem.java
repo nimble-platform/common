@@ -8,14 +8,21 @@
 
 package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
-import org.jvnet.hyperjaxb3.item.Item;
-
-import javax.persistence.*;
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import java.io.Serializable;
+import org.jvnet.hyperjaxb3.item.Item;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "CatalogueLineTypeWarrantyInformationItem")
