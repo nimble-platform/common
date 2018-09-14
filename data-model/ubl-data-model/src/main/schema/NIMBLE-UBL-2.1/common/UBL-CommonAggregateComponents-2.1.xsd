@@ -2,6 +2,7 @@
 <!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by ff (gg) -->
 <xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm">
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
+	<xsd:element name="AdditionalDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>

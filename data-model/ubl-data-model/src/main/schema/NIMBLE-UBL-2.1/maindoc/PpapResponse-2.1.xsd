@@ -13,6 +13,7 @@
 			<xsd:element ref="cac:BuyerCustomerParty"/>
 			<xsd:element ref="cac:PpapDocumentReference"/>
 			<xsd:element ref="cac:RequestedDocument" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

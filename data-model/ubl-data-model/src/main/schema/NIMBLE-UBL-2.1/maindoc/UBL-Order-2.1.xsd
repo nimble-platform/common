@@ -16,6 +16,7 @@
 			<xsd:element ref="cac:PaymentTerms" minOccurs="0"/>
 			<xsd:element ref="cac:AnticipatedMonetaryTotal" minOccurs="0"/>
 			<xsd:element ref="cac:OrderLine" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

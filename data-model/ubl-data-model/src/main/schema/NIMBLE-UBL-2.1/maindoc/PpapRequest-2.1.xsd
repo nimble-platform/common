@@ -12,6 +12,7 @@
             <xsd:element ref="cac:BuyerCustomerParty"/>
             <xsd:element ref="cac:SellerSupplierParty"/>
             <xsd:element ref="cac:LineItem"/>
+            <xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>
