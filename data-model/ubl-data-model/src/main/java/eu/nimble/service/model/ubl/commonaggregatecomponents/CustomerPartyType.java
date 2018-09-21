@@ -77,7 +77,7 @@ public class CustomerPartyType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "PARTY_CUSTOMER_PARTY_TYPE_HJ_0")
     public PartyType getParty() {

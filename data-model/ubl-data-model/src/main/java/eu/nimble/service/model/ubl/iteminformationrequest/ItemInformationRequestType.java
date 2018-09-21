@@ -330,7 +330,7 @@ public class ItemInformationRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "SENDER_PARTY_ITEM_INFORMATIO_0")
     public PartyType getSenderParty() {
@@ -362,7 +362,7 @@ public class ItemInformationRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "RECEIVER_PARTY_ITEM_INFORMAT_0")
     public PartyType getReceiverParty() {

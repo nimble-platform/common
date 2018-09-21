@@ -270,7 +270,7 @@ public class TransportExecutionPlanRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "TRANSPORT_USER_PARTY_TRANSPO_1")
     public PartyType getTransportUserParty() {
@@ -302,7 +302,7 @@ public class TransportExecutionPlanRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "TRANSPORT_SERVICE_PROVIDER_P_2")
     public PartyType getTransportServiceProviderParty() {

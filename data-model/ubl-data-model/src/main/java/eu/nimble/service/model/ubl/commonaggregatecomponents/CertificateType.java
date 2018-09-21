@@ -178,7 +178,7 @@ public class CertificateType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "ISSUER_PARTY_CERTIFICATE_TYP_0")
     public PartyType getIssuerParty() {
