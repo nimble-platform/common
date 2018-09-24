@@ -14,6 +14,7 @@
 			<xsd:element ref="cac:DeliveryCustomerParty"/>
 			<xsd:element ref="cac:Shipment" minOccurs="0"/>
 			<xsd:element ref="cac:DespatchLine" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
