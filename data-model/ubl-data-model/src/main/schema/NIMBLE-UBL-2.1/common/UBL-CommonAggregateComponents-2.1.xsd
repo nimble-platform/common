@@ -657,6 +657,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="CompletedTaskType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:AssociatedProcessInstanceID" minOccurs="1"/>
 			<xsd:element ref="cbc:AnnualAverageAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:TotalTaskAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:PartyCapacityAmount" minOccurs="0"/>
