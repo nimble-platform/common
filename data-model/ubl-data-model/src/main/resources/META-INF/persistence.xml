@@ -6,12 +6,23 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.AddressType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.AllowanceChargeType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.AttachmentType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CapabilityType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CapabilityTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineTypeWarrantyInformationItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CertificateType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationCategoryType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationCategoryTypeDescriptionItem</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeTypeDescriptionItem</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeTypeNoteItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseTypeNoteItem</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CommentType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CommodityClassificationType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CommunicationType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CompletedTaskType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CompletedTaskTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ConsignmentType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ContactType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ContractType</class>
@@ -21,13 +32,19 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DataMonitoringClauseTypeMonitoredCompanyIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DataMonitoringClauseTypeMonitoringCompanyIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DataMonitoringClauseTypeMonitoringUserIDItem</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeclarationType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeclarationTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryTermsType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DespatchLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DimensionType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentClauseType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.EconomicOperatorRoleType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.EconomicOperatorRoleTypeRoleDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.EnvironmentalEmissionType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.EventType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.EvidenceSuppliedType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ExternalReferenceType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.GoodsItemType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemIdentificationType</class>
@@ -56,6 +73,8 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionTypeIncotermsItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualifyingPartyType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualifyingPartyTypePersonalSituationItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualityIndicatorType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QuotationLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ReceiptLineType</class>
