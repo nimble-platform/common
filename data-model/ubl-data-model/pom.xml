@@ -179,6 +179,11 @@
 					<artifactId>maven-jaxb2-plugin</artifactId>
 					<version>${maven-jaxb2-plugin.version}</version>
 				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+					<version>1.7.21</version>
+				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
@@ -198,11 +203,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.25</version>
 		</dependency>
 	</dependencies>
 </project>
