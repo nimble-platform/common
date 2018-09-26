@@ -153,7 +153,7 @@ public class ShipmentStageType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "CARRIER_PARTY_SHIPMENT_STAGE_0")
     public PartyType getCarrierParty() {

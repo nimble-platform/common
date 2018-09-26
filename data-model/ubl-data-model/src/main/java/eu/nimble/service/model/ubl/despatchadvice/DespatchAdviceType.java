@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.CustomerPartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.DespatchLineType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.OrderReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ShipmentType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.SupplierPartyType;
@@ -68,6 +69,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}DeliveryCustomerParty"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Shipment" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}DespatchLine" maxOccurs="unbounded"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}AdditionalDocumentReference" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -85,7 +87,8 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "despatchSupplierParty",
     "deliveryCustomerParty",
     "shipment",
-    "despatchLine"
+    "despatchLine",
+    "additionalDocumentReference"
 })
 @Entity(name = "DespatchAdviceType")
 @Table(name = "DESPATCH_ADVICE_TYPE")
@@ -112,6 +115,8 @@ public class DespatchAdviceType
     protected ShipmentType shipment;
     @XmlElement(name = "DespatchLine", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
     protected List<DespatchLineType> despatchLine;
+    @XmlElement(name = "AdditionalDocumentReference", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
+    protected List<DocumentReferenceType> additionalDocumentReference;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<DespatchAdviceTypeNoteItem> noteItems;
@@ -371,6 +376,47 @@ public class DespatchAdviceType
         this.despatchLine = despatchLine;
     }
 
+    /**
+     * Gets the value of the additionalDocumentReference property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the additionalDocumentReference property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAdditionalDocumentReference().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DocumentReferenceType }
+     * 
+     * 
+     */
+    @OneToMany(targetEntity = DocumentReferenceType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_4")
+    public List<DocumentReferenceType> getAdditionalDocumentReference() {
+        if (additionalDocumentReference == null) {
+            additionalDocumentReference = new ArrayList<DocumentReferenceType>();
+        }
+        return this.additionalDocumentReference;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setAdditionalDocumentReference(List<DocumentReferenceType> additionalDocumentReference) {
+        this.additionalDocumentReference = additionalDocumentReference;
+    }
+
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
         if ((object == null)||(this.getClass()!= object.getClass())) {
             return false;
@@ -448,6 +494,15 @@ public class DespatchAdviceType
             List<DespatchLineType> rhsDespatchLine;
             rhsDespatchLine = (((that.despatchLine!= null)&&(!that.despatchLine.isEmpty()))?that.getDespatchLine():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "despatchLine", lhsDespatchLine), LocatorUtils.property(thatLocator, "despatchLine", rhsDespatchLine), lhsDespatchLine, rhsDespatchLine)) {
+                return false;
+            }
+        }
+        {
+            List<DocumentReferenceType> lhsAdditionalDocumentReference;
+            lhsAdditionalDocumentReference = (((this.additionalDocumentReference!= null)&&(!this.additionalDocumentReference.isEmpty()))?this.getAdditionalDocumentReference():null);
+            List<DocumentReferenceType> rhsAdditionalDocumentReference;
+            rhsAdditionalDocumentReference = (((that.additionalDocumentReference!= null)&&(!that.additionalDocumentReference.isEmpty()))?that.getAdditionalDocumentReference():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "additionalDocumentReference", lhsAdditionalDocumentReference), LocatorUtils.property(thatLocator, "additionalDocumentReference", rhsAdditionalDocumentReference), lhsAdditionalDocumentReference, rhsAdditionalDocumentReference)) {
                 return false;
             }
         }
