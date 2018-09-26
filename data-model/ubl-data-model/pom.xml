@@ -14,7 +14,6 @@
 
 	<properties>
 		<hyperjaxb-version>0.6.1</hyperjaxb-version>
-		<javax-persistence.version>1.0</javax-persistence.version>
 		<maven-jaxb2-plugin.version>0.13.1</maven-jaxb2-plugin.version>
 		<build-helper-plugin.version>3.0.0</build-helper-plugin.version>
 		<generated-sources>${project.basedir}/src/main/java</generated-sources>
@@ -104,6 +103,13 @@
 								</configuration>
 							</execution>
 						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.hibernate</groupId>
+								<artifactId>hibernate-entitymanager</artifactId>
+								<version>5.2.12.Final</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 					<!-- copy the META-INF directory from the source folder to the resources -->
 					<plugin>
@@ -185,9 +191,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>${javax-persistence.version}</version>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hyperjaxb3</groupId>
@@ -203,6 +209,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.2.12.Final</version>
 		</dependency>
 	</dependencies>
 </project>
