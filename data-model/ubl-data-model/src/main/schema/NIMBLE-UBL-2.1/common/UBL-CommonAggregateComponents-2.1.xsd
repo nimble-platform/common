@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by ff (gg) -->
-<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm">
+<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" xmlns:annox="http://annox.dev.java.net" xmlns:ha="http://annox.dev.java.net/org.hibernate.annotations" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm annox">
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
 	<xsd:element name="AdditionalDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
@@ -410,25 +410,142 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:FederationInstanceID"/>
-			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
-			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:ExternalAward" minOccurs="0"/>
 			<xsd:element ref="cbc:PpapCompatibilityLevel" minOccurs="0"/>
-			<xsd:element ref="cbc:PreferredItemClassificationCode" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:MostRecentItemsClassificationCode" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:PostalAddress" minOccurs="0"/>
-			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:Contact" minOccurs="0"/>
+			<xsd:element ref="cbc:PreferredItemClassificationCode" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:MostRecentItemsClassificationCode" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PostalAddress" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PartyTaxScheme" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Contact" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Person" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cac:SalesTerms"/>
-			<xsd:element ref="cac:PurchaseTerms"/>
+			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:SalesTerms">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PurchaseTerms">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PartyTaxSchemeType">
@@ -657,7 +774,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="CompletedTaskType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:AssociatedProcessInstanceID" minOccurs="1"/>
+			<xsd:element ref="cbc:AssociatedProcessInstanceID"/>
 			<xsd:element ref="cbc:AnnualAverageAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:TotalTaskAmount" minOccurs="0"/>
 			<xsd:element ref="cbc:PartyCapacityAmount" minOccurs="0"/>

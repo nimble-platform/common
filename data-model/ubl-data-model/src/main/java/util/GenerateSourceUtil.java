@@ -10,6 +10,7 @@ public class GenerateSourceUtil {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     final private String partyTypeRegex = "@ManyToOne.targetEntity = PartyType.class,.*public PartyType";
+    final private String cascadeRegex = "@Cascade.*DELETE_ORPHAN.*@OneToMany.";
 
     public static void main(String [] args){
         GenerateSourceUtil generateSourceUtil = new GenerateSourceUtil();
@@ -44,17 +45,29 @@ public class GenerateSourceUtil {
                 text.append( line + System.lineSeparator() );
             String fileText = text.toString();
 
-            Pattern p = Pattern.compile(partyTypeRegex,Pattern.DOTALL);   // the pattern to search for
+            fileStream.close();
+            br.close();
+
+            Pattern p = Pattern.compile(partyTypeRegex,Pattern.DOTALL);
+            Pattern p2 = Pattern.compile(cascadeRegex,Pattern.DOTALL);
             Matcher m = p.matcher(fileText);
+            Matcher m2 = p2.matcher(fileText);
 
+            boolean firstFound = m.find();
+            boolean secondFound = m2.find();
             // now try to find at least one match
-            if (m.find()){
-                StringBuffer stringBuffer = new StringBuffer();
-
+            if (firstFound){
                 String group = m.group();
                 String newGroup = group.replace("CascadeType.ALL","CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH");
                 fileText = fileText.replace(group,newGroup);
+            }
+            if(secondFound){
+                fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToMany.","@OneToMany(orphanRemoval = true,");
+                fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToOne.","@OneToOne(orphanRemoval = true,");
+            }
 
+            if(firstFound || secondFound){
+                StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(fileText);
 
                 BufferedWriter bwr = new BufferedWriter(new FileWriter(file));
