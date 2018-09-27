@@ -218,6 +218,24 @@ public class HibernateUtility {
 		}
 	}
 
+	public List<?> loadAll(String queryStr, Object... parameters) {
+		EntityManager loadManager = entityManagerFactory
+				.createEntityManager();
+		loadManager.getTransaction().begin();
+
+		List<?> result = new ArrayList<Object>();
+		Query query = loadManager.createQuery(queryStr);
+		for(int i=0; i<parameters.length; i++) {
+			query.setParameter(i+1, parameters[i]);
+		}
+
+		result = query.getResultList();
+		Hibernate.initialize(result);
+		loadManager.getTransaction().commit();
+		loadManager.close();
+		return result;
+	}
+
 	public List<?> loadAll(String query, int offset, int limit) {
 		synchronized (HibernateUtility.class) {
 
