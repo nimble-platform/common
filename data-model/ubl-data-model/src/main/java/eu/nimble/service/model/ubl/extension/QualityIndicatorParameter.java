@@ -1,4 +1,4 @@
-package eu.nimble.service.model.ubl.commonaggregatecomponents;
+package eu.nimble.service.model.ubl.extension;
 
 /**
  * Pre-defined quality indicator parameters. However, {@link QualityIndicatorType}s can have other arbitrary parameters.
@@ -15,5 +15,9 @@ public enum QualityIndicatorParameter {
     FULFILLMENT_OF_TERMS,
     DELIVERY_PACKAGING,
     NUMBER_OF_TRANSACTIONS,
-    COMPLETENESS_OF_COMPANY_DESCRIPTION
+    COMPLETENESS_OF_COMPANY_DESCRIPTION,
+    COMPLETENESS_OF_COMPANY_GENERAL_DETAILS,
+    COMPLETENESS_OF_COMPANY_CERTIFICATE_DETAILS,
+    COMPLETENESS_OF_COMPANY_TRADE_DETAILS,
+    COMPANY_RATING
 }
