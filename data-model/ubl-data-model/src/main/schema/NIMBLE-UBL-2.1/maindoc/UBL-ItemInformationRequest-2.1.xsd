@@ -83,6 +83,17 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        <ccts:Component>
+                            <ccts:Cardinality>0..n</ccts:Cardinality>
+                            <ccts:ObjectClass>Item Information Request</ccts:ObjectClass>
+                            <ccts:PropertyTerm>AdditionalDocumentReference</ccts:PropertyTerm>
+                        </ccts:Component>
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
 			<xsd:element ref="cac:Period">
 				<xsd:annotation>
 					<xsd:documentation>
