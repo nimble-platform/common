@@ -407,7 +407,6 @@
 			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:SalesTerms"/>
-            <xsd:element ref="cbc:CNAE" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PurchaseTerms"/>
 		</xsd:sequence>
 	</xsd:complexType>

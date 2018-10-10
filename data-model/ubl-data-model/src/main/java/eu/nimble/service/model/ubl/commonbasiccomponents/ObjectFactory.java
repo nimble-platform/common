@@ -159,7 +159,6 @@ public class ObjectFactory {
     private final static QName _ChipApplicationID_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "ChipApplicationID");
     private final static QName _CityName_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CityName");
     private final static QName _CitySubdivisionName_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CitySubdivisionName");
-    private final static QName _CNAE_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CNAE");
     private final static QName _CodeValue_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CodeValue");
     private final static QName _CollaborationPriorityCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CollaborationPriorityCode");
     private final static QName _Comment_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "Comment");
@@ -2114,15 +2113,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "CitySubdivisionName")
     public JAXBElement<String> createCitySubdivisionName(String value) {
         return new JAXBElement<String>(_CitySubdivisionName_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CodeType }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "CNAE")
-    public JAXBElement<CodeType> createCNAE(CodeType value) {
-        return new JAXBElement<CodeType>(_CNAE_QNAME, CodeType.class, null, value);
     }
 
     /**

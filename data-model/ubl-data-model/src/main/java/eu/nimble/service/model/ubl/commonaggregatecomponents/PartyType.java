@@ -72,7 +72,6 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}DocumentReference" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IndustrySector" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}SalesTerms"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}CNAE" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PurchaseTerms"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -104,7 +103,6 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "documentReference",
     "industrySector",
     "salesTerms",
-    "cnae",
     "purchaseTerms"
 })
 @Entity(name = "PartyType")
@@ -157,8 +155,6 @@ public class PartyType
     protected List<CodeType> industrySector;
     @XmlElement(name = "SalesTerms", required = true)
     protected TradingPreferences salesTerms;
-    @XmlElement(name = "CNAE", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected List<CodeType> cnae;
     @XmlElement(name = "PurchaseTerms", required = true)
     protected TradingPreferences purchaseTerms;
     @XmlAttribute(name = "Hjid")
@@ -845,47 +841,6 @@ public class PartyType
     }
 
     /**
-     * Gets the value of the cnae property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the cnae property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCNAE().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CodeType }
-     * 
-     * 
-     */
-    @OneToMany(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "CNAE_PARTY_TYPE_HJID")
-    public List<CodeType> getCNAE() {
-        if (cnae == null) {
-            cnae = new ArrayList<CodeType>();
-        }
-        return this.cnae;
-    }
-
-    /**
-     * 
-     * 
-     */
-    public void setCNAE(List<CodeType> cnae) {
-        this.cnae = cnae;
-    }
-
-    /**
      * Gets the value of the purchaseTerms property.
      * 
      * @return
@@ -1097,15 +1052,6 @@ public class PartyType
             TradingPreferences rhsSalesTerms;
             rhsSalesTerms = that.getSalesTerms();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "salesTerms", lhsSalesTerms), LocatorUtils.property(thatLocator, "salesTerms", rhsSalesTerms), lhsSalesTerms, rhsSalesTerms)) {
-                return false;
-            }
-        }
-        {
-            List<CodeType> lhsCNAE;
-            lhsCNAE = (((this.cnae!= null)&&(!this.cnae.isEmpty()))?this.getCNAE():null);
-            List<CodeType> rhsCNAE;
-            rhsCNAE = (((that.cnae!= null)&&(!that.cnae.isEmpty()))?that.getCNAE():null);
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "cnae", lhsCNAE), LocatorUtils.property(thatLocator, "cnae", rhsCNAE), lhsCNAE, rhsCNAE)) {
                 return false;
             }
         }
