@@ -44,6 +44,7 @@
 	<xsd:element name="ApplicationStatusCode" type="CodeType"/>
 	<xsd:element name="ApprovalDate" type="xsd:date"/>
 	<xsd:element name="ApprovalStatus" type="xsd:string"/>
+	<xsd:element name="AssociatedProcessInstanceID" type="xsd:string"/>
 	<xsd:element name="AttributeID" type="xsd:string"/>
 	<xsd:element name="AuctionConstraintIndicator" type="xsd:boolean"/>
 	<xsd:element name="AuctionURI" type="xsd:string"/>
@@ -475,7 +476,8 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
-	<xsd:element name="Name" type="TextType"/>
+    <xsd:element name="NACE" type="CodeType"/>
+    <xsd:element name="Name" type="TextType"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
 	<xsd:element name="NationalityID" type="xsd:string"/>
@@ -585,6 +587,7 @@
 	<xsd:element name="PreEventNotificationDurationMeasure" type="QuantityType"/>
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
 	<xsd:element name="PreferredItemClassificationCode" type="CodeType"/>
+	<xsd:element name="MostRecentItemsClassificationCode" type="CodeType"/>
 	<xsd:element name="PrepaidAmount" type="AmountType"/>
 	<xsd:element name="PrepaidIndicator" type="xsd:boolean"/>
 	<xsd:element name="PrepaidPaymentReferenceID" type="xsd:string"/>
@@ -703,7 +706,7 @@
 	<xsd:element name="RoamingPartnerName" type="xsd:string"/>
 	<xsd:element name="Role" type="xsd:string"/>
 	<xsd:element name="RoleCode" type="CodeType"/>
-	<xsd:element name="RoleDescription" type="xsd:decimal"/>
+	<xsd:element name="RoleDescription" type="xsd:string"/>
 	<xsd:element name="Room" type="xsd:string"/>
 	<xsd:element name="RoundingAmount" type="AmountType"/>
 	<xsd:element name="SafetyDataSheet" type="BinaryObjectType"/>

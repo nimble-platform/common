@@ -218,7 +218,7 @@ public class CatalogueType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "PROVIDER_PARTY_CATALOGUE_TYP_0")
     public PartyType getProviderParty() {

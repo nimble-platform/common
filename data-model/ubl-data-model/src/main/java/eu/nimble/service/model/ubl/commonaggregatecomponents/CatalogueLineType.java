@@ -55,6 +55,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}WarrantyInformation" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}WarrantyValidityPeriod" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}RequiredItemLocationQuantity" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PriceOption" maxOccurs="unbounded"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}GoodsItem"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -72,6 +73,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "warrantyInformation",
     "warrantyValidityPeriod",
     "requiredItemLocationQuantity",
+    "priceOption",
     "goodsItem"
 })
 @Entity(name = "CatalogueLineType")
@@ -94,6 +96,8 @@ public class CatalogueLineType
     protected PeriodType warrantyValidityPeriod;
     @XmlElement(name = "RequiredItemLocationQuantity")
     protected ItemLocationQuantityType requiredItemLocationQuantity;
+    @XmlElement(name = "PriceOption", required = true)
+    protected List<PriceOptionType> priceOption;
     @XmlElement(name = "GoodsItem", required = true)
     protected GoodsItemType goodsItem;
     @XmlAttribute(name = "Hjid")
@@ -275,6 +279,47 @@ public class CatalogueLineType
     }
 
     /**
+     * Gets the value of the priceOption property.
+     *
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the priceOption property.
+     *
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getPriceOption().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PriceOptionType }
+     *
+     *
+     */
+    @OneToMany(targetEntity = PriceOptionType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "PRICE_OPTION_CATALOGUE_LINE__0")
+    public List<PriceOptionType> getPriceOption() {
+        if (priceOption == null) {
+            priceOption = new ArrayList<PriceOptionType>();
+        }
+        return this.priceOption;
+    }
+
+    /**
+     *
+     *
+     */
+    public void setPriceOption(List<PriceOptionType> priceOption) {
+        this.priceOption = priceOption;
+    }
+
+    /**
      * Gets the value of the goodsItem property.
      * 
      * @return
@@ -361,6 +406,15 @@ public class CatalogueLineType
             ItemLocationQuantityType rhsRequiredItemLocationQuantity;
             rhsRequiredItemLocationQuantity = that.getRequiredItemLocationQuantity();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "requiredItemLocationQuantity", lhsRequiredItemLocationQuantity), LocatorUtils.property(thatLocator, "requiredItemLocationQuantity", rhsRequiredItemLocationQuantity), lhsRequiredItemLocationQuantity, rhsRequiredItemLocationQuantity)) {
+                return false;
+            }
+        }
+        {
+            List<PriceOptionType> lhsPriceOption;
+            lhsPriceOption = (((this.priceOption!= null)&&(!this.priceOption.isEmpty()))?this.getPriceOption():null);
+            List<PriceOptionType> rhsPriceOption;
+            rhsPriceOption = (((that.priceOption!= null)&&(!that.priceOption.isEmpty()))?that.getPriceOption():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "priceOption", lhsPriceOption), LocatorUtils.property(thatLocator, "priceOption", rhsPriceOption), lhsPriceOption, rhsPriceOption)) {
                 return false;
             }
         }
