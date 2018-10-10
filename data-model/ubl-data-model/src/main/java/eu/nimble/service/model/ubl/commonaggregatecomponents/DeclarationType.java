@@ -11,7 +11,6 @@ package eu.nimble.service.model.ubl.commonaggregatecomponents;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,14 +23,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
-import org.jvnet.hyperjaxb3.item.ItemUtils;
+import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -75,26 +73,27 @@ public class DeclarationType
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "Name", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected String name;
+    protected TextType name;
     @XmlElement(name = "DeclarationTypeCode", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected CodeType declarationTypeCode;
     @XmlElement(name = "Description", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected List<String> description;
+    protected List<TextType> description;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
-    protected transient List<DeclarationTypeDescriptionItem> descriptionItems;
 
     /**
      * Gets the value of the name property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link TextType }
      *     
      */
-    @Basic
-    @Column(name = "NAME_", length = 255)
-    public String getName() {
+    @ManyToOne(targetEntity = TextType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "NAME__DECLARATION_TYPE_HJID")
+    public TextType getName() {
         return name;
     }
 
@@ -103,10 +102,10 @@ public class DeclarationType
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link TextType }
      *     
      */
-    public void setName(String value) {
+    public void setName(TextType value) {
         this.name = value;
     }
 
@@ -156,14 +155,17 @@ public class DeclarationType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link TextType }
      * 
      * 
      */
-    @Transient
-    public List<String> getDescription() {
+    @OneToMany(targetEntity = TextType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "DESCRIPTION_DECLARATION_TYPE_0")
+    public List<TextType> getDescription() {
         if (description == null) {
-            description = new ArrayList<String>();
+            description = new ArrayList<TextType>();
         }
         return this.description;
     }
@@ -172,7 +174,7 @@ public class DeclarationType
      * 
      * 
      */
-    public void setDescription(List<String> description) {
+    public void setDescription(List<TextType> description) {
         this.description = description;
     }
 
@@ -185,9 +187,9 @@ public class DeclarationType
         }
         final DeclarationType that = ((DeclarationType) object);
         {
-            String lhsName;
+            TextType lhsName;
             lhsName = this.getName();
-            String rhsName;
+            TextType rhsName;
             rhsName = that.getName();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName)) {
                 return false;
@@ -203,9 +205,9 @@ public class DeclarationType
             }
         }
         {
-            List<String> lhsDescription;
+            List<TextType> lhsDescription;
             lhsDescription = (((this.description!= null)&&(!this.description.isEmpty()))?this.getDescription():null);
-            List<String> rhsDescription;
+            List<TextType> rhsDescription;
             rhsDescription = (((that.description!= null)&&(!that.description.isEmpty()))?that.getDescription():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "description", lhsDescription), LocatorUtils.property(thatLocator, "description", rhsDescription), lhsDescription, rhsDescription)) {
                 return false;
@@ -244,32 +246,6 @@ public class DeclarationType
      */
     public void setHjid(Long value) {
         this.hjid = value;
-    }
-
-    @OneToMany(targetEntity = DeclarationTypeDescriptionItem.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "DESCRIPTION_ITEMS_DECLARATIO_0")
-    public List<DeclarationTypeDescriptionItem> getDescriptionItems() {
-        if (this.descriptionItems == null) {
-            this.descriptionItems = new ArrayList<DeclarationTypeDescriptionItem>();
-        }
-        if (ItemUtils.shouldBeWrapped(this.description)) {
-            this.description = ItemUtils.wrap(this.description, this.descriptionItems, DeclarationTypeDescriptionItem.class);
-        }
-        return this.descriptionItems;
-    }
-
-    public void setDescriptionItems(List<DeclarationTypeDescriptionItem> value) {
-        this.description = null;
-        this.descriptionItems = null;
-        this.descriptionItems = value;
-        if (this.descriptionItems == null) {
-            this.descriptionItems = new ArrayList<DeclarationTypeDescriptionItem>();
-        }
-        if (ItemUtils.shouldBeWrapped(this.description)) {
-            this.description = ItemUtils.wrap(this.description, this.descriptionItems, DeclarationTypeDescriptionItem.class);
-        }
     }
 
 }

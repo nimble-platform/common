@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsTime;
@@ -115,9 +117,9 @@ public class ClassificationSchemeType
     @XmlElement(name = "Note", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected List<String> note;
     @XmlElement(name = "Name", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected String name;
+    protected TextType name;
     @XmlElement(name = "Description", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected List<String> description;
+    protected List<TextType> description;
     @XmlElement(name = "AgencyID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected String agencyID;
     @XmlElement(name = "AgencyName", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
@@ -135,7 +137,6 @@ public class ClassificationSchemeType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<ClassificationSchemeTypeNoteItem> noteItems;
-    protected transient List<ClassificationSchemeTypeDescriptionItem> descriptionItems;
 
     /**
      * Gets the value of the id property.
@@ -282,12 +283,14 @@ public class ClassificationSchemeType
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link TextType }
      *     
      */
-    @Basic
-    @Column(name = "NAME_", length = 255)
-    public String getName() {
+    @ManyToOne(targetEntity = TextType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "NAME__CLASSIFICATION_SCHEME__0")
+    public TextType getName() {
         return name;
     }
 
@@ -296,10 +299,10 @@ public class ClassificationSchemeType
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link TextType }
      *     
      */
-    public void setName(String value) {
+    public void setName(TextType value) {
         this.name = value;
     }
 
@@ -321,14 +324,17 @@ public class ClassificationSchemeType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link TextType }
      * 
      * 
      */
-    @Transient
-    public List<String> getDescription() {
+    @OneToMany(targetEntity = TextType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "DESCRIPTION_CLASSIFICATION_S_0")
+    public List<TextType> getDescription() {
         if (description == null) {
-            description = new ArrayList<String>();
+            description = new ArrayList<TextType>();
         }
         return this.description;
     }
@@ -337,7 +343,7 @@ public class ClassificationSchemeType
      * 
      * 
      */
-    public void setDescription(List<String> description) {
+    public void setDescription(List<TextType> description) {
         this.description = description;
     }
 
@@ -592,18 +598,18 @@ public class ClassificationSchemeType
             }
         }
         {
-            String lhsName;
+            TextType lhsName;
             lhsName = this.getName();
-            String rhsName;
+            TextType rhsName;
             rhsName = that.getName();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName)) {
                 return false;
             }
         }
         {
-            List<String> lhsDescription;
+            List<TextType> lhsDescription;
             lhsDescription = (((this.description!= null)&&(!this.description.isEmpty()))?this.getDescription():null);
-            List<String> rhsDescription;
+            List<TextType> rhsDescription;
             rhsDescription = (((that.description!= null)&&(!that.description.isEmpty()))?that.getDescription():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "description", lhsDescription), LocatorUtils.property(thatLocator, "description", rhsDescription), lhsDescription, rhsDescription)) {
                 return false;
@@ -752,32 +758,6 @@ public class ClassificationSchemeType
         }
         if (ItemUtils.shouldBeWrapped(this.note)) {
             this.note = ItemUtils.wrap(this.note, this.noteItems, ClassificationSchemeTypeNoteItem.class);
-        }
-    }
-
-    @OneToMany(targetEntity = ClassificationSchemeTypeDescriptionItem.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "DESCRIPTION_ITEMS_CLASSIFICA_0")
-    public List<ClassificationSchemeTypeDescriptionItem> getDescriptionItems() {
-        if (this.descriptionItems == null) {
-            this.descriptionItems = new ArrayList<ClassificationSchemeTypeDescriptionItem>();
-        }
-        if (ItemUtils.shouldBeWrapped(this.description)) {
-            this.description = ItemUtils.wrap(this.description, this.descriptionItems, ClassificationSchemeTypeDescriptionItem.class);
-        }
-        return this.descriptionItems;
-    }
-
-    public void setDescriptionItems(List<ClassificationSchemeTypeDescriptionItem> value) {
-        this.description = null;
-        this.descriptionItems = null;
-        this.descriptionItems = value;
-        if (this.descriptionItems == null) {
-            this.descriptionItems = new ArrayList<ClassificationSchemeTypeDescriptionItem>();
-        }
-        if (ItemUtils.shouldBeWrapped(this.description)) {
-            this.description = ItemUtils.wrap(this.description, this.descriptionItems, ClassificationSchemeTypeDescriptionItem.class);
         }
     }
 

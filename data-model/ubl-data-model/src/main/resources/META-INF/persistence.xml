@@ -7,14 +7,11 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.AllowanceChargeType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.AttachmentType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CapabilityType</class>
-        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CapabilityTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineTypeWarrantyInformationItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CertificateType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationCategoryType</class>
-        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationCategoryTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeType</class>
-        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClassificationSchemeTypeNoteItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseTypeNoteItem</class>
@@ -22,7 +19,6 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CommodityClassificationType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CommunicationType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CompletedTaskType</class>
-        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.CompletedTaskTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ConsignmentType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ContactType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ContractType</class>
@@ -33,7 +29,6 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DataMonitoringClauseTypeMonitoringCompanyIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DataMonitoringClauseTypeMonitoringUserIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeclarationType</class>
-        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeclarationTypeDescriptionItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryTermsType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DespatchLineType</class>
