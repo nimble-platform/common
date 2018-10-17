@@ -48,7 +48,7 @@ public class IdentityClientTyped {
                 throw e;
             }
         } else {
-            logger.warn("Failed to get party with id: {}, response body: ", storeId, responseBody);
+            logger.warn("Failed to get party with id: {}, response status: {}, response body: {}", storeId, response.status(), responseBody);
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class IdentityClientTyped {
                 throw e;
             }
         } else {
-            logger.warn("Failed to get parties with ids: {}, response body: ", commaSeparatedIds.toString(), responseBody);
+            logger.warn("Failed to get parties with ids: {}, response status: {}, response body: {}", commaSeparatedIds.toString(), response.status(), responseBody);
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class IdentityClientTyped {
                 throw e;
             }
         } else {
-            logger.warn("Failed to get person with id: {}, response body: ", personId, responseBody);
+            logger.warn("Failed to get person with id: {}, response status: {}, response body: {}", personId, response.status(), responseBody);
             return null;
         }
     }
@@ -134,7 +134,7 @@ public class IdentityClientTyped {
                 throw e;
             }
         } else {
-            logger.warn("Failed to get person with bearer token: {}, response body: ", bearerToken, responseBody);
+            logger.warn("Failed to get person with bearer token: {}, response status: {}, response body: {}", bearerToken, response.status(), responseBody);
             return null;
         }
     }
