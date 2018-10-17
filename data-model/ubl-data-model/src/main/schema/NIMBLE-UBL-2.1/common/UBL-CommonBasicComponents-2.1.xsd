@@ -705,7 +705,7 @@
 	<xsd:element name="RoamingPartnerName" type="xsd:string"/>
 	<xsd:element name="Role" type="xsd:string"/>
 	<xsd:element name="RoleCode" type="CodeType"/>
-	<xsd:element name="RoleDescription" type="xsd:decimal"/>
+	<xsd:element name="RoleDescription" type="xsd:string"/>
 	<xsd:element name="Room" type="xsd:string"/>
 	<xsd:element name="RoundingAmount" type="AmountType"/>
 	<xsd:element name="SafetyDataSheet" type="BinaryObjectType"/>
