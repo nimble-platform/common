@@ -20,4 +20,10 @@ public interface IdentityClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/party/all", produces = "application/json")
     Response getAllPartyIds(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "exclude", required = false) List<String> exclude);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/person/{personId}", produces = "application/json")
+    Response getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("personId") String personId);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/person/", produces = "application/json")
+    Response getPerson(@RequestHeader("Authorization") String bearerToken);
 }
