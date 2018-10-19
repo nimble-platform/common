@@ -75,7 +75,9 @@ public class HibernateUtility {
 	}
 
 	public void persist(Object object) {
+		log.debug("Will persist object: {}", object.getClass());
 		synchronized (HibernateUtility.class) {
+			log.debug("Persisting object: {}", object.getClass());
 			EntityManager saveManager = entityManagerFactory
 				.createEntityManager();
 			saveManager.getTransaction().begin();
@@ -83,23 +85,30 @@ public class HibernateUtility {
 			saveManager.getTransaction().commit();
 			saveManager.close();
 		}
+		log.debug("Persisted object: {}", object.getClass());
 	}
 
 	public Object update(Object object) {
+		log.debug("Will update object: {}", object.getClass());
+		Object result;
 		synchronized (HibernateUtility.class) {
+			log.debug("Updating object: {}", object.getClass());
 			EntityManager saveManager = entityManagerFactory
 				.createEntityManager();
 			saveManager.getTransaction().begin();
-			Object result = saveManager.merge(object);
+			result = saveManager.merge(object);
 			saveManager.getTransaction().commit();
 			saveManager.close();
-			return result;
 		}
+		log.debug("Updated object: {}", object.getClass());
+		return result;
 	}
 
 	public boolean delete(Class<?> c, Long hjid) {
+		log.debug("Will delete object: {}, hjid: {}", c.getClass(), hjid);
+		boolean deleted = false;
 		synchronized (HibernateUtility.class) {
-			boolean deleted = false;
+			log.debug("Deleting object: {}, hjid: {}", c.getClass(), hjid);
 			EntityManager saveManager = entityManagerFactory
 				.createEntityManager();
 			saveManager.getTransaction().begin();
@@ -108,7 +117,6 @@ public class HibernateUtility {
 			String query = "select c from " + c.getSimpleName()
 				+ " as c where c.hjid=" + hjid.longValue() + "";
 
-			log.debug(" $$$ Delete query = {}", query);
 			result = saveManager.createQuery(query).getResultList();
 
 			if (result != null && !result.isEmpty()) {
@@ -119,12 +127,15 @@ public class HibernateUtility {
 
 			saveManager.getTransaction().commit();
 			saveManager.close();
-			return deleted;
 		}
+		log.debug("Deleted object: {}, hjid: {}", c.getClass(), hjid);
+		return deleted;
 	}
 
 	public void delete(Object o) {
+		log.debug("Will delete object: {}", o.getClass());
 		synchronized (HibernateUtility.class) {
+			log.debug("Deleting object: {}", o.getClass());
 			boolean deleted = false;
 			EntityManager saveManager = entityManagerFactory
 					.createEntityManager();
@@ -134,22 +145,27 @@ public class HibernateUtility {
 			saveManager.getTransaction().commit();
 			saveManager.close();
 		}
+		log.debug("Deleted object: {}", o.getClass());
 	}
 
 	// Queries according to hibernate id...
 	public Object load(Class<?> classToLoad, Long hid) {
+		log.debug("Will load object: {}, hjid: {}", classToLoad.getClass(), hid);
+		Object result;
 		synchronized (HibernateUtility.class) {
+			log.debug("Loading object: {}, hjid: {}", classToLoad.getClass(), hid);
 			EntityManager loadManager = entityManagerFactory
 				.createEntityManager();
 
-			Object result = loadManager.find(classToLoad, hid);
+			result = loadManager.find(classToLoad, hid);
 			loadManager.close();
-
-			return result;
 		}
+		log.debug("Loaded object: {}, hjid: {}", classToLoad.getClass(), hid);
+		return result;
 	}
 
 	public <T> T load(String queryStr, Object... parameters) {
+		log.debug("Loading objects. query: {}", queryStr);
 		EntityManager loadManager = entityManagerFactory
 				.createEntityManager();
 		loadManager.getTransaction().begin();
@@ -168,12 +184,15 @@ public class HibernateUtility {
 
 		loadManager.getTransaction().commit();
 		loadManager.close();
+		log.debug("Loaded objects. query: {}", queryStr);
 		return result;
 	}
 
 	public List<?> loadAll(Class<?> classToLoad) {
+		log.debug("Will load objects. Class: {}", classToLoad.getClass());
+		List<?> result;
 		synchronized (HibernateUtility.class) {
-			List<?> result = new ArrayList<Object>();
+			log.debug("Loading objects. Class: {}", classToLoad.getClass());
 			String query = "select c from " + classToLoad.getName() + " as c";
 			EntityManager loadManager = entityManagerFactory
 				.createEntityManager();
@@ -183,47 +202,36 @@ public class HibernateUtility {
 			result = loadManager.createQuery(query).getResultList();
 			loadManager.getTransaction().commit();
 			loadManager.close();
-
-			return result;
 		}
+		log.debug("Loaded objects. Class: {}", classToLoad.getClass());
+		return result;
 	}
 
 	public List<?> loadAll(String query) {
+		log.debug("Will load objects. query: {}", query);
+		List<?> result;
 		synchronized (HibernateUtility.class) {
+			log.debug("Loading objects. query: {}", query);
+			EntityManager loadManager = entityManagerFactory
+				.createEntityManager();
+			loadManager.getTransaction().begin();
 
-			List<?> result = new ArrayList<Object>();
-			// int attempt = 0;
-			try {
-				EntityManager loadManager = entityManagerFactory
-					.createEntityManager();
-				loadManager.getTransaction().begin();
-
-				result = loadManager.createQuery(query).getResultList();
-				Hibernate.initialize(result);
-				loadManager.getTransaction().commit();
-				loadManager.close();
-
-			} catch (Exception e) {
-				log.error(" $$$ HibernateUtility loadAll function has thrown error");
-				log.error("", e);
-				/*
-				 * attempt++; if (attempt < 10) { result = loadAll(query); if
-				 * (result != null) { log.info(
-				 * " $$$ HibernateUtility loadAll functions throws error... attempt count is : "
-				 * + attempt); } }
-				 */
-				return new ArrayList<Object>();
-			}
-			return result;
+			result = loadManager.createQuery(query).getResultList();
+			Hibernate.initialize(result);
+			loadManager.getTransaction().commit();
+			loadManager.close();
 		}
+		log.debug("Loaded objects. query: {}", query);
+		return result;
 	}
 
 	public List<?> loadAll(String queryStr, Object... parameters) {
+		log.debug("Loading objects. query: {}", queryStr);
 		EntityManager loadManager = entityManagerFactory
 				.createEntityManager();
 		loadManager.getTransaction().begin();
 
-		List<?> result = new ArrayList<Object>();
+		List<?> result;
 		Query query = loadManager.createQuery(queryStr);
 		for(int i=0; i<parameters.length; i++) {
 			query.setParameter(i+1, parameters[i]);
@@ -233,39 +241,35 @@ public class HibernateUtility {
 		Hibernate.initialize(result);
 		loadManager.getTransaction().commit();
 		loadManager.close();
+		log.debug("Loaded objects. query: {}", queryStr);
 		return result;
 	}
 
 	public List<?> loadAll(String query, int offset, int limit) {
+		log.debug("Will load objects. query: {}, offset: {}, limit: {}", query, offset, limit);
+		List<?> result;
 		synchronized (HibernateUtility.class) {
+			log.debug("Loading objects. query: {}, offset: {}, limit: {}", query, offset, limit);
+			EntityManager loadManager = entityManagerFactory
+					.createEntityManager();
+			loadManager.getTransaction().begin();
 
-			List<?> result;
-			// int attempt = 0;
-			try {
-				EntityManager loadManager = entityManagerFactory
-						.createEntityManager();
-				loadManager.getTransaction().begin();
+			Query queryObj = loadManager.createQuery(query);
+			queryObj.setFirstResult(offset);
+			queryObj.setMaxResults(limit);
 
-				Query queryObj = loadManager.createQuery(query);
-				queryObj.setFirstResult(offset);
-				queryObj.setMaxResults(limit);
-
-				result = queryObj.getResultList();
-				Hibernate.initialize(result);
-				loadManager.getTransaction().commit();
-				loadManager.close();
-
-			} catch (Exception e) {
-				log.error(" $$$ HibernateUtility loadAll function has thrown error");
-				log.error("", e);
-				return new ArrayList<Object>();
-			}
-			return result;
+			result = queryObj.getResultList();
+			Hibernate.initialize(result);
+			loadManager.getTransaction().commit();
+			loadManager.close();
 		}
+		log.debug("Loaded objects. query: {}, offset: {}, limit: {}", query, offset, limit);
+		return result;
 	}
 
 	public Object loadIndividualItem(String query) {
-		List<?> result = new ArrayList<Object>();
+		log.debug("Loading individual item. query: {}", query);
+		List<?> result;
 		EntityManager loadManager = entityManagerFactory.createEntityManager();
 		loadManager.getTransaction().begin();
 
@@ -274,6 +278,7 @@ public class HibernateUtility {
 		loadManager.getTransaction().commit();
 		loadManager.close();
 
+		log.debug("Loaded individual item. query: {}", query);
 		if (result == null || result.size() == 0) {
 			return null;
 		}
@@ -281,6 +286,7 @@ public class HibernateUtility {
 	}
 
 	public void executeUpdate(String query) {
+		log.debug("Performing update. query: {}", query);
 		EntityManager loadManager = entityManagerFactory.createEntityManager();
 		loadManager.getTransaction().begin();
 
@@ -288,6 +294,7 @@ public class HibernateUtility {
 
 		loadManager.getTransaction().commit();
 		loadManager.close();
+		log.debug("Performed update. query: {}", query);
 	}
 
 	public static Object copySerializableObject(Object object, Class clazz) {
