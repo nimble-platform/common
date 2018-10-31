@@ -44,6 +44,7 @@
 	<xsd:element name="ApplicationStatusCode" type="CodeType"/>
 	<xsd:element name="ApprovalDate" type="xsd:date"/>
 	<xsd:element name="ApprovalStatus" type="xsd:string"/>
+	<xsd:element name="AssociatedProcessInstanceID" type="xsd:string"/>
 	<xsd:element name="AttributeID" type="xsd:string"/>
 	<xsd:element name="AuctionConstraintIndicator" type="xsd:boolean"/>
 	<xsd:element name="AuctionURI" type="xsd:string"/>
@@ -704,7 +705,7 @@
 	<xsd:element name="RoamingPartnerName" type="xsd:string"/>
 	<xsd:element name="Role" type="xsd:string"/>
 	<xsd:element name="RoleCode" type="CodeType"/>
-	<xsd:element name="RoleDescription" type="xsd:decimal"/>
+	<xsd:element name="RoleDescription" type="xsd:string"/>
 	<xsd:element name="Room" type="xsd:string"/>
 	<xsd:element name="RoundingAmount" type="AmountType"/>
 	<xsd:element name="SafetyDataSheet" type="BinaryObjectType"/>

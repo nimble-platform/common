@@ -13,6 +13,7 @@
 			<xsd:element ref="cac:DeliveryCustomerParty"/>
 			<xsd:element ref="cac:DespatchSupplierParty"/>
 			<xsd:element ref="cac:ReceiptLine" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

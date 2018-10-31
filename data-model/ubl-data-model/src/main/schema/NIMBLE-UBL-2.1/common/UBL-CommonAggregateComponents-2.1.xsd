@@ -2,6 +2,7 @@
 <!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by ff (gg) -->
 <xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm">
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
+	<xsd:element name="AdditionalDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
@@ -144,6 +145,7 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:CertificateTypeCode"/>
 			<xsd:element ref="cbc:CertificateType"/>
+			<xsd:element ref="cbc:Remarks" minOccurs="0"/>
 			<xsd:element ref="cac:IssuerParty"/>
 			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
@@ -178,6 +180,7 @@
 			<xsd:element ref="cbc:Telefax" minOccurs="0"/>
 			<xsd:element ref="cbc:ElectronicMail" minOccurs="0"/>
 			<xsd:element ref="cbc:Note" minOccurs="0"/>
+			<xsd:element ref="cac:OtherCommunication" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ContractType">
@@ -257,6 +260,7 @@
 			<xsd:element ref="cbc:UUID" minOccurs="0"/>
 			<xsd:element ref="cbc:DocumentType" minOccurs="0"/>
 			<xsd:element ref="cac:Attachment" minOccurs="0"/>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="EnvironmentalEmissionType">
@@ -421,6 +425,7 @@
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:QualityIndicator" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:PpapDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:IndustrySector" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:SalesTerms"/>
 			<xsd:element ref="cac:PurchaseTerms"/>
@@ -607,6 +612,134 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:UnitCode" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Newly added elements -->
+	<xsd:element name="QualifyingParty" type="QualifyingPartyType"/>
+	<xsd:element name="BusinessClassificationScheme" type="ClassificationSchemeType"/>
+	<xsd:element name="TechnicalCapability" type="CapabilityType"/>
+	<xsd:element name="FinancialCapability" type="CapabilityType"/>
+	<xsd:element name="CompletedTask" type="CompletedTaskType"/>
+	<xsd:element name="Declaration" type="DeclarationType"/>
+	<xsd:element name="EconomicOperatorRole" type="EconomicOperatorRoleType"/>
+	<xsd:element name="EvidenceSupplied" type="EvidenceSuppliedType"/>
+	<xsd:element name="ClassificationCategory" type="ClassificationCategoryType"/>
+	<xsd:element name="CategorizesClassificationCategory" type="ClassificationCategoryType"/>
+	<xsd:element name="RecipientCustomerParty" type="CustomerPartyType"/>
+	<xsd:element name="ValidityPeriod" type="PeriodType"/>
+	<xsd:element name="DurationPeriod" type="PeriodType"/>
+	<xsd:element name="Event" type="EventType"/>
+	<xsd:element name="OtherCommunication" type="CommunicationType"/>
+	<xsd:element name="OccurenceLocation" type="LocationType"/>
+	<xsd:element name="Comment" type="CommentType"/>
+	<xsd:complexType name="EconomicOperatorRoleType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:RoleCode" minOccurs="0"/>
+			<xsd:element ref="cbc:RoleDescription" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommunicationType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ChannelCode" minOccurs="0"/>
+			<xsd:element ref="cbc:Channel" minOccurs="0"/>
+			<xsd:element ref="cbc:Value" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CapabilityType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:CapabilityTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:ValueAmount" minOccurs="0"/>
+			<xsd:element ref="cbc:ValueQuantity" minOccurs="0"/>
+			<xsd:element ref="cac:EvidenceSupplied" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CompletedTaskType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:AssociatedProcessInstanceID" minOccurs="1"/>
+			<xsd:element ref="cbc:AnnualAverageAmount" minOccurs="0"/>
+			<xsd:element ref="cbc:TotalTaskAmount" minOccurs="0"/>
+			<xsd:element ref="cbc:PartyCapacityAmount" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:EvidenceSupplied" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:Period" minOccurs="0"/>
+			<xsd:element ref="cac:RecipientCustomerParty" minOccurs="0"/>
+			<xsd:element ref="cac:Comment" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ClassificationCategoryType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:CodeValue" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:CategorizesClassificationCategory" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ClassificationSchemeType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:UUID" minOccurs="0"/>
+			<xsd:element ref="cbc:LastRevisionDate" minOccurs="0"/>
+			<xsd:element ref="cbc:LastRevisionTime" minOccurs="0"/>
+			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:AgencyID" minOccurs="0"/>
+			<xsd:element ref="cbc:AgencyName" minOccurs="0"/>
+			<xsd:element ref="cbc:VersionID" minOccurs="0"/>
+			<xsd:element ref="cbc:URI" minOccurs="0"/>
+			<xsd:element ref="cbc:SchemeURI" minOccurs="0"/>
+			<xsd:element ref="cbc:LanguageID" minOccurs="0"/>
+			<xsd:element ref="cac:ClassificationCategory" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EvidenceSuppliedType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:ValueDecimal"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeclarationType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:DeclarationTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="QualifyingPartyType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ParticipationPercent" minOccurs="0"/>
+			<xsd:element ref="cbc:PersonalSituation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:OperatingYearsQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:EmployeeQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:BusinessClassificationEvidenceID" minOccurs="0"/>
+			<xsd:element ref="cbc:BusinessIdentityEvidenceID" minOccurs="0"/>
+			<xsd:element ref="cbc:TendererRoleCode" minOccurs="0"/>
+			<xsd:element ref="cac:BusinessClassificationScheme" minOccurs="0"/>
+			<xsd:element ref="cac:TechnicalCapability" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:FinancialCapability" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:CompletedTask" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:Declaration" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:Party" minOccurs="0"/>
+			<xsd:element ref="cac:EconomicOperatorRole" minOccurs="0"/>
+			<xsd:element ref="cac:Event" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EventType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:IdentificationID" minOccurs="0"/>
+			<xsd:element ref="cbc:TypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0"/>
+			<xsd:element ref="cbc:CompletionIndicator" minOccurs="0"/>
+			<xsd:element ref="cac:OccurenceLocation" minOccurs="0"/>
+			<xsd:element ref="cac:DurationPeriod" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CommentType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Comment"/>
+			<xsd:element ref="cbc:TypeCode"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.CustomerPartyType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ItemInformationRequestLineType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PeriodType;
@@ -69,6 +70,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IssueDate"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}AdditionalDocumentReference" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Period"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}SenderParty"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}ReceiverParty"/&gt;
@@ -88,6 +90,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "id",
     "issueDate",
     "note",
+    "additionalDocumentReference",
     "period",
     "senderParty",
     "receiverParty",
@@ -110,6 +113,8 @@ public class ItemInformationRequestType
     protected XMLGregorianCalendar issueDate;
     @XmlElement(name = "Note", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected List<String> note;
+    @XmlElement(name = "AdditionalDocumentReference", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
+    protected List<DocumentReferenceType> additionalDocumentReference;
     @XmlElement(name = "Period", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
     protected PeriodType period;
     @XmlElement(name = "SenderParty", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
@@ -234,6 +239,55 @@ public class ItemInformationRequestType
     /**
      * 
      * <pre>
+     * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;ccts:Component xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:ItemInformationRequest-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;&lt;ccts:Cardinality&gt;0..n&lt;/ccts:Cardinality&gt;&lt;ccts:ObjectClass&gt;Item Information Request&lt;/ccts:ObjectClass&gt;&lt;ccts:PropertyTerm&gt;AdditionalDocumentReference&lt;/ccts:PropertyTerm&gt;&lt;/ccts:Component&gt;
+     * </pre>
+     * Gets the value of the additionalDocumentReference property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the additionalDocumentReference property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAdditionalDocumentReference().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DocumentReferenceType }
+     * 
+     * 
+     */
+    @OneToMany(targetEntity = DocumentReferenceType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_1")
+    public List<DocumentReferenceType> getAdditionalDocumentReference() {
+        if (additionalDocumentReference == null) {
+            additionalDocumentReference = new ArrayList<DocumentReferenceType>();
+        }
+        return this.additionalDocumentReference;
+    }
+
+    /**
+     * 
+     * <pre>
+     * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;ccts:Component xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:ItemInformationRequest-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;&lt;ccts:Cardinality&gt;0..n&lt;/ccts:Cardinality&gt;&lt;ccts:ObjectClass&gt;Item Information Request&lt;/ccts:ObjectClass&gt;&lt;ccts:PropertyTerm&gt;AdditionalDocumentReference&lt;/ccts:PropertyTerm&gt;&lt;/ccts:Component&gt;
+     * </pre>
+     * 
+     * 
+     */
+    public void setAdditionalDocumentReference(List<DocumentReferenceType> additionalDocumentReference) {
+        this.additionalDocumentReference = additionalDocumentReference;
+    }
+
+    /**
+     * 
+     * <pre>
      * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;ccts:Component xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:ItemInformationRequest-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;&lt;ccts:ComponentType&gt;ASBIE&lt;/ccts:ComponentType&gt;&lt;ccts:DictionaryEntryName&gt;Item Information Request. Period&lt;/ccts:DictionaryEntryName&gt;&lt;ccts:Definition&gt;The period of time to which the Item Information Request applies.&lt;/ccts:Definition&gt;&lt;ccts:Cardinality&gt;1&lt;/ccts:Cardinality&gt;&lt;ccts:ObjectClass&gt;Item Information Request&lt;/ccts:ObjectClass&gt;&lt;ccts:PropertyTerm&gt;Period&lt;/ccts:PropertyTerm&gt;&lt;ccts:AssociatedObjectClass&gt;Period&lt;/ccts:AssociatedObjectClass&gt;&lt;ccts:RepresentationTerm&gt;Period&lt;/ccts:RepresentationTerm&gt;&lt;/ccts:Component&gt;
      * </pre>
      * 
@@ -276,7 +330,7 @@ public class ItemInformationRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "SENDER_PARTY_ITEM_INFORMATIO_0")
     public PartyType getSenderParty() {
@@ -308,7 +362,7 @@ public class ItemInformationRequestType
      *     
      */
     @ManyToOne(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH
     })
     @JoinColumn(name = "RECEIVER_PARTY_ITEM_INFORMAT_0")
     public PartyType getReceiverParty() {
@@ -472,6 +526,15 @@ public class ItemInformationRequestType
             List<String> rhsNote;
             rhsNote = (((that.note!= null)&&(!that.note.isEmpty()))?that.getNote():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "note", lhsNote), LocatorUtils.property(thatLocator, "note", rhsNote), lhsNote, rhsNote)) {
+                return false;
+            }
+        }
+        {
+            List<DocumentReferenceType> lhsAdditionalDocumentReference;
+            lhsAdditionalDocumentReference = (((this.additionalDocumentReference!= null)&&(!this.additionalDocumentReference.isEmpty()))?this.getAdditionalDocumentReference():null);
+            List<DocumentReferenceType> rhsAdditionalDocumentReference;
+            rhsAdditionalDocumentReference = (((that.additionalDocumentReference!= null)&&(!that.additionalDocumentReference.isEmpty()))?that.getAdditionalDocumentReference():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "additionalDocumentReference", lhsAdditionalDocumentReference), LocatorUtils.property(thatLocator, "additionalDocumentReference", rhsAdditionalDocumentReference), lhsAdditionalDocumentReference, rhsAdditionalDocumentReference)) {
                 return false;
             }
         }
