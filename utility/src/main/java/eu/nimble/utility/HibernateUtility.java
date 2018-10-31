@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.nimble.utility.config.PersistenceConfig;
 import org.hibernate.Hibernate;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public class HibernateUtility {
 		this(persistenceUnitName, null);
 	}
 
-	public HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
+	private HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
 		if(persistenceProperties == null) {
 			persistenceProperties = PersistenceConfig.getInstance().getPersistenceParameters(persistenceUnitName);
 		}
@@ -57,12 +60,7 @@ public class HibernateUtility {
 	}
 
 	public static HibernateUtility getInstance(String persistenceUnitName) {
-		if (engineInstances.get(persistenceUnitName) == null) {
-			HibernateUtility engineInstance = new HibernateUtility(persistenceUnitName);
-			engineInstances.put(persistenceUnitName, engineInstance);
-		}
-
-		return engineInstances.get(persistenceUnitName);
+		return getInstance(persistenceUnitName, null);
 	}
 
 	public static HibernateUtility getInstance(String persistenceUnitName, Map<String, String> persistenceProperties) {
