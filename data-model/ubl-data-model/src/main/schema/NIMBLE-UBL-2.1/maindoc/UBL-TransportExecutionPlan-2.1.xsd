@@ -8,7 +8,7 @@
   Generated on:      2013-10-31 17:17z
   Copyright (c) OASIS Open 2013. All Rights Reserved.
 -->
-<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:TransportExecutionPlan-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:2" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:TransportExecutionPlan-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1">
+<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:TransportExecutionPlan-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" xmlns:annox="http://annox.dev.java.net" xmlns:ha="http://annox.dev.java.net/org.hibernate.annotations" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:TransportExecutionPlan-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm annox">
 	<!-- ===== Imports ===== -->
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" schemaLocation="../common/UBL-CommonAggregateComponents-2.1.xsd"/>
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="../common/UBL-CommonBasicComponents-2.1.xsd"/>
@@ -57,6 +57,11 @@
 							<ccts:PropertyTerm>AdditionalDocumentReference</ccts:PropertyTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:DocumentStatusCode" minOccurs="0">
@@ -106,6 +111,11 @@
 							<ccts:DataType>Text. Type</ccts:DataType>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:TransportUserParty">
@@ -173,6 +183,11 @@
 							<ccts:RepresentationTerm>Consignment</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
