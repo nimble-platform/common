@@ -1358,15 +1358,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:CompletedTask" minOccurs="0" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:appinfo>
-						<annox:annotate>
-							<ha:Cascade value="DELETE_ORPHAN"/>
-						</annox:annotate>
-					</xsd:appinfo>
-				</xsd:annotation>
-			</xsd:element>
+			<xsd:element ref="cac:CompletedTask" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Declaration" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
