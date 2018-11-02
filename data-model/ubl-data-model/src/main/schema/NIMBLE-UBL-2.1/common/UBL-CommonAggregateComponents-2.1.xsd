@@ -651,7 +651,6 @@
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
-						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -681,7 +680,6 @@
 			<xsd:element ref="cac:PostalAddress" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
-						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -747,7 +745,6 @@
 			<xsd:element ref="cac:SalesTerms">
 				<xsd:annotation>
 					<xsd:appinfo>
-						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -757,7 +754,7 @@
 			<xsd:element ref="cac:PurchaseTerms">
 				<xsd:annotation>
 					<xsd:appinfo>
-						<hj:one-to-one/>
+						<!--<hj:one-to-one/>-->
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
