@@ -118,8 +118,7 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ChargeIndicator"/>
 			<xsd:element ref="cbc:Amount"/>
-			<xsd:element ref="cbc:BatchQuantity" minOccurs="0"/>
-			<xsd:element ref="cbc:Percent" minOccurs="0"/>
+            <xsd:element ref="cbc:PerUnitAmount"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="AttachmentType">
@@ -828,6 +827,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="PriceOptionType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:TypeID"/>
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
 			<xsd:element ref="cbc:Incoterms" maxOccurs="unbounded">
 				<xsd:annotation>

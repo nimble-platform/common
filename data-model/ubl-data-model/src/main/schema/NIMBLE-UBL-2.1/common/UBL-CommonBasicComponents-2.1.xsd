@@ -872,6 +872,7 @@
 	<xsd:element name="TransportationStatusTypeCode" type="CodeType"/>
 	<xsd:element name="Type" type="xsd:string"/>
 	<xsd:element name="TypeCode" type="CodeType"/>
+	<xsd:element name="TypeID" type="xsd:decimal"/>
 	<xsd:element name="UBLVersionID" type="xsd:string"/>
 	<xsd:element name="UNDGCode" type="CodeType"/>
 	<xsd:element name="UnitCode" type="xsd:string"/>
