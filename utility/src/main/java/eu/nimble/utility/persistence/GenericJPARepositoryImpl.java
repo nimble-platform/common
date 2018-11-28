@@ -4,14 +4,13 @@ import org.apache.commons.lang.ArrayUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.metamodel.EntityType;
 import java.util.List;
 
 /**
  * Created by suat on 27-Nov-18.
  */
 public class GenericJPARepositoryImpl implements GenericJPARepository {
-
-    private static final String QUERY_DELETE_BY_HJID = "DELETE FROM %s item WHERE item.hjid = :hjid";
 
     protected EntityManager em;
 
@@ -60,6 +59,13 @@ public class GenericJPARepositoryImpl implements GenericJPARepository {
     }
 
     public <T> void deleteEntity(T entity) {
+        /*
+         flushed and cleared the entity manager as there might be managed entities preventing the given entity from
+         being deleted.
+          */
+
+        em.flush();
+        em.clear();
         if(!em.contains(entity)) {
             entity = em.merge(entity);
         }
@@ -67,10 +73,10 @@ public class GenericJPARepositoryImpl implements GenericJPARepository {
     }
 
     public <T> void deleteEntityByHjid(Class<T> klass, long hjid) {
-        String queryStr = String.format(QUERY_DELETE_BY_HJID, klass.getSimpleName());
-        Query query = em.createQuery(queryStr);
-        query.setParameter("hjid", hjid);
-        query.executeUpdate();
+        T entity = getSingleEntityByHjid(klass, hjid);
+        if(entity != null) {
+            deleteEntity(entity);
+        }
     }
 
     public <T> void persistEntity(T entity) {
