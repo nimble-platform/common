@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,7 @@ public class PersistenceConfig implements ApplicationContextAware {
     private Map<String, String> ubl = new HashMap<>();
     private Map<String, String> modaml = new HashMap<>();
 
+    @Bean(name = "ubldbHibernateConfigs")
     public Map<String, String> getUbl() {
         return ubl;
     }
