@@ -18,6 +18,9 @@ public interface IdentityClient {
     @RequestMapping(method = RequestMethod.GET, value = "/parties/{partyIds}", produces = "application/json")
     Response getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") String partyIds);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/party_by_person/{personId}", produces = "application/json")
+    Response getPartyByPersonID(@PathVariable("personId") String personId);
+
     @RequestMapping(method = RequestMethod.GET, value = "/party/all", produces = "application/json")
     Response getAllPartyIds(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "exclude", required = false) List<String> exclude);
 
