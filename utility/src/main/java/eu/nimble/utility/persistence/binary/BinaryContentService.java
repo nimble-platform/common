@@ -5,15 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * Created by suat on 03-Dec-18.
@@ -21,13 +22,13 @@ import java.sql.SQLException;
 @Component
 public class BinaryContentService {
     private static final String TABLE_NAME = "binary_content";
-    private static final String COLUMN_NAME_URI = "uri";
+    private static final String COLUMN_NAME_ID = "id";
     private static final String COLUMN_NAME_MIME_CODE = "mime_code";
     private static final String COLUMN_NAME_FILE_NAME = "file_name";
     private static final String COLUMN_NAME_VALUE = "value_";
-    private static final String QUERY_INSERT_CONTENT = "INSERT INTO  " + TABLE_NAME + "( " + COLUMN_NAME_URI + "," + COLUMN_NAME_MIME_CODE + "," + COLUMN_NAME_FILE_NAME + "," + COLUMN_NAME_VALUE + ") VALUES (?,?,?,?)";
-    private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_URI + " = ?";
-    private static final String QUERY_DELETE_CONTENT_BY_URI = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_URI + " = ?";
+    private static final String QUERY_INSERT_CONTENT = "INSERT INTO  " + TABLE_NAME + "( " + COLUMN_NAME_ID + "," + COLUMN_NAME_MIME_CODE + "," + COLUMN_NAME_FILE_NAME + "," + COLUMN_NAME_VALUE + ") VALUES (?,?,?,?)";
+    private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
+    private static final String QUERY_DELETE_CONTENT_BY_URI = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
 
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -35,9 +36,16 @@ public class BinaryContentService {
     @Qualifier("binarycontentdbDataSource")
     private DataSource dataSource;
 
-    public void createContent(BinaryObjectType binaryObjectType) {
+    @Value("${nimble.binary-content.url}")
+    private String binaryContentUrl;
+
+    public BinaryObjectType createContent(BinaryObjectType binaryObjectType) {
         Connection c = null;
         PreparedStatement ps = null;
+
+        if(binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(binaryContentUrl)) {
+            binaryObjectType.setUri(binaryContentUrl + UUID.randomUUID().toString());
+        }
 
         try {
             c = dataSource.getConnection();
@@ -54,6 +62,8 @@ public class BinaryContentService {
             } else {
                 logger.warn("Failed to created binary content for uri: {}, file name: {}, mime type: {}", binaryObjectType.getUri(), binaryObjectType.getFileName(), binaryObjectType.getMimeCode());
             }
+
+            return binaryObjectType;
 
         } catch (SQLException e) {
             String msg = String.format("Failed to retrieve binary content for uri: %s", binaryObjectType.getUri());
