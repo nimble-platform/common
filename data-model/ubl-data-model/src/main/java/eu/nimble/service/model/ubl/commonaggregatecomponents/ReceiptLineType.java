@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -123,7 +122,7 @@ public class ReceiptLineType
      *     
      */
     @ManyToOne(targetEntity = QuantityType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "REJECTED_QUANTITY_RECEIPT_LI_0")
     public QuantityType getRejectedQuantity() {
@@ -189,7 +188,7 @@ public class ReceiptLineType
      *     
      */
     @ManyToOne(targetEntity = ItemType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "ITEM_RECEIPT_LINE_TYPE_HJID")
     public ItemType getItem() {
@@ -287,8 +286,8 @@ public class ReceiptLineType
         this.hjid = value;
     }
 
-    @OneToMany(targetEntity = ReceiptLineTypeRejectReasonItem.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true, targetEntity = ReceiptLineTypeRejectReasonItem.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "REJECT_REASON_ITEMS_RECEIPT__0")
     public List<ReceiptLineTypeRejectReasonItem> getRejectReasonItems() {

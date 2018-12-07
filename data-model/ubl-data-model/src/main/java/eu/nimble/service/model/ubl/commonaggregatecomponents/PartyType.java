@@ -8,38 +8,23 @@
 
 package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import eu.nimble.service.model.BigDecimalXmlAdapter;
 import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
+import org.hibernate.annotations.Cascade;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -234,8 +219,8 @@ public class PartyType
      *
      *
      */
-    @OneToMany(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = CodeType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "NACE_PARTY_TYPE_HJID")
     public List<CodeType> getNACE() {
@@ -315,8 +300,11 @@ public class PartyType
      *     {@link CodeType }
      *     
      */
+    @Cascade({
+        org.hibernate.annotations.CascadeType.DELETE_ORPHAN
+    })
     @ManyToOne(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "INDUSTRY_CLASSIFICATION_CODE_0")
     public CodeType getIndustryClassificationCode() {
@@ -409,8 +397,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = CodeType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "PREFERRED_ITEM_CLASSIFICATIO_1")
     public List<CodeType> getPreferredItemClassificationCode() {
@@ -450,8 +438,8 @@ public class PartyType
      *
      *
      */
-    @OneToMany(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = CodeType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "MOST_RECENT_ITEMS_CLASSIFICA_1")
     public List<CodeType> getMostRecentItemsClassificationCode() {
@@ -477,8 +465,11 @@ public class PartyType
      *     {@link AddressType }
      *     
      */
+    @Cascade({
+        org.hibernate.annotations.CascadeType.DELETE_ORPHAN
+    })
     @ManyToOne(targetEntity = AddressType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "POSTAL_ADDRESS_PARTY_TYPE_HJ_0")
     public AddressType getPostalAddress() {
@@ -519,8 +510,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = PartyTaxSchemeType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = PartyTaxSchemeType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "PARTY_TAX_SCHEME_PARTY_TYPE__0")
     public List<PartyTaxSchemeType> getPartyTaxScheme() {
@@ -547,7 +538,7 @@ public class PartyType
      *     
      */
     @ManyToOne(targetEntity = ContactType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "CONTACT_PARTY_TYPE_HJID")
     public ContactType getContact() {
@@ -589,7 +580,7 @@ public class PartyType
      * 
      */
     @OneToMany(targetEntity = PersonType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "PERSON_PARTY_TYPE_HJID")
     public List<PersonType> getPerson() {
@@ -629,8 +620,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = CertificateType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = CertificateType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "CERTIFICATE_PARTY_TYPE_HJID")
     public List<CertificateType> getCertificate() {
@@ -670,8 +661,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = QualityIndicatorType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = QualityIndicatorType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "QUALITY_INDICATOR_PARTY_TYPE_0")
     public List<QualityIndicatorType> getQualityIndicator() {
@@ -711,8 +702,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = DocumentReferenceType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = DocumentReferenceType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "PPAP_DOCUMENT_REFERENCE_PART_0")
     public List<DocumentReferenceType> getPpapDocumentReference() {
@@ -752,8 +743,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = DocumentReferenceType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = DocumentReferenceType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "DOCUMENT_REFERENCE_PARTY_TYP_0")
     public List<DocumentReferenceType> getDocumentReference() {
@@ -793,8 +784,8 @@ public class PartyType
      * 
      * 
      */
-    @OneToMany(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = CodeType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "INDUSTRY_SECTOR_PARTY_TYPE_H_0")
     public List<CodeType> getIndustrySector() {
@@ -820,8 +811,11 @@ public class PartyType
      *     {@link TradingPreferences }
      *     
      */
+    @Cascade({
+        org.hibernate.annotations.CascadeType.DELETE_ORPHAN
+    })
     @ManyToOne(targetEntity = TradingPreferences.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "SALES_TERMS_PARTY_TYPE_HJID")
     public TradingPreferences getSalesTerms() {
@@ -848,8 +842,11 @@ public class PartyType
      *     {@link TradingPreferences }
      *     
      */
+    @Cascade({
+        org.hibernate.annotations.CascadeType.DELETE_ORPHAN
+    })
     @ManyToOne(targetEntity = TradingPreferences.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "PURCHASE_TERMS_PARTY_TYPE_HJ_0")
     public TradingPreferences getPurchaseTerms() {

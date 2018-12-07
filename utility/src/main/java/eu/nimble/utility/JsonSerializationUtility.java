@@ -1,5 +1,6 @@
 package eu.nimble.utility;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -18,6 +19,18 @@ import java.util.Iterator;
  */
 public class JsonSerializationUtility {
     private static Logger logger = LoggerFactory.getLogger(JsonSerializationUtility.class);
+
+    public static <T> T deserializeContent(String serializedContent, TypeReference<T> typeReference) throws IOException {
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        try {
+            T deserializedObject = mapper.readValue(serializedContent, typeReference);
+            return deserializedObject;
+        } catch (IOException e) {
+            logger.error("Failed to deserialize the string: {}", serializedContent, e);
+            throw e;
+        }
+    }
 
     public static <T> T deserializeContent(InputStream serializedContent, TypeReference<T> typeReference) throws IOException {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
