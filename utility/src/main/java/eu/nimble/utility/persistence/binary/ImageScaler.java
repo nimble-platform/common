@@ -60,8 +60,9 @@ public class ImageScaler {
     private BufferedImage resizeImage(ScaleRatios ratios, BufferedImage image, boolean isThumbnail) {
         int newWidth = (int) (image.getWidth() * ratios.widthRatio);
         int newHeight = (int) (image.getHeight() * ratios.heightRatio);
+        int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
 
-        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, image.getType());
+        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, type);
         Graphics2D g = resizedImage.createGraphics();
 
         g.setComposite(AlphaComposite.Src);
