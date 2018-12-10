@@ -5,7 +5,9 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.ResourceType;
 import eu.nimble.utility.CommonSpringBridge;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static eu.nimble.utility.JsonSerializationUtility.extractAllHjids;
 import static eu.nimble.utility.JsonSerializationUtility.getJsonNodeFromObject;
@@ -17,12 +19,17 @@ public class ResourceValidationUtil {
     public static <T> void insertHjidsForObject(T object, String partyId, String catalogueRepository) {
         List<Long> hjids = extractAllHjids(object);
         List<ResourceType> resources = new ArrayList<>();
+        Set<Long> processedHjids = new HashSet<>();
         for(Long hjid : hjids) {
+            if(processedHjids.contains(hjid)) {
+                continue;
+            }
             ResourceType resource = new ResourceType();
-            resource.setHjid(hjid);
+            resource.setEntityID(hjid);
             resource.setPartyID(partyId);
             resource.setCatalogueRepository(catalogueRepository);
             resources.add(resource);
+            processedHjids.add(hjid);
         }
         CommonSpringBridge.getInstance().getResourceTypeRepository().save(resources);
     }
@@ -45,9 +52,7 @@ public class ResourceValidationUtil {
     }
 
     public static <T> boolean hjidsExit(T object) {
-        JsonNode jsonObject = getJsonNodeFromObject(object);
-
-        List<Long> hjids = extractAllHjids(jsonObject);
+        List<Long> hjids = extractAllHjids(object);
         if(hjids.size() > 0) {
             return true;
         } else {

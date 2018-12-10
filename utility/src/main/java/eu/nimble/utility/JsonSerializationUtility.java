@@ -99,7 +99,7 @@ public class JsonSerializationUtility {
     public static void extractAllHjids(JsonNode jsonObject, List<Long> hjids) {
         if (jsonObject.has("hjid")) {
             Long hjid = jsonObject.get("hjid").asLong();
-            if(hjid != null) {
+            if(hjid != null && hjid != 0) {
                 hjids.add(hjid);
             }
         }
