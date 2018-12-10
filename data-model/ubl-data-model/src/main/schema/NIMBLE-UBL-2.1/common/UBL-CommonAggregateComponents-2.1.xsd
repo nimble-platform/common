@@ -1400,8 +1400,8 @@
 				<hj:entity>
 					<orm:table name="Resource_Type">
 						<orm:unique-constraint>
-							<orm:column-name>EntityID</orm:column-name>
-							<orm:column-name>CatalogueRepository</orm:column-name>
+							<orm:column-name>ENTITY_ID</orm:column-name>
+							<orm:column-name>CATALOGUE_REPOSITORY</orm:column-name>
 						</orm:unique-constraint>
 					</orm:table>
 				</hj:entity>

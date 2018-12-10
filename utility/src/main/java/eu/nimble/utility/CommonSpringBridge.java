@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
  * Created by suat on 10-Dec-18.
  */
 @Component
-public class SpringBridge implements ApplicationContextAware {
+public class CommonSpringBridge implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
     @Autowired
     private ResourceTypeRepository resourceTypeRepository;
 
-    public static SpringBridge getInstance() {
-        return applicationContext.getBean(SpringBridge.class);
+    public static CommonSpringBridge getInstance() {
+        return applicationContext.getBean(CommonSpringBridge.class);
     }
 
     @Override
