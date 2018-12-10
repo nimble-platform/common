@@ -136,7 +136,7 @@ public class ShipmentType
      * 
      */
     @OneToMany(targetEntity = TextType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "HANDLING_INSTRUCTIONS_SHIPME_0")
     public List<TextType> getHandlingInstructions() {

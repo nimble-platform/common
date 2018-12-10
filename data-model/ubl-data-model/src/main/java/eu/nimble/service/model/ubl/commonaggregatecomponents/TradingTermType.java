@@ -119,7 +119,7 @@ public class TradingTermType
      * 
      */
     @OneToMany(targetEntity = TextType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "DESCRIPTION_TRADING_TERM_TYP_0")
     public List<TextType> getDescription() {
@@ -185,8 +185,8 @@ public class TradingTermType
      * 
      * 
      */
-    @OneToMany(targetEntity = TextType.class, cascade = {
-        CascadeType.ALL
+    @OneToMany(orphanRemoval = true,targetEntity = TextType.class, cascade = {
+        javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "VALUE__TRADING_TERM_TYPE_HJID")
     public List<TextType> getValue() {
