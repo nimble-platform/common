@@ -1401,15 +1401,17 @@
 					<orm:table name="Resource_Type">
 						<orm:unique-constraint>
 							<orm:column-name>EntityID</orm:column-name>
+							<orm:column-name>CatalogueRepository</orm:column-name>
 						</orm:unique-constraint>
 					</orm:table>
 				</hj:entity>
 			</xsd:appinfo>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="UserID" type="xsd:string"/>
-			<xsd:element name="PartyID" type="xsd:string"/>
 			<xsd:element name="EntityID" type="xsd:long"/>
+			<xsd:element name="PartyID" type="xsd:string"/>
+			<xsd:element name="UserID" type="xsd:string"/>
+			<xsd:element name="CatalogueRepository" type="xsd:string"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
