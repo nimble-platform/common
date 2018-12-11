@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
+import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.serialization.PartyMapperSerializer;
+import eu.nimble.utility.serialization.PartySerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,9 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by suat on 24-Apr-18.
@@ -89,14 +95,31 @@ public class JsonSerializationUtility {
         return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    public static <T> List<Long> extractAllHjids(T object) {
+    public static <T> Set<Long> extractAllHjids(T object) {
         JsonNode jsonObject = getJsonNodeFromObject(object);
-        List<Long> hjids = new ArrayList<>();
+        Set<Long> hjids = new HashSet<>();
         extractAllHjids(jsonObject, hjids);
         return hjids;
     }
 
-    public static void extractAllHjids(JsonNode jsonObject, List<Long> hjids) {
+    public static <T> Set<Long> extractAllHjidsExcludingPartyRelatedOnes(T object) {
+        Set<Long> hjids = extractAllHjids(object);
+        Set<Long> partyHjids;
+        PartyMapperSerializer partyMapperSerializer = getPartyMapperSerializer();
+        try {
+            partyMapperSerializer.getObjectMapper().writeValueAsString(object);
+            partyHjids = partyMapperSerializer.getPartySerializer().getParsedIds();
+
+        } catch (JsonProcessingException e) {
+            String msg = String.format("Failed to extract hjids from object with class: %s", object.getClass());
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+        }
+        hjids.removeAll(partyHjids);
+        return hjids;
+    }
+
+    public static void extractAllHjids(JsonNode jsonObject, Set<Long> hjids) {
         if (jsonObject.has("hjid")) {
             Long hjid = jsonObject.get("hjid").asLong();
             if(hjid != null && hjid != 0) {
@@ -142,5 +165,14 @@ public class JsonSerializationUtility {
             logger.error(msg, e);
             throw new RuntimeException(msg, e);
         }
+    }
+
+    private static PartyMapperSerializer getPartyMapperSerializer() {
+        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
+        PartySerializer partySerializer = new PartySerializer();
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(PartyType.class, partySerializer);
+        objectMapper.registerModule(simpleModule);
+        return new PartyMapperSerializer(objectMapper, partySerializer);
     }
 }

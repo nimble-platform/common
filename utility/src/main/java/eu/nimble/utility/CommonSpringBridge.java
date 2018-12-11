@@ -1,6 +1,6 @@
 package eu.nimble.utility;
 
-import eu.nimble.utility.persistence.ResourceTypeRepository;
+import eu.nimble.utility.persistence.resource.ResourceTypeRepository;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +15,7 @@ public class CommonSpringBridge implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    @Autowired
+    @Autowired(required = false)
     private ResourceTypeRepository resourceTypeRepository;
 
     public static CommonSpringBridge getInstance() {
