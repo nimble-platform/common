@@ -16,7 +16,8 @@ import static eu.nimble.utility.JsonSerializationUtility.extractAllHjidsExcludin
  */
 public class ResourceValidationUtil {
     public static <T> void insertHjidsForObject(T object, String partyId, String catalogueRepository) {
-        Set<Long> hjids = extractAllHjids(object);
+        // assuming that we are injecting correct identifiers for the party instances
+        Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
         List<ResourceType> resources = new ArrayList<>();
         Set<Long> processedHjids = new HashSet<>();
         for (Long hjid : hjids) {
@@ -34,7 +35,8 @@ public class ResourceValidationUtil {
     }
 
     public static <T> void removeHjidsForObject(T object, String catalogueRepository) {
-        Set<Long> hjids = extractAllHjids(object);
+        // assuming that we are injecting correct identifiers for the party instances
+        Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
         CommonSpringBridge.getInstance().getResourceTypeRepository().deleteEntityIdsForObject(catalogueRepository, hjids);
     }
 
