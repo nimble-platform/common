@@ -55,6 +55,16 @@ public class JsonSerializationUtility {
         }
     }
 
+    public static <T> String serializeEntitySilently(T entity) {
+        String serializedEntity = "";
+        try {
+            serializedEntity = getObjectMapper().writeValueAsString(entity);
+        } catch (JsonProcessingException e) {
+            logger.warn("Failed to deserialize entity");
+        }
+        return serializedEntity;
+    }
+
     public static ObjectMapper getMapperForTransientFields() {
         return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
     }
