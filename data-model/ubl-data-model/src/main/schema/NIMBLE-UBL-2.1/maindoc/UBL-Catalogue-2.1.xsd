@@ -20,7 +20,13 @@
 			<xsd:element ref="cbc:UUID" minOccurs="0"/>
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
 			<xsd:element ref="cbc:IssueDate"/>
-			<xsd:element ref="cac:ProviderParty"/>
+			<xsd:element ref="cac:ProviderParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:CatalogueLine" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>

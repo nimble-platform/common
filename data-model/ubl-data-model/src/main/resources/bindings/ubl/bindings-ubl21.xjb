@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bindings xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd" version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc">
+<bindings xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd" version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations">
 	<globalBindings typesafeEnumMaxMembers="2000" typesafeEnumMemberName="generateError" localScoping="toplevel">
 		<serializable uid="1"/>
 		<xjc:javaType name="java.math.BigDecimal" xmlType="xsd:decimal"
@@ -19,6 +19,11 @@
 		<schemaBindings>
 			<package name="eu.nimble.service.model.ubl.catalogue" />
 		</schemaBindings>
+		<hj:persistence>
+			<hj:default-to-one>
+				<hj:one-to-one/>
+			</hj:default-to-one>
+		</hj:persistence>
 	</bindings>
 	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-DespatchAdvice-2.1.xsd" node="/xsd:schema">
 		<schemaBindings>

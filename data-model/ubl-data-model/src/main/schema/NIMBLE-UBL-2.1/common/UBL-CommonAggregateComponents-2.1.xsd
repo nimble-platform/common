@@ -111,26 +111,74 @@
 			<xsd:element ref="cbc:BuildingNumber" minOccurs="0"/>
 			<xsd:element ref="cbc:CityName" minOccurs="0"/>
 			<xsd:element ref="cbc:PostalZone" minOccurs="0"/>
-			<xsd:element ref="cac:Country" minOccurs="0"/>
+			<xsd:element ref="cac:Country" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="AllowanceChargeType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ChargeIndicator"/>
-			<xsd:element ref="cbc:Amount"/>
-            <xsd:element ref="cbc:PerUnitAmount"/>
+			<xsd:element ref="cbc:Amount">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:PerUnitAmount">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="AttachmentType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:EmbeddedDocumentBinaryObject" minOccurs="0"/>
-			<xsd:element ref="cac:ExternalReference" minOccurs="0"/>
+			<xsd:element ref="cbc:EmbeddedDocumentBinaryObject" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ExternalReference" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CatalogueLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:MinimumOrderQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:MinimumOrderQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:FreeOfChargeIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -141,8 +189,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
-			<xsd:element ref="cac:RequiredItemLocationQuantity" minOccurs="0"/>
+			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:RequiredItemLocationQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:PriceOption" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -152,16 +216,38 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:GoodsItem"/>
+			<xsd:element ref="cac:GoodsItem">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CertificateType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:CertificateTypeCode"/>
+			<xsd:element ref="cbc:CertificateTypeCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:CertificateType"/>
 			<xsd:element ref="cbc:Remarks" minOccurs="0"/>
-			<xsd:element ref="cac:IssuerParty"/>
+			<xsd:element ref="cac:IssuerParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:DocumentReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -190,16 +276,56 @@
 	</xsd:complexType>
 	<xsd:complexType name="CommodityClassificationType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:NatureCode" minOccurs="0"/>
-			<xsd:element ref="cbc:CargoTypeCode" minOccurs="0"/>
-			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:NatureCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:CargoTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ConsignmentType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:GrossWeightMeasure" minOccurs="0"/>
-			<xsd:element ref="cbc:GrossVolumeMeasure" minOccurs="0"/>
+			<xsd:element ref="cbc:GrossWeightMeasure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:GrossVolumeMeasure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:ConsolidatedShipment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -251,7 +377,13 @@
 	</xsd:complexType>
 	<xsd:complexType name="CustomerPartyType">
 		<xsd:sequence>
-			<xsd:element ref="cac:Party" minOccurs="0"/>
+			<xsd:element ref="cac:Party" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DataMonitoringClauseType">
@@ -292,10 +424,42 @@
 	</xsd:complexType>
 	<xsd:complexType name="DeliveryType">
 		<xsd:sequence>
-			<xsd:element ref="cac:DeliveryAddress" minOccurs="0"/>
-			<xsd:element ref="cac:RequestedDeliveryPeriod" minOccurs="0"/>
-			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
-			<xsd:element ref="cac:Shipment" minOccurs="0"/>
+			<xsd:element ref="cac:DeliveryAddress" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:RequestedDeliveryPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DeliveryTerms" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Shipment" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DeliveryTermsType">
@@ -303,18 +467,74 @@
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
 			<xsd:element ref="cbc:Incoterms" minOccurs="0"/>
 			<xsd:element ref="cbc:SpecialTerms" minOccurs="0"/>
-			<xsd:element ref="cbc:Amount" minOccurs="0"/>
-			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
-			<xsd:element ref="cac:DeliveryLocation" minOccurs="0"/>
-			<xsd:element ref="cac:EstimatedDeliveryPeriod" minOccurs="0"/>
+			<xsd:element ref="cbc:Amount" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:TransportModeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DeliveryLocation" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:EstimatedDeliveryPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DespatchLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:DeliveredQuantity" minOccurs="0"/>
-			<xsd:element ref="cac:OrderLineReference"/>
-			<xsd:element ref="cac:Item"/>
+			<xsd:element ref="cbc:DeliveredQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:OrderLineReference">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Item">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Shipment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -329,14 +549,30 @@
 	<xsd:complexType name="DimensionType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:AttributeID"/>
-			<xsd:element ref="cbc:Measure" minOccurs="0"/>
+			<xsd:element ref="cbc:Measure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DocumentClauseType">
 		<xsd:complexContent>
 			<xsd:extension base="ClauseType">
 				<xsd:sequence>
-					<xsd:element ref="cac:ClauseDocumentRef"/>
+					<xsd:element ref="cac:ClauseDocumentRef">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<ha:Cascade value="DELETE_ORPHAN"/>
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -346,14 +582,46 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:UUID" minOccurs="0"/>
 			<xsd:element ref="cbc:DocumentType" minOccurs="0"/>
-			<xsd:element ref="cac:Attachment" minOccurs="0"/>
-			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:Attachment" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="EnvironmentalEmissionType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:EnvironmentalEmissionTypeCode"/>
-			<xsd:element ref="cbc:ValueMeasure"/>
+			<xsd:element ref="cbc:EnvironmentalEmissionTypeCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ValueMeasure">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ExternalReferenceType">
@@ -364,9 +632,33 @@
 	<xsd:complexType name="GoodsItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cac:Item" minOccurs="0"/>
-			<xsd:element ref="cac:ContainingPackage" minOccurs="0"/>
-			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cac:Item" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ContainingPackage" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DeliveryTerms" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -407,8 +699,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:ManufacturersItemIdentification" minOccurs="0"/>
-			<xsd:element ref="cac:CatalogueDocumentReference" minOccurs="0"/>
+			<xsd:element ref="cac:ManufacturersItemIdentification" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:CatalogueDocumentReference" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:ItemSpecificationDocumentReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -436,7 +744,13 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:ManufacturerParty" minOccurs="0"/>
+			<xsd:element ref="cac:ManufacturerParty" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -455,8 +769,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
-			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0"/>
+			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemIdentificationType">
@@ -488,7 +818,15 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemLocationQuantityType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:MinimumQuantity"/>
+			<xsd:element ref="cbc:MinimumQuantity">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:ApplicableTerritoryAddress" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -498,7 +836,15 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Price" minOccurs="0"/>
+			<xsd:element ref="cac:Price" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:AllowanceCharge" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -555,14 +901,38 @@
 			</xsd:element>
 			<xsd:element ref="cbc:ValueQualifier" minOccurs="0"/>
 			<xsd:element ref="cbc:URI"/>
-			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LineItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Quantity" minOccurs="0"/>
-			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cbc:Quantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DeliveryTerms" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -572,9 +942,33 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Price" minOccurs="0"/>
-			<xsd:element ref="cac:Item"/>
-			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:Price" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Item">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:LineReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -593,12 +987,28 @@
 	</xsd:complexType>
 	<xsd:complexType name="LocationType">
 		<xsd:sequence>
-			<xsd:element ref="cac:Address" minOccurs="0"/>
+			<xsd:element ref="cac:Address" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="MonetaryTotalType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:PayableAmount"/>
+			<xsd:element ref="cbc:PayableAmount">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="OrderLineReferenceType">
@@ -608,19 +1018,51 @@
 	</xsd:complexType>
 	<xsd:complexType name="OrderLineType">
 		<xsd:sequence>
-			<xsd:element ref="cac:LineItem"/>
+			<xsd:element ref="cac:LineItem">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="OrderReferenceType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cac:DocumentReference" minOccurs="0"/>
+			<xsd:element ref="cac:DocumentReference" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PackageType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Quantity" minOccurs="0"/>
-			<xsd:element ref="cbc:PackagingTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:Quantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:PackagingTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:MeasurementDimension" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -694,7 +1136,15 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Contact" minOccurs="0"/>
+			<xsd:element ref="cac:Contact" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Person" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -764,13 +1214,29 @@
 	</xsd:complexType>
 	<xsd:complexType name="PartyTaxSchemeType">
 		<xsd:sequence>
-			<xsd:element ref="cac:TaxScheme"/>
+			<xsd:element ref="cac:TaxScheme">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PaymentMeansType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
-			<xsd:element ref="cbc:PaymentMeansCode"/>
+			<xsd:element ref="cbc:PaymentMeansCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:InstructionNote" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -802,7 +1268,15 @@
 			<xsd:element ref="cbc:StartTime" minOccurs="0"/>
 			<xsd:element ref="cbc:EndDate" minOccurs="0"/>
 			<xsd:element ref="cbc:EndTime" minOccurs="0"/>
-			<xsd:element ref="cbc:DurationMeasure" minOccurs="0"/>
+			<xsd:element ref="cbc:DurationMeasure" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PersonType">
@@ -822,7 +1296,15 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Contact" minOccurs="0"/>
+			<xsd:element ref="cac:Contact" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PriceOptionType">
@@ -839,7 +1321,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:SpecialTerms"/>
-			<xsd:element ref="cac:EstimatedDeliveryPeriod"/>
+			<xsd:element ref="cac:EstimatedDeliveryPeriod">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:AdditionalItemProperty" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -858,31 +1348,87 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:PaymentTerms"/>
-			<xsd:element ref="cac:ItemLocationQuantity"/>
+			<xsd:element ref="cac:PaymentTerms">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ItemLocationQuantity">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PriceType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:PriceAmount"/>
-			<xsd:element ref="cbc:BaseQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:PriceAmount">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:BaseQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="QualityIndicatorType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:QualityParameter"/>
-			<xsd:element ref="cbc:Quantity"/>
+			<xsd:element ref="cbc:Quantity">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="QuotationLineType">
 		<xsd:sequence>
-			<xsd:element ref="cac:LineItem"/>
+			<xsd:element ref="cac:LineItem">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ReceiptLineType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:RejectedQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:RejectedQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:RejectReason" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -892,30 +1438,78 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Item" minOccurs="0"/>
+			<xsd:element ref="cac:Item" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="RequestForQuotationLineType">
 		<xsd:sequence>
-			<xsd:element ref="cac:LineItem"/>
+			<xsd:element ref="cac:LineItem">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="SalesItemType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Quantity"/>
-			<xsd:element ref="cac:Item"/>
+			<xsd:element ref="cbc:Quantity">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Item">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ServiceFrequencyType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:WeekDayCode"/>
+			<xsd:element ref="cbc:WeekDayCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0"/>
-			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -952,25 +1546,69 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:OriginAddress" minOccurs="0"/>
+			<xsd:element ref="cac:OriginAddress" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ShipmentStageType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TransportModeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:EstimatedDeliveryDate" minOccurs="0"/>
-			<xsd:element ref="cac:CarrierParty" minOccurs="0"/>
-			<xsd:element ref="cac:TransportMeans" minOccurs="0"/>
+			<xsd:element ref="cac:CarrierParty" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:TransportMeans" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="SupplierPartyType">
 		<xsd:sequence>
-			<xsd:element ref="cac:Party" minOccurs="0"/>
+			<xsd:element ref="cac:Party" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TaxSchemeType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TrackAndTraceDetailsType">
@@ -1029,7 +1667,15 @@
 	</xsd:complexType>
 	<xsd:complexType name="TransportEquipmentType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TransportEquipmentTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TransportEquipmentTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:HumidityPercent" minOccurs="0"/>
 			<xsd:element ref="cbc:RefrigeratedIndicator" minOccurs="0"/>
 			<xsd:element ref="cbc:Characteristics" minOccurs="0"/>
@@ -1037,7 +1683,15 @@
 	</xsd:complexType>
 	<xsd:complexType name="TransportHandlingUnitType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TransportHandlingUnitTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TransportHandlingUnitTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:MeasurementDimension" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1051,7 +1705,15 @@
 	</xsd:complexType>
 	<xsd:complexType name="TransportMeansType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TransportMeansTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TransportMeansTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:TransportEquipment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1065,7 +1727,15 @@
 	</xsd:complexType>
 	<xsd:complexType name="TransportationServiceType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:TransportServiceCode"/>
+			<xsd:element ref="cbc:TransportServiceCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
 			<xsd:element ref="cac:TransportEquipment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -1085,7 +1755,15 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:TotalCapacityDimension" minOccurs="0"/>
+			<xsd:element ref="cac:TotalCapacityDimension" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:ShipmentStage" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1104,7 +1782,15 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:EstimatedDurationPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:EstimatedDurationPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:ScheduledServiceFrequency" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1150,7 +1836,15 @@
 	<xsd:element name="Comment" type="CommentType"/>
 	<xsd:complexType name="EconomicOperatorRoleType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:RoleCode" minOccurs="0"/>
+			<xsd:element ref="cbc:RoleCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:RoleDescription" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1165,13 +1859,29 @@
 	<xsd:complexType name="CommunicationType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ChannelCode" minOccurs="0"/>
-			<xsd:element ref="cbc:Channel" minOccurs="0"/>
+			<xsd:element ref="cbc:Channel" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Value" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CapabilityType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:CapabilityTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:CapabilityTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1181,8 +1891,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:ValueAmount" minOccurs="0"/>
-			<xsd:element ref="cbc:ValueQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:ValueAmount" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ValueQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:EvidenceSupplied" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1192,15 +1918,47 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CompletedTaskType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:AssociatedProcessInstanceID"/>
-			<xsd:element ref="cbc:AnnualAverageAmount" minOccurs="0"/>
-			<xsd:element ref="cbc:TotalTaskAmount" minOccurs="0"/>
-			<xsd:element ref="cbc:PartyCapacityAmount" minOccurs="0"/>
+			<xsd:element ref="cbc:AnnualAverageAmount" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:TotalTaskAmount" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:PartyCapacityAmount" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1219,8 +1977,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Period" minOccurs="0"/>
-			<xsd:element ref="cac:RecipientCustomerParty" minOccurs="0"/>
+			<xsd:element ref="cac:Period" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:RecipientCustomerParty" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Comment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1307,7 +2081,15 @@
 	<xsd:complexType name="DeclarationType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
-			<xsd:element ref="cbc:DeclarationTypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:DeclarationTypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1331,12 +2113,44 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:OperatingYearsQuantity" minOccurs="0"/>
-			<xsd:element ref="cbc:EmployeeQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:OperatingYearsQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:EmployeeQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:BusinessClassificationEvidenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:BusinessIdentityEvidenceID" minOccurs="0"/>
-			<xsd:element ref="cbc:TendererRoleCode" minOccurs="0"/>
-			<xsd:element ref="cac:BusinessClassificationScheme" minOccurs="0"/>
+			<xsd:element ref="cbc:TendererRoleCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:BusinessClassificationScheme" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:TechnicalCapability" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1365,8 +2179,22 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Party" minOccurs="0"/>
-			<xsd:element ref="cac:EconomicOperatorRole" minOccurs="0"/>
+			<xsd:element ref="cac:Party" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:EconomicOperatorRole" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Event" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1381,17 +2209,49 @@
 	<xsd:complexType name="EventType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:IdentificationID" minOccurs="0"/>
-			<xsd:element ref="cbc:TypeCode" minOccurs="0"/>
+			<xsd:element ref="cbc:TypeCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Description" minOccurs="0"/>
 			<xsd:element ref="cbc:CompletionIndicator" minOccurs="0"/>
-			<xsd:element ref="cac:OccurenceLocation" minOccurs="0"/>
-			<xsd:element ref="cac:DurationPeriod" minOccurs="0"/>
+			<xsd:element ref="cac:OccurenceLocation" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:DurationPeriod" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CommentType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Comment"/>
-			<xsd:element ref="cbc:TypeCode"/>
+			<xsd:element ref="cbc:TypeCode">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

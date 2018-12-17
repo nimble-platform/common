@@ -16,9 +16,33 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:ItemInformationRequestDocumentReference" minOccurs="0"/>
-			<xsd:element ref="cac:SellerSupplierParty"/>
-			<xsd:element ref="cac:BuyerCustomerParty"/>
+			<xsd:element ref="cac:ItemInformationRequestDocumentReference" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:SellerSupplierParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:BuyerCustomerParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Item" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>

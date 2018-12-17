@@ -118,6 +118,11 @@
 							<ccts:RepresentationTerm>Period</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:SenderParty">
@@ -135,6 +140,9 @@
 							<ccts:RepresentationTerm>Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:ReceiverParty">
@@ -152,6 +160,9 @@
 							<ccts:RepresentationTerm>Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:BuyerCustomerParty">
@@ -169,6 +180,11 @@
 							<ccts:RepresentationTerm>Customer Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:SellerSupplierParty">
@@ -186,6 +202,11 @@
 							<ccts:RepresentationTerm>Supplier Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:ItemInformationRequestLine" maxOccurs="unbounded">

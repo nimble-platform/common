@@ -79,6 +79,11 @@
 							<ccts:DataType>Document Status_ Code. Type</ccts:DataType>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:DocumentStatusReasonCode" minOccurs="0">
@@ -95,6 +100,11 @@
 							<ccts:DataType>Code. Type</ccts:DataType>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded">
@@ -133,6 +143,9 @@
 							<ccts:RepresentationTerm>Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:TransportServiceProviderParty">
@@ -150,6 +163,9 @@
 							<ccts:RepresentationTerm>Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<hj:many-to-one/>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:TransportExecutionPlanRequestDocumentReference" minOccurs="0">
@@ -167,6 +183,11 @@
 							<ccts:RepresentationTerm>Document Reference</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:Consignment" maxOccurs="unbounded">

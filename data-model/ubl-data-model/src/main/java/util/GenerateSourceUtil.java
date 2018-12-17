@@ -13,7 +13,7 @@ public class GenerateSourceUtil {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     final private String partyTypeRegex = "@ManyToOne.targetEntity = PartyType.class,.*public PartyType";
-    final private String cascadeRegex = "@Cascade.*DELETE_ORPHAN.*@OneToMany.";
+    final private String regex_deleteOrphan = "@Cascade.*DELETE_ORPHAN.*(@OneToOne|@OneToMany).";
     final private String regex_transientListsWithOrphanRemovals = "@Cascade.*\\s*.*DELETE_ORPHAN\\s*.*\\s+@Transient\\s*.*List.*";
     final private String regex_transientListDefs = "protected transient List.*";
     final private String regex_builtInListWithOrm = "target.*\\s+.*\\s+.*\\s+.*\\s+.*";
@@ -37,7 +37,8 @@ public class GenerateSourceUtil {
                 String fileContent = getFileContent(file);
                 FileUpdate fileUpdate = new FileUpdate();
                 fileUpdate.setContent(fileContent);
-                searchRegex(fileUpdate);
+                updatePartyCascades(fileUpdate);
+                improveOrphanRemovals(fileUpdate);
                 removeOrphanRemovalFromTransientLists(fileUpdate);
                 addOrphanRemovalsToTransientLists(fileUpdate);
                 updateFile(file, fileUpdate);
@@ -48,37 +49,41 @@ public class GenerateSourceUtil {
         }
     }
 
-    public void searchRegex(FileUpdate fileUpdate){
-        try {
-            String fileText = fileUpdate.getContent();
-            Pattern p = Pattern.compile(partyTypeRegex,Pattern.DOTALL);
-            Pattern p2 = Pattern.compile(cascadeRegex,Pattern.DOTALL);
-            Matcher m = p.matcher(fileText);
-            Matcher m2 = p2.matcher(fileText);
+    private void updatePartyCascades(FileUpdate fileUpdate) {
+        String fileText = fileUpdate.getContent();
+        Pattern p = Pattern.compile(partyTypeRegex,Pattern.DOTALL);
+        Matcher m = p.matcher(fileText);
 
-            boolean firstFound = m.find();
-            boolean secondFound = m2.find();
-            // now try to find at least one match
-            if (firstFound){
-                String group = m.group();
-                // first replace the annotations with full package names
-                String newGroup = group.replace("javax.persistence.CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
-                // in case the annotations do not have full package names, the line below has effect
-                newGroup = newGroup.replace("CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
-                fileText = fileText.replace(group,newGroup);
-            }
-            if(secondFound){
-                fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToMany.","@OneToMany(orphanRemoval = true,");
-                fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToOne.","@OneToOne(orphanRemoval = true,");
-            }
+        boolean found = m.find();
+        // now try to find at least one match
+        if (found){
+            String group = m.group();
+            // first replace the annotations with full package names
+            String newGroup = group.replace("javax.persistence.CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
+//            String newGroup = group.replace("javax.persistence.CascadeType.ALL","");
+            // in case the annotations do not have full package names, the line below has effect
+            newGroup = newGroup.replace("CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
+//            newGroup = newGroup.replace("CascadeType.ALL","");
+            fileText = fileText.replace(group,newGroup);
 
-            if(firstFound || secondFound){
-                fileUpdate.setFileUpdated(true);
-                fileUpdate.setContent(fileText);
-            }
+            fileUpdate.setFileUpdated(true);
+            fileUpdate.setContent(fileText);
         }
-        catch (Exception e){
-            throw new RuntimeException("Failed to change cascade type of parties",e);
+    }
+
+    public void improveOrphanRemovals(FileUpdate fileUpdate){
+        String fileText = fileUpdate.getContent();
+        Pattern p = Pattern.compile(regex_deleteOrphan,Pattern.DOTALL);
+        Matcher m = p.matcher(fileText);
+
+        boolean secondFound = m.find();
+        // now try to find at least one match
+        if(secondFound){
+            fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToMany.","@OneToMany(orphanRemoval = true,");
+            fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToOne.","@OneToOne(orphanRemoval = true,");
+
+            fileUpdate.setFileUpdated(true);
+            fileUpdate.setContent(fileText);
         }
     }
 

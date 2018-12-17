@@ -17,13 +17,61 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:DocumentStatusCode" minOccurs="0"/>
-			<xsd:element ref="cbc:DocumentStatusReasonCode" minOccurs="0"/>
+			<xsd:element ref="cbc:DocumentStatusCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:DocumentStatusReasonCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:DataMonitoringPromised" minOccurs="0"/>
-			<xsd:element ref="cac:RequestForQuotationDocumentReference" minOccurs="0"/>
-			<xsd:element ref="cac:SellerSupplierParty"/>
-			<xsd:element ref="cac:BuyerCustomerParty"/>
-			<xsd:element ref="cac:QuotedMonetaryTotal"/>
+			<xsd:element ref="cac:RequestForQuotationDocumentReference" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:SellerSupplierParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:BuyerCustomerParty">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:QuotedMonetaryTotal">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:QuotationLine" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -33,8 +81,24 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:PaymentMeans" minOccurs="0"/>
-			<xsd:element ref="cac:PaymentTerms" minOccurs="0"/>
+			<xsd:element ref="cac:PaymentMeans" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PaymentTerms" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
