@@ -37,12 +37,18 @@ public class ResourceValidationUtil {
     public static <T> void removeHjidsForObject(T object, String catalogueRepository) {
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
-        CommonSpringBridge.getInstance().getResourceTypeRepository().deleteEntityIdsForObject(catalogueRepository, hjids);
+        if(hjids.size() > 0) {
+            CommonSpringBridge.getInstance().getResourceTypeRepository().deleteEntityIdsForObject(catalogueRepository, hjids);
+        }
     }
 
     public static <T> boolean hjidsBelongsToParty(T object, String partyId, String catalogueRepository) {
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
+        if(hjids.size() == 0) {
+            return true;
+        }
+
         List<ResourceType> resources = CommonSpringBridge.getInstance().getResourceTypeRepository().getManagedResourceTypes(catalogueRepository, hjids);
 
         // check distinct parties
