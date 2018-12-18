@@ -905,6 +905,7 @@ public class ObjectFactory {
     private final static QName _TransportationStatusTypeCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "TransportationStatusTypeCode");
     private final static QName _Type_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "Type");
     private final static QName _TypeCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "TypeCode");
+    private final static QName _TypeID_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "TypeID");
     private final static QName _UBLVersionID_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "UBLVersionID");
     private final static QName _UNDGCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "UNDGCode");
     private final static QName _UnitCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "UnitCode");
@@ -8869,6 +8870,16 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "TypeCode")
     public JAXBElement<CodeType> createTypeCode(CodeType value) {
         return new JAXBElement<CodeType>(_TypeCode_QNAME, CodeType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BigDecimal }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "TypeID")
+    @XmlJavaTypeAdapter(BigDecimalXmlAdapter.class)
+    public JAXBElement<BigDecimal> createTypeID(BigDecimal value) {
+        return new JAXBElement<BigDecimal>(_TypeID_QNAME, BigDecimal.class, null, value);
     }
 
     /**

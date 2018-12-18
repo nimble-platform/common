@@ -9,7 +9,6 @@
 package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,12 +25,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import eu.nimble.service.model.BigDecimalXmlAdapter;
 import eu.nimble.service.model.ubl.commonbasiccomponents.AmountType;
-import eu.nimble.service.model.ubl.commonbasiccomponents.QuantityType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -51,8 +46,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *       &lt;sequence&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ChargeIndicator"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Amount"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}BatchQuantity" minOccurs="0"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Percent" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}PerUnitAmount"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -65,8 +59,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @XmlType(name = "AllowanceChargeType", propOrder = {
     "chargeIndicator",
     "amount",
-    "batchQuantity",
-    "percent"
+    "perUnitAmount"
 })
 @Entity(name = "AllowanceChargeType")
 @Table(name = "ALLOWANCE_CHARGE_TYPE")
@@ -80,12 +73,8 @@ public class AllowanceChargeType
     protected boolean chargeIndicator;
     @XmlElement(name = "Amount", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected AmountType amount;
-    @XmlElement(name = "BatchQuantity", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected QuantityType batchQuantity;
-    @XmlElement(name = "Percent", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", type = String.class)
-    @XmlJavaTypeAdapter(BigDecimalXmlAdapter.class)
-    @XmlSchemaType(name = "decimal")
-    protected BigDecimal percent;
+    @XmlElement(name = "PerUnitAmount", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected AmountType perUnitAmount;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
 
@@ -136,57 +125,31 @@ public class AllowanceChargeType
     }
 
     /**
-     * Gets the value of the batchQuantity property.
+     * Gets the value of the perUnitAmount property.
      * 
      * @return
      *     possible object is
-     *     {@link QuantityType }
+     *     {@link AmountType }
      *     
      */
-    @ManyToOne(targetEntity = QuantityType.class, cascade = {
+    @ManyToOne(targetEntity = AmountType.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "BATCH_QUANTITY_ALLOWANCE_CHA_0")
-    public QuantityType getBatchQuantity() {
-        return batchQuantity;
+    @JoinColumn(name = "PER_UNIT_AMOUNT_ALLOWANCE_CH_0")
+    public AmountType getPerUnitAmount() {
+        return perUnitAmount;
     }
 
     /**
-     * Sets the value of the batchQuantity property.
+     * Sets the value of the perUnitAmount property.
      * 
      * @param value
      *     allowed object is
-     *     {@link QuantityType }
+     *     {@link AmountType }
      *     
      */
-    public void setBatchQuantity(QuantityType value) {
-        this.batchQuantity = value;
-    }
-
-    /**
-     * Gets the value of the percent property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    @Basic
-    @Column(name = "PERCENT", precision = 20, scale = 10)
-    public BigDecimal getPercent() {
-        return percent;
-    }
-
-    /**
-     * Sets the value of the percent property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPercent(BigDecimal value) {
-        this.percent = value;
+    public void setPerUnitAmount(AmountType value) {
+        this.perUnitAmount = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
@@ -216,20 +179,11 @@ public class AllowanceChargeType
             }
         }
         {
-            QuantityType lhsBatchQuantity;
-            lhsBatchQuantity = this.getBatchQuantity();
-            QuantityType rhsBatchQuantity;
-            rhsBatchQuantity = that.getBatchQuantity();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "batchQuantity", lhsBatchQuantity), LocatorUtils.property(thatLocator, "batchQuantity", rhsBatchQuantity), lhsBatchQuantity, rhsBatchQuantity)) {
-                return false;
-            }
-        }
-        {
-            BigDecimal lhsPercent;
-            lhsPercent = this.getPercent();
-            BigDecimal rhsPercent;
-            rhsPercent = that.getPercent();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "percent", lhsPercent), LocatorUtils.property(thatLocator, "percent", rhsPercent), lhsPercent, rhsPercent)) {
+            AmountType lhsPerUnitAmount;
+            lhsPerUnitAmount = this.getPerUnitAmount();
+            AmountType rhsPerUnitAmount;
+            rhsPerUnitAmount = that.getPerUnitAmount();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "perUnitAmount", lhsPerUnitAmount), LocatorUtils.property(thatLocator, "perUnitAmount", rhsPerUnitAmount), lhsPerUnitAmount, rhsPerUnitAmount)) {
                 return false;
             }
         }

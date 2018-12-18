@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.nimble.utility.config.PersistenceConfig;
 import org.hibernate.Hibernate;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public class HibernateUtility {
 		this(persistenceUnitName, null);
 	}
 
-	public HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
+	private HibernateUtility(String persistenceUnitName, Map persistenceProperties) {
 		if(persistenceProperties == null) {
 			persistenceProperties = PersistenceConfig.getInstance().getPersistenceParameters(persistenceUnitName);
 		}
@@ -57,12 +60,7 @@ public class HibernateUtility {
 	}
 
 	public static HibernateUtility getInstance(String persistenceUnitName) {
-		if (engineInstances.get(persistenceUnitName) == null) {
-			HibernateUtility engineInstance = new HibernateUtility(persistenceUnitName);
-			engineInstances.put(persistenceUnitName, engineInstance);
-		}
-
-		return engineInstances.get(persistenceUnitName);
+		return getInstance(persistenceUnitName, null);
 	}
 
 	public static HibernateUtility getInstance(String persistenceUnitName, Map<String, String> persistenceProperties) {
@@ -295,25 +293,6 @@ public class HibernateUtility {
 		loadManager.getTransaction().commit();
 		loadManager.close();
 		log.debug("Performed update. query: {}", query);
-	}
-
-	public static Object copySerializableObject(Object object, Class clazz) {
-		ObjectMapper om = new ObjectMapper();
-		String serializedObject;
-		try {
-			serializedObject = om.writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Failed to serialize the object for class: " + clazz.getName(), e);
-		}
-
-		Object copy;
-		try {
-			copy = om.readValue(serializedObject, clazz);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to deserizalize the object for class: " + clazz.getName() + "\nSerialization: " + serializedObject, e);
-		}
-
-		return  copy;
 	}
 
 	public static void main(String argv[]) {
