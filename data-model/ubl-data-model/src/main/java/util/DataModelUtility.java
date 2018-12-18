@@ -22,11 +22,17 @@ public class DataModelUtility {
         party.setPreferredItemClassificationCode(null);
         party.setPurchaseTerms(null);
         party.setSalesTerms(null);
+        party.setBrandName(null);
+        party.setDescription(null);
+        party.setPartyIdentification(null);
+        party.setPartyName(null);
     }
 
     public static void copyParty(PartyType oldParty, PartyType newParty) {
-        oldParty.setID(newParty.getID());
-        oldParty.setName(newParty.getName());
+        oldParty.setPartyIdentification(newParty.getPartyIdentification());
+        oldParty.setPartyName(newParty.getPartyName());
+        oldParty.setDescription(newParty.getDescription());
+        oldParty.setBrandName(newParty.getBrandName());
         oldParty.setExternalAward(newParty.getExternalAward());
         oldParty.setFederationInstanceID(newParty.getFederationInstanceID());
         oldParty.setPpapCompatibilityLevel(newParty.getPpapCompatibilityLevel());

@@ -37,10 +37,12 @@ import java.util.List;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}FederationInstanceID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}NACE" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Name"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Description" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}BrandName" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyName" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyIdentification" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}WebsiteURI" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IndustryClassificationCode" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ExternalAward" minOccurs="0"/&gt;
@@ -68,10 +70,12 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PartyType", propOrder = {
-    "id",
     "federationInstanceID",
     "nace",
-    "name",
+    "description",
+    "brandName",
+    "partyName",
+    "partyIdentification",
     "websiteURI",
     "industryClassificationCode",
     "externalAward",
@@ -98,14 +102,18 @@ public class PartyType
 {
 
     private final static long serialVersionUID = 1L;
-    @XmlElement(name = "ID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
-    protected String id;
     @XmlElement(name = "FederationInstanceID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected String federationInstanceID;
     @XmlElement(name = "NACE", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected List<CodeType> nace;
-    @XmlElement(name = "Name", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
-    protected TextType name;
+    @XmlElement(name = "Description", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
+    protected List<TextType> description;
+    @XmlElement(name = "BrandName", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
+    protected List<TextType> brandName;
+    @XmlElement(name = "PartyName")
+    protected List<PartyNameType> partyName;
+    @XmlElement(name = "PartyIdentification")
+    protected List<PartyIdentificationType> partyIdentification;
     @XmlElement(name = "WebsiteURI", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected String websiteURI;
     @XmlElement(name = "IndustryClassificationCode", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
@@ -144,32 +152,6 @@ public class PartyType
     protected TradingPreferences purchaseTerms;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
-
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    @Basic
-    @Column(name = "ID", length = 255)
-    public String getID() {
-        return id;
-    }
-
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setID(String value) {
-        this.id = value;
-    }
 
     /**
      * Gets the value of the federationInstanceID property.
@@ -239,31 +221,167 @@ public class PartyType
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the description property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TextType }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the description property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDescription().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TextType }
+     * 
+     * 
      */
-    @ManyToOne(targetEntity = TextType.class, cascade = {
+    @OneToMany(orphanRemoval = true,targetEntity = TextType.class, cascade = {
         javax.persistence.CascadeType.ALL
     })
-    @JoinColumn(name = "NAME__PARTY_TYPE_HJID")
-    public TextType getName() {
-        return name;
+    @JoinColumn(name = "DESCRIPTION_PARTY_TYPE_HJID")
+    public List<TextType> getDescription() {
+        if (description == null) {
+            description = new ArrayList<TextType>();
+        }
+        return this.description;
     }
 
     /**
-     * Sets the value of the name property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link TextType }
-     *     
+     * 
      */
-    public void setName(TextType value) {
-        this.name = value;
+    public void setDescription(List<TextType> description) {
+        this.description = description;
+    }
+
+    /**
+     * Gets the value of the brandName property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the brandName property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getBrandName().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TextType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = TextType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "BRAND_NAME_PARTY_TYPE_HJID")
+    public List<TextType> getBrandName() {
+        if (brandName == null) {
+            brandName = new ArrayList<TextType>();
+        }
+        return this.brandName;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setBrandName(List<TextType> brandName) {
+        this.brandName = brandName;
+    }
+
+    /**
+     * Gets the value of the partyName property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the partyName property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getPartyName().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PartyNameType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = PartyNameType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "PARTY_NAME_PARTY_TYPE_HJID")
+    public List<PartyNameType> getPartyName() {
+        if (partyName == null) {
+            partyName = new ArrayList<PartyNameType>();
+        }
+        return this.partyName;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setPartyName(List<PartyNameType> partyName) {
+        this.partyName = partyName;
+    }
+
+    /**
+     * Gets the value of the partyIdentification property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the partyIdentification property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getPartyIdentification().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PartyIdentificationType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = PartyIdentificationType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "PARTY_IDENTIFICATION_PARTY_T_0")
+    public List<PartyIdentificationType> getPartyIdentification() {
+        if (partyIdentification == null) {
+            partyIdentification = new ArrayList<PartyIdentificationType>();
+        }
+        return this.partyIdentification;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setPartyIdentification(List<PartyIdentificationType> partyIdentification) {
+        this.partyIdentification = partyIdentification;
     }
 
     /**
@@ -874,15 +992,6 @@ public class PartyType
         }
         final PartyType that = ((PartyType) object);
         {
-            String lhsID;
-            lhsID = this.getID();
-            String rhsID;
-            rhsID = that.getID();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "id", lhsID), LocatorUtils.property(thatLocator, "id", rhsID), lhsID, rhsID)) {
-                return false;
-            }
-        }
-        {
             String lhsFederationInstanceID;
             lhsFederationInstanceID = this.getFederationInstanceID();
             String rhsFederationInstanceID;
@@ -901,11 +1010,38 @@ public class PartyType
             }
         }
         {
-            TextType lhsName;
-            lhsName = this.getName();
-            TextType rhsName;
-            rhsName = that.getName();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName)) {
+            List<TextType> lhsDescription;
+            lhsDescription = (((this.description!= null)&&(!this.description.isEmpty()))?this.getDescription():null);
+            List<TextType> rhsDescription;
+            rhsDescription = (((that.description!= null)&&(!that.description.isEmpty()))?that.getDescription():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "description", lhsDescription), LocatorUtils.property(thatLocator, "description", rhsDescription), lhsDescription, rhsDescription)) {
+                return false;
+            }
+        }
+        {
+            List<TextType> lhsBrandName;
+            lhsBrandName = (((this.brandName!= null)&&(!this.brandName.isEmpty()))?this.getBrandName():null);
+            List<TextType> rhsBrandName;
+            rhsBrandName = (((that.brandName!= null)&&(!that.brandName.isEmpty()))?that.getBrandName():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "brandName", lhsBrandName), LocatorUtils.property(thatLocator, "brandName", rhsBrandName), lhsBrandName, rhsBrandName)) {
+                return false;
+            }
+        }
+        {
+            List<PartyNameType> lhsPartyName;
+            lhsPartyName = (((this.partyName!= null)&&(!this.partyName.isEmpty()))?this.getPartyName():null);
+            List<PartyNameType> rhsPartyName;
+            rhsPartyName = (((that.partyName!= null)&&(!that.partyName.isEmpty()))?that.getPartyName():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "partyName", lhsPartyName), LocatorUtils.property(thatLocator, "partyName", rhsPartyName), lhsPartyName, rhsPartyName)) {
+                return false;
+            }
+        }
+        {
+            List<PartyIdentificationType> lhsPartyIdentification;
+            lhsPartyIdentification = (((this.partyIdentification!= null)&&(!this.partyIdentification.isEmpty()))?this.getPartyIdentification():null);
+            List<PartyIdentificationType> rhsPartyIdentification;
+            rhsPartyIdentification = (((that.partyIdentification!= null)&&(!that.partyIdentification.isEmpty()))?that.getPartyIdentification():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "partyIdentification", lhsPartyIdentification), LocatorUtils.property(thatLocator, "partyIdentification", rhsPartyIdentification), lhsPartyIdentification, rhsPartyIdentification)) {
                 return false;
             }
         }

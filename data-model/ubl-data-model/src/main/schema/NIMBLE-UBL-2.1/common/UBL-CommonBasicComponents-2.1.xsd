@@ -75,7 +75,7 @@
 	<xsd:element name="BirthDate" type="xsd:date"/>
 	<xsd:element name="BirthplaceName" type="xsd:string"/>
 	<xsd:element name="BlockName" type="xsd:string"/>
-	<xsd:element name="BrandName" type="xsd:string"/>
+	<xsd:element name="BrandName" type="TextType"/>
 	<xsd:element name="BrokerAssignedID" type="xsd:string"/>
 	<xsd:element name="BudgetYearNumeric" type="xsd:decimal"/>
 	<xsd:element name="BuildingName" type="xsd:string"/>

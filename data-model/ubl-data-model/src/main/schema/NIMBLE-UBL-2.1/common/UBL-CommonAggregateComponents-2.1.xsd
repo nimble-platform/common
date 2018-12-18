@@ -59,6 +59,8 @@
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
 	<xsd:element name="Party" type="PartyType"/>
+	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>
+	<xsd:element name="PartyName" type="PartyNameType"/>
 	<xsd:element name="PartyTaxScheme" type="PartyTaxSchemeType"/>
 	<xsd:element name="PaymentMeans" type="PaymentMeansType"/>
 	<xsd:element name="PaymentTerms" type="PaymentTermsType"/>
@@ -618,9 +620,18 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="PartyType">
+	<xsd:complexType name="PartyIdentificationType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyNameType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyType">
+		<xsd:sequence>
 			<xsd:element ref="cbc:FederationInstanceID"/>
 			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -631,7 +642,42 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:Name"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:BrandName" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PartyName" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PartyIdentification" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
 				<xsd:annotation>

@@ -80,7 +80,7 @@ public class EmailService {
         context.setVariable("userEmail", userEmail);
 
         // collect info of user
-        context.setVariable("companyName", company.getName());
+        context.setVariable("companyName", company.getPartyName().get(0).getName().getValue());
         context.setVariable("companyID", company.getHjid());
 
         // collect info of company
