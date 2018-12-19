@@ -1338,7 +1338,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="DeclarationType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:DeclarationTypeCode" minOccurs="0"/>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>

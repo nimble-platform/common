@@ -33,7 +33,7 @@ import java.util.List;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Name" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Name" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}DeclarationTypeCode" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Description" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
@@ -59,7 +59,7 @@ public class DeclarationType
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "Name", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected TextType name;
+    protected List<TextType> name;
     @XmlElement(name = "DeclarationTypeCode", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected CodeType declarationTypeCode;
     @XmlElement(name = "Description", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
@@ -70,29 +70,42 @@ public class DeclarationType
     /**
      * Gets the value of the name property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TextType }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the name property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getName().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TextType }
+     * 
+     * 
      */
-    @ManyToOne(targetEntity = TextType.class, cascade = {
+    @OneToMany(targetEntity = TextType.class, cascade = {
         javax.persistence.CascadeType.ALL
     })
     @JoinColumn(name = "NAME__DECLARATION_TYPE_HJID")
-    public TextType getName() {
-        return name;
+    public List<TextType> getName() {
+        if (name == null) {
+            name = new ArrayList<TextType>();
+        }
+        return this.name;
     }
 
     /**
-     * Sets the value of the name property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link TextType }
-     *     
+     * 
      */
-    public void setName(TextType value) {
-        this.name = value;
+    public void setName(List<TextType> name) {
+        this.name = name;
     }
 
     /**
@@ -173,10 +186,10 @@ public class DeclarationType
         }
         final DeclarationType that = ((DeclarationType) object);
         {
-            TextType lhsName;
-            lhsName = this.getName();
-            TextType rhsName;
-            rhsName = that.getName();
+            List<TextType> lhsName;
+            lhsName = (((this.name!= null)&&(!this.name.isEmpty()))?this.getName():null);
+            List<TextType> rhsName;
+            rhsName = (((that.name!= null)&&(!that.name.isEmpty()))?that.getName():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName)) {
                 return false;
             }
