@@ -63,11 +63,6 @@ public class ResourceValidationUtil {
             return false;
         }
 
-        // check non-managed ids
-        if (hjids.size() > managedIds.size()) {
-            return false;
-        }
-
         return true;
     }
 
