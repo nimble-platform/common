@@ -55,6 +55,17 @@ public class JsonSerializationUtility {
         }
     }
 
+    public static <T> String serializeEntity(T entity) throws JsonProcessingException {
+        String serializedEntity = "";
+        try {
+            serializedEntity = getObjectMapper().writeValueAsString(entity);
+        } catch (JsonProcessingException e) {
+            logger.error("Failed to deserialize entity. class: {}", entity.getClass());
+            throw e;
+        }
+        return serializedEntity;
+    }
+
     public static <T> String serializeEntitySilently(T entity) {
         String serializedEntity = "";
         try {
