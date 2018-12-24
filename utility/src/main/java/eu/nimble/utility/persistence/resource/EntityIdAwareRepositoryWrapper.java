@@ -139,11 +139,6 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     }
 
     @Override
-    public <T> void detachEntity(T entity) {
-
-    }
-
-    @Override
     public List<T> findAll() {
         return jpaRepository.findAll();
     }
@@ -292,19 +287,41 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     }
 
     private <T> Long extractIdFromEntity(T entity) {
-        Field field;
+        Field field = getIdFieldFromClass(entity.getClass());
+        if(field == null) {
+            Class superClass;
+            do {
+                superClass = entity.getClass().getSuperclass();
+                field = getIdFieldFromClass(superClass);
+            } while (superClass != null && field == null);
+        }
+
+        if(field == null) {
+            String serializedObject = JsonSerializationUtility.serializeEntitySilently(entity);
+            String msg = String.format("No hjid field exists in the given class: %s, serialized object: %s", entity.getClass(), serializedObject);
+            logger.error(msg);
+            throw new RuntimeException(msg);
+        }
+
         try {
-            field = entity.getClass().getDeclaredField("hjid");
             field.setAccessible(true);
             Long value = (Long) field.get(entity);
             field.setAccessible(false);
             return value;
 
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
             String serializedObject = JsonSerializationUtility.serializeEntitySilently(entity);
-            String msg = String.format("Failed to get hjid from entity with class: %s, serialization: %s", entity.getClass(), serializedObject);
+            String msg = String.format("Failed to access to hjid field from entity with class: %s, serialized object: %s", entity.getClass(), serializedObject);
             logger.error(msg, e);
             throw new RuntimeException(msg, e);
+        }
+    }
+
+    private Field getIdFieldFromClass(Class klass) {
+        try {
+            return klass.getDeclaredField("hjid");
+        } catch (NoSuchFieldException e) {
+            return null;
         }
     }
 }
