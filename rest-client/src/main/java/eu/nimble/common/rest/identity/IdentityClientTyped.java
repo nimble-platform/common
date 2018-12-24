@@ -88,7 +88,7 @@ public class IdentityClientTyped {
         }
     }
 
-    public PartyType getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
+    public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
         Response response = identityClient.getPartyByPersonID(personId);
         String responseBody;
         try {
@@ -101,7 +101,7 @@ public class IdentityClientTyped {
 
         if (response.status() == 200) {
             try {
-                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<PartyType>() {
+                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<List<PartyType>>() {
                 });
             } catch (IOException e) {
                 String msg = String.format("Failed to deserialize party: %s", responseBody);
