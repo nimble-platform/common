@@ -8,6 +8,8 @@ import java.util.List;
 public interface GenericJPARepository {
     <T> T getSingleEntityByHjid(Class<T> klass, long hjid);
 
+    <T> T getSingleEntityByHjidWithCleanEm(Class<T> klass, long hjid);
+
     <T> T getSingleEntity(String query, String[] parameterNames, Object[] parameterValues);
 
     <T> List<T> getEntities(String query);

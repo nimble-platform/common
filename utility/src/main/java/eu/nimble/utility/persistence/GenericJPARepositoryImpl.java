@@ -3,6 +3,7 @@ package eu.nimble.utility.persistence;
 import org.apache.commons.lang.ArrayUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.metamodel.EntityType;
 import java.util.List;
@@ -12,14 +13,30 @@ import java.util.List;
  */
 public class GenericJPARepositoryImpl implements GenericJPARepository {
 
+    // Entity manager factory required to be used in cases where a clean EntityManager is required
+    protected EntityManagerFactory emf;
+    // Spring-managed entity manager
     protected EntityManager em;
 
     public GenericJPARepositoryImpl(EntityManager em) {
+        this(null, em);
+    }
+
+    public GenericJPARepositoryImpl(EntityManagerFactory emf, EntityManager em) {
+        this.emf = emf;
         this.em = em;
     }
 
     public <T> T getSingleEntityByHjid(Class<T> klass, long hjid) {
         return em.find(klass, hjid);
+    }
+
+    @Override
+    public <T> T getSingleEntityByHjidWithCleanEm(Class<T> klass, long hjid) {
+        EntityManager em = emf.createEntityManager();
+        T entity = em.find(klass, hjid);
+        em.close();
+        return entity;
     }
 
     public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues) {
@@ -54,6 +71,8 @@ public class GenericJPARepositoryImpl implements GenericJPARepository {
     }
 
     public <T> T updateEntity(T entity) {
+        em.flush();
+        em.clear();
         entity = em.merge(entity);
         return entity;
     }
@@ -63,10 +82,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository {
          flushed and cleared the entity manager as there might be managed entities preventing the given entity from
          being deleted.
           */
-
         em.flush();
         em.clear();
-        if(!em.contains(entity)) {
+        if (!em.contains(entity)) {
             entity = em.merge(entity);
         }
         em.remove(entity);

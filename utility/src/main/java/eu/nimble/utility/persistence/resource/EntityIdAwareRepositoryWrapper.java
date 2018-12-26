@@ -1,5 +1,7 @@
 package eu.nimble.utility.persistence.resource;
 
+import eu.nimble.utility.BinaryContentUtil;
+import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.Configuration;
 import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
@@ -12,9 +14,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>
+ * This class is intended to be used while connecting to catalogue databases. Other JPA-based repositories e.g.
+ * businessprocessdb are not supposed to need the identifier and binary content check functionalities provided by this
+ * wrapper.
  * <p>
  * This class is a wrapper on {@link GenericJPARepository} and {@link JpaRepository} interfaces so that resource-id
  * mappings can be managed from a single entry point considering the modifying operations (create, update and delete).
@@ -28,6 +35,7 @@ import java.util.List;
  * entities are passed with several database identifiers. There might be data integrity issues when the identifiers
  * passed in the entities are somehow mixed, are not proper.
  * <p>
+ * <p>
  * Created by suat on 17-Dec-18.
  */
 public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, JpaRepository<T, Long> {
@@ -37,25 +45,10 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     private JpaRepository<T, Long> jpaRepository;
     private String partyId;
     private String userId;
-    private String repositoryName;
+    private String catalogueRepositoryName;
 
-    public EntityIdAwareRepositoryWrapper(GenericJPARepository genericJPARepository) {
-        this(genericJPARepository, null, null, Configuration.Standard.UBL.toString());
-    }
-
-    public EntityIdAwareRepositoryWrapper(GenericJPARepository genericJPARepository, String partyId) {
-        this(genericJPARepository, partyId, null, Configuration.Standard.UBL.toString());
-    }
-
-    public EntityIdAwareRepositoryWrapper(GenericJPARepository genericJPARepository, String partyId, String repositoryName) {
-        this(genericJPARepository, partyId, null, repositoryName);
-    }
-
-    public EntityIdAwareRepositoryWrapper(GenericJPARepository genericJPARepository, String partyId, String userId, String repositoryName) {
-        this.genericJPARepository = genericJPARepository;
-        this.partyId = partyId;
-        this.userId = userId;
-        this.repositoryName = repositoryName;
+    public EntityIdAwareRepositoryWrapper(String partyId) {
+        this(null, partyId, null, Configuration.Standard.UBL.toString());
     }
 
     public EntityIdAwareRepositoryWrapper(JpaRepository jpaRepository) {
@@ -66,20 +59,26 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
         this(jpaRepository, partyId, null, Configuration.Standard.UBL.toString());
     }
 
-    public EntityIdAwareRepositoryWrapper(JpaRepository jpaRepository, String partyId, String repositoryName) {
-        this(jpaRepository, partyId, null, repositoryName);
+    public EntityIdAwareRepositoryWrapper(JpaRepository jpaRepository, String partyId, String catalogueRepositoryName) {
+        this(jpaRepository, partyId, null, catalogueRepositoryName);
     }
 
-    public EntityIdAwareRepositoryWrapper(JpaRepository jpaRepository, String partyId, String userId, String repositoryName) {
+    public EntityIdAwareRepositoryWrapper(JpaRepository jpaRepository, String partyId, String userId, String catalogueRepositoryName) {
         this.jpaRepository = jpaRepository;
         this.partyId = partyId;
         this.userId = userId;
-        this.repositoryName = repositoryName;
+        this.catalogueRepositoryName = catalogueRepositoryName;
+        this.genericJPARepository = CommonSpringBridge.getInstance().getGenericJPARepository();
     }
 
     @Override
     public <T> T getSingleEntityByHjid(Class<T> klass, long hjid) {
         return genericJPARepository.getSingleEntityByHjid(klass, hjid);
+    }
+
+    @Override
+    public <T> T getSingleEntityByHjidWithCleanEm(Class<T> klass, long hjid) {
+        return genericJPARepository.getSingleEntityByHjidWithCleanEm(klass, hjid);
     }
 
     @Override
@@ -104,15 +103,14 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
 
     @Override
     public <T> T updateEntity(T entity) {
+        // check whether the ids included in the entity belongs to the party performing the update
         checkHjidAssociation(entity);
-        Long id = extractIdFromEntity(entity);
-        // if id is null a new entity might be being stored
-        if(id != null) {
-            T originalObject = (T) genericJPARepository.getSingleEntityByHjid(entity.getClass(), id);
-            ResourceValidationUtil.removeHjidsForObject(originalObject, repositoryName);
-        }
+        // clear the entity identifiers for the passed entity
+        clearIdsAndBinaryContentsForUpdatedEntity(entity);
+        // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
-        ResourceValidationUtil.insertHjidsForObject(entity, partyId, repositoryName);
+        // create entity ids and binary content references for the entity
+        createIdsAndBinaryContentsForEntity(entity);
         return entity;
     }
 
@@ -120,7 +118,7 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     public <T> void deleteEntity(T entity) {
         checkHjidAssociation(entity);
         genericJPARepository.deleteEntity(entity);
-        ResourceValidationUtil.removeHjidsForObject(entity, repositoryName);
+        clearIdsAndBinaryContentsForDeletedEntity(entity);
     }
 
     @Override
@@ -128,14 +126,14 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
         T entity = getSingleEntityByHjid(klass, hjid);
         checkHjidAssociation(entity);
         genericJPARepository.deleteEntity(entity);
-        ResourceValidationUtil.removeHjidsForObject(entity, repositoryName);
+        clearIdsAndBinaryContentsForDeletedEntity(entity);
     }
 
     @Override
     public <T> void persistEntity(T entity) {
         checkHjidExistence(entity);
         genericJPARepository.persistEntity(entity);
-        ResourceValidationUtil.insertHjidsForObject(entity, partyId, repositoryName);
+        createIdsAndBinaryContentsForEntity(entity);
     }
 
     @Override
@@ -200,15 +198,14 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
 
     @Override
     public <S extends T> S save(S entity) {
+        // check whether the ids included in the entity belongs to the party performing the update
         checkHjidAssociation(entity);
-        Long id = extractIdFromEntity(entity);
-        // if id is null a new entity might be being stored
-        if(id != null) {
-            T originalObject = jpaRepository.findOne(id);
-            ResourceValidationUtil.removeHjidsForObject(originalObject, repositoryName);
-        }
+        // clear the entity identifiers for the passed entity
+        clearIdsAndBinaryContentsForUpdatedEntity(entity);
+        // perform the update operation on db
         entity = jpaRepository.save(entity);
-        ResourceValidationUtil.insertHjidsForObject(entity, partyId, repositoryName);
+        // create entity id associations and binary content references
+        createIdsAndBinaryContentsForEntity(entity);
         return entity;
     }
 
@@ -237,7 +234,7 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     public void delete(T entity) {
         checkHjidAssociation(entity);
         jpaRepository.delete(entity);
-        ResourceValidationUtil.removeHjidsForObject(entity, repositoryName);
+        clearIdsAndBinaryContentsForDeletedEntity(entity);
     }
 
     @Override
@@ -271,24 +268,34 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
     }
 
     public <T> void checkHjidAssociation(T entity) {
-        boolean entityAssociationCheck = ResourceValidationUtil.hjidsBelongsToParty(entity, partyId, repositoryName);
-        if(entityAssociationCheck == false) {
+        boolean entityAssociationCheck = ResourceValidationUtil.hjidsBelongsToParty(entity, partyId, catalogueRepositoryName);
+        if (entityAssociationCheck == false) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             throw new RepositoryException(String.format("There are entity ids (hjids) belonging to another company in the passed object: %s", serializedEntity));
         }
     }
 
+
     public <T> void checkHjidExistence(T entity) {
         boolean hjidsExist = ResourceValidationUtil.hjidsExit(entity);
-        if(hjidsExist) {
+        if (hjidsExist) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             throw new RepositoryException(String.format("There are database ids (hjids) in the entity to be persisted. Make sure there is none. The entity: %s", serializedEntity));
         }
     }
 
+    /**
+     * Extracts the {@link Long} value of {@code hjid} field of the given entity.
+     *
+     * @param entity
+     * @param <T>
+     * @return
+     */
     private <T> Long extractIdFromEntity(T entity) {
         Field field = getIdFieldFromClass(entity.getClass());
-        if(field == null) {
+        // hjid field is not defined directly in the class of the given entity.
+        // look for the field in the super classes
+        if (field == null) {
             Class superClass;
             do {
                 superClass = entity.getClass().getSuperclass();
@@ -296,7 +303,7 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
             } while (superClass != null && field == null);
         }
 
-        if(field == null) {
+        if (field == null) {
             String serializedObject = JsonSerializationUtility.serializeEntitySilently(entity);
             String msg = String.format("No hjid field exists in the given class: %s, serialized object: %s", entity.getClass(), serializedObject);
             logger.error(msg);
@@ -323,5 +330,48 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
         } catch (NoSuchFieldException e) {
             return null;
         }
+    }
+
+    private <T> void clearIdsAndBinaryContentsForUpdatedEntity(T entity) {
+        clearIdsAndBinaryContents(entity, "Update");
+    }
+
+    private <T> void clearIdsAndBinaryContentsForDeletedEntity(T entity) {
+        clearIdsAndBinaryContents(entity, "Delete");
+    }
+
+    private <T> void clearIdsAndBinaryContents(T entity, String updateMode) {
+        // remove the previous ids associated with the entity.
+        // this checks the persisted entities that might be present the passed entity
+        ResourceValidationUtil.removeHjidsForObject(entity, catalogueRepositoryName);
+
+        List<String> binaryContentUrisToDelete = CommonSpringBridge.getInstance().getTransactionEnabledSerializationUtility().serializeBinaryObject(entity);
+        if(updateMode.contentEquals("Update")) {
+            // extract the hjid of the entity
+            Long id = extractIdFromEntity(entity);
+            // null id means that a new entity is being created
+            if (id != null) {
+                T originalEntity = (T) genericJPARepository.getSingleEntityByHjidWithCleanEm(entity.getClass(), id);
+                // check the original entity. since there might be cases where an identifier is present but
+                // the entity is not persisted in the database
+                // if the entity exists clear the identifiers for that as well
+                if (originalEntity != null) {
+                    // remove ids for the entity
+                    ResourceValidationUtil.removeHjidsForObject(originalEntity, catalogueRepositoryName);
+
+                    // remove binary content from the binary content db for the passed entity
+                    // get uris of binary contents in the updated entity
+                    List<String> existingUris = CommonSpringBridge.getInstance().getTransactionEnabledSerializationUtility().serializeBinaryObject(originalEntity);
+                    existingUris.removeAll(binaryContentUrisToDelete);
+                    binaryContentUrisToDelete = existingUris;
+                }
+            }
+        }
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
+    }
+
+    private <T> void createIdsAndBinaryContentsForEntity(T entity) {
+        ResourceValidationUtil.insertHjidsForObject(entity, partyId, catalogueRepositoryName);
+        BinaryContentUtil.processBinaryContents(entity);
     }
 }
