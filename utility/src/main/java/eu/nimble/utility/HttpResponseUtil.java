@@ -6,6 +6,8 @@ import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Utility methods to log erroneous cases in REST services
  *
@@ -48,5 +50,12 @@ public class HttpResponseUtil {
             }
         }
         return ResponseEntity.status(httpStatus).body(msg);
+    }
+
+    public static String baseUrl(HttpServletRequest request) {
+        String baseUrl = request.getRequestURL().toString();
+        if (!baseUrl.endsWith("/"))
+            baseUrl += "/";
+        return baseUrl;
     }
 }
