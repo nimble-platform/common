@@ -14,6 +14,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ * Deserializes {@link BinaryObjectType}s by copying the passed binary information to the binary content database.
+ * Thumbnails are created for images and kept inside the passed {@link BinaryObjectType}. Non-image binary content is
+ * nullified. The content created in the binary content database is referred via the {@code uri} property of the passed
+ * {@link BinaryObjectType}
+ */
 @Component
 public class BinaryObjectDeserializer extends JsonDeserializer<BinaryObjectType> {
 

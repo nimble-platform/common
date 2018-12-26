@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Deletes content from binary content database. The content is specified by {@code uri} of the passed {@link BinaryObjectType}.
+ */
 @Component
 public class BinaryObjectSerializerDelete extends JsonSerializer<BinaryObjectType> {
 

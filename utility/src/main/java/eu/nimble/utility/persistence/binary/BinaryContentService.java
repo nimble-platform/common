@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 /**
+ * Service to manage data in the binary content database.
+ *
  * Created by suat on 03-Dec-18.
  */
 @Component
