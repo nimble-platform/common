@@ -37,9 +37,7 @@ public class DataModelUtilityTest {
         List<String> fieldNames = new ArrayList<>();
         Field[] fields = PartyType.class.getDeclaredFields();
         for(Field f : fields) {
-            if(!f.getName().contentEquals("hjid")) {
-                fieldNames.add(f.getName());
-            }
+            fieldNames.add(f.getName());
         }
 
         PartyType p1 = new PartyType();
@@ -62,6 +60,7 @@ public class DataModelUtilityTest {
 
     private PartyType createEmptyParty() {
         PartyType party = new PartyType();
+        party.setHjid(1L);
         party.setWebsiteURI("website");
         party.setID("id");
         party.setName("name");

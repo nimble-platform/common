@@ -7,11 +7,16 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
  */
 public class DataModelUtility {
     /**
-     * Nullify all the direct fields of a {@link PartyType} except the {@code hjid} field.
+     * Nullify all the direct fields of a {@link PartyType}.
      *
      * @param party
      */
     public static void nullifyPartyFields(PartyType party) {
+        party.setHjid(null);
+        nullifyPartyFieldsExceptHjid(party);
+    }
+
+    public static void nullifyPartyFieldsExceptHjid(PartyType party) {
         party.setID(null);
         party.setName(null);
         party.setExternalAward(null);
@@ -36,12 +41,17 @@ public class DataModelUtility {
     }
 
     /**
-     * Copies the information from {@code sourceParty} to {@code targetParty} except the {@code hjid} field.
+     * Copies the information from {@code sourceParty} to {@code targetParty}.
      *
      * @param targetParty
      * @param sourceParty
      */
     public static void copyParty(PartyType targetParty, PartyType sourceParty) {
+        targetParty.setHjid(sourceParty.getHjid());
+        copyPartyExceptHjid(targetParty, sourceParty);
+    }
+
+    public static void copyPartyExceptHjid(PartyType targetParty, PartyType sourceParty) {
         targetParty.setID(sourceParty.getID());
         targetParty.setName(sourceParty.getName());
         targetParty.setExternalAward(sourceParty.getExternalAward());
