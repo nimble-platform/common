@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * Created by suat on 11-Dec-18.
  */
-public class PartySerializer extends JsonSerializer<PartyType> {
+public class PartySerializerGetIds extends JsonSerializer<PartyType> {
 
     private Set<Long> parsedIds = new HashSet<>();
 

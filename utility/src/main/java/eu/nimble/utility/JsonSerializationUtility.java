@@ -10,9 +10,8 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
-import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.PartyMapperSerializer;
-import eu.nimble.utility.serialization.PartySerializer;
+import eu.nimble.utility.serialization.PartySerializerGetIds;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -190,7 +188,7 @@ public class JsonSerializationUtility {
 
     private static PartyMapperSerializer getPartyMapperSerializer() {
         ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
-        PartySerializer partySerializer = new PartySerializer();
+        PartySerializerGetIds partySerializer = new PartySerializerGetIds();
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(PartyType.class, partySerializer);
         objectMapper.registerModule(simpleModule);

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class PartyMapperSerializer {
     private ObjectMapper objectMapper;
-    private PartySerializer partySerializer;
+    private PartySerializerGetIds partySerializer;
 
-    public PartyMapperSerializer(ObjectMapper objectMapper, PartySerializer partySerializer) {
+    public PartyMapperSerializer(ObjectMapper objectMapper, PartySerializerGetIds partySerializer) {
         this.objectMapper = objectMapper;
         this.partySerializer = partySerializer;
     }
@@ -18,7 +18,7 @@ public class PartyMapperSerializer {
         return objectMapper;
     }
 
-    public PartySerializer getPartySerializer() {
+    public PartySerializerGetIds getPartySerializer() {
         return partySerializer;
     }
 }

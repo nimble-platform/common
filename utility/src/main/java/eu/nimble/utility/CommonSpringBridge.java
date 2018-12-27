@@ -2,7 +2,6 @@ package eu.nimble.utility;
 
 import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.persistence.binary.BinaryObjectSerializerDelete;
 import eu.nimble.utility.persistence.resource.ResourceTypeRepository;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
 import org.springframework.beans.BeansException;
