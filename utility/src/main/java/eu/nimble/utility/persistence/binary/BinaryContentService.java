@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.UUID;
 
 /**
@@ -31,6 +29,16 @@ public class BinaryContentService {
     private static final String QUERY_INSERT_CONTENT = "INSERT INTO  " + TABLE_NAME + "( " + COLUMN_NAME_ID + "," + COLUMN_NAME_MIME_CODE + "," + COLUMN_NAME_FILE_NAME + "," + COLUMN_NAME_VALUE + ") VALUES (?,?,?,?)";
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
     private static final String QUERY_DELETE_CONTENT_BY_URI = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
+    private static final String CREATE_TABLE_SQL =
+            "CREATE TABLE public.binary_content (" +
+                    "id varchar(2048) NOT NULL," +
+                    "mime_code varchar(255) NULL," +
+                    "file_name text NULL," +
+                    "value_ bytea NULL," +
+                    "CONSTRAINT binary_content_pkey PRIMARY KEY (id)" +
+                    ")" +
+                    "WITH ( OIDS=FALSE) ;";
+    private static final String QUERY_TABLE_SQL = "SELECT to_regclass('binary_content')";
 
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -139,7 +147,36 @@ public class BinaryContentService {
         }
     }
 
-    private void closeResources(Connection c, PreparedStatement ps, ResultSet rs, String msg) {
+    @PostConstruct
+    public void initializeBinaryContentDb() {
+        Connection c = null;
+        Statement s = null;
+        ResultSet rs = null;
+        try {
+            c = dataSource.getConnection();
+            s = c.createStatement();
+            rs = s.executeQuery(QUERY_TABLE_SQL);
+
+            if(rs.next()) {
+                String tableName = rs.getString(1);
+                if(tableName == null) {
+                    s.execute(CREATE_TABLE_SQL);
+                    logger.info("created binary_content table in the binary content database");
+                } else {
+                    logger.info("binary_content table is already available in the binary content database");
+                }
+            }
+
+        } catch (SQLException e) {
+            String msg = "Failed to initialize binary_content table";
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+        } finally {
+            closeResources(c, s, rs, "");
+        }
+    }
+
+    private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {
         if (c != null) {
             try {
                 if (!c.isClosed()) {
