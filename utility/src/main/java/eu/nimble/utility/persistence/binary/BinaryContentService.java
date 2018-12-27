@@ -154,17 +154,15 @@ public class BinaryContentService {
         ResultSet rs = null;
         try {
             c = dataSource.getConnection();
-            s = c.createStatement();
-            rs = s.executeQuery(QUERY_TABLE_SQL);
 
-            if(rs.next()) {
-                String tableName = rs.getString(1);
-                if(tableName == null) {
-                    s.execute(CREATE_TABLE_SQL);
-                    logger.info("created binary_content table in the binary content database");
-                } else {
-                    logger.info("binary_content table is already available in the binary content database");
-                }
+            DatabaseMetaData dbm = c.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME, null);
+            if (tables.next()) {
+                logger.info("binary_content table is already available in the binary content database");
+            } else {
+                s = c.createStatement();
+                s.execute(CREATE_TABLE_SQL);
+                logger.info("created binary_content table in the binary content database");
             }
 
         } catch (SQLException e) {
