@@ -107,10 +107,12 @@ public class EntityIdAwareRepositoryWrapper<T> implements GenericJPARepository, 
         checkHjidAssociation(entity);
         // clear the entity identifiers for the passed entity
         clearIdsAndBinaryContentsForUpdatedEntity(entity);
+        // create binary content references for the entity
+        BinaryContentUtil.processBinaryContents(entity);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
-        // create entity ids and binary content references for the entity
-        createIdsAndBinaryContentsForEntity(entity);
+        // create entity ids for the entity
+        ResourceValidationUtil.insertHjidsForObject(entity, partyId, catalogueRepositoryName);
         return entity;
     }
 
