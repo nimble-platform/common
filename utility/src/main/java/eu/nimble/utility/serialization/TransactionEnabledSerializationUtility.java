@@ -2,15 +2,13 @@ package eu.nimble.utility.serialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
-import eu.nimble.utility.persistence.binary.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * In a Spring-managed component serialization of lazy collections requires transaction management. Therefore, the
@@ -23,38 +21,32 @@ public class TransactionEnabledSerializationUtility {
 
     private static Logger log = LoggerFactory.getLogger(TransactionEnabledSerializationUtility.class);
 
-    @Transactional(transactionManager = "ubldbTransactionManager")
+    @Autowired
+    private EntityManagerFactory emf;
+
     public String serializeUBLObject(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String serializedObject = null;
+        EntityManager em = emf.createEntityManager();
         try {
-            serializedObject = objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            String msg = String.format("Failed to serialize object: %s", object.getClass().getName());
-            log.error(msg);
-            throw new RuntimeException(msg, e);
+            em.getTransaction().begin();
+            object = em.merge(object);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String serializedObject = null;
+            try {
+                serializedObject = objectMapper.writeValueAsString(object);
+            } catch (JsonProcessingException e) {
+                String msg = String.format("Failed to serialize object: %s", object.getClass().getName());
+                log.error(msg);
+                throw new RuntimeException(msg, e);
+            }
+
+            return serializedObject;
+
+        } finally {
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().commit();
+            }
+            em.close();
         }
-        return serializedObject;
-    }
-
-    @Transactional(transactionManager = "ubldbTransactionManager")
-    public List<String> serializeBinaryObject(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule simpleModule = new SimpleModule();
-        List<String> uris;
-        try {
-            BinaryObjectSerializerGetUris binaryObjectSerializerGetUris = new BinaryObjectSerializerGetUris();
-
-            simpleModule.addSerializer(BinaryObjectType.class,binaryObjectSerializerGetUris);
-            objectMapper.registerModule(simpleModule);
-            uris = binaryObjectSerializerGetUris.getListOfUris();
-
-            objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            String msg = String.format("Failed to serialize object: %s", object.getClass().getName());
-            log.error(msg);
-            throw new RuntimeException(msg, e);
-        }
-        return uris;
     }
 }

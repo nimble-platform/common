@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
+import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.JsonSerializationUtility;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class PartySerializerGetIds extends JsonSerializer<PartyType> {
 
     @Override
     public void serialize(PartyType partyType, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        this.parsedIds.addAll(JsonSerializationUtility.extractAllHjids(partyType));
+        this.parsedIds.addAll(CommonSpringBridge.getInstance().getResourceValidationUtil().extractAllHjids(partyType));
         jsonGenerator.writeString(JsonSerializationUtility.getObjectMapper().writeValueAsString(partyType));
     }
 

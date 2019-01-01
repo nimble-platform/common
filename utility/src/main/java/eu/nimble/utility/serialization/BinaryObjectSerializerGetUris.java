@@ -1,4 +1,4 @@
-package eu.nimble.utility.persistence.binary;
+package eu.nimble.utility.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

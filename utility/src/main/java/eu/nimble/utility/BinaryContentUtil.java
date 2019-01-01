@@ -1,10 +1,9 @@
 package eu.nimble.utility;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
-import eu.nimble.utility.persistence.binary.BinaryObjectSerializerProcess;
+import eu.nimble.utility.serialization.BinaryObjectSerializerProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ public class BinaryContentUtil {
     private static final Logger logger = LoggerFactory.getLogger(BinaryContentUtil.class);
 
     /**
-     * Processes the {@link BinaryObjectType}s as a side effect using {@link eu.nimble.utility.persistence.binary.BinaryObjectSerializerProcess}.
+     * Processes the {@link BinaryObjectType}s as a side effect using {@link BinaryObjectSerializerProcess}.
      * Images are replaced with thumbnails and other binary contents are nullified. Original content is stored in the
      * binary content database and referred via the {@code uri} field of {@link BinaryObjectType}s.
      *

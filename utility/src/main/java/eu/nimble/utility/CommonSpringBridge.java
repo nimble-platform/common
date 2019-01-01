@@ -1,14 +1,16 @@
 package eu.nimble.utility;
 
-import eu.nimble.utility.persistence.GenericJPARepository;
+import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.persistence.resource.ResourceTypeRepository;
+import eu.nimble.utility.persistence.resource.ResourceValidationUtil;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManagerFactory;
 
 /**
  * Created by suat on 10-Dec-18.
@@ -18,15 +20,17 @@ public class CommonSpringBridge implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    @Autowired(required = false)
-    private ResourceTypeRepository resourceTypeRepository;
-    @Autowired(required = false)
-    private TransactionEnabledSerializationUtility transactionEnabledSerializationUtility;
     @Autowired(required = false) // it's assumed that catalogue repository would be injected by default
-    private GenericJPARepository genericJPARepository;
+    private GenericJPARepositoryImpl genericJPARepository;
+    @Autowired(required = false)
+    private EntityManagerFactory emf;
 
     @Autowired
+    private TransactionEnabledSerializationUtility transactionEnabledSerializationUtility;
+    @Autowired
     private BinaryContentService binaryContentService;
+    @Autowired
+    private ResourceValidationUtil resourceValidationUtil;
 
     public static CommonSpringBridge getInstance() {
         return applicationContext.getBean(CommonSpringBridge.class);
@@ -38,10 +42,6 @@ public class CommonSpringBridge implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public ResourceTypeRepository getResourceTypeRepository() {
-        return resourceTypeRepository;
-    }
-
     public TransactionEnabledSerializationUtility getTransactionEnabledSerializationUtility() {
         return transactionEnabledSerializationUtility;
     }
@@ -50,7 +50,15 @@ public class CommonSpringBridge implements ApplicationContextAware {
         return binaryContentService;
     }
 
-    public GenericJPARepository getGenericJPARepository() {
-        return genericJPARepository;
+    public GenericJPARepositoryImpl getGenericJPARepository() {
+        return genericJPARepository.withEmf("ubldbEntityManagerFactory");
+    }
+
+    public ResourceValidationUtil getResourceValidationUtil() {
+        return resourceValidationUtil;
+    }
+
+    public EntityManagerFactory getEmf() {
+        return emf;
     }
 }
