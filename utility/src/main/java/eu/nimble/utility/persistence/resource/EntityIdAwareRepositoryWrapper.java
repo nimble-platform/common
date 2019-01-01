@@ -123,7 +123,6 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         entity = genericJPARepository.updateEntity(entity);
         // create entity ids for the entity
         CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
-
         return entity;
     }
 
