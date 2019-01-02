@@ -7,8 +7,6 @@ import java.util.List;
  * Created by suat on 20-Nov-18.
  */
 public interface GenericJPARepository {
-    GenericJPARepository withEmf(String emfBeanName);
-
     EntityManagerFactory getEmf();
 
     <T> T getSingleEntityByHjid(Class<T> klass, long hjid);

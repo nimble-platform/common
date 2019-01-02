@@ -10,10 +10,12 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ResourceType;
 import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.JsonSerializationUtility;
+import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.serialization.PartyMapperSerializer;
 import eu.nimble.utility.serialization.PartySerializerGetIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -25,6 +27,9 @@ import java.util.*;
 @Component
 public class ResourceValidationUtil {
     private static Logger logger = LoggerFactory.getLogger(ResourceValidationUtil.class);
+
+    @Autowired
+    private JPARepositoryFactory repoFactory;
 
     public <T> void insertHjidsForObject(T object, String partyId, String catalogueRepository) {
         // assuming that we are injecting correct identifiers for the party instances
@@ -43,7 +48,7 @@ public class ResourceValidationUtil {
             processedHjids.add(hjid);
         }
 
-        CommonSpringBridge.getInstance().getGenericJPARepository().persistEntities(resources);
+        repoFactory.forCatalogueRepository().persistEntities(resources);
     }
 
     public <T> void removeHjidsForObject(T object, String catalogueRepository) {

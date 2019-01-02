@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
  * In a Spring-managed component serialization of lazy collections requires transaction management. Therefore, the
  * the client classes should be accessing the serialization utility by Spring means i.e. by Autowiring.
  *
+ *
  * Created by suat on 28-Nov-18.
  */
 @Component
@@ -28,7 +29,7 @@ public class TransactionEnabledSerializationUtility {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            object = em.merge(object);
+//            object = em.merge(object);
 
             ObjectMapper objectMapper = new ObjectMapper();
             String serializedObject = null;

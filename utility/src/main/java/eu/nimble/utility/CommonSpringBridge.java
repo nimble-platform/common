@@ -1,6 +1,7 @@
 package eu.nimble.utility;
 
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
+import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.persistence.resource.ResourceValidationUtil;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
@@ -19,11 +20,6 @@ import javax.persistence.EntityManagerFactory;
 public class CommonSpringBridge implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
-
-    @Autowired(required = false) // it's assumed that catalogue repository would be injected by default
-    private GenericJPARepositoryImpl genericJPARepository;
-    @Autowired(required = false)
-    private EntityManagerFactory emf;
 
     @Autowired
     private TransactionEnabledSerializationUtility transactionEnabledSerializationUtility;
@@ -50,15 +46,7 @@ public class CommonSpringBridge implements ApplicationContextAware {
         return binaryContentService;
     }
 
-    public GenericJPARepositoryImpl getGenericJPARepository() {
-        return genericJPARepository.withEmf("ubldbEntityManagerFactory");
-    }
-
     public ResourceValidationUtil getResourceValidationUtil() {
         return resourceValidationUtil;
-    }
-
-    public EntityManagerFactory getEmf() {
-        return emf;
     }
 }

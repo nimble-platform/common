@@ -10,6 +10,7 @@ import eu.nimble.utility.Configuration;
 import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
+import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.serialization.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ import java.util.List;
 public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     private static final Logger logger = LoggerFactory.getLogger(EntityIdAwareRepositoryWrapper.class);
 
-    protected GenericJPARepositoryImpl genericJPARepository;
+    protected GenericJPARepository genericJPARepository;
     protected String partyId;
     protected String userId;
     protected String catalogueRepositoryName;
@@ -65,12 +66,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         this.partyId = partyId;
         this.userId = userId;
         this.catalogueRepositoryName = catalogueRepositoryName;
-        this.genericJPARepository = CommonSpringBridge.getInstance().getGenericJPARepository().withEmf("ubldbEntityManagerFactory");
-    }
-
-    @Override
-    public GenericJPARepository withEmf(String emfBeanName) {
-        return this;
+        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL);
     }
 
     @Override
