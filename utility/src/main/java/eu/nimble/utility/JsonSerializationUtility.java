@@ -27,7 +27,7 @@ public class JsonSerializationUtility {
     private static Logger logger = LoggerFactory.getLogger(JsonSerializationUtility.class);
 
     public static <T> T deserializeContent(String serializedContent, TypeReference<T> typeReference) throws IOException {
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ObjectMapper mapper = getObjectMapper();
 
         try {
             T deserializedObject = mapper.readValue(serializedContent, typeReference);
@@ -39,7 +39,7 @@ public class JsonSerializationUtility {
     }
 
     public static <T> T deserializeContent(InputStream serializedContent, TypeReference<T> typeReference) throws IOException {
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ObjectMapper mapper = getObjectMapper();
 
         try {
             T deserializedObject = mapper.readValue(serializedContent, typeReference);
@@ -110,6 +110,10 @@ public class JsonSerializationUtility {
 
         // add the following mapper feature so that the transient fields are not considered during serialization and deserialization
         mapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
+
+        // add the following mapper feature since camunda injects serializer configurations that serialize entity fields
+        // as appear in the @XmlElement annotations. however neither front-end nor catalogue service have these configurations
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 
         // add deserializer to be able deserialize derived ClauseType instances properly
         SimpleModule module = new SimpleModule();

@@ -2,6 +2,7 @@ package eu.nimble.utility.serialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.nimble.utility.JsonSerializationUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class TransactionEnabledSerializationUtility {
             em.getTransaction().begin();
 //            object = em.merge(object);
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
             String serializedObject = null;
             try {
                 serializedObject = objectMapper.writeValueAsString(object);
