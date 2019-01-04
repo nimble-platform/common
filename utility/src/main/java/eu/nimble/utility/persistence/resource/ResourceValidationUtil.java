@@ -80,6 +80,10 @@ public class ResourceValidationUtil {
             return false;
         }
 
+        if(!(managedIds.containsAll(hjids) && hjids.containsAll(managedIds))) {
+            return false;
+        }
+
         return true;
     }
 
