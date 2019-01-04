@@ -1,4 +1,4 @@
-package eu.nimble.utility.persistence.binary;
+package eu.nimble.utility.persistence.initalizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,19 @@ import java.sql.Statement;
  */
 @Component
 @Profile("!local_dev")
-public class BinaryContentDbInitializer {
+public class CustomDbInitializer {
 
-    private static final String CREATE_TABLE_SQL =
+    private static final String QUERY_CREATE_RESOURCE_TABLE =
+            "CREATE TABLE public.resource (" +
+                    "catalogue_repository varchar(255) NULL," +
+                    "entity_id int8 NULL," +
+                    "party_id varchar(255) NULL," +
+                    "user_id varchar(255) NULL," +
+                    "CONSTRAINT resource_primary_key PRIMARY KEY (entity_id,catalogue_repository)" +
+                    ")" +
+                    "WITH (OIDS=FALSE);";
+
+    private static final String QUERY_CREATE_BINARY_CONTENT_TABLE =
             "CREATE TABLE public.binary_content (" +
                     "id varchar(2048) NOT NULL," +
                     "mime_code varchar(255) NULL," +
@@ -34,28 +44,67 @@ public class BinaryContentDbInitializer {
                     ")" +
                     "WITH ( OIDS=FALSE) ;";
 
-    private static final String QUERY_TABLE_SQL = "SELECT to_regclass('binary_content')";
+    private static final String QUERY_TABLE_SQL = "SELECT to_regclass('%s')";
 
-    private static Logger logger = LoggerFactory.getLogger(BinaryContentDbInitializer.class);
+    private static Logger logger = LoggerFactory.getLogger(CustomDbInitializer.class);
 
     @Autowired
     @Qualifier("binarycontentdbDataSource")
     private DataSource binaryContentDataSource;
 
+    @Autowired(required = false)
+    @Qualifier("ubldbDataSource")
+    private DataSource ubldbDataSource;
+
     @PostConstruct
-    public void initializeBinaryContentDb() {
+    public void initialize() {
+        initializeBinaryContentDb();
+        if(ubldbDataSource != null) {
+            initializeResourceTable();
+        }
+    }
+
+    private void initializeResourceTable() {
+        Connection c = null;
+        Statement s = null;
+        ResultSet rs = null;
+        try {
+            c = ubldbDataSource.getConnection();
+            s = c.createStatement();
+            rs = s.executeQuery(String.format(QUERY_TABLE_SQL, "resource"));
+
+            if(rs.next()) {
+                String tableName = rs.getString(1);
+                if(tableName == null) {
+                    s.execute(QUERY_CREATE_RESOURCE_TABLE);
+                    logger.info("created resource table in the ubl database");
+                } else {
+                    logger.info("resource table is already available in the ubl database");
+                }
+            }
+
+        } catch (SQLException e) {
+            String msg = "Failed to initialize resource table";
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+        } finally {
+            closeResources(c, s, rs);
+        }
+    }
+
+    private void initializeBinaryContentDb() {
         Connection c = null;
         Statement s = null;
         ResultSet rs = null;
         try {
             c = binaryContentDataSource.getConnection();
             s = c.createStatement();
-            rs = s.executeQuery(QUERY_TABLE_SQL);
+            rs = s.executeQuery(String.format(QUERY_TABLE_SQL, "binary_content"));
 
             if(rs.next()) {
                 String tableName = rs.getString(1);
                 if(tableName == null) {
-                    s.execute(CREATE_TABLE_SQL);
+                    s.execute(QUERY_CREATE_BINARY_CONTENT_TABLE);
                     logger.info("created binary_content table in the binary content database");
                 } else {
                     logger.info("binary_content table is already available in the binary content database");

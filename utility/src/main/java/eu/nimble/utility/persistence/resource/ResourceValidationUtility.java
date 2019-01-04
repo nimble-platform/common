@@ -7,17 +7,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.ResourceType;
-import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.JsonSerializationUtility;
-import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.serialization.PartyMapperSerializer;
 import eu.nimble.utility.serialization.PartySerializerGetIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.*;
 
@@ -25,62 +24,50 @@ import java.util.*;
  * Created by suat on 07-Dec-18.
  */
 @Component
-public class ResourceValidationUtil {
-    private static Logger logger = LoggerFactory.getLogger(ResourceValidationUtil.class);
+public class ResourceValidationUtility {
 
-    @Autowired
-    private JPARepositoryFactory repoFactory;
+    private static Logger logger = LoggerFactory.getLogger(ResourceValidationUtility.class);
+
+    @Autowired(required = false)
+    @Qualifier("ubldbDataSource")
+    private DataSource ubldbDataSource;
 
     public <T> void insertHjidsForObject(T object, String partyId, String catalogueRepository) {
-        // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
-        List<ResourceType> resources = new ArrayList<>();
-        Set<Long> processedHjids = new HashSet<>();
-        for (Long hjid : hjids) {
-            if (processedHjids.contains(hjid)) {
-                continue;
-            }
-            ResourceType resource = new ResourceType();
-            resource.setEntityID(hjid);
-            resource.setPartyID(partyId);
-            resource.setCatalogueRepository(catalogueRepository);
-            resources.add(resource);
-            processedHjids.add(hjid);
-        }
-
-        repoFactory.forCatalogueRepository().persistEntities(resources);
+        ResourcePersistenceUtility.insertResourcesForParty(catalogueRepository, partyId, hjids);
     }
 
     public <T> void removeHjidsForObject(T object, String catalogueRepository) {
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
-        if(hjids.size() > 0) {
-            ResourceTypePersistenceUtil.deleteEntityIdsForObject(catalogueRepository, hjids);
+        if (hjids.size() > 0) {
+            ResourcePersistenceUtility.deleteResourcesForParty(catalogueRepository, hjids);
         }
     }
 
     public <T> boolean hjidsBelongsToParty(T object, String partyId, String catalogueRepository) {
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
-        if(hjids.size() == 0) {
+        if (hjids.size() == 0) {
             return true;
         }
-
-        List<ResourceType> resources = ResourceTypePersistenceUtil.getManagedResourceTypes(catalogueRepository, hjids);
-
-        // check distinct parties
         Set<String> partyIds = new HashSet<>();
         Set<Long> managedIds = new HashSet<>();
-        for (ResourceType resource : resources) {
-            partyIds.add(resource.getPartyID());
-            managedIds.add(resource.getEntityID());
+
+        List<Resource> managedEntities = ResourcePersistenceUtility.getResourcesForIds(catalogueRepository, hjids);
+        for(Resource res : managedEntities) {
+            partyIds.add(res.getPartyId());
+            managedIds.add(res.getEntityId());
         }
+
+        // check distinct parties
         if (partyIds.size() != 1
                 || (partyIds.size() == 1 && !partyIds.toArray(new String[1])[0].contentEquals(partyId))) {
             return false;
         }
 
-        if(!(managedIds.containsAll(hjids) && hjids.containsAll(managedIds))) {
+        // check only the managed ids are provided in the update operation
+        if (!(managedIds.containsAll(hjids) && hjids.containsAll(managedIds))) {
             return false;
         }
 
@@ -98,6 +85,7 @@ public class ResourceValidationUtil {
 
     /**
      * Extracts all the hjids from the given {@code object}
+     *
      * @param object
      * @param <T>
      * @return
@@ -138,7 +126,7 @@ public class ResourceValidationUtil {
     private void extractAllHjids(JsonNode jsonObject, Set<Long> hjids) {
         if (jsonObject.has("hjid")) {
             Long hjid = jsonObject.get("hjid").asLong();
-            if(hjid != null && hjid != 0) {
+            if (hjid != null && hjid != 0) {
                 hjids.add(hjid);
             }
         }
@@ -150,7 +138,7 @@ public class ResourceValidationUtil {
                     extractAllHjids(child, hjids);
                 } else if (child.isArray()) {
                     Iterator<JsonNode> childrenNodes = child.elements();
-                    while(childrenNodes.hasNext()) {
+                    while (childrenNodes.hasNext()) {
                         extractAllHjids(childrenNodes.next(), hjids);
                     }
                 }

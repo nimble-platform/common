@@ -1,17 +1,16 @@
 package eu.nimble.utility;
 
-import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
-import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.persistence.resource.ResourceValidationUtil;
+import eu.nimble.utility.persistence.resource.ResourceValidationUtility;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 /**
  * Created by suat on 10-Dec-18.
@@ -26,7 +25,10 @@ public class CommonSpringBridge implements ApplicationContextAware {
     @Autowired
     private BinaryContentService binaryContentService;
     @Autowired
-    private ResourceValidationUtil resourceValidationUtil;
+    private ResourceValidationUtility resourceValidationUtil;
+    @Autowired(required = false)
+    @Qualifier("ubldbDataSource")
+    private DataSource ubldbDataSource;
 
     public static CommonSpringBridge getInstance() {
         return applicationContext.getBean(CommonSpringBridge.class);
@@ -46,7 +48,11 @@ public class CommonSpringBridge implements ApplicationContextAware {
         return binaryContentService;
     }
 
-    public ResourceValidationUtil getResourceValidationUtil() {
+    public ResourceValidationUtility getResourceValidationUtil() {
         return resourceValidationUtil;
+    }
+
+    public DataSource getUbldbDataSource() {
+        return ubldbDataSource;
     }
 }
