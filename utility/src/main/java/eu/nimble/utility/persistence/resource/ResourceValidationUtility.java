@@ -1,7 +1,5 @@
 package eu.nimble.utility.persistence.resource;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,12 +11,13 @@ import eu.nimble.utility.serialization.PartySerializerGetIds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by suat on 07-Dec-18.
@@ -28,16 +27,23 @@ public class ResourceValidationUtility {
 
     private static Logger logger = LoggerFactory.getLogger(ResourceValidationUtility.class);
 
-    @Autowired(required = false)
-    @Qualifier("ubldbDataSource")
-    private DataSource ubldbDataSource;
+    @Autowired
+    private Environment environment;
 
     public <T> void insertHjidsForObject(T object, String partyId, String catalogueRepository) {
+        boolean checkEntityIds = Boolean.valueOf(environment.getProperty("nimble.check-entity-ids"));
+        if(checkEntityIds == false) {
+            return;
+        }
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
         ResourcePersistenceUtility.insertResourcesForParty(catalogueRepository, partyId, hjids);
     }
 
     public <T> void removeHjidsForObject(T object, String catalogueRepository) {
+        boolean checkEntityIds = Boolean.valueOf(environment.getProperty("nimble.check-entity-ids"));
+        if(checkEntityIds == false) {
+            return;
+        }
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
         if (hjids.size() > 0) {
@@ -46,6 +52,10 @@ public class ResourceValidationUtility {
     }
 
     public <T> boolean hjidsBelongsToParty(T object, String partyId, String catalogueRepository) {
+        boolean checkEntityIds = Boolean.valueOf(environment.getProperty("nimble.check-entity-ids"));
+        if(checkEntityIds == false) {
+            return true;
+        }
         // assuming that we are injecting correct identifiers for the party instances
         Set<Long> hjids = extractAllHjidsExcludingPartyRelatedOnes(object);
         if (hjids.size() == 0) {
@@ -91,7 +101,7 @@ public class ResourceValidationUtility {
      * @return
      */
     public <T> Set<Long> extractAllHjids(T object) {
-        JsonNode jsonObject = getJsonNodeFromObject(object);
+        JsonNode jsonObject = JsonSerializationUtility.getObjectMapper().valueToTree(object);
         Set<Long> hjids = new HashSet<>();
         extractAllHjids(jsonObject, hjids);
         return hjids;
@@ -143,31 +153,6 @@ public class ResourceValidationUtility {
                     }
                 }
             }
-        }
-    }
-
-    private <T> JsonNode getJsonNodeFromObject(T object) {
-        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
-        String serializedObject;
-        try {
-            serializedObject = objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            String msg = String.format("Failed to serialize the object with class: %s", object.getClass());
-            logger.error(msg, e);
-            throw new RuntimeException(msg, e);
-        }
-
-        JsonFactory factory = objectMapper.getFactory();
-        JsonNode jsonObject;
-        try {
-            JsonParser parser = factory.createParser(serializedObject);
-            jsonObject = objectMapper.readTree(parser);
-            return jsonObject;
-
-        } catch (IOException e) {
-            String msg = String.format("Failed to deserialize the object with class: %s, string: %s", object.getClass(), serializedObject);
-            logger.error(msg, e);
-            throw new RuntimeException(msg, e);
         }
     }
 
