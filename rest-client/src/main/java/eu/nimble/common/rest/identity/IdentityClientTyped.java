@@ -167,4 +167,21 @@ public class IdentityClientTyped {
             return null;
         }
     }
+
+    public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException{
+        Response response = identityClient.getUserInfo(bearerToken);
+        String responseBody;
+        try {
+            responseBody = IOUtils.toString(response.body().asInputStream());
+        } catch (IOException e){
+            String msg = String.format("Failed to obtain body response while getting the user info with token: %s", bearerToken);
+            logger.error(msg);
+            throw e;
+        }
+
+        if(response.status() == 200){
+            return true;
+        }
+        return false;
+    }
 }
