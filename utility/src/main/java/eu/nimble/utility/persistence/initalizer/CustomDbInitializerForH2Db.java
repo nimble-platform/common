@@ -18,7 +18,7 @@ import java.sql.*;
  * Created by suat on 19-Dec-18.
  */
 @Component
-@Profile("local_dev")
+@Profile({"local_dev", "test"})
 public class CustomDbInitializerForH2Db {
 
     private static final String QUERY_CREATE_RESOURCE_TABLE =
