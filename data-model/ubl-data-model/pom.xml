@@ -221,5 +221,11 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.2.12.Final</version>
 		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+		</dependency>
 	</dependencies>
 </project>
