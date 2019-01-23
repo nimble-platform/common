@@ -2,12 +2,14 @@ package util;
 
 import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
 import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
+import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,8 +64,15 @@ public class DataModelUtilityTest {
         PartyType party = new PartyType();
         party.setHjid(1L);
         party.setWebsiteURI("website");
-        party.setID("id");
-        party.setName("name");
+        PartyIdentificationType partyIdentificationType = new PartyIdentificationType();
+        partyIdentificationType.setID("id");
+        PartyNameType partyNameType = new PartyNameType();
+        TextType textType = new TextType();
+        textType.setLanguageID("en");
+        textType.setValue("name");
+        partyNameType.setName(textType);
+        party.setPartyIdentification(Arrays.asList(partyIdentificationType));
+        party.setPartyName(Arrays.asList(partyNameType));
         party.setPpapCompatibilityLevel(new BigDecimal(1));
         party.setQualityIndicator(new ArrayList<>());
         party.setCertificate(new ArrayList<>());
