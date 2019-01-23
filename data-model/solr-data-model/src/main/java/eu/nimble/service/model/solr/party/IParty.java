@@ -8,6 +8,8 @@ package eu.nimble.service.model.solr.party;
 public interface IParty {
 	public String COLLECTION_NAME = "party";
 	public String ID_FIELD = "id";
+	public String BRAND_NAME_FIELD = "brandName";
+	public String LEGAL_NAME_FIELD = "legalName";
 	public String NAME_FIELD = "name";
 	public String NAME_ML_FIELD = "*_name";
 	public String ORIGIN_FIELD = "origin";
