@@ -16,6 +16,10 @@ public class PartyType extends Concept implements IParty {
 
 	@Indexed(name=NAME_FIELD)
 	private String name;
+	@Indexed(name=LEGAL_NAME_FIELD)
+	private String legalName;
+	@Indexed(name=BRAND_NAME_FIELD)
+	private String brandName;
 	@Indexed(name=ORIGIN_FIELD)
 	private String origin;
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
@@ -115,6 +119,18 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setTrustNumberOfTransactions(Double trustNumberOfTransactions) {
 		this.trustNumberOfTransactions = trustNumberOfTransactions;
+	}
+	public String getLegalName() {
+		return legalName;
+	}
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
+	}
+	public String getBrandName() {
+		return brandName;
+	}
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 
 }
