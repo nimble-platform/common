@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import eu.nimble.service.model.solr.owl.Concept;
 import eu.nimble.service.model.solr.owl.IConcept;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
@@ -175,6 +174,20 @@ public class ItemType implements ICatalogueItem, Serializable {
 		}
 		//
 		values.add(value);
+	}
+	public void addProperty(String qualifier, String unit, Double value) {
+		String key = dynamicKey(propertyMap, qualifier, unit);
+		Collection<Double> values = doubleValue.get(key);
+		if ( values == null ) {
+			values = new HashSet<Double>();
+			this.doubleValue.put(key, values);
+		}
+		//
+		values.add(value);
+	}
+	public Collection<Double> getProperty(String qualifier, String unit) {
+		String key = dynamicFieldPart(qualifier, unit);
+		return this.doubleValue.get(key);
 	}
 	public Map<String, Boolean> getBooleanValue() {
 		Map<String, Boolean> result = new HashMap<>();
@@ -574,7 +587,11 @@ public class ItemType implements ICatalogueItem, Serializable {
 		keyMap.put(key, keyVal);
 		return key;
 	}
-
+	private String dynamicKey(Map<String, String> keyMap, String ... keyPart) {
+		String key = dynamicFieldPart(keyPart);
+		keyMap.put(key, String.join(" ", keyPart));
+		return key;
+	}
 	private String dynamicFieldPart(String fieldPart) {
 		if (! StringUtils.hasText(fieldPart)) {
 			// when no unit code specified - use "undefined";
@@ -587,6 +604,13 @@ public class ItemType implements ICatalogueItem, Serializable {
 		return dynamicFieldPart;
 		
 	}
-
+	
+	private String dynamicFieldPart(String ...strings) {
+		List<String> parts = new ArrayList<>();
+		for ( String part : strings ) {
+			parts.add(dynamicFieldPart(part));
+		}
+		return String.join("_", parts);
+	}
 
 }
