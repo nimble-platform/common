@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+
 public class SearchResult<T> {
 	private long totalElements;
 	private long totalPages;
@@ -22,6 +24,13 @@ public class SearchResult<T> {
 		this.pageSize = pageSize;
 		this.totalElements = totalElements;
 		this.totalPages = totalPages;
+	}
+	public SearchResult(Page<T> page) {
+		this.result = page.getContent();
+		this.currentPage = page.getNumber();
+		this.pageSize = page.getSize();
+		this.totalElements = page.getTotalElements();
+		this.totalPages = page.getTotalPages();
 	}
 
 	public List<T> getResult() {
