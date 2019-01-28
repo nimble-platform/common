@@ -6,7 +6,7 @@ package eu.nimble.service.model.solr.party;
  *
  */
 public interface IParty {
-	public String COLLECTION_NAME = "party";
+	public String COLLECTION = "party";
 	public String ID_FIELD = "id";
 	public String BRAND_NAME_FIELD = "brandName";
 	public String LEGAL_NAME_FIELD = "legalName";
