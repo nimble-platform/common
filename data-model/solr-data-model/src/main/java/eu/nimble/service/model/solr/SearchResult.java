@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.solr.core.query.Field;
+import org.springframework.data.solr.core.query.result.FacetFieldEntry;
+import org.springframework.data.solr.core.query.result.FacetPage;
 
 public class SearchResult<T> {
 	private long totalElements;
@@ -17,7 +20,12 @@ public class SearchResult<T> {
 	
 	public SearchResult(List<T> result) {
 		this.result = result;
+		this.currentPage = 0;
+		this.pageSize = result.size();
+		this.totalElements = result.size();
+		this.totalPages =1;
 	}
+	@Deprecated
 	public SearchResult(List<T> result, int currentPage, int pageSize, long totalElements, long totalPages) {
 		this.result = result;
 		this.currentPage = currentPage;
@@ -31,6 +39,11 @@ public class SearchResult<T> {
 		this.pageSize = page.getSize();
 		this.totalElements = page.getTotalElements();
 		this.totalPages = page.getTotalPages();
+		if ( page instanceof FacetPage<?>) {
+			// 
+			FacetPage<T> facetPage = (FacetPage<T>)page;
+			handleFacets(facetPage);
+		}
 	}
 
 	public List<T> getResult() {
@@ -90,5 +103,15 @@ public class SearchResult<T> {
 
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
+	}
+	private void handleFacets(FacetPage<T> facetPage) {
+		for (Field field :  facetPage.getFacetFields()) {
+			Page<FacetFieldEntry> page = facetPage.getFacetResultPage(field);
+			//
+			for (FacetFieldEntry entry : page.getContent() ) {
+				this.addFacet(entry.getField().getName(), entry.getValue(), entry.getValueCount());
+			}
+		}
+
 	}
 }
