@@ -26,7 +26,7 @@ import eu.nimble.service.model.solr.party.PartyType;
  * @author dglachs
  *
  */
-@SolrDocument(collection="item")
+@SolrDocument(collection=ICatalogueItem.COLLECTION)
 public class ItemType implements ICatalogueItem, Serializable {
 	private static final long serialVersionUID = -3631731059281154372L;
 

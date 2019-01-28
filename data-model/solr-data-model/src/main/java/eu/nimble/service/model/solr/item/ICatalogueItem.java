@@ -6,6 +6,7 @@ package eu.nimble.service.model.solr.item;
  *
  */
 public interface ICatalogueItem {
+	String COLLECTION = "item";
 	String ID_FIELD = "id";
 	String TYPE_FIELD ="doctype";
 	/**
