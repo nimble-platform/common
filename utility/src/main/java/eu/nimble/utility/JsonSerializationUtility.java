@@ -1,15 +1,21 @@
 package eu.nimble.utility;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
+import eu.nimble.utility.serialization.ClauseDeserializer;
+import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -21,7 +27,7 @@ public class JsonSerializationUtility {
     private static Logger logger = LoggerFactory.getLogger(JsonSerializationUtility.class);
 
     public static <T> T deserializeContent(String serializedContent, TypeReference<T> typeReference) throws IOException {
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ObjectMapper mapper = getObjectMapper();
 
         try {
             T deserializedObject = mapper.readValue(serializedContent, typeReference);
@@ -33,7 +39,7 @@ public class JsonSerializationUtility {
     }
 
     public static <T> T deserializeContent(InputStream serializedContent, TypeReference<T> typeReference) throws IOException {
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ObjectMapper mapper = getObjectMapper();
 
         try {
             T deserializedObject = mapper.readValue(serializedContent, typeReference);
@@ -44,8 +50,25 @@ public class JsonSerializationUtility {
         }
     }
 
-    public static ObjectMapper getMapperForTransientFields() {
-        return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
+    public static <T> String serializeEntity(T entity) throws JsonProcessingException {
+        String serializedEntity = "";
+        try {
+            serializedEntity = getObjectMapper().writeValueAsString(entity);
+        } catch (JsonProcessingException e) {
+            logger.error("Failed to deserialize entity. class: {}", entity.getClass());
+            throw e;
+        }
+        return serializedEntity;
+    }
+
+    public static <T> String serializeEntitySilently(T entity) {
+        String serializedEntity = "";
+        try {
+            serializedEntity = getObjectMapper().writeValueAsString(entity);
+        } catch (JsonProcessingException e) {
+            logger.warn("Failed to deserialize entity");
+        }
+        return serializedEntity;
     }
 
     public static void removeHjidFields(JSONObject jsonObject) {
@@ -78,5 +101,39 @@ public class JsonSerializationUtility {
                 }
             }
         }
+    }
+
+    public static ObjectMapper getObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        // the following deserialization feature is added since there might be unknown
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // add the following mapper feature so that the transient fields are not considered during serialization and deserialization
+        mapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
+
+        // add the following mapper feature since camunda injects serializer configurations that serialize entity fields
+        // as appear in the @XmlElement annotations. however neither front-end nor catalogue service have these configurations
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+
+        // add deserializer to be able deserialize derived ClauseType instances properly
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(ClauseType.class, new ClauseDeserializer());
+        mapper.registerModule(module);
+
+        SimpleModule dateModule = new SimpleModule();
+        dateModule.addSerializer(XMLGregorianCalendar.class,new XMLGregorianCalendarSerializer());
+        mapper.registerModule(dateModule);
+        return mapper;
+    }
+
+    public static ObjectMapper getObjectMapperForFilledFields() {
+        ObjectMapper mapper = getObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        return mapper;
+    }
+
+    public static ObjectMapper getMapperForTransientFields() {
+        return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
     }
 }

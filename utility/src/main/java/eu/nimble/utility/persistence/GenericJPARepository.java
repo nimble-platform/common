@@ -1,11 +1,14 @@
 package eu.nimble.utility.persistence;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 /**
  * Created by suat on 20-Nov-18.
  */
 public interface GenericJPARepository {
+    EntityManagerFactory getEmf();
+
     <T> T getSingleEntityByHjid(Class<T> klass, long hjid);
 
     <T> T getSingleEntity(String query, String[] parameterNames, Object[] parameterValues);
@@ -16,11 +19,17 @@ public interface GenericJPARepository {
 
     <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset);
 
+    <T> List<T> getEntities(Class<T> klass);
+
     <T> T updateEntity(T entity);
+
+    void executeUpdate(String query, String[] parameterNames, Object[] parameterValues);
 
     <T> void deleteEntity(T entity);
 
     <T> void deleteEntityByHjid(Class<T> klass, long hjid);
 
     <T> void persistEntity(T entity);
+
+    <T> void persistEntities(Iterable<T> entities);
 }
