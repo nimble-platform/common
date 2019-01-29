@@ -113,7 +113,8 @@ public abstract class Concept implements IConcept {
 		if ( this.languages == null) {
 			this.languages = new HashSet<String>();
 		}
-		this.languages.add(language);
+		if ( ! languages.contains(language))
+			this.languages.add(language);
 	}
 
 	public void setLabel(Map<String, String> labelMap) {
