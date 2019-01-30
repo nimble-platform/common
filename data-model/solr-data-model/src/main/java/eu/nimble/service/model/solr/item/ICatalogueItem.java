@@ -1,11 +1,14 @@
 package eu.nimble.service.model.solr.item;
 
+import eu.nimble.service.model.solr.owl.IConcept;
+
 /**
  * Defines the index field names for the catalogue item
  * @author dglachs
  *
  */
-public interface ICatalogueItem {
+public interface ICatalogueItem extends IConcept {
+	String COLLECTION = "item";
 	String ID_FIELD = "id";
 	String TYPE_FIELD ="doctype";
 	/**
@@ -16,27 +19,6 @@ public interface ICatalogueItem {
 	 * The id of the catalogue the item is contained in
 	 */
 	String CATALOGUE_ID_FIELD = "catalogueId";
-	/**
-	 * Collection of languages
-	 */
-	String LANGUAGES_FIELD = "languages";
-	/**
-	 * The language based label, e.g. <code><i>en</i>_label</code> for english label
-	 */
-	String LABEL_FIELD = "*_label";
-	/**
-	 * Copy Field, language based. The language based label and description are stored in this field
-	 * Final used index name is <code><i>en</i>_txt</code> for english text (label, description)
-	 */
-	String LANGUAGE_TXT_FIELD = "*_txt";
-	/**
-	 * Copy Field. All labels, descriptions are stored in this field
-	 */
-	String TEXT_FIELD = "_text_";
-	/**
-	 * The language based description, e.g. <code>itemDescription_en</code> for the english description
-	 */
-	String DESC_FIELD = "*_description";
 	/**
 	 * The curreny label, the dynamic part is the encoded label string such as eUR for EUR
 	 */

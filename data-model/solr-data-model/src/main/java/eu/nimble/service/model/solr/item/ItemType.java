@@ -10,29 +10,29 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.data.solr.core.query.Join;
+import org.springframework.data.solr.core.query.SimpleField;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import eu.nimble.service.model.solr.owl.IConcept;
+import eu.nimble.service.model.solr.owl.Concept;
+import eu.nimble.service.model.solr.owl.IClassType;
+import eu.nimble.service.model.solr.party.IParty;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
  * Document class representing a single product item
  * @author dglachs
  *
  */
-@SolrDocument(collection="item")
-public class ItemType implements ICatalogueItem, Serializable {
+@SolrDocument(collection=ICatalogueItem.COLLECTION)
+public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private static final long serialVersionUID = -3631731059281154372L;
 
-	@Id
-	@Indexed(name=ID_FIELD)
-	private String uri;
 	/**
 	 * The indexed item must have a type value assigned for
 	 * proper handling of nested documents
@@ -44,30 +44,7 @@ public class ItemType implements ICatalogueItem, Serializable {
 	 */
 	@Indexed(name=CATALOGUE_ID_FIELD)
 	private String catalogueId;
-	/**
-	 * List of used languages for this item
-	 * The list is computed by the languages of label and descriptions
-	 */
-	@Indexed(name=LANGUAGES_FIELD)
-	private Set<String> languages;
 	
-	/**
-	 * Dynamic map of labels (for each language). The list of languages
-	 * is available with {@link #getLanguages()}
-	 * 
-	 */
-	@Indexed(name=LABEL_FIELD
-			, copyTo= {LANGUAGE_TXT_FIELD,TEXT_FIELD}
-			) @Dynamic
-	private Map<String,String> name;
-	/**
-	 * Dynamic map of descriptions (for each language). The list of languages
-	 * is available with {@link #getLanguages()} 
-	 */
-	@Indexed(name=DESC_FIELD
-			, copyTo= {LANGUAGE_TXT_FIELD,TEXT_FIELD}
-			) @Dynamic
-	private Map<String,String> description;
 	// PRICE & Currency
 	@Indexed(name=CURRENCY_FIELD) @Dynamic
 	private Map<String, String> currencyMap = new HashMap<>();
@@ -139,7 +116,7 @@ public class ItemType implements ICatalogueItem, Serializable {
 	 * 
 	 */
 	@ReadOnlyProperty
-	private List<IConcept> classification;
+	private List<Concept> classification;
 	/**
 	 * Read only field - used to provide the manufacturer's details
 	 * in a search result
@@ -147,7 +124,30 @@ public class ItemType implements ICatalogueItem, Serializable {
 	@ReadOnlyProperty
 	private PartyType manufacturer;
 	
-	
+	public enum JOIN_TO {
+		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+		// join to party type (manufacturer)
+		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+		// join to classes (furniture ontology, eClass)
+		classfication(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION),
+		;
+		
+		String from;
+		String to;
+		String fromIndex;
+		
+		JOIN_TO(String from, String to, String fromIndex) {
+			this.from = from;
+			this.to = to;
+			this.fromIndex = fromIndex;
+		}
+		
+		public Join getJoin() {
+			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
+		}
+
+	}
+
 	public void setStringProperty(String qualifier, Collection<String> values) {
 		this.stringValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
@@ -292,25 +292,7 @@ public class ItemType implements ICatalogueItem, Serializable {
 	public void setCatalogueId(String catalogueId) {
 		this.catalogueId = catalogueId;
 	}
-	public Set<String> getLanguages() {
-		return languages;
-	}
-	public void setLanguages(Set<String> language) {
 //		this.languages = language;
-	}
-	public Map<String, String> getName() {
-		return name;
-	}
-	public void setName(Map<String, String> name) {
-		if ( name !=null ) {
-			for ( String key : name.keySet()) {
-				addName(key, name.get(key));
-			}
-		}
-		else {
-			this.name = name;
-		}
-	}
 	public Map<String, String> getDescription() {
 		return description;
 	}
@@ -402,19 +384,7 @@ public class ItemType implements ICatalogueItem, Serializable {
 	public void setEmissionStandard(String emissionStandard) {
 		this.emissionStandard = emissionStandard;
 	}
-	/**
-	 * Helper method adding a (language based) label to the item
-	 * @param language
-	 * @param label
-	 */
-	public void addName(String language,String label) {
-		if ( this.name == null) {
-			this.name = new HashMap<>();
-		}
-		this.name.put(language, label);
-		// 
-		addLanguage(language);
-	}
+
 	/**
 	 * Helper method adding a (language based) description to the item
 	 * @param language The language (en, es, de)
@@ -551,16 +521,16 @@ public class ItemType implements ICatalogueItem, Serializable {
 	public void setManufacturer(PartyType manufacturer) {
 		this.manufacturer = manufacturer;
 	}
-	public List<IConcept> getClassification() {
+	public List<Concept> getClassification() {
 		if ( classification == null) {
 			classification = new ArrayList<>();
 		}
 		return classification;
 	}
-	public void addClassification(IConcept c) {
+	public void addClassification(Concept c) {
 		getClassification().add(c);
 	}
-	public void setClassification(List<IConcept> classification) {
+	public void setClassification(List<Concept> classification) {
 		this.classification = classification;
 	}
 	public List<String> getClassificationUri() {
