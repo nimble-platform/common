@@ -11,4 +11,6 @@ public interface IPropertyType extends IConcept {
 	String USED_WITH_FIELD = "used_in";
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
+	String PROPERTY_TYPE_FIELD = "propType";
+	
 }

@@ -40,6 +40,17 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
+	
+	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
+	private String propertyType;
+
+	public String getPropertyType() {
+		return propertyType;
+	}
+
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
 
 	public String getRange() {
 		return range;
