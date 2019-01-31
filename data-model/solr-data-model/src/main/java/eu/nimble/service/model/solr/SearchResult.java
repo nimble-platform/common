@@ -17,7 +17,10 @@ public class SearchResult<T> {
 	private List<T> result;
 	
 	private Map<String, FacetResult> facets;
-	
+
+	public SearchResult() {
+
+	}
 	public SearchResult(List<T> result) {
 		this.result = result;
 		this.currentPage = 0;
