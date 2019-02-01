@@ -9,6 +9,8 @@ public interface IPropertyType extends IConcept {
 	String RANGE_FIELD = "range";
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
 	String USED_WITH_FIELD = "used_in";
+	String USED_BY_FIELD = "used_by";
+	// 
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";

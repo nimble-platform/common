@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
+import org.apache.solr.common.util.Hash;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -124,6 +125,10 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	@ReadOnlyProperty
 	private PartyType manufacturer;
 	
+	@ReadOnlyProperty
+	private Map<String,Concept> customProperties;
+
+
 	public enum JOIN_TO {
 		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
 		// join to party type (manufacturer)
@@ -162,6 +167,14 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		//
 		values.add(value);
 	}
+	public void addProperty(String qualifier, String value, Concept meta) {
+		addProperty(qualifier, value);
+		if ( meta != null) {
+			// 
+			addCustomProperty(qualifier, meta);
+		}		
+	}
+
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
 		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
@@ -174,6 +187,20 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 		//
 		values.add(value);
+	}
+	public void addProperty(String qualifier, Double value, Concept meta) {
+		addProperty(qualifier, value);
+		if ( meta != null) {
+			// 
+			addCustomProperty(qualifier, meta);
+		}
+	}
+	private void addCustomProperty(String qualifier, Concept meta) {
+		String part = dynamicFieldPart(qualifier);
+		if ( customProperties == null ) {
+			customProperties = new HashMap<>();
+		}
+		customProperties.put(part, meta);
 	}
 	public void addProperty(String qualifier, String unit, Double value) {
 		String key = dynamicKey(propertyMap, qualifier, unit);
@@ -252,6 +279,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	
 	public void setProperty(String qualifier, Boolean value) {
 		this.booleanValue.put(dynamicKey(qualifier,propertyMap), value);
+	}
+	public void setProperty(String qualifier, Boolean value, Concept meta) {
+		setProperty(qualifier, value);
+		if ( meta != null) {
+			// 
+			addCustomProperty(qualifier, meta);
+		}
 	}
 //	
 //	public Collection<String> getProperties() {
@@ -544,6 +578,14 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setImgageUri(Collection<String> imgageUri) {
 		this.imgageUri = imgageUri;
+	}
+	
+	public Map<String, Concept> getCustomProperties() {
+		return customProperties;
+	}
+
+	public void setCustomProperties(Map<String, Concept> customProperties) {
+		this.customProperties = customProperties;
 	}
 	/**
 	 * Helper method to create the index field's name part and

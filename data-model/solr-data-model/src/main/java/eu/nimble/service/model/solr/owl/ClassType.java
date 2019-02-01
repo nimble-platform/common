@@ -8,8 +8,6 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.data.solr.core.query.Join;
 import org.springframework.data.solr.core.query.SimpleField;
 
-import eu.nimble.service.model.solr.item.ItemType;
-import eu.nimble.service.model.solr.party.IParty;
 
 @SolrDocument(collection="class")
 public class ClassType extends Concept implements IClassType {

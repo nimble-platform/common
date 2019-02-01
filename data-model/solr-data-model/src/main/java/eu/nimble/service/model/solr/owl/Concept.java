@@ -54,6 +54,10 @@ public abstract class Concept implements IConcept {
 	static class SimpleConcept extends Concept {
 		
 	}
+	public static Concept buildNew() {
+		SimpleConcept c = new Concept.SimpleConcept();
+		return c;
+	}
 	public static Concept buildFrom(IConcept other) {
 		SimpleConcept c = new Concept.SimpleConcept();
 		c.setUri(other.getUri());

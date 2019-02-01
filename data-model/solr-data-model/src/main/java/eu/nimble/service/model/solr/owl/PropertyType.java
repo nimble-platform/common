@@ -32,6 +32,9 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name=USED_WITH_FIELD)
 	private Collection<String> product;
 	
+	@Indexed(required=false, name=USED_BY_FIELD)
+	private Collection<String> items;
+
 	@Indexed(required=false, name=IDX_FIELD_NAME_FIELD)
 	private Collection<String> itemFieldNames;
 	
@@ -121,5 +124,26 @@ public class PropertyType extends Concept implements IPropertyType {
 		this.boost = boost;
 	}
 
+	
+	public Collection<String> getItems() {
+		return items;
+	}
+
+	public void setItems(Collection<String> items) {
+		this.items = items;
+	}
+	public void addItem(String uri) {
+		if ( items == null ) {
+			items = new HashSet<>();
+		}
+		items.add(uri);
+	}
+	public boolean removeItem(String item) {
+		if ( items == null ) {
+			return false;
+		}
+		return items.remove(item);
+		
+	}
 
 }
