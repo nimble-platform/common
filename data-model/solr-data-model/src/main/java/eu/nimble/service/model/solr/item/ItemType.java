@@ -359,32 +359,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		this.applicableCountries = applicableCountries;
 	}
 
-//	/**
-//	 * Obtain the list of indexed additional properties
-//	 * 
-//	 * @return The list of additional properties
-//	 */
-//	public Collection<AdditionalProperty> getAdditionalProperty() {
-//		if ( this.additionalProperty == null) {
-//			this.additionalProperty = new HashSet<>();
-//		}
-//		return additionalProperty;
-//	}
-//	/** 
-//	 * Convenience method to add a AdditionalProperty to the item
-//	 * @param prop
-//	 */
-//	public void addAdditionalProperty(AdditionalProperty prop) {
-//		
-//		getAdditionalProperty().add(prop);
-//	}
-//	/**
-//	 * Store the list of additional properties
-//	 * @param additionalProperty
-//	 */
-//	public void setAdditionalProperty(Collection<AdditionalProperty> additionalProperty) {
-//		this.additionalProperty = additionalProperty;
-//	}
+
 	public String getManufacturerId() {
 		if (manufacturer != null && manufacturer.getId() != null) {
 			return manufacturer.getId();
