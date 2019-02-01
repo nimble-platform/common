@@ -12,7 +12,7 @@ import org.springframework.data.solr.core.mapping.Indexed;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(content=Include.NON_EMPTY)
-public abstract class Concept implements IConcept {
+public class Concept implements IConcept {
 	/**
 	 * The uri of the property including namespace
 	 */
