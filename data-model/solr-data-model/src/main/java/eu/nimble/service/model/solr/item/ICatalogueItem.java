@@ -1,5 +1,6 @@
 package eu.nimble.service.model.solr.item;
 
+
 import eu.nimble.service.model.solr.owl.IConcept;
 
 /**
@@ -119,14 +120,40 @@ public interface ICatalogueItem extends IConcept {
 	
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
-//	String PROPERTY_UNIT_FIELD = "unit_*";
-//	String PROPERTY_LABEL_FIELD = "propLabel_*";
 	/**
 	 * Additional Properties
 	 */
 	String QUALIFIED_KEY_FIELD = "*_key";
 	String QUALIFIED_STRING_FIELD = "*_svalues";
 	String QUALIFIED_DOUBLE_FIELD = "*_dvalues";
-	String QUALIFIED_BOOLEAN_FIELD = "*_bvalue";	
+	String QUALIFIED_BOOLEAN_FIELD = "*_bvalue";
+	//
+	static boolean isQualifiedDynamic(String string) {
+		switch (string) {
+		case QUALIFIED_BOOLEAN_FIELD:
+		case QUALIFIED_DOUBLE_FIELD:
+		case QUALIFIED_STRING_FIELD:
+		case QUALIFIED_KEY_FIELD:
+			return true;
+		default:
+			return false;
+		}
+	}
+	static boolean isFixedDynamic(String string) {
+		switch (string) {
+		case PACKAGE_AMOUNT_FILED:
+		case PACKAGE_UNIT_FIELD:
+		case CURRENCY_FIELD:
+		case PRICE_FIELD:
+		case ESTIMATED_DELIVERY_TIME_FIELD:
+		case LABEL_FIELD:
+		case DESCRIPTION_FIELD:
+		case ALTERNATE_LABEL_FIELD:
+		case HIDDEN_LABEL_FIELD:
+		case LANGUAGE_TXT_FIELD:
+		default:
+			return false;
+		}
+	}
 
 }
