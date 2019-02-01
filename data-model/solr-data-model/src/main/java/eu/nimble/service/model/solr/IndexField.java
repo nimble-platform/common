@@ -5,6 +5,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import eu.nimble.service.model.solr.item.ICatalogueItem;
 import eu.nimble.service.model.solr.owl.Concept;
 
 @JsonInclude(value=Include.NON_EMPTY)
@@ -89,6 +90,17 @@ public class IndexField {
 			}
 		}
 		return "";
+	}
+	public String getMappedName() {
+		if (getDynamicBase()!=null ) {
+			if ( ICatalogueItem.isFixedDynamic(getDynamicBase())) {
+				return getDynamicBase();
+			}
+			if ( ICatalogueItem.isQualifiedDynamic(getDynamicBase())) {
+				return getDynamicPart();
+			}
+		}
+		return getFieldName();
 	}
 	public String getUri() {
 		return uri;
