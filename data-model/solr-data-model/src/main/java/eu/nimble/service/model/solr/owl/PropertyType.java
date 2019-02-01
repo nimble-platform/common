@@ -90,6 +90,12 @@ public class PropertyType extends Concept implements IPropertyType {
 	public void setItemFieldNames(Collection<String> idxFieldNames) {
 		this.itemFieldNames = idxFieldNames;
 	}
+	public void addItemFieldName(String idxField) {
+		if (itemFieldNames==null) {
+			itemFieldNames=new HashSet<>();
+		}
+		this.itemFieldNames.add(idxField);
+	}
 
 	public String getValueQualifier() {
 		return valueQualifier;
