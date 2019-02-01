@@ -562,7 +562,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		keyMap.put(key, String.join(" ", keyPart));
 		return key;
 	}
-	private String dynamicFieldPart(String fieldPart) {
+	public static String dynamicFieldPart(String fieldPart) {
 		if (! StringUtils.hasText(fieldPart)) {
 			// when no unit code specified - use "undefined";
 			return "undefined";
@@ -575,7 +575,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		
 	}
 	
-	private String dynamicFieldPart(String ...strings) {
+	public static String dynamicFieldPart(String ...strings) {
 		List<String> parts = new ArrayList<>();
 		for ( String part : strings ) {
 			parts.add(dynamicFieldPart(part));
