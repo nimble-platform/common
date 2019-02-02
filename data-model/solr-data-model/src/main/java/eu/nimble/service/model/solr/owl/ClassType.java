@@ -5,10 +5,31 @@ import java.util.HashSet;
 
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.data.solr.core.query.Join;
+import org.springframework.data.solr.core.query.SimpleField;
+
 
 @SolrDocument(collection="class")
 public class ClassType extends Concept implements IClassType {
-	
+	public enum JOIN_TO {
+		property(IPropertyType.ID_FIELD, IClassType.PROPERTIES_FIELD, IPropertyType.COLLECTION),
+		;
+		
+		String from;
+		String to;
+		String fromIndex;
+		
+		JOIN_TO(String from, String to, String fromIndex) {
+			this.from = from;
+			this.to = to;
+			this.fromIndex = fromIndex;
+		}
+		
+		public Join getJoin() {
+			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
+		}
+
+	}
 	@Indexed(defaultValue=TYPE_VALUE, name=TYPE_FIELD)
 	private String type = TYPE_VALUE;
 	

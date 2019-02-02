@@ -5,6 +5,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import eu.nimble.service.model.solr.item.ICatalogueItem;
 import eu.nimble.service.model.solr.owl.Concept;
 
 @JsonInclude(value=Include.NON_EMPTY)
@@ -71,6 +72,35 @@ public class IndexField {
 		this.uri=property.getUri();
 		this.label = property.getLabel();
 		this.description = property.getComment();
+	}
+	public String getDynamicPart() {
+		if ( dynamicBase != null) {
+			boolean leadingStar = dynamicBase.startsWith("*");
+			String strippedWildcard = dynamicBase.replace("*", "");
+			
+			if ( leadingStar) {
+				if ( fieldName.endsWith(strippedWildcard)) {
+					return fieldName.substring(0, fieldName.length() - strippedWildcard.length());
+				}
+			}
+			else {
+				if ( fieldName.startsWith(strippedWildcard)) {
+					return fieldName.substring(strippedWildcard.length());
+				}
+			}
+		}
+		return "";
+	}
+	public String getMappedName() {
+		if (getDynamicBase()!=null ) {
+			if ( ICatalogueItem.isFixedDynamic(getDynamicBase())) {
+				return getDynamicBase();
+			}
+			if ( ICatalogueItem.isQualifiedDynamic(getDynamicBase())) {
+				return getDynamicPart();
+			}
+		}
+		return getFieldName();
 	}
 	public String getUri() {
 		return uri;

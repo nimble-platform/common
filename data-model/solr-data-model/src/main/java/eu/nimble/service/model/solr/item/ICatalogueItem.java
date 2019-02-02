@@ -1,11 +1,15 @@
 package eu.nimble.service.model.solr.item;
 
+
+import eu.nimble.service.model.solr.owl.IConcept;
+
 /**
  * Defines the index field names for the catalogue item
  * @author dglachs
  *
  */
-public interface ICatalogueItem {
+public interface ICatalogueItem extends IConcept {
+	String COLLECTION = "item";
 	String ID_FIELD = "id";
 	String TYPE_FIELD ="doctype";
 	/**
@@ -16,27 +20,6 @@ public interface ICatalogueItem {
 	 * The id of the catalogue the item is contained in
 	 */
 	String CATALOGUE_ID_FIELD = "catalogueId";
-	/**
-	 * Collection of languages
-	 */
-	String LANGUAGES_FIELD = "languages";
-	/**
-	 * The language based label, e.g. <code><i>en</i>_label</code> for english label
-	 */
-	String LABEL_FIELD = "*_label";
-	/**
-	 * Copy Field, language based. The language based label and description are stored in this field
-	 * Final used index name is <code><i>en</i>_txt</code> for english text (label, description)
-	 */
-	String LANGUAGE_TXT_FIELD = "*_txt";
-	/**
-	 * Copy Field. All labels, descriptions are stored in this field
-	 */
-	String TEXT_FIELD = "_text_";
-	/**
-	 * The language based description, e.g. <code>itemDescription_en</code> for the english description
-	 */
-	String DESC_FIELD = "*_description";
 	/**
 	 * The curreny label, the dynamic part is the encoded label string such as eUR for EUR
 	 */
@@ -137,14 +120,40 @@ public interface ICatalogueItem {
 	
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
-//	String PROPERTY_UNIT_FIELD = "unit_*";
-//	String PROPERTY_LABEL_FIELD = "propLabel_*";
 	/**
 	 * Additional Properties
 	 */
 	String QUALIFIED_KEY_FIELD = "*_key";
 	String QUALIFIED_STRING_FIELD = "*_svalues";
 	String QUALIFIED_DOUBLE_FIELD = "*_dvalues";
-	String QUALIFIED_BOOLEAN_FIELD = "*_bvalue";	
+	String QUALIFIED_BOOLEAN_FIELD = "*_bvalue";
+	//
+	static boolean isQualifiedDynamic(String string) {
+		switch (string) {
+		case QUALIFIED_BOOLEAN_FIELD:
+		case QUALIFIED_DOUBLE_FIELD:
+		case QUALIFIED_STRING_FIELD:
+		case QUALIFIED_KEY_FIELD:
+			return true;
+		default:
+			return false;
+		}
+	}
+	static boolean isFixedDynamic(String string) {
+		switch (string) {
+		case PACKAGE_AMOUNT_FILED:
+		case PACKAGE_UNIT_FIELD:
+		case CURRENCY_FIELD:
+		case PRICE_FIELD:
+		case ESTIMATED_DELIVERY_TIME_FIELD:
+		case LABEL_FIELD:
+		case DESCRIPTION_FIELD:
+		case ALTERNATE_LABEL_FIELD:
+		case HIDDEN_LABEL_FIELD:
+		case LANGUAGE_TXT_FIELD:
+		default:
+			return false;
+		}
+	}
 
 }
