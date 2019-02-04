@@ -5,6 +5,7 @@ import java.util.Map;
 
 public interface IConcept {
 	String ID_FIELD = "id";
+	String CODE_FIELD = "code";
 	/**
 	 * Collection of languages
 	 */
@@ -44,6 +45,7 @@ public interface IConcept {
 	public Map<String, String> getComment();
 	public Map<String, String> getDescription();
 	public String getUri();
+	public String getCode();
 	public String getNameSpace();
 	public String getLocalName();
 }

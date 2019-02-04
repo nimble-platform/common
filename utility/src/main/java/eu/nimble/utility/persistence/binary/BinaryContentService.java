@@ -6,17 +6,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.UUID;
 
 /**
+ * Service to manage data in the binary content database.
+ *
  * Created by suat on 03-Dec-18.
  */
 @Component
@@ -137,7 +138,7 @@ public class BinaryContentService {
         }
     }
 
-    private void closeResources(Connection c, PreparedStatement ps, ResultSet rs, String msg) {
+    private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {
         if (c != null) {
             try {
                 if (!c.isClosed()) {

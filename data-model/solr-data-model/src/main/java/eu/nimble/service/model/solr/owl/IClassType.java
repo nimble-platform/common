@@ -1,6 +1,7 @@
 package eu.nimble.service.model.solr.owl;
 
 public interface IClassType extends IConcept {
+	String COLLECTION = "class";
 	String TYPE_FIELD = "doctype";
 	String TYPE_VALUE = "class";
 	String PROPERTIES_FIELD = "properties";

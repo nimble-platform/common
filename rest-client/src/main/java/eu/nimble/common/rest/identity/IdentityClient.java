@@ -29,4 +29,7 @@ public interface IdentityClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/person/", produces = "application/json")
     Response getPerson(@RequestHeader("Authorization") String bearerToken);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/user-info",produces = "application/json")
+    Response getUserInfo(@RequestHeader("Authorization") String bearerToken);
 }

@@ -11,7 +11,7 @@ import eu.nimble.service.model.solr.owl.Concept;
  * @author dglachs
  *
  */
-@SolrDocument(collection=IParty.COLLECTION_NAME)
+@SolrDocument(collection=IParty.COLLECTION)
 public class PartyType extends Concept implements IParty {
 
 	@Indexed(name=NAME_FIELD)

@@ -12,7 +12,7 @@ import org.springframework.data.solr.core.mapping.Indexed;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(content=Include.NON_EMPTY)
-public abstract class Concept implements IConcept {
+public class Concept implements IConcept {
 	/**
 	 * The uri of the property including namespace
 	 */
@@ -20,6 +20,9 @@ public abstract class Concept implements IConcept {
 	@Id
 	@Indexed(required=true, name=ID_FIELD) 
 	protected String uri;
+	
+	@Indexed(name=CODE_FIELD)
+	protected String code;
 
 	@Indexed(name=LOCAL_NAME_FIELD)
 	protected String localName;
@@ -51,9 +54,14 @@ public abstract class Concept implements IConcept {
 	static class SimpleConcept extends Concept {
 		
 	}
+	public static Concept buildNew() {
+		SimpleConcept c = new Concept.SimpleConcept();
+		return c;
+	}
 	public static Concept buildFrom(IConcept other) {
 		SimpleConcept c = new Concept.SimpleConcept();
 		c.setUri(other.getUri());
+		c.setCode(other.getCode());
 		c.setLabel(other.getLabel());
 		c.setDescription(other.getDescription());
 		c.setComment(other.getComment());
@@ -109,7 +117,8 @@ public abstract class Concept implements IConcept {
 		if ( this.languages == null) {
 			this.languages = new HashSet<String>();
 		}
-		this.languages.add(language);
+		if ( ! languages.contains(language))
+			this.languages.add(language);
 	}
 
 	public void setLabel(Map<String, String> labelMap) {
@@ -208,6 +217,14 @@ public abstract class Concept implements IConcept {
 
 	public void setHiddenLabel(Map<String, Collection<String>> hiddenLabel) {
 		this.hiddenLabel = hiddenLabel;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	

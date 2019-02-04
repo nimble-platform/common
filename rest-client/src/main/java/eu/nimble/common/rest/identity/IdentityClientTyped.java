@@ -88,7 +88,7 @@ public class IdentityClientTyped {
         }
     }
 
-    public PartyType getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
+    public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
         Response response = identityClient.getPartyByPersonID(personId);
         String responseBody;
         try {
@@ -101,7 +101,7 @@ public class IdentityClientTyped {
 
         if (response.status() == 200) {
             try {
-                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<PartyType>() {
+                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<List<PartyType>>() {
                 });
             } catch (IOException e) {
                 String msg = String.format("Failed to deserialize party: %s", responseBody);
@@ -166,5 +166,22 @@ public class IdentityClientTyped {
             logger.warn("Failed to get person with bearer token: {}, response status: {}, response body: {}", bearerToken, response.status(), responseBody);
             return null;
         }
+    }
+
+    public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException{
+        Response response = identityClient.getUserInfo(bearerToken);
+        String responseBody;
+        try {
+            responseBody = IOUtils.toString(response.body().asInputStream());
+        } catch (IOException e){
+            String msg = String.format("Failed to obtain body response while getting the user info with token: %s", bearerToken);
+            logger.error(msg);
+            throw e;
+        }
+
+        if(response.status() == 200){
+            return true;
+        }
+        return false;
     }
 }
