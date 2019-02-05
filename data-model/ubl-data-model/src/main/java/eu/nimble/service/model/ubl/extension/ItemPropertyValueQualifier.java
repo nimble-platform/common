@@ -32,5 +32,9 @@ public enum ItemPropertyValueQualifier {
         }
         throw new RuntimeException(String.format("Invalid value '%s' for the value qualifier", value));
     }
+
+    public List<String> getAlternatives() {
+        return this.alternatives;
+    }
 }
 
