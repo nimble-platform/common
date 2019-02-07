@@ -14,5 +14,30 @@ public interface IPropertyType extends IConcept {
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";
-	
+	/**
+	 * Define the default field list 
+	 * 
+	 * @return
+	 */
+	public static String[] defaultFieldList() {
+		return new String[] {
+				TYPE_FIELD, 
+				IS_FACET_FIELD, 
+				BOOST_FIELD, 
+				IDX_FIELD_NAME_FIELD,
+				PROPERTY_TYPE_FIELD, 
+				LABEL_FIELD, 
+				ALTERNATE_LABEL_FIELD, 
+				HIDDEN_LABEL_FIELD, 
+				LANGUAGES_FIELD, 
+				LANGUAGE_TXT_FIELD,
+				LOCAL_NAME_FIELD, 
+				NAME_SPACE_FIELD, 
+				ID_FIELD, 
+				COMMENT_FIELD, 
+				DESCRIPTION_FIELD,
+				RANGE_FIELD,
+				VALUE_QUALIFIER_FIELD
+		};
+	}
 }
