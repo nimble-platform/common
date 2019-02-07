@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
-import org.apache.solr.common.util.Hash;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -130,23 +129,45 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 
 
 	public enum JOIN_TO {
-		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+//		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
 		// join to party type (manufacturer)
-		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION, "manufacturer", "party"),
 		// join to classes (furniture ontology, eClass)
-		classfication(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION),
+		classification(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION, "productType", "classification"),
 		;
 		
 		String from;
 		String to;
 		String fromIndex;
+		String[] names;
 		
-		JOIN_TO(String from, String to, String fromIndex) {
+		JOIN_TO(String from, String to, String fromIndex, String ... names) {
 			this.from = from;
 			this.to = to;
 			this.fromIndex = fromIndex;
+			this.names = names;
 		}
-		
+		public static Join getJoin(String name) {
+			for ( JOIN_TO j : values()) {
+				if ( j.names != null ) {
+					for (String s : j.names) {
+						if ( s.equalsIgnoreCase(name)) {
+							return j.getJoin();
+						}
+					}
+				}
+			}
+			// not found - try the enum name
+			try {
+				// check for ItemType JOINS
+				JOIN_TO join = JOIN_TO.valueOf(name.toLowerCase());
+				// 
+				return join.getJoin();
+			} catch (Exception e) {
+				// invalid join
+				return null;
+			}
+		}		
 		public Join getJoin() {
 			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
 		}

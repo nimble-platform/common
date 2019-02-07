@@ -9,23 +9,46 @@ import org.springframework.data.solr.core.query.Join;
 import org.springframework.data.solr.core.query.SimpleField;
 
 
+
+
 @SolrDocument(collection="class")
 public class ClassType extends Concept implements IClassType {
 	public enum JOIN_TO {
-		property(IPropertyType.ID_FIELD, IClassType.PROPERTIES_FIELD, IPropertyType.COLLECTION),
+		property(IPropertyType.ID_FIELD, IClassType.PROPERTIES_FIELD, IPropertyType.COLLECTION, "property", "prop"),
 		;
 		
 		String from;
 		String to;
 		String fromIndex;
+		String[] names;
 		
-		JOIN_TO(String from, String to, String fromIndex) {
+		JOIN_TO(String from, String to, String fromIndex, String ... names) {
 			this.from = from;
 			this.to = to;
 			this.fromIndex = fromIndex;
+			this.names = names;
 		}
-		
-		public Join getJoin() {
+		public static Join getJoin(String name) {
+			for ( JOIN_TO j : values()) {
+				if ( j.names != null ) {
+					for (String s : j.names) {
+						if ( s.equalsIgnoreCase(name)) {
+							return j.getJoin();
+						}
+					}
+				}
+			}
+			// not found - try the enum name
+			try {
+				// check for ItemType JOINS
+				JOIN_TO join = JOIN_TO.valueOf(name.toLowerCase());
+				// 
+				return join.getJoin();
+			} catch (Exception e) {
+				// invalid join
+				return null;
+			}
+		}		public Join getJoin() {
 			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
 		}
 

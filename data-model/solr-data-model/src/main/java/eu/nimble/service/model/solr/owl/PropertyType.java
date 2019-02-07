@@ -5,6 +5,8 @@ import java.util.HashSet;
 
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.data.solr.core.query.Join;
+import org.springframework.data.solr.core.query.SimpleField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
@@ -46,6 +48,48 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
+	
+	public enum JOIN_TO {
+		product(IClassType.ID_FIELD, IPropertyType.USED_WITH_FIELD, IClassType.COLLECTION, "product", "productType", "class"),
+		;
+		
+		String from;
+		String to;
+		String fromIndex;
+		String[] names;
+		
+		JOIN_TO(String from, String to, String fromIndex, String ... names) {
+			this.from = from;
+			this.to = to;
+			this.fromIndex = fromIndex;
+			this.names = names;
+		}
+		public static Join getJoin(String name) {
+			for ( JOIN_TO j : values()) {
+				if ( j.names != null ) {
+					for (String s : j.names) {
+						if ( s.equalsIgnoreCase(name)) {
+							return j.getJoin();
+						}
+					}
+				}
+			}
+			// not found - try the enum name
+			try {
+				// check for ItemType JOINS
+				JOIN_TO join = JOIN_TO.valueOf(name.toLowerCase());
+				// 
+				return join.getJoin();
+			} catch (Exception e) {
+				// invalid join
+				return null;
+			}
+		}
+		public Join getJoin() {
+			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
+		}
+
+	}
 
 	public String getPropertyType() {
 		return propertyType;
