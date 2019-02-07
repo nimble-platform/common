@@ -9,8 +9,8 @@ import java.util.List;
  */
 public enum ItemPropertyValueQualifier {
     TEXT("Text", "String", "String_Translatable"),
-    NUMBER("Number", "Int", "Float", "Double", "Real_Measure"),
-    QUANTITY("Quantity", "Amount"),
+    NUMBER("Number", "Int", "Float", "Double", "Real_Count", "Integer_Count"),
+    QUANTITY("Quantity", "Amount", "Real_Measure", "Integer_Measure"),
     BOOLEAN("Boolean"),
     FILE("File", "Image", "Binary");
 
