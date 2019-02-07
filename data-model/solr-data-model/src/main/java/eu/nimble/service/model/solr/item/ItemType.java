@@ -174,7 +174,20 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			addCustomProperty(qualifier, meta);
 		}		
 	}
-
+	public void addProperty(String qualifier, String unit, Double value, Concept meta) {
+		addProperty(qualifier, unit, value);
+		if ( meta != null) {
+			// 
+			addCustomProperty(qualifier, meta);
+		}		
+	}
+	public void addProperty(String qualifier, String unit, String value, Concept meta) {
+		addProperty(qualifier, unit, value);
+		if ( meta != null) {
+			// 
+			addCustomProperty(qualifier, meta);
+		}		
+	}
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
 		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
@@ -201,6 +214,16 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			customProperties = new HashMap<>();
 		}
 		customProperties.put(part, meta);
+	}
+	public void addProperty(String qualifier, String unit, String value) {
+		String key = dynamicKey(propertyMap, qualifier, unit);
+		Collection<String> values = this.stringValue.get(key);
+		if ( values == null ) {
+			values = new HashSet<String>();
+			this.stringValue.put(key, values);
+		}
+		//
+		values.add(value);
 	}
 	public void addProperty(String qualifier, String unit, Double value) {
 		String key = dynamicKey(propertyMap, qualifier, unit);
