@@ -68,6 +68,24 @@ public enum ItemPropertyValueQualifier {
         throw new RuntimeException(String.format("Invalid value '%s' for the value qualifier", qualifier));
     }
 
+    public static ItemPropertyValueQualifier getQualifier(String range) {
+        if(range.contentEquals(XSDDescription.XML_SCHEMA + "#string")) {
+            return TEXT;
+        } else if(range.contentEquals(XSDDescription.XML_SCHEMA + "#float") ||
+                range.contentEquals(XSDDescription.XML_SCHEMA + "#double") ||
+                range.contentEquals(XSDDescription.XML_SCHEMA + "#int")) {
+            return NUMBER;
+        } else if(range.contentEquals(XSDDescription.XML_SCHEMA + "#boolean")) {
+            return BOOLEAN;
+        } else if(range.contentEquals(XSDDescription.XML_SCHEMA + "#quantity")) {
+            return QUANTITY;
+        } else if(range.contentEquals(XSDDescription.XML_SCHEMA + "#base64Binary")) {
+            return FILE;
+        }
+
+        throw new RuntimeException(String.format("Invalid range '%s'", range));
+    }
+
     public List<String> getAlternatives() {
         return this.alternatives;
     }
