@@ -151,6 +151,7 @@ public interface ICatalogueItem extends IConcept {
 		case ALTERNATE_LABEL_FIELD:
 		case HIDDEN_LABEL_FIELD:
 		case LANGUAGE_TXT_FIELD:
+			return true;
 		default:
 			return false;
 		}

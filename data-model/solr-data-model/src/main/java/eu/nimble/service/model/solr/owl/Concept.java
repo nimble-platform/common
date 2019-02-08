@@ -172,11 +172,11 @@ public class Concept implements IConcept {
 	public void setDescription(Map<String, String> descMap) {
 		if ( descMap != null ) {
 			for ( String key : descMap.keySet() ) {
-				addComment(key, descMap.get(key));
+				addDescription(key, descMap.get(key));
 			}
 		}
 		else {
-			this.comment = null;
+			this.description = null;
 		}
 	}
 	public String getUri() {
