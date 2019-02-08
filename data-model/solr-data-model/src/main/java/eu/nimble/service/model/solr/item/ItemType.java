@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
-import org.apache.solr.common.util.Hash;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eu.nimble.service.model.solr.owl.Concept;
 import eu.nimble.service.model.solr.owl.IClassType;
+import eu.nimble.service.model.solr.owl.PropertyType;
 import eu.nimble.service.model.solr.party.IParty;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
@@ -126,27 +126,48 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private PartyType manufacturer;
 	
 	@ReadOnlyProperty
-	private Map<String,Concept> customProperties;
-
-
+	private Map<String,PropertyType> customProperties;
+	
 	public enum JOIN_TO {
-		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+//		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
 		// join to party type (manufacturer)
-		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
+		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION, "manufacturer", "party"),
 		// join to classes (furniture ontology, eClass)
-		classfication(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION),
+		classification(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION, "productType", "classification"),
 		;
 		
 		String from;
 		String to;
 		String fromIndex;
+		String[] names;
 		
-		JOIN_TO(String from, String to, String fromIndex) {
+		JOIN_TO(String from, String to, String fromIndex, String ... names) {
 			this.from = from;
 			this.to = to;
 			this.fromIndex = fromIndex;
+			this.names = names;
 		}
-		
+		public static Join getJoin(String name) {
+			for ( JOIN_TO j : values()) {
+				if ( j.names != null ) {
+					for (String s : j.names) {
+						if ( s.equalsIgnoreCase(name)) {
+							return j.getJoin();
+						}
+					}
+				}
+			}
+			// not found - try the enum name
+			try {
+				// check for ItemType JOINS
+				JOIN_TO join = JOIN_TO.valueOf(name.toLowerCase());
+				// 
+				return join.getJoin();
+			} catch (Exception e) {
+				// invalid join
+				return null;
+			}
+		}		
 		public Join getJoin() {
 			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
 		}
@@ -167,14 +188,31 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		//
 		values.add(value);
 	}
-	public void addProperty(String qualifier, String value, Concept meta) {
+	public void addProperty(String qualifier, String value, PropertyType meta) {
 		addProperty(qualifier, value);
 		if ( meta != null) {
-			// 
+			// ensure the proper valueQualifier
+			meta.setValueQualifier("NUMBER");
 			addCustomProperty(qualifier, meta);
 		}		
 	}
-
+	public void addProperty(String qualifier, String unit, Double value, PropertyType meta) {
+		addProperty(qualifier, unit, value);
+		if ( meta != null) {
+			// ensure the proper valueQualifier
+			meta.setValueQualifier("QUANTITY");
+			addCustomProperty(qualifier, unit, meta);
+		}		
+	}
+	@Deprecated
+	public void addProperty(String qualifier, String unit, String value, PropertyType meta) {
+		addProperty(qualifier, unit, value);
+		if ( meta != null) {
+			// 
+			meta.setValueQualifier("TEXT");
+			addCustomProperty(qualifier, unit, meta);
+		}		
+	}
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
 		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
@@ -188,19 +226,37 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		//
 		values.add(value);
 	}
-	public void addProperty(String qualifier, Double value, Concept meta) {
+	public void addProperty(String qualifier, Double value, PropertyType meta) {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// 
 			addCustomProperty(qualifier, meta);
 		}
 	}
-	private void addCustomProperty(String qualifier, Concept meta) {
+	private void addCustomProperty(String qualifier, String unit, PropertyType meta) {
+		String part = dynamicFieldPart(qualifier, unit);
+		if ( customProperties == null ) {
+			customProperties = new HashMap<>();
+		}
+		customProperties.put(part, meta);
+		
+	}
+	private void addCustomProperty(String qualifier, PropertyType meta) {
 		String part = dynamicFieldPart(qualifier);
 		if ( customProperties == null ) {
 			customProperties = new HashMap<>();
 		}
 		customProperties.put(part, meta);
+	}
+	public void addProperty(String qualifier, String unit, String value) {
+		String key = dynamicKey(propertyMap, qualifier, unit);
+		Collection<String> values = this.stringValue.get(key);
+		if ( values == null ) {
+			values = new HashSet<String>();
+			this.stringValue.put(key, values);
+		}
+		//
+		values.add(value);
 	}
 	public void addProperty(String qualifier, String unit, Double value) {
 		String key = dynamicKey(propertyMap, qualifier, unit);
@@ -280,7 +336,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setProperty(String qualifier, Boolean value) {
 		this.booleanValue.put(dynamicKey(qualifier,propertyMap), value);
 	}
-	public void setProperty(String qualifier, Boolean value, Concept meta) {
+	public void setProperty(String qualifier, Boolean value, PropertyType meta) {
 		setProperty(qualifier, value);
 		if ( meta != null) {
 			// 
@@ -327,19 +383,6 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		this.catalogueId = catalogueId;
 	}
 //		this.languages = language;
-	public Map<String, String> getDescription() {
-		return description;
-	}
-	public void setDescription(Map<String, String> description) {
-		if ( description !=null ) {
-			for ( String key : description.keySet()) {
-				addDescription(key, description.get(key));
-			}
-		}
-		else {
-			this.description = description;
-		}
-	}
 	public Boolean getFreeOfCharge() {
 		return freeOfCharge;
 	}
@@ -555,11 +598,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		this.imgageUri = imgageUri;
 	}
 	
-	public Map<String, Concept> getCustomProperties() {
+	public Map<String, PropertyType> getCustomProperties() {
 		return customProperties;
 	}
 
-	public void setCustomProperties(Map<String, Concept> customProperties) {
+
+	public void setCustomProperties(Map<String, PropertyType> customProperties) {
 		this.customProperties = customProperties;
 	}
 	/**
