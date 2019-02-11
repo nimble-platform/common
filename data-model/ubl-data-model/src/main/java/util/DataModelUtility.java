@@ -17,8 +17,6 @@ public class DataModelUtility {
     }
 
     public static void nullifyPartyFieldsExceptHjid(PartyType party) {
-        party.setID(null);
-        party.setName(null);
         party.setExternalAward(null);
         party.setFederationInstanceID(null);
         party.setPpapCompatibilityLevel(null);
@@ -38,6 +36,10 @@ public class DataModelUtility {
         party.setPreferredItemClassificationCode(null);
         party.setPurchaseTerms(null);
         party.setSalesTerms(null);
+        party.setBrandName(null);
+        party.setDescription(null);
+        party.setPartyIdentification(null);
+        party.setPartyName(null);
     }
 
     /**
@@ -52,8 +54,10 @@ public class DataModelUtility {
     }
 
     public static void copyPartyExceptHjid(PartyType targetParty, PartyType sourceParty) {
-        targetParty.setID(sourceParty.getID());
-        targetParty.setName(sourceParty.getName());
+        targetParty.setPartyIdentification(sourceParty.getPartyIdentification());
+        targetParty.setPartyName(sourceParty.getPartyName());
+        targetParty.setDescription(sourceParty.getDescription());
+        targetParty.setBrandName(sourceParty.getBrandName());
         targetParty.setExternalAward(sourceParty.getExternalAward());
         targetParty.setFederationInstanceID(sourceParty.getFederationInstanceID());
         targetParty.setPpapCompatibilityLevel(sourceParty.getPpapCompatibilityLevel());
