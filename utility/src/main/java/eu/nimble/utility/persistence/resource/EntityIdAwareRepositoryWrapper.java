@@ -66,7 +66,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         this.partyId = partyId;
         this.userId = userId;
         this.catalogueRepositoryName = catalogueRepositoryName;
-        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL);
+        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true);
     }
 
     @Override
