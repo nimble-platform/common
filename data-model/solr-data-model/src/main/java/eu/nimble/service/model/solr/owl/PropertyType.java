@@ -2,6 +2,8 @@ package eu.nimble.service.model.solr.owl;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -140,6 +142,10 @@ public class PropertyType extends Concept implements IPropertyType {
 	public void addItemFieldName(String idxField) {
 		if (itemFieldNames==null) {
 			itemFieldNames=new HashSet<>();
+		}
+		else if ( itemFieldNames instanceof Set) {
+			// ensure to have a new set (to avoid duplicates
+			itemFieldNames = itemFieldNames.stream().collect(Collectors.toSet());
 		}
 		this.itemFieldNames.add(idxField);
 	}
