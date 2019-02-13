@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1">
+<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
 	<xsd:element name="AcceptedIndicator" type="xsd:boolean"/>
 	<xsd:element name="AcceptedVariantsDescription" type="xsd:decimal"/>
 	<xsd:element name="AccountFormatCode" type="CodeType"/>
@@ -75,7 +75,7 @@
 	<xsd:element name="BirthDate" type="xsd:date"/>
 	<xsd:element name="BirthplaceName" type="xsd:string"/>
 	<xsd:element name="BlockName" type="xsd:string"/>
-	<xsd:element name="BrandName" type="xsd:string"/>
+	<xsd:element name="BrandName" type="TextType"/>
 	<xsd:element name="BrokerAssignedID" type="xsd:string"/>
 	<xsd:element name="BudgetYearNumeric" type="xsd:decimal"/>
 	<xsd:element name="BuildingName" type="xsd:string"/>
@@ -213,7 +213,7 @@
 	<xsd:element name="DemoSpecificMultipleContent" type="xsd:string"/>
 	<xsd:element name="DemurrageInstructions" type="xsd:string"/>
 	<xsd:element name="Department" type="xsd:string"/>
-	<xsd:element name="Description" type="xsd:string"/>
+	<xsd:element name="Description" type="TextType"/>
 	<xsd:element name="DescriptionCode" type="CodeType"/>
 	<xsd:element name="DespatchAdviceTypeCode" type="CodeType"/>
 	<xsd:element name="DifferenceTemperatureReductionQuantity" type="QuantityType"/>
@@ -318,7 +318,7 @@
 	<xsd:element name="GuaranteedDespatchDate" type="xsd:date"/>
 	<xsd:element name="GuaranteedDespatchTime" type="xsd:time"/>
 	<xsd:element name="HandlingCode" type="CodeType"/>
-	<xsd:element name="HandlingInstructions" type="xsd:string"/>
+	<xsd:element name="HandlingInstructions" type="TextType"/>
 	<xsd:element name="HashAlgorithmMethod" type="xsd:string"/>
 	<xsd:element name="HaulageInstructions" type="xsd:string"/>
 	<xsd:element name="HazardClassID" type="xsd:string"/>
@@ -348,7 +348,7 @@
 	<xsd:element name="InspectionMethodCode" type="CodeType"/>
 	<xsd:element name="InstallmentDueDate" type="xsd:date"/>
 	<xsd:element name="InstructionID" type="xsd:string"/>
-	<xsd:element name="InstructionNote" type="xsd:string"/>
+	<xsd:element name="InstructionNote" type="TextType"/>
 	<xsd:element name="Instructions" type="xsd:string"/>
 	<xsd:element name="InsurancePremiumAmount" type="AmountType"/>
 	<xsd:element name="InsuranceValueAmount" type="AmountType"/>
@@ -475,8 +475,8 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
-	<xsd:element name="NACE" type="CodeType"/>
-	<xsd:element name="Name" type="xsd:string"/>
+    <xsd:element name="NACE" type="CodeType"/>
+    <xsd:element name="Name" type="TextType"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
 	<xsd:element name="NationalityID" type="xsd:string"/>
@@ -748,7 +748,7 @@
 	<xsd:element name="SpecialInstructions" type="xsd:string"/>
 	<xsd:element name="SpecialSecurityIndicator" type="xsd:boolean"/>
 	<xsd:element name="SpecialServiceInstructions" type="xsd:string"/>
-	<xsd:element name="SpecialTerms" type="xsd:string"/>
+	<xsd:element name="SpecialTerms" type="TextType"/>
 	<xsd:element name="SpecialTransportRequirements" type="xsd:string"/>
 	<xsd:element name="SpecificationID" type="xsd:string"/>
 	<xsd:element name="SpecificationTypeCode" type="CodeType"/>
@@ -890,7 +890,7 @@
 	<xsd:element name="ValidationTime" type="xsd:time"/>
 	<xsd:element name="ValidatorID" type="xsd:string"/>
 	<xsd:element name="ValidityStartDate" type="xsd:date"/>
-	<xsd:element name="Value" type="xsd:string"/>
+	<xsd:element name="Value" type="TextType"/>
 	<xsd:element name="ValueAmount" type="AmountType"/>
 	<xsd:element name="ValueBinary" type="BinaryObjectType"/>
 	<xsd:element name="ValueDecimal" type="xsd:decimal"/>
@@ -942,6 +942,13 @@
 			<xsd:extension base="xsd:decimal">
 				<xsd:attribute name="unitCode" type="xsd:normalizedString" use="required"/>
 				<xsd:attribute name="unitCodeListID" type="xsd:normalizedString" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="TextType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:normalizedString">
+				<xsd:attribute name="languageID" type="xsd:normalizedString" use="optional"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>

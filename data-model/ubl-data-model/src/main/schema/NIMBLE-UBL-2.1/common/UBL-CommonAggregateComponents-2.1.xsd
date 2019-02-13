@@ -59,6 +59,8 @@
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
 	<xsd:element name="Party" type="PartyType"/>
+	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>
+	<xsd:element name="PartyName" type="PartyNameType"/>
 	<xsd:element name="PartyTaxScheme" type="PartyTaxSchemeType"/>
 	<xsd:element name="PaymentMeans" type="PaymentMeansType"/>
 	<xsd:element name="PaymentTerms" type="PaymentTermsType"/>
@@ -302,7 +304,7 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
 			<xsd:element ref="cbc:Incoterms" minOccurs="0"/>
-			<xsd:element ref="cbc:SpecialTerms" minOccurs="0"/>
+			<xsd:element ref="cbc:SpecialTerms" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:Amount" minOccurs="0"/>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryLocation" minOccurs="0"/>
@@ -380,23 +382,9 @@
 	</xsd:complexType>
 	<xsd:complexType name="ItemType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Description" minOccurs="0">
-				<xsd:annotation>
-					<xsd:appinfo>
-						<hj:basic>
-							<orm:column column-definition="TEXT"/>
-						</hj:basic>
-					</xsd:appinfo>
-				</xsd:annotation>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
-			<xsd:element ref="cbc:Name" minOccurs="0">
-				<xsd:annotation>
-					<xsd:appinfo>
-						<hj:basic>
-							<orm:column column-definition="TEXT"/>
-						</hj:basic>
-					</xsd:appinfo>
-				</xsd:annotation>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
 			<xsd:element ref="cbc:ProductImage" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -513,7 +501,7 @@
 	<xsd:complexType name="ItemPropertyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Name"/>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -632,9 +620,18 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="PartyType">
+	<xsd:complexType name="PartyIdentificationType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyNameType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PartyType">
+		<xsd:sequence>
 			<xsd:element ref="cbc:FederationInstanceID"/>
 			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -645,7 +642,42 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:Name"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:BrandName" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PartyName" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PartyIdentification" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
 				<xsd:annotation>
@@ -771,7 +803,7 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
 			<xsd:element ref="cbc:PaymentMeansCode"/>
-			<xsd:element ref="cbc:InstructionNote" minOccurs="0"/>
+			<xsd:element ref="cbc:InstructionNote" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PaymentTermsType">
@@ -914,7 +946,7 @@
 	<xsd:complexType name="ShipmentType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0"/>
+			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
 			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -1014,7 +1046,7 @@
 	<xsd:complexType name="TradingTermType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Description" minOccurs="0"/>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:TradingTermFormat" minOccurs="0"/>
 			<xsd:element ref="cbc:Value" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -1306,7 +1338,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="DeclarationType">
 		<xsd:sequence>
-			<xsd:element ref="cbc:Name" minOccurs="0"/>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:DeclarationTypeCode" minOccurs="0"/>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
