@@ -192,16 +192,14 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			meta.setValueQualifier("NUMBER");
-			addCustomProperty(qualifier, meta);
+			addCustomProperty(qualifier, meta, "TEXT");
 		}		
 	}
 	public void addProperty(String qualifier, String unit, Double value, PropertyType meta) {
 		addProperty(qualifier, unit, value);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			meta.setValueQualifier("QUANTITY");
-			addCustomProperty(qualifier, unit, meta);
+			addCustomProperty(qualifier, unit, meta, "QUANTITY");
 		}		
 	}
 	@Deprecated
@@ -209,8 +207,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, unit, value);
 		if ( meta != null) {
 			// 
-			meta.setValueQualifier("TEXT");
-			addCustomProperty(qualifier, unit, meta);
+			addCustomProperty(qualifier, unit, meta, "TEXT");
 		}		
 	}
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
@@ -230,24 +227,42 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// 
-			addCustomProperty(qualifier, meta);
+			addCustomProperty(qualifier, meta, "NUMBER");
 		}
 	}
-	private void addCustomProperty(String qualifier, String unit, PropertyType meta) {
-		String part = dynamicFieldPart(qualifier, unit);
+	private void addCustomProperty(String qualifier, String unit, PropertyType meta, String valueQualfier) {
+		String key = dynamicFieldPart(qualifier);
+		String full = dynamicFieldPart(qualifier, unit);
 		if ( customProperties == null ) {
 			customProperties = new HashMap<>();
 		}
-		customProperties.put(part, meta);
+//		String idxField = dynamicFieldPart(qualifier, unit);
+//		meta.addItemFieldName(idxField);
+		//
+		if ( ! customProperties.containsKey(key)) {
+			customProperties.put(key, meta);
+		}
+		// add the qualifier "including" the unit
+		PropertyType pt = customProperties.get(key);
+		pt.setValueQualifier(valueQualfier);
+		pt.addItemFieldName(key);
+		pt.addItemFieldName(full);
 		
 	}
-	private void addCustomProperty(String qualifier, PropertyType meta) {
+	private void addCustomProperty(String qualifier, PropertyType meta, String valueQualifier) {
 		String part = dynamicFieldPart(qualifier);
 		if ( customProperties == null ) {
 			customProperties = new HashMap<>();
 		}
-		customProperties.put(part, meta);
+		if (! customProperties.containsKey(part)) {
+			customProperties.put(part, meta);
+		}
+		// add the qualifier "including" the unit
+		PropertyType pt = customProperties.get(part);
+		pt.setValueQualifier(valueQualifier);
+		pt.addItemFieldName(part);
 	}
+	
 	public void addProperty(String qualifier, String unit, String value) {
 		String key = dynamicKey(propertyMap, qualifier, unit);
 		Collection<String> values = this.stringValue.get(key);
@@ -340,7 +355,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		setProperty(qualifier, value);
 		if ( meta != null) {
 			// 
-			addCustomProperty(qualifier, meta);
+			addCustomProperty(qualifier, meta, "BOOLEAN");
 		}
 	}
 //	
@@ -641,7 +656,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		for ( String part : strings ) {
 			parts.add(dynamicFieldPart(part));
 		}
-		return String.join("_", parts);
+		return dynamicFieldPart(String.join("_", parts));
 	}
 
 }
