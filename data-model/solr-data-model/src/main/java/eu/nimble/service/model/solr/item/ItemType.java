@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -286,27 +287,56 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public String getMultiLingualProperty(String qualifier, String language) {
 		String key = dynamicFieldPart(qualifier);
-		Optional<String> prop = this.stringValue.get(key).stream()
-			.filter(new Predicate<String>() {
+		if ( this.stringValue.get(key)!=null && ! this.stringValue.get(key).isEmpty()) {
+			Optional<String> prop = this.stringValue.get(key).stream()
+					.filter(new Predicate<String>() {
+						
+						@Override
+						public boolean test(String t) {
+							if (language.equalsIgnoreCase(extractLanguage(t))) {
+								return true;
+							}
+							return false;
+						}
+						
+					})
+					.map(new Function<String, String>() {
+						
+						@Override
+						public String apply(String t) {
+							return extractText(t);
+						}})
+					.findFirst();
+			return prop.orElse(null);
+		}
+		return null;
 
-				@Override
-				public boolean test(String t) {
-					if (language.equalsIgnoreCase(extractLanguage(t))) {
-						return true;
-					}
-					return false;
-				}
-				
-			})
-			.map(new Function<String, String>() {
-
-				@Override
-				public String apply(String t) {
-					return extractText(t);
-				}})
-			.findFirst();
-		return prop.orElse(null);
-
+	}
+	public List<String> getMultiLingualProperties(String qualifier, String language) {
+		String key = dynamicFieldPart(qualifier);
+		if ( this.stringValue.get(key)!=null && ! this.stringValue.get(key).isEmpty()) {
+			List<String> prop = this.stringValue.get(key).stream()
+					.filter(new Predicate<String>() {
+						
+						@Override
+						public boolean test(String t) {
+							if (language.equalsIgnoreCase(extractLanguage(t))) {
+								return true;
+							}
+							return false;
+						}
+						
+					})
+					.map(new Function<String, String>() {
+						
+						@Override
+						public String apply(String t) {
+							return extractText(t);
+						}})
+					.collect(Collectors.toList());
+			return prop;
+		}
+		return new ArrayList<>();
 	}
 	private String extractText(String t) {
 		int delim = t.lastIndexOf("@");
