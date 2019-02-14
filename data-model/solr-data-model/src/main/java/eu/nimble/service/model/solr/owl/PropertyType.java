@@ -31,7 +31,7 @@ public class PropertyType extends Concept implements IPropertyType {
 	private String range;
 	
 	@Indexed(required=false, name=VALUE_QUALIFIER_FIELD)
-	private String valueQualifier;
+	private ValueQualifier valueQualifier;
 	
 	@Indexed(required=false, name=USED_WITH_FIELD)
 	private Collection<String> product;
@@ -150,11 +150,11 @@ public class PropertyType extends Concept implements IPropertyType {
 		this.itemFieldNames.add(idxField);
 	}
 
-	public String getValueQualifier() {
+	public ValueQualifier getValueQualifier() {
 		return valueQualifier;
 	}
 
-	public void setValueQualifier(String valueQualifier) {
+	public void setValueQualifier(ValueQualifier valueQualifier) {
 		this.valueQualifier = valueQualifier;
 	}
 	@JsonIgnore

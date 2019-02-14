@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.nimble.service.model.solr.owl.Concept;
 import eu.nimble.service.model.solr.owl.IClassType;
 import eu.nimble.service.model.solr.owl.PropertyType;
+import eu.nimble.service.model.solr.owl.ValueQualifier;
 import eu.nimble.service.model.solr.party.IParty;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
@@ -195,14 +196,14 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			addCustomProperty(qualifier, meta, "STRING");
+			addCustomProperty(qualifier, meta, ValueQualifier.STRING);
 		}		
 	}
 	public void addProperty(String qualifier, String unit, Double value, PropertyType meta) {
 		addProperty(qualifier, unit, value);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			addCustomProperty(qualifier, unit, meta, "QUANTITY");
+			addCustomProperty(qualifier, unit, meta, ValueQualifier.QUANTITY);
 		}		
 	}
 	@Deprecated
@@ -226,10 +227,10 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// 
-			addCustomProperty(qualifier, meta, "NUMBER");
+			addCustomProperty(qualifier, meta, ValueQualifier.NUMBER);
 		}
 	}
-	private void addCustomProperty(String qualifier, String unit, PropertyType meta, String valueQualfier) {
+	private void addCustomProperty(String qualifier, String unit, PropertyType meta, ValueQualifier valueQualfier) {
 		String key = dynamicFieldPart(qualifier);
 		String full = dynamicFieldPart(qualifier, unit);
 		if ( customProperties == null ) {
@@ -248,7 +249,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		pt.addItemFieldName(full);
 		
 	}
-	private void addCustomProperty(String qualifier, PropertyType meta, String valueQualifier) {
+	private void addCustomProperty(String qualifier, PropertyType meta, ValueQualifier valueQualifier) {
 		String part = dynamicFieldPart(qualifier);
 		if ( customProperties == null ) {
 			customProperties = new HashMap<>();
@@ -280,7 +281,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addMultiLingualProperty(qualifier, language, text);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			addCustomProperty(qualifier, meta, "STRING");
+			addCustomProperty(qualifier, meta, ValueQualifier.STRING);
 		}		
 	}
 	public String getMultiLingualProperty(String qualifier, String language) {
@@ -405,7 +406,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		setProperty(qualifier, value);
 		if ( meta != null) {
 			// 
-			addCustomProperty(qualifier, meta, "BOOLEAN");
+			addCustomProperty(qualifier, meta, ValueQualifier.BOOLEAN);
 		}
 	}
 //	
