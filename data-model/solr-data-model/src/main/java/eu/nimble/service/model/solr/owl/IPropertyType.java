@@ -1,5 +1,11 @@
 package eu.nimble.service.model.solr.owl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.solr.core.query.Field;
+import org.springframework.data.solr.core.query.SimpleField;
+
 public interface IPropertyType extends IConcept {
 	String COLLECTION = "props";
 	String TYPE_FIELD = "doctype";
@@ -19,7 +25,7 @@ public interface IPropertyType extends IConcept {
 	 * 
 	 * @return
 	 */
-	public static String[] defaultFieldList() {
+	public static String[] defaultFieldNames() {
 		return new String[] {
 				TYPE_FIELD, 
 				IS_FACET_FIELD, 
@@ -39,5 +45,13 @@ public interface IPropertyType extends IConcept {
 				RANGE_FIELD,
 				VALUE_QUALIFIER_FIELD
 		};
+		
+	}
+	public static List<Field> defaultFields() {
+		List<Field> f = new ArrayList<>();
+		for ( String s : defaultFieldNames()) {
+			f.add(new SimpleField(s));
+		}
+		return f;
 	}
 }
