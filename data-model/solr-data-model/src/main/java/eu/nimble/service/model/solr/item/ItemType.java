@@ -132,7 +132,15 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	
 	@ReadOnlyProperty
 	private Map<String,PropertyType> customProperties;
-	
+	/**
+	 * Provide JOIN Information to 
+	 * <ul>
+	 * <li>manufacturer
+	 * <li>classification
+	 * </ul>
+	 * @author dglachs
+	 *
+	 */
 	public enum JOIN_TO {
 //		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
 		// join to party type (manufacturer)
@@ -178,11 +186,21 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 
 	}
-
+	/**
+	 * Setter for the dynamic string properties.
+	 * 
+	 * Method is for deserializing from JSON, do not use directly
+	 * @param qualifier
+	 * @param values
+	 */
 	public void setStringProperty(String qualifier, Collection<String> values) {
 		this.stringValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
-
+	/**
+	 * Add a new string based property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The value of the property
+	 */
 	public void addProperty(String qualifier, String value) {
 		String key = dynamicKey(qualifier, propertyMap);
 		Collection<String> values = stringValue.get(key);
@@ -193,6 +211,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		//
 		values.add(value);
 	}
+	/**
+	 * Add a new string based property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The value of the property
+	 * @param meta A detailed property description holding multi lingual labels
+	 */
 	public void addProperty(String qualifier, String value, PropertyType meta) {
 		addProperty(qualifier, value);
 		if ( meta != null) {
@@ -200,6 +224,29 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			addCustomProperty(qualifier, meta, ValueQualifier.STRING);
 		}		
 	}
+	/**
+	 * Add a new numeric (double) property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier
+	 * @param value The value of the property
+	 */
+	public void addProperty(String qualifier, String unit, Double value) {
+		String key = dynamicKey(propertyMap, qualifier, unit);
+		Collection<Double> values = doubleValue.get(key);
+		if ( values == null ) {
+			values = new HashSet<Double>();
+			this.doubleValue.put(key, values);
+		}
+		//
+		values.add(value);
+	}
+	/**
+	 * Add a new numeric (double) property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier
+	 * @param value The value of the property
+	 * @param meta A detailed property description holding multi lingual labels
+	 */
 	public void addProperty(String qualifier, String unit, Double value, PropertyType meta) {
 		addProperty(qualifier, unit, value);
 		if ( meta != null) {
@@ -207,13 +254,32 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			addCustomProperty(qualifier, unit, meta, ValueQualifier.QUANTITY);
 		}		
 	}
+	/**
+	 * Add a new string property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier, such as the language
+	 * @param value The value of the property
+	 * @param meta A detailed property description holding multi lingual labels
+	 * @deprecated Use {@link #addMultiLingualProperty(String, String, String, PropertyType)}
+	 */
 	@Deprecated
 	public void addProperty(String qualifier, String unit, String value, PropertyType meta) {
 		addMultiLingualProperty(qualifier, unit, value, meta);
 	}
+	/**
+	 * Setter for the double properties, used for deserializing from JSON. 
+	 * Do not use directly
+	 * @param qualifier
+	 * @param values
+	 */
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
 		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
 	}
+	/**
+	 * Add a new numeric double property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The value of the property
+	 */
 	public void addProperty(String qualifier, Double value) {
 		String key = dynamicKey(qualifier, propertyMap);
 		Collection<Double> values = doubleValue.get(key);
@@ -224,6 +290,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		//
 		values.add(value);
 	}
+	/**
+	 * Add a new numeric double property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The value of the property
+	 * @param meta A detailed property description holding multi lingual labels
+	 */
 	public void addProperty(String qualifier, Double value, PropertyType meta) {
 		addProperty(qualifier, value);
 		if ( meta != null) {
@@ -231,6 +303,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			addCustomProperty(qualifier, meta, ValueQualifier.NUMBER);
 		}
 	}
+	/**
+	 * Helper method maintaining the list of custom property descriptions
+	 * @param qualifier The qualifier to use for the index name and for the mapping to the custom property
+	 * @param unit The unit of the actual usage - full qualifier including unit is used for mapping as well
+	 * @param meta The detailed property description holding multilingual labels
+	 * @param valueQualfier The basic type of the property, see {@link ValueQualifier} for complete list
+	 */
 	private void addCustomProperty(String qualifier, String unit, PropertyType meta, ValueQualifier valueQualfier) {
 		String key = dynamicFieldPart(qualifier);
 		String full = dynamicFieldPart(qualifier, unit);
@@ -250,6 +329,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		pt.addItemFieldName(full);
 		
 	}
+	/**
+	 * Helper method maintaining the list of custom property descriptions
+	 * @param qualifier The qualifier to use for the index name and for the mapping to the custom property
+	 * @param meta The detailed property description holding multilingual labels
+	 * @param valueQualfier The basic type of the property, see {@link ValueQualifier} for complete list
+	 */
 	private void addCustomProperty(String qualifier, PropertyType meta, ValueQualifier valueQualifier) {
 		String part = dynamicFieldPart(qualifier);
 		if ( customProperties == null ) {
@@ -263,10 +348,23 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		pt.setValueQualifier(valueQualifier);
 		pt.addItemFieldName(part);
 	}
+	/**
+	 * Add a new string property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier, such as the language
+	 * @param value The value of the property
+	 * @deprecated Use {@link #addMultiLingualProperty(String, String, String)}
+	 */
 	@Deprecated
 	public void addProperty(String qualifier, String unit, String value) {
 		addMultiLingualProperty(qualifier, unit, value);
 	}
+	/**
+	 * Add a new string property, the text and the language are are combined to <i>text@language</i>.
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier, such as the language
+	 * @param value The value of the property
+	 */
 	public void addMultiLingualProperty(String qualifier, String language, String text) {
 		String key = dynamicKey(propertyMap, qualifier);
 		Collection<String> values = this.stringValue.get(key);
@@ -278,6 +376,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		values.add(String.format("%s@%s", text, language));
 		
 	}
+	/**
+	 * Add a new string property, the text and the language are are combined to <i>text@language</i>.
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param unit Additional qualifier, such as the language
+	 * @param value The value of the property
+	 * @param meta A detailed description of the property including multi lingual labels
+	 */
 	public void addMultiLingualProperty(String qualifier, String language, String text, PropertyType meta) {
 		addMultiLingualProperty(qualifier, language, text);
 		if ( meta != null) {
@@ -285,6 +390,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			addCustomProperty(qualifier, meta, ValueQualifier.STRING);
 		}		
 	}
+	/**
+	 * Obtain a multi-lingual property for the given qualifier and the desired language, <code>null</code> if 
+	 * no value can be found. 
+	 * @param qualifier The qualifier used when storing  the multi lingual property value
+	 * @param language The language code, such as <i>en</i>, <i>es</i>
+	 * @return The multi lingual property or <code>null</code>
+	 */
 	public String getMultiLingualProperty(String qualifier, String language) {
 		String key = dynamicFieldPart(qualifier);
 		if ( this.stringValue.get(key)!=null && ! this.stringValue.get(key).isEmpty()) {
@@ -293,7 +405,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public boolean test(String t) {
-							if (language.equalsIgnoreCase(extractLanguage(t))) {
+							if (language.equalsIgnoreCase(multiLingualLanguage(t))) {
 								return true;
 							}
 							return false;
@@ -304,7 +416,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public String apply(String t) {
-							return extractText(t);
+							return multiLingualValue(t);
 						}})
 					.findFirst();
 			return prop.orElse(null);
@@ -312,6 +424,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		return null;
 
 	}
+	/**
+	 * Obtain a list of multilingual property values
+	 * @param qualifier The qualifier used when storing  the multi lingual property value
+	 * @param language The language code, such as <i>en</i>, <i>es</i>
+	 * @return A list of multi lingual property values for the desired languag, empty list when no value present
+	 */
 	public List<String> getMultiLingualProperties(String qualifier, String language) {
 		String key = dynamicFieldPart(qualifier);
 		if ( this.stringValue.get(key)!=null && ! this.stringValue.get(key).isEmpty()) {
@@ -320,7 +438,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public boolean test(String t) {
-							if (language.equalsIgnoreCase(extractLanguage(t))) {
+							if (language.equalsIgnoreCase(multiLingualLanguage(t))) {
 								return true;
 							}
 							return false;
@@ -331,14 +449,19 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public String apply(String t) {
-							return extractText(t);
+							return multiLingualValue(t);
 						}})
 					.collect(Collectors.toList());
 			return prop;
 		}
 		return new ArrayList<>();
 	}
-	private String extractText(String t) {
+	/**
+	 * Helper method to extract the value portion of the multilingual label
+	 * @param t
+	 * @return
+	 */
+	private String multiLingualValue(String t) {
 		int delim = t.lastIndexOf("@");
 		if ( delim > 0 ) {
 			return t.substring(0,delim);
@@ -346,7 +469,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		return t;
 		
 	}
-	private String extractLanguage(String t) {
+	/**
+	 * Helper method to extract the language portion of the multilingual label
+	 * @param t
+	 * @return
+	 */
+	private String multiLingualLanguage(String t) {
 		int delim = t.lastIndexOf("@");
 		if ( delim > 0 && t.length()>delim+1) {
 			return t.substring(delim+1);
@@ -354,20 +482,21 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		return null;
 		
 	}
-	public void addProperty(String qualifier, String unit, Double value) {
-		String key = dynamicKey(propertyMap, qualifier, unit);
-		Collection<Double> values = doubleValue.get(key);
-		if ( values == null ) {
-			values = new HashSet<Double>();
-			this.doubleValue.put(key, values);
-		}
-		//
-		values.add(value);
-	}
+	/**
+	 * Obtain the collection of numeric properties stored with the provided <i>qualifier</i>
+	 * @param qualifier The qualifier used when storing the numeric values
+	 * @param unit The unit extension used when storing the numeric values
+	 * @return The list of stored values, may return null when not found!
+	 */
 	public Collection<Double> getProperty(String qualifier, String unit) {
 		String key = dynamicFieldPart(qualifier, unit);
 		return this.doubleValue.get(key);
 	}
+	/**
+	 * Getter for the boolean properties, used for serializing. The qualifiers originally used
+	 * when storing are restored and used as keys.
+	 * @return
+	 */
 	public Map<String, Boolean> getBooleanValue() {
 		Map<String, Boolean> result = new HashMap<>();
 		for ( String dynUnitKey : this.propertyMap.keySet()) {
@@ -377,7 +506,11 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 		return result;
 	}
-
+	/**
+	 * Setter for boolean properties, used for deserializing JSON, not intended to be
+	 * used directly
+	 * @param booleanValue
+	 */
 	public void setBooleanValue(Map<String, Boolean> booleanValue) {
 		if ( booleanValue != null ) {
 			for (String key :  booleanValue.keySet()) {
@@ -388,7 +521,11 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			this.booleanValue = booleanValue;
 		}
 	}
-
+	/**
+	 * Getter for the string properties, used for serializing. The qualifiers originally used 
+	 * when storing are restored and used as keys.
+	 * @return
+	 */
 	public Map<String, Collection<String>> getStringValue() {
 		Map<String, Collection<String>> result = new HashMap<>();
 		for ( String dynUnitKey : this.propertyMap.keySet()) {
@@ -398,7 +535,11 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 		return result;
 	}
-	
+	/**
+	 * Getter for the double values, used for serializing. The qualifiers originally used
+	 * when storing are restored and used as key.
+	 * @return
+	 */
 	public Map<String, Collection<Double>> getDoubleValue() {
 		Map<String, Collection<Double>> result = new HashMap<>();
 		for ( String dynUnitKey : this.propertyMap.keySet()) {
@@ -408,6 +549,10 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 		return result;
 	}
+	/**
+	 * Setter for the string values, used for deserializing, do not use directly
+	 * @param stringValue
+	 */
 	public void setStringValue(Map<String, Collection<String>> stringValue) {
 		if ( stringValue != null ) {
 			for (String key :  stringValue.keySet()) {
@@ -418,6 +563,10 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			this.stringValue = stringValue;
 		}
 	}
+	/**
+	 * Setter for the double values, used for deserializing, do not use directly
+	 * @param doubleValue
+	 */
 	public void setDoubleValue(Map<String, Collection<Double>> doubleValue) {
 		if ( doubleValue != null ) {
 			for (String key :  doubleValue.keySet()) {
@@ -429,35 +578,26 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		}
 	}
 	
+	/**
+	 * Setter for a boolean property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The boolean value to store
+	 */
 	public void setProperty(String qualifier, Boolean value) {
 		this.booleanValue.put(dynamicKey(qualifier,propertyMap), value);
 	}
+	/**
+	 * Setter for a boolean property
+	 * @param qualifier To be used as dynamic field name in index, see {@link #dynamicFieldPart(String)}
+	 * @param value The boolean value to store
+	 * @param meta A detailed description of the property holding multilingual labels
+	 */
 	public void setProperty(String qualifier, Boolean value, PropertyType meta) {
 		setProperty(qualifier, value);
 		if ( meta != null) {
 			// 
 			addCustomProperty(qualifier, meta, ValueQualifier.BOOLEAN);
 		}
-	}
-//	
-//	public Collection<String> getProperties() {
-//		return propertyMap.values();
-//	}
-//	public void setProperties(Collection<String> qualifier) {
-//		this.propertyMap.clear();
-//		for ( String c : qualifier) {
-//			dynamicKey(c, this.propertyMap);
-//		}
-//	}
-	/**
-	 * GETTER for the URI
-	 * @return
-	 */
-	public String getUri() {
-		return uri;
-	}
-	public void setUri(String uri) {
-		this.uri = uri;
 	}
 	/**
 	 * For proper distinction of catalogue items and nested
@@ -469,12 +609,24 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public String getTypeValue() {
 		return type;
 	}
+	/**
+	 * Setter for the type value
+	 * @param type
+	 */
 	public void setTypeValue(String type) {
 		this.type = type;
 	}
+	/**
+	 * Getter for the catalog id
+	 * @return
+	 */
 	public String getCatalogueId() {
 		return catalogueId;
 	}
+	/**
+	 * Setter for the catalog id
+	 * @param catalogueId
+	 */
 	public void setCatalogueId(String catalogueId) {
 		this.catalogueId = catalogueId;
 	}
@@ -531,33 +683,6 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setEmissionStandard(String emissionStandard) {
 		this.emissionStandard = emissionStandard;
-	}
-
-	/**
-	 * Helper method adding a (language based) description to the item
-	 * @param language The language (en, es, de)
-	 * @param desc The description in the provided language
-	 */
-	public void addDescription(String language, String desc) {
-		if ( this.description == null) {
-			this.description = new HashMap<>();
-		}
-		this.description.put(language, desc);
-		// 
-		addLanguage(language);
-	}
-	/**
-	 * Helper method used to maintain the list of 
-	 * used languages
-	 * @param language
-	 */
-	private void addLanguage(String language) {
-		if ( this.languages == null) {
-			this.languages = new HashSet<String>();
-		}
-		if ( ! this.languages.contains(language)) {
-			this.languages.add(language);
-		}
 	}
 	public void addPrice(String currency, Double price) {
 		this.currencyValue.put(dynamicKey(currency, this.currencyMap), price);
@@ -693,12 +818,24 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setImgageUri(Collection<String> imgageUri) {
 		this.imgageUri = imgageUri;
 	}
-	
+	/**
+	 * Getter for custom properties, used for serializing to JSON
+	 * @return
+	 */
 	public Map<String, PropertyType> getCustomProperties() {
 		return customProperties;
 	}
-
-
+	/**
+	 * Setter for custom properties, used for deserializing from JSON. Do not use directly - instead 
+	 * use the addProperty ... methods
+	 * <ul>
+	 * <li>{@link #addProperty(String, Double, PropertyType)}
+	 * <li>{@link #addProperty(String, String, PropertyType)}
+	 * <li>{@link #addProperty(String, String, Double, PropertyType)}
+	 * <li>{@link #addMultiLingualProperty(String, String, String, PropertyType)}
+	 * </li>
+	 * @param customProperties
+	 */
 	public void setCustomProperties(Map<String, PropertyType> customProperties) {
 		this.customProperties = customProperties;
 	}
@@ -714,24 +851,38 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		keyMap.put(key, keyVal);
 		return key;
 	}
+	/**
+	 * Helper method combining multiple key parts, e.q. qualifier and unit
+	 * @param keyMap
+	 * @param keyPart
+	 * @return
+	 */
 	private String dynamicKey(Map<String, String> keyMap, String ... keyPart) {
 		String key = dynamicFieldPart(keyPart);
 		keyMap.put(key, String.join(" ", keyPart));
 		return key;
 	}
-	public static String dynamicFieldPart(String fieldPart) {
-		if (! StringUtils.hasText(fieldPart)) {
+	/**
+	 * Static helper method transforming a qualifier into a valid dynamic field part
+	 * @param qualifier The qualifier used when adding dynamic properties
+	 */
+	public static String dynamicFieldPart(String qualifier) {
+		if (! StringUtils.hasText(qualifier)) {
 			// when no unit code specified - use "undefined";
 			return "undefined";
 		}
-		String dynamicFieldPart = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, fieldPart);
+		String dynamicFieldPart = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, qualifier);
 		dynamicFieldPart = dynamicFieldPart.replaceAll("[^a-zA-Z0-9_ ]", "");
 		dynamicFieldPart = dynamicFieldPart.trim().replaceAll(" ", "_").toUpperCase();
 		dynamicFieldPart = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dynamicFieldPart);
 		return dynamicFieldPart;
 		
 	}
-	
+	/**
+	 * Static helper method transforming multiple qualifier into a valid dynamic field part 
+	 * @param strings The qualifiers used when adding dynamic properties
+	 * @return
+	 */
 	public static String dynamicFieldPart(String ...strings) {
 		List<String> parts = new ArrayList<>();
 		for ( String part : strings ) {
