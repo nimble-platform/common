@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -192,7 +195,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		addProperty(qualifier, value);
 		if ( meta != null) {
 			// ensure the proper valueQualifier
-			addCustomProperty(qualifier, meta, "TEXT");
+			addCustomProperty(qualifier, meta, "STRING");
 		}		
 	}
 	public void addProperty(String qualifier, String unit, Double value, PropertyType meta) {
@@ -204,11 +207,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	@Deprecated
 	public void addProperty(String qualifier, String unit, String value, PropertyType meta) {
-		addProperty(qualifier, unit, value);
-		if ( meta != null) {
-			// 
-			addCustomProperty(qualifier, unit, meta, "TEXT");
-		}		
+		addMultiLingualProperty(qualifier, unit, value, meta);
 	}
 	public void setDoubleProperty(String qualifier, Collection<Double> values) {
 		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
@@ -262,16 +261,67 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		pt.setValueQualifier(valueQualifier);
 		pt.addItemFieldName(part);
 	}
-	
+	@Deprecated
 	public void addProperty(String qualifier, String unit, String value) {
-		String key = dynamicKey(propertyMap, qualifier, unit);
+		addMultiLingualProperty(qualifier, unit, value);
+	}
+	public void addMultiLingualProperty(String qualifier, String language, String text) {
+		String key = dynamicKey(propertyMap, qualifier);
 		Collection<String> values = this.stringValue.get(key);
 		if ( values == null ) {
 			values = new HashSet<String>();
 			this.stringValue.put(key, values);
 		}
 		//
-		values.add(value);
+		values.add(String.format("%s@%s", text, language));
+		
+	}
+	public void addMultiLingualProperty(String qualifier, String language, String text, PropertyType meta) {
+		addMultiLingualProperty(qualifier, language, text);
+		if ( meta != null) {
+			// ensure the proper valueQualifier
+			addCustomProperty(qualifier, meta, "STRING");
+		}		
+	}
+	public String getMultiLingualProperty(String qualifier, String language) {
+		String key = dynamicFieldPart(qualifier);
+		Optional<String> prop = this.stringValue.get(key).stream()
+			.filter(new Predicate<String>() {
+
+				@Override
+				public boolean test(String t) {
+					if (language.equalsIgnoreCase(extractLanguage(t))) {
+						return true;
+					}
+					return false;
+				}
+				
+			})
+			.map(new Function<String, String>() {
+
+				@Override
+				public String apply(String t) {
+					return extractText(t);
+				}})
+			.findFirst();
+		return prop.orElse(null);
+
+	}
+	private String extractText(String t) {
+		int delim = t.lastIndexOf("@");
+		if ( delim > 0 ) {
+			return t.substring(0,delim);
+		}
+		return t;
+		
+	}
+	private String extractLanguage(String t) {
+		int delim = t.lastIndexOf("@");
+		if ( delim > 0 && t.length()>delim+1) {
+			return t.substring(delim+1);
+		}
+		return null;
+		
 	}
 	public void addProperty(String qualifier, String unit, Double value) {
 		String key = dynamicKey(propertyMap, qualifier, unit);
