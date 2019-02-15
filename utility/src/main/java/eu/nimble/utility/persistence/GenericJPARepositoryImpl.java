@@ -71,9 +71,14 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
     @Override
     public <T> List<T> getEntities(String queryStr, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset) {
+        return getEntities(queryStr, parameterNames, parameterValues, limit, offset,false);
+    }
+
+    @Override
+    public <T> List<T> getEntities(String queryStr, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Query query = createQuery(queryStr, parameterNames, parameterValues, em);
+        Query query = createQuery(queryStr, parameterNames, parameterValues, em,isNative);
 
         if (limit != null && offset != null) {
             query.setFirstResult(offset);
@@ -157,8 +162,14 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     }
 
     private Query createQuery(String queryStr, String[] parameterNames, Object[] parameterValues, EntityManager em) {
-
-        Query query = em.createQuery(queryStr);
+        return createQuery(queryStr,parameterNames,parameterValues,em,false);
+    }
+    private Query createQuery(String queryStr, String[] parameterNames, Object[] parameterValues, EntityManager em,boolean isNative) {
+        Query query;
+        if(isNative)
+            query = em.createNativeQuery(queryStr);
+        else
+            query = em.createQuery(queryStr);
         if (!ArrayUtils.isEmpty(parameterNames) && !ArrayUtils.isEmpty(parameterValues)) {
             if (parameterNames.length != parameterValues.length) {
                 throw new RuntimeException("Non matching sizes of parameter names ");

@@ -100,6 +100,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     }
 
     @Override
+    public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative){
+        return genericJPARepository.getEntities(query,parameterNames,parameterValues,limit,offset,isNative);
+    }
+
+    @Override
     public <T> T updateEntity(T entity) {
         return proceedWithEntityUpdates(entity, UpdateMode.UPDATE);
     }

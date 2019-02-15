@@ -19,6 +19,8 @@ public interface GenericJPARepository {
 
     <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset);
 
+    <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative);
+
     <T> List<T> getEntities(Class<T> klass);
 
     <T> T updateEntity(T entity);
