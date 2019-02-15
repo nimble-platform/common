@@ -37,6 +37,7 @@ import eu.nimble.service.model.solr.party.PartyType;
  */
 @SolrDocument(collection=ICatalogueItem.COLLECTION)
 public class ItemType extends Concept implements ICatalogueItem, Serializable {
+	public static String QUALIFIED_DELIMITER ="@";
 	private static final long serialVersionUID = -3631731059281154372L;
 
 	/**
@@ -218,8 +219,19 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 * @param qualifier
 	 * @param values
 	 */
-	public void setDoubleProperty(String qualifier, Collection<Double> values) {
-		this.doubleValue.put(dynamicKey(qualifier, propertyMap), values);
+	private void setDoubleProperty(String qualifier, Collection<Double> values) {
+		if ( qualifier.contains("@") ) {
+			String qualifiedValue = qualifiedValue(qualifier);
+			String qualifierUnit = qualifiedUnit(qualifier);
+			for ( Double d : values) {
+				addProperty(qualifiedValue, qualifierUnit, d);
+			}
+		}
+		else {
+			for (Double d : values) {
+				addProperty(qualifier, d);
+			}
+		}
 	}
 	/**
 	 * Add a new numeric double property
@@ -351,7 +363,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public boolean test(String t) {
-							if (language.equalsIgnoreCase(multiLingualLanguage(t))) {
+							if (language.equalsIgnoreCase(qualifiedUnit(t))) {
 								return true;
 							}
 							return false;
@@ -362,7 +374,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public String apply(String t) {
-							return multiLingualValue(t);
+							return qualifiedValue(t);
 						}})
 					.findFirst();
 			return prop.orElse(null);
@@ -384,7 +396,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public boolean test(String t) {
-							if (language.equalsIgnoreCase(multiLingualLanguage(t))) {
+							if (language.equalsIgnoreCase(qualifiedUnit(t))) {
 								return true;
 							}
 							return false;
@@ -395,7 +407,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 						
 						@Override
 						public String apply(String t) {
-							return multiLingualValue(t);
+							return qualifiedValue(t);
 						}})
 					.collect(Collectors.toList());
 			return prop;
@@ -407,7 +419,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 * @param t
 	 * @return
 	 */
-	private String multiLingualValue(String t) {
+	public static String qualifiedValue(String t) {
 		int delim = t.lastIndexOf("@");
 		if ( delim > 0 ) {
 			return t.substring(0,delim);
@@ -420,7 +432,7 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 * @param t
 	 * @return
 	 */
-	private String multiLingualLanguage(String t) {
+	public static String qualifiedUnit(String t) {
 		int delim = t.lastIndexOf("@");
 		if ( delim > 0 && t.length()>delim+1) {
 			return t.substring(delim+1);
@@ -805,7 +817,8 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 */
 	private String dynamicKey(Map<String, String> keyMap, String ... keyPart) {
 		String key = dynamicFieldPart(keyPart);
-		keyMap.put(key, String.join(" ", keyPart));
+		// use @ as delimiter
+		keyMap.put(key, String.join("@", keyPart));
 		return key;
 	}
 	/**
@@ -835,6 +848,10 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 			parts.add(dynamicFieldPart(part));
 		}
 		return dynamicFieldPart(String.join("_", parts));
+	}
+	@JsonIgnore
+	public Map<String, String> getPropertyMap() {
+		return propertyMap;
 	}
 
 }
