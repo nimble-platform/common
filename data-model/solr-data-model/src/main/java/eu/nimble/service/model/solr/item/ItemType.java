@@ -133,60 +133,6 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	@ReadOnlyProperty
 	private Map<String,PropertyType> customProperties;
 	/**
-	 * Provide JOIN Information to 
-	 * <ul>
-	 * <li>manufacturer
-	 * <li>classification
-	 * </ul>
-	 * @author dglachs
-	 *
-	 */
-	public enum JOIN_TO {
-//		party(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION),
-		// join to party type (manufacturer)
-		manufacturer(IParty.ID_FIELD, ItemType.MANUFACTURER_ID_FIELD, IParty.COLLECTION, "manufacturer", "party"),
-		// join to classes (furniture ontology, eClass)
-		classification(IClassType.ID_FIELD, ItemType.COMMODITY_CLASSIFICATION_URI_FIELD, IClassType.COLLECTION, "productType", "classification"),
-		;
-		
-		String from;
-		String to;
-		String fromIndex;
-		String[] names;
-		
-		JOIN_TO(String from, String to, String fromIndex, String ... names) {
-			this.from = from;
-			this.to = to;
-			this.fromIndex = fromIndex;
-			this.names = names;
-		}
-		public static Join getJoin(String name) {
-			for ( JOIN_TO j : values()) {
-				if ( j.names != null ) {
-					for (String s : j.names) {
-						if ( s.equalsIgnoreCase(name)) {
-							return j.getJoin();
-						}
-					}
-				}
-			}
-			// not found - try the enum name
-			try {
-				// check for ItemType JOINS
-				JOIN_TO join = JOIN_TO.valueOf(name.toLowerCase());
-				// 
-				return join.getJoin();
-			} catch (Exception e) {
-				// invalid join
-				return null;
-			}
-		}		
-		public Join getJoin() {
-			return new Join(new SimpleField(from), new SimpleField(to), fromIndex);
-		}
-
-	}
-	/**
 	 * Setter for the dynamic string properties.
 	 * 
 	 * Method is for deserializing from JSON, do not use directly
