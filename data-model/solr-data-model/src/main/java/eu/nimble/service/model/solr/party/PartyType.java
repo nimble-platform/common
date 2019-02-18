@@ -154,7 +154,7 @@ public class PartyType extends Concept implements IParty {
 		if ( !this.certificateType.containsKey(language)) {
 			this.certificateType.put(language, new HashSet<>());
 		}
-		this.alternateLabel.get(language).add(certificatTypeLabel);
+		this.certificateType.get(language).add(certificatTypeLabel);
 		// 
 		addLanguage(language);
 	}
