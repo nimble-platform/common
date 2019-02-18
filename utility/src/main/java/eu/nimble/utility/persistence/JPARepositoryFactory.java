@@ -35,13 +35,20 @@ public class JPARepositoryFactory implements ApplicationContextAware {
     }
 
     public GenericJPARepository forCatalogueRepository() {
-        return forCatalogueRepository(Configuration.Standard.UBL);
+        return forCatalogueRepository(Configuration.Standard.UBL,true);
     }
 
-    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard) {
+    public GenericJPARepository forCatalogueRepository(boolean lazyEnabled){
+        return forCatalogueRepository(Configuration.Standard.UBL,lazyEnabled);
+    }
+
+    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyEnabled) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         if(catalogueStandard.equals(Configuration.Standard.UBL)) {
-            return withEmf("ubldbEntityManagerFactory");
+            if(lazyEnabled)
+                return withEmf(Configuration.UBL_ENTITY_MANAGER_FACTORY);
+            else
+                return withEmf(Configuration.UBL_LAZY_DISABLED_ENTITY_MANAGER_FACTORY);
         } else if(catalogueStandard.equals(Configuration.Standard.MODAML)) {
             throw new RuntimeException("Configurations for MODA-ML catalogues are not set");
         }

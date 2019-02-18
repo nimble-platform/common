@@ -5,8 +5,6 @@ import java.util.HashSet;
 
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
-import org.springframework.data.solr.core.query.Join;
-import org.springframework.data.solr.core.query.SimpleField;
 
 
 /**

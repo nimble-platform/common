@@ -18,17 +18,13 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
-import org.springframework.data.solr.core.query.Join;
-import org.springframework.data.solr.core.query.SimpleField;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eu.nimble.service.model.solr.owl.Concept;
-import eu.nimble.service.model.solr.owl.IClassType;
 import eu.nimble.service.model.solr.owl.PropertyType;
 import eu.nimble.service.model.solr.owl.ValueQualifier;
-import eu.nimble.service.model.solr.party.IParty;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
  * Document class representing a single product item
@@ -118,6 +114,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	
 	@Indexed(name=IMAGE_URI_FIELD)
 	private Collection<String> imgageUri;
+	@Indexed(name=INCOTERMS_FIELD)
+	private Collection<String> incoterms;
+	@Indexed(name=MINIMUM_ORDER_QUANTITY_FIELD)
+	private Double minimumOrderQuantity;
+	@Indexed(name=WARRANTY_VALIDITY_PERIOD_FIELD)
+	private Double warrantyValidityPeriod;
 	/**
 	 * List containing multilingual labels for product classification
 	 * 
@@ -852,6 +854,24 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	@JsonIgnore
 	public Map<String, String> getPropertyMap() {
 		return propertyMap;
+	}
+	public Collection<String> getIncoterms() {
+		return incoterms;
+	}
+	public void setIncoterms(Collection<String> incoterms) {
+		this.incoterms = incoterms;
+	}
+	public Double getMinimumOrderQuantity() {
+		return minimumOrderQuantity;
+	}
+	public void setMinimumOrderQuantity(Double minimumOrderQuantity) {
+		this.minimumOrderQuantity = minimumOrderQuantity;
+	}
+	public Double getWarrantyValidityPeriod() {
+		return warrantyValidityPeriod;
+	}
+	public void setWarrantyValidityPeriod(Double warrantyValidityPeriod) {
+		this.warrantyValidityPeriod = warrantyValidityPeriod;
 	}
 
 }

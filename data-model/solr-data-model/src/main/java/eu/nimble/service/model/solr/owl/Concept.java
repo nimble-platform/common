@@ -91,6 +91,16 @@ public class Concept implements IConcept {
 	public Map<String, String> getLabel() {
 		return label;
 	}
+	public void setLabel(Map<String, String> labelMap) {
+		if ( labelMap != null ) {
+			for ( String key : labelMap.keySet() ) {
+				addLabel(key, labelMap.get(key));
+			}
+		}
+		else {
+			this.label = null;
+		}
+	}
 	/**
 	 * Helper method for adding a multilingual label to the concept. Only one label per language is stored.
 	 * This method maintains the list of languages in use, see {@link #getLanguages()}
@@ -143,7 +153,7 @@ public class Concept implements IConcept {
 	 * Helper method maintaining the list of languages in use
 	 * @param language
 	 */
-	private void addLanguage(String language) {
+	protected void addLanguage(String language) {
 		if ( this.languages == null) {
 			this.languages = new HashSet<String>();
 		}
@@ -151,16 +161,6 @@ public class Concept implements IConcept {
 			this.languages.add(language);
 	}
 
-	public void setLabel(Map<String, String> labelMap) {
-		if ( labelMap != null ) {
-			for ( String key : labelMap.keySet() ) {
-				addLabel(key, labelMap.get(key));
-			}
-		}
-		else {
-			this.label = null;
-		}
-	}
 	/**
 	 * Retrieve all comment entries
 	 * @return

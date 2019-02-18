@@ -117,7 +117,19 @@ public interface ICatalogueItem extends IConcept {
 	 * Estimated delivery duration
 	 */
 	String ESTIMATED_DURATION_FIELD = "estimatedDuration";
-	
+	/**
+	 * Duration of the warranty period
+	 */
+	String WARRANTY_VALIDITY_PERIOD_FIELD = "warrantyValidityPeriod";
+	/**
+	 * Minimum Order Quantity
+	 */
+	String MINIMUM_ORDER_QUANTITY_FIELD = "minimumOrderQuantity";
+	/**
+	 * Applicable INCOTERMS
+	 *
+	 */
+	String INCOTERMS_FIELD = "incoterm";
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
 	/**
