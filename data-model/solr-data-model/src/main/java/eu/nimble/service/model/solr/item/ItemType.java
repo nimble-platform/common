@@ -118,6 +118,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	
 	@Indexed(name=IMAGE_URI_FIELD)
 	private Collection<String> imgageUri;
+	@Indexed(name=INCOTERMS_FIELD)
+	private Collection<String> incoterms;
+	@Indexed(name=MINIMUM_ORDER_QUANTITY_FIELD)
+	private Double minimumOrderQuantity;
+	@Indexed(name=WARRANTY_VALIDITY_PERIOD_FIELD)
+	private Double warrantyValidityPeriod;
 	/**
 	 * List containing multilingual labels for product classification
 	 * 
@@ -852,6 +858,24 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	@JsonIgnore
 	public Map<String, String> getPropertyMap() {
 		return propertyMap;
+	}
+	public Collection<String> getIncoterms() {
+		return incoterms;
+	}
+	public void setIncoterms(Collection<String> incoterms) {
+		this.incoterms = incoterms;
+	}
+	public Double getMinimumOrderQuantity() {
+		return minimumOrderQuantity;
+	}
+	public void setMinimumOrderQuantity(Double minimumOrderQuantity) {
+		this.minimumOrderQuantity = minimumOrderQuantity;
+	}
+	public Double getWarrantyValidityPeriod() {
+		return warrantyValidityPeriod;
+	}
+	public void setWarrantyValidityPeriod(Double warrantyValidityPeriod) {
+		this.warrantyValidityPeriod = warrantyValidityPeriod;
 	}
 
 }
