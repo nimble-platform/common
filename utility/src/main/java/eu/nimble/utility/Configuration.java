@@ -46,6 +46,9 @@ public class Configuration {
 	public static final String MODAML_PERSISTENCE_UNIT_NAME = "modaml-data-model";
 	public static final String UBL_PERSISTENCE_PROPERTIES_FILE_NAME = "ubl-persistence.properties";
 	public static final String MODAML_PERSISTENCE_PROPERTIES_FILE_NAME = "modaml-persistence.properties";
+
+	public static final String UBL_ENTITY_MANAGER_FACTORY = "ubldbEntityManagerFactory";
+	public static final String UBL_LAZY_DISABLED_ENTITY_MANAGER_FACTORY = "ubldbLazyDisabledEntityManagerFactory";
 	
 	public static enum Standard { UBL, MODAML };
 }

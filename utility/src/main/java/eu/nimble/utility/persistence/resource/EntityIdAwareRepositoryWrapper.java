@@ -66,7 +66,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         this.partyId = partyId;
         this.userId = userId;
         this.catalogueRepositoryName = catalogueRepositoryName;
-        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL);
+        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true);
     }
 
     @Override
@@ -97,6 +97,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public <T> List<T> getEntities(Class<T> klass) {
         return genericJPARepository.getEntities(klass);
+    }
+
+    @Override
+    public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative){
+        return genericJPARepository.getEntities(query,parameterNames,parameterValues,limit,offset,isNative);
     }
 
     @Override
