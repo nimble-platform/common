@@ -18,17 +18,13 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
-import org.springframework.data.solr.core.query.Join;
-import org.springframework.data.solr.core.query.SimpleField;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eu.nimble.service.model.solr.owl.Concept;
-import eu.nimble.service.model.solr.owl.IClassType;
 import eu.nimble.service.model.solr.owl.PropertyType;
 import eu.nimble.service.model.solr.owl.ValueQualifier;
-import eu.nimble.service.model.solr.party.IParty;
 import eu.nimble.service.model.solr.party.PartyType;
 /**
  * Document class representing a single product item
