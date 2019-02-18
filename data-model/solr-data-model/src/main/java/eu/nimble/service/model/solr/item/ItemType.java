@@ -116,9 +116,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private Collection<String> imgageUri;
 	@Indexed(name=INCOTERMS_FIELD)
 	private Collection<String> incoterms;
-	@Indexed(name=MINIMUM_ORDER_QUANTITY_FIELD)
+	@Indexed(name=MINIMUM_ORDER_QUANTITY_FIELD, type="pdouble")
 	private Double minimumOrderQuantity;
-	@Indexed(name=WARRANTY_VALIDITY_PERIOD_FIELD)
+	@Indexed(name=WARRANTY_VALIDITY_PERIOD_FIELD, type="pdouble")
 	private Double warrantyValidityPeriod;
 	/**
 	 * List containing multilingual labels for product classification
