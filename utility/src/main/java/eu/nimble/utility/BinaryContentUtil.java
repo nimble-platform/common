@@ -43,8 +43,8 @@ public class BinaryContentUtil {
      * @param uris
      */
     public static void removeBinaryContentFromDatabase(List<String> uris) {
-        for (String uri : uris) {
-            CommonSpringBridge.getInstance().getBinaryContentService().deleteContent(uri);
+        if(uris.size() > 0){
+            CommonSpringBridge.getInstance().getBinaryContentService().deleteContents(uris);
         }
     }
 }
