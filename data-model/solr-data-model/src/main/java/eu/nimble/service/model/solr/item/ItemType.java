@@ -85,6 +85,8 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 */
 	@Indexed(name=MANUFACTURER_ID_FIELD) 
 	private String manufacturerId;
+	@Indexed(name=MANUFACTURER_ITEM_ID_FIELD)
+	private String manufactuerItemId;
 	// Transportation Service Details
 	@Indexed(name=SERVICE_TYPE_FIELD)
 	private Set<String> serviceType;
@@ -872,6 +874,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setWarrantyValidityPeriod(Double warrantyValidityPeriod) {
 		this.warrantyValidityPeriod = warrantyValidityPeriod;
+	}
+	public String getManufactuerItemId() {
+		return manufactuerItemId;
+	}
+	public void setManufactuerItemId(String manufactuerItemId) {
+		this.manufactuerItemId = manufactuerItemId;
 	}
 
 }

@@ -57,6 +57,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String MANUFACTURER_ID_FIELD = "manufacturerId";
 	/**
+	 * The item's id in the manufacturer's context or system
+	 */
+	String MANUFACTURER_ITEM_ID_FIELD = "manufacturerItemId";
+	/**
 	 * Service type, such as <b>Port to Port</b>, <b>Door to door</b>
 	 */
 	String SERVICE_TYPE_FIELD = "serviceType";
