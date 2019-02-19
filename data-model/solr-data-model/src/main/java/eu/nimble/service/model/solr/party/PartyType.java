@@ -26,7 +26,7 @@ public class PartyType extends Concept implements IParty {
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
 	private Map<String,String> origin;
-	@Indexed(name=CERTIFICATE_TYPE_FIELD) @Dynamic
+	@Indexed(name=CERTIFICATE_TYPE_FIELD, type="string") @Dynamic
 	private Map<String,Collection<String>> certificateType;
 	@Indexed(name=PPAP_COMPLIANCE_LEVEL_FIELD, type="pint")
 	private Integer ppapComplianceLevel;
@@ -154,7 +154,7 @@ public class PartyType extends Concept implements IParty {
 		if ( !this.certificateType.containsKey(language)) {
 			this.certificateType.put(language, new HashSet<>());
 		}
-		this.alternateLabel.get(language).add(certificatTypeLabel);
+		this.certificateType.get(language).add(certificatTypeLabel);
 		// 
 		addLanguage(language);
 	}
