@@ -68,7 +68,7 @@ public class PartyType extends Concept implements IParty {
 	public void setOrigin(Map<String, String> originMap) {
 		if ( originMap != null ) {
 			for ( String key : originMap.keySet() ) {
-				addLabel(key, originMap.get(key));
+				addOrigin(key, originMap.get(key));
 			}
 		}
 		else {
@@ -98,7 +98,7 @@ public class PartyType extends Concept implements IParty {
 	public void setBrandName(Map<String, String> brandNameMap) {
 		if ( brandNameMap != null ) {
 			for ( String key : brandNameMap.keySet() ) {
-				addLabel(key, brandNameMap.get(key));
+				addBrandName(key, brandNameMap.get(key));
 			}
 		}
 		else {
