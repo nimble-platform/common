@@ -50,10 +50,10 @@ public class FacetResult extends IndexField {
 				return o1.getLabel().compareToIgnoreCase(o2.getLabel());
 			}
 			if ( o1.getCount() > o2.getCount()) {
-				return 1;
+				return -1;
 			}
 			else {
-				return -1; 
+				return 1; 
 			}
 		}
 	}
