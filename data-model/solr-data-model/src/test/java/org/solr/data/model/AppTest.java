@@ -46,8 +46,8 @@ public class AppTest
     	item.addProperty("property2", "cm", 200.0);
     	assertTrue(item.getStringValue().get("property").contains("Property@en"));
     	assertTrue(item.getStringValue().get("property").contains("Attribut@de"));
-    	assertTrue(item.getPropertyMap().containsValue("property@m"));
-    	assertTrue(item.getPropertyMap().containsValue("property@cm"));
+    	assertTrue(item.getPropertyMap().containsValue("property2@m"));
+    	assertTrue(item.getPropertyMap().containsValue("property2@cm"));
     	
     }
     public void testSorting() {
