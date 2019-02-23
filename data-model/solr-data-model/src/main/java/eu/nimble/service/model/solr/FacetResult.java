@@ -1,7 +1,9 @@
 package eu.nimble.service.model.solr;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+
+import org.apache.jena.ext.com.google.common.base.Strings;
 
 public class FacetResult extends IndexField {
 
@@ -11,7 +13,7 @@ public class FacetResult extends IndexField {
 	
 	private Set<Entry> entry;
 	
-	public class Entry {
+	public class Entry implements Comparable<Entry> {
 		final String label;
 		final long count;
 		public Entry(String l, long c) {
@@ -23,6 +25,18 @@ public class FacetResult extends IndexField {
 		}
 		public long getCount() {
 			return count;
+		}
+		@Override
+		public int compareTo(Entry o) {
+			if (o.count == this.count ) {
+				return this.label.compareTo(o.label);
+			}
+			else if ( this.count >  o.count) {
+				return -1;
+			}
+			else {
+				return 1;
+			}
 		}
 	}
 
@@ -36,10 +50,11 @@ public class FacetResult extends IndexField {
 	
 	public void addEntry(String label, long count) {
 		if ( entry == null ) {
-			entry = new HashSet<>();
+			entry = new TreeSet<>();
+//			entry = new HashSet<>();
 		}
-		entry.add(new Entry(label,count));
+		if (!Strings.isNullOrEmpty(label)) {
+			entry.add(new Entry(label,count));
+		}
 	}
-	
-
 }

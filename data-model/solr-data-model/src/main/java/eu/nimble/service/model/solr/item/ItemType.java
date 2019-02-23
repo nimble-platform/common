@@ -106,7 +106,8 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	//
 	@Indexed(name=QUALIFIED_KEY_FIELD) @Dynamic
 	private Map<String, String> propertyMap = new HashMap<>();
-	@Indexed(name=QUALIFIED_STRING_FIELD, type="string") @Dynamic
+	// 
+	@Indexed(name=QUALIFIED_STRING_FIELD, type="string", copyTo=TEXT_FIELD) @Dynamic
 	private Map<String, Collection<String>> stringValue = new HashMap<>();
 	@Indexed(name=QUALIFIED_BOOLEAN_FIELD, type="boolean") @Dynamic
 	private Map<String, Boolean> booleanValue = new HashMap<>();
