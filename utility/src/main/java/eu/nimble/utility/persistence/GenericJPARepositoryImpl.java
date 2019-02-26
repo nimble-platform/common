@@ -45,17 +45,19 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
     public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Query query = createQuery(queryStr, parameterNames, parameterValues, em);
 
         T result = null;
         try {
+            em.getTransaction().begin();
+            Query query = createQuery(queryStr, parameterNames, parameterValues, em);
             result = (T) query.getSingleResult();
-        } catch (NoResultException e) {
-            // do nothing
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Failed to get single entity result",e);
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return result;
     }
 
