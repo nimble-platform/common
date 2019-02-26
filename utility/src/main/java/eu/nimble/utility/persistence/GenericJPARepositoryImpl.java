@@ -58,7 +58,7 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             result = (T) query.getSingleResult();
             em.getTransaction().commit();
         } catch (NoResultException e){
-          // do nothing
+            em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Failed to get single entity result",e);
