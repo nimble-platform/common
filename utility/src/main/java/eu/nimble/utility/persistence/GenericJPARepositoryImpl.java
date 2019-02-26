@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -56,6 +57,8 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             Query query = createQuery(queryStr, parameterNames, parameterValues, em);
             result = (T) query.getSingleResult();
             em.getTransaction().commit();
+        } catch (NoResultException e){
+          // do nothing
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Failed to get single entity result",e);
