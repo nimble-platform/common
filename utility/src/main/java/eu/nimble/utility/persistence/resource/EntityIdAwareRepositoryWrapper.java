@@ -187,11 +187,13 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         try {
             em.getTransaction().begin();
             checkHjidAssociation(entity);
-
-        } finally {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().commit();
             }
+        } catch (Exception e){
+            em.getTransaction().rollback();
+            throw new RuntimeException("Failed to check hjid association ",e);
+        }finally {
             em.close();
         }
     }
@@ -310,12 +312,14 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         EntityManager em = genericJPARepository.getEmf().createEntityManager();
         try {
             em.getTransaction().begin();
-            return getBinaryObjectUrisToDelete(entity);
-
-        } finally {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().commit();
             }
+            return getBinaryObjectUrisToDelete(entity);
+        } catch (Exception e){
+            em.getTransaction().rollback();
+            throw new RuntimeException("Failed to get binary object uris to delete",e);
+        }finally {
             em.close();
         }
     }
