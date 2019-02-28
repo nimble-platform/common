@@ -57,6 +57,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String MANUFACTURER_ID_FIELD = "manufacturerId";
 	/**
+	 * The item's id in the manufacturer's context or system
+	 */
+	String MANUFACTURER_ITEM_ID_FIELD = "manufacturerItemId";
+	/**
 	 * Service type, such as <b>Port to Port</b>, <b>Door to door</b>
 	 */
 	String SERVICE_TYPE_FIELD = "serviceType";
@@ -117,7 +121,19 @@ public interface ICatalogueItem extends IConcept {
 	 * Estimated delivery duration
 	 */
 	String ESTIMATED_DURATION_FIELD = "estimatedDuration";
-	
+	/**
+	 * Duration of the warranty period
+	 */
+	String WARRANTY_VALIDITY_PERIOD_FIELD = "warrantyValidityPeriod";
+	/**
+	 * Minimum Order Quantity
+	 */
+	String MINIMUM_ORDER_QUANTITY_FIELD = "minimumOrderQuantity";
+	/**
+	 * Applicable INCOTERMS
+	 *
+	 */
+	String INCOTERMS_FIELD = "incoterm";
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
 	/**
@@ -151,6 +167,7 @@ public interface ICatalogueItem extends IConcept {
 		case ALTERNATE_LABEL_FIELD:
 		case HIDDEN_LABEL_FIELD:
 		case LANGUAGE_TXT_FIELD:
+			return true;
 		default:
 			return false;
 		}

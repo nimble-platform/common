@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,7 +31,7 @@ public class BinaryContentService {
     private static final String COLUMN_NAME_VALUE = "value_";
     private static final String QUERY_INSERT_CONTENT = "INSERT INTO  " + TABLE_NAME + "( " + COLUMN_NAME_ID + "," + COLUMN_NAME_MIME_CODE + "," + COLUMN_NAME_FILE_NAME + "," + COLUMN_NAME_VALUE + ") VALUES (?,?,?,?)";
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
-    private static final String QUERY_DELETE_CONTENT_BY_URI = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
+    private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
 
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -111,30 +113,44 @@ public class BinaryContentService {
     }
 
     public void deleteContent(String uri) {
+        deleteContents(Arrays.asList(uri));
+    }
+
+    public void deleteContents(List<String> uris) {
         Connection c = null;
         PreparedStatement ps = null;
 
+        // construct the condition
+        String condition = "";
+        for(int i=0; i<uris.size(); i++) {
+            if(i == uris.size()-1){
+                condition += "'"+uris.get(i)+"'";
+            }else {
+                condition += "'"+uris.get(i)+"'"+",";
+            }
+        }
+
         try {
             c = dataSource.getConnection();
-            ps = c.prepareStatement(QUERY_DELETE_CONTENT_BY_URI);
-            ps.setString(1, uri);
+            ps = c.prepareStatement(String.format(QUERY_DELETE_CONTENT_BY_URIS, condition));
+//            ps.setString(1, condition.substring(0, condition.length() - 1));
             int queryResult = ps.executeUpdate();
 
             if (queryResult > 0) {
-                logger.info("Binary content deleted with uri: {}", uri);
+                logger.info("Binary content deleted for uris: {}", uris);
             } else {
-                logger.warn("Failed to delete binary content for uri: {}", uri);
+                logger.warn("Failed to delete binary content for uris: {}", uris);
             }
 
             ps.close();
 
         } catch (SQLException e) {
-            String msg = String.format("Failed to delete binary content for uri: %s", uri);
+            String msg = String.format("Failed to delete binary content for uris: %s", uris);
             logger.error(msg, e);
             throw new RuntimeException(msg, e);
 
         } finally {
-            closeResources(c, ps, null, String.format("While deleting binary content for uri: %s", uri));
+            closeResources(c, ps, null, String.format("While deleting binary content for uris: %s", uris));
         }
     }
 
@@ -168,4 +184,3 @@ public class BinaryContentService {
         }
     }
 }
-

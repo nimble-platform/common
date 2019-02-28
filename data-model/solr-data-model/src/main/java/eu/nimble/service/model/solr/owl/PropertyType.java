@@ -2,6 +2,8 @@ package eu.nimble.service.model.solr.owl;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -26,8 +28,8 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name=RANGE_FIELD) 
 	private String range;
 	
-	@Indexed(required=false, name=VALUE_QUALIFIER_FIELD)
-	private String valueQualifier;
+	@Indexed(required=false, type="string", name=VALUE_QUALIFIER_FIELD)
+	private ValueQualifier valueQualifier;
 	
 	@Indexed(required=false, name=USED_WITH_FIELD)
 	private Collection<String> product;
@@ -46,7 +48,7 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
-
+	
 	public String getPropertyType() {
 		return propertyType;
 	}
@@ -97,14 +99,18 @@ public class PropertyType extends Concept implements IPropertyType {
 		if (itemFieldNames==null) {
 			itemFieldNames=new HashSet<>();
 		}
+		else if ( itemFieldNames instanceof Set) {
+			// ensure to have a new set (to avoid duplicates
+			itemFieldNames = itemFieldNames.stream().collect(Collectors.toSet());
+		}
 		this.itemFieldNames.add(idxField);
 	}
 
-	public String getValueQualifier() {
+	public ValueQualifier getValueQualifier() {
 		return valueQualifier;
 	}
 
-	public void setValueQualifier(String valueQualifier) {
+	public void setValueQualifier(ValueQualifier valueQualifier) {
 		this.valueQualifier = valueQualifier;
 	}
 	@JsonIgnore

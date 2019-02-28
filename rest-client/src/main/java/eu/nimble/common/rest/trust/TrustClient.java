@@ -16,6 +16,9 @@ public interface TrustClient {
     @RequestMapping(method = RequestMethod.GET, value = "/version", produces = "application/json")
     Response getVersion();
 
-    @RequestMapping(method = RequestMethod.GET, value = "party/{partyId}/trust", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/party/{partyId}/trust", produces = MediaType.APPLICATION_JSON_VALUE)
     Response obtainPartyTrustValues(@PathVariable("partyId") String partyId, @RequestHeader("Authorization") String bearerToken);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/party/list/trust", produces = MediaType.APPLICATION_JSON_VALUE)
+    Response getAllTrustValues(@RequestHeader("Authorization") String bearerToken);
 }

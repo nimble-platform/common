@@ -80,13 +80,13 @@ public class EmailService {
         context.setVariable("userEmail", userEmail);
 
         // collect info of user
-        context.setVariable("companyName", company.getName());
+        context.setVariable("companyName", company.getPartyName().get(0).getName().getValue());
         context.setVariable("companyID", company.getHjid());
 
         // collect info of company
         if (company.getPostalAddress() != null) {
             AddressType address = company.getPostalAddress();
-            String countryName = address.getCountry() != null ? address.getCountry().getName() : null;
+            String countryName = address.getCountry() != null ? address.getCountry().getName().getValue() : null;
             context.setVariable("companyCountry", countryName);
             context.setVariable("companyStreet", address.getStreetName());
             context.setVariable("companyBuildingNumber", address.getBuildingNumber());
