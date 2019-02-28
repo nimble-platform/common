@@ -41,13 +41,15 @@ public class TransactionEnabledSerializationUtility {
                 log.error(msg);
                 throw new RuntimeException(msg, e);
             }
-
-            return serializedObject;
-
-        } finally {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().commit();
             }
+            return serializedObject;
+
+        }catch (Exception e){
+            em.getTransaction().rollback();
+            throw new RuntimeException("Failed to serialize ubl object",e);
+        } finally {
             em.close();
         }
     }
