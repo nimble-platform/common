@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +32,7 @@ public class BinaryContentService {
     private static final String COLUMN_NAME_VALUE = "value_";
     private static final String QUERY_INSERT_CONTENT = "INSERT INTO  " + TABLE_NAME + "( " + COLUMN_NAME_ID + "," + COLUMN_NAME_MIME_CODE + "," + COLUMN_NAME_FILE_NAME + "," + COLUMN_NAME_VALUE + ") VALUES (?,?,?,?)";
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
+    private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
 
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
@@ -79,36 +81,54 @@ public class BinaryContentService {
     }
 
     public BinaryObjectType retrieveContent(String uri) {
+        List<BinaryObjectType> results = retrieveContents(Arrays.asList(uri));
+        if(results.size() > 0) {
+            return results.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public List<BinaryObjectType> retrieveContents(List<String> uris) {
         Connection c = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+        // construct the condition
+        String condition = "";
+        for(int i=0; i<uris.size(); i++) {
+            if(i == uris.size()-1){
+                condition += "'"+uris.get(i)+"'";
+            }else {
+                condition += "'"+uris.get(i)+"'"+",";
+            }
+        }
+
         try {
             c = dataSource.getConnection();
-            ps = c.prepareStatement(QUERY_SELECT_CONTENT_BY_URI);
-            ps.setString(1, uri);
+            ps = c.prepareStatement(String.format(QUERY_SELECT_CONTENT_BY_URIS, condition));
             rs = ps.executeQuery();
-            InputStream content = null;
-            BinaryObjectType result = null;
-            if (rs.next()) {
-                result = new BinaryObjectType();
+            List<BinaryObjectType> binaryObjects = new ArrayList<>();
+            while (rs.next()) {
+                BinaryObjectType result = new BinaryObjectType();
                 result.setMimeCode(rs.getString(COLUMN_NAME_MIME_CODE));
                 result.setValue(rs.getBytes(COLUMN_NAME_VALUE));
-                result.setUri(uri);
+                result.setUri(rs.getString(COLUMN_NAME_ID));
                 result.setFileName(rs.getString(COLUMN_NAME_FILE_NAME));
+                binaryObjects.add(result);
             }
             rs.close();
             ps.close();
 
-            return result;
+            return binaryObjects;
 
         } catch (SQLException e) {
-            String msg = String.format("Failed to retrieve binary content for uri: %s", uri);
+            String msg = String.format("Failed to retrieve binary contents for uris: %s", uris.toString());
             logger.error(msg, e);
             throw new RuntimeException(msg, e);
 
         } finally {
-            closeResources(c, ps, rs, String.format("While getting binary content for uri: %s", uri));
+            closeResources(c, ps, rs, String.format("While getting binary contents for uris: %s", uris.toString()));
         }
     }
 
