@@ -99,8 +99,8 @@ public class PropertyType extends Concept implements IPropertyType {
 		if (itemFieldNames==null) {
 			itemFieldNames=new HashSet<>();
 		}
-		else if ( itemFieldNames instanceof Set) {
-			// ensure to have a new set (to avoid duplicates
+		else if (! (itemFieldNames instanceof Set)) {
+			// ensure to have a new set (to avoid duplicates)
 			itemFieldNames = itemFieldNames.stream().collect(Collectors.toSet());
 		}
 		this.itemFieldNames.add(idxField);
