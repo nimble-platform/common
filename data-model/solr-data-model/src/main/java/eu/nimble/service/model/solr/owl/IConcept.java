@@ -14,6 +14,7 @@ public interface IConcept {
 	 * The language based label, e.g. <code><i>en</i>_label</code> for english label
 	 */
 	String LABEL_FIELD = "*_label";
+	String ALL_LABEL_FIELD = "all_label";
 	/**
 	 * The language based label, e.g. <code><i>en</i>_alternate</code> for english alternate label
 	 */
