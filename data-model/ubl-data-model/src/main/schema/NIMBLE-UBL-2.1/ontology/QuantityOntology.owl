@@ -24,6 +24,31 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nimble-project.org/catalogue#hasUnit -->
+
+    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnit">
+        <rdfs:range rdf:resource="&cbc;QuantityType"/>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&cbc;unitCode"/>
+                <owl:someValuesFrom rdf:resource="&xsd;normalizedString"/>
+            </owl:Restriction>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Data properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -32,9 +57,20 @@
     
 
 
+    <!-- http://www.nimble-project.org/catalogue#id -->
+
+    <owl:DatatypeProperty rdf:about="http://www.nimble-project.org/catalogue#id">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+        <rdfs:range rdf:resource="&xsd;normalizedString"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCode -->
 
     <owl:DatatypeProperty rdf:about="&cbc;unitCode">
+        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
     </owl:DatatypeProperty>
@@ -70,9 +106,44 @@
     
 
 
+    <!-- http://www.nimble-project.org/catalogue#Unit -->
+
+    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#Unit"/>
+    
+
+
+    <!-- http://www.nimble-project.org/catalogue#UnitList -->
+
+    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#UnitList"/>
+    
+
+
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#QuantityType -->
 
     <owl:Class rdf:about="&cbc;QuantityType"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.nimble-project.org/catalogue#LenghtUnitList -->
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#LenghtUnitList">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+        <id rdf:datatype="&xsd;normalizedString">LengthUnitListId</id>
+        <cbc:unitCode rdf:datatype="&xsd;normalizedString">cm</cbc:unitCode>
+        <cbc:unitCode rdf:datatype="&xsd;normalizedString">m</cbc:unitCode>
+        <cbc:unitCode rdf:datatype="&xsd;normalizedString">mm</cbc:unitCode>
+    </owl:NamedIndividual>
 </rdf:RDF>
 
 
