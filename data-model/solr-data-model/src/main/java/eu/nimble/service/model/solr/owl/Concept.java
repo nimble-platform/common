@@ -32,7 +32,7 @@ public class Concept implements IConcept {
 
 	@Indexed(name=LANGUAGES_FIELD)
 	protected Collection<String> languages;
-	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, ALL_LABEL_FIELD, TEXT_FIELD})
 	@Dynamic
 	protected Map<String, String> label;
 	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
