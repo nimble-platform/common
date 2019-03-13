@@ -113,6 +113,8 @@
 			<xsd:element ref="cbc:BuildingNumber" minOccurs="0"/>
 			<xsd:element ref="cbc:CityName" minOccurs="0"/>
 			<xsd:element ref="cbc:PostalZone" minOccurs="0"/>
+			<xsd:element ref="cbc:Region" minOccurs="0"/>
+			<xsd:element ref="cbc:District" minOccurs="0"/>
 			<xsd:element ref="cac:Country" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
