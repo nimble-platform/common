@@ -306,7 +306,15 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID" minOccurs="0"/>
 			<xsd:element ref="cbc:Incoterms" minOccurs="0"/>
-			<xsd:element ref="cbc:SpecialTerms" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:SpecialTerms" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Amount" minOccurs="0"/>
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryLocation" minOccurs="0"/>
@@ -385,8 +393,22 @@
 	<xsd:complexType name="ItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:ProductImage" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
