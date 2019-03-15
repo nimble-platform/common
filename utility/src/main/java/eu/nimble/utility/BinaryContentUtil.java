@@ -30,11 +30,21 @@ public class BinaryContentUtil {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(BinaryObjectType.class, new BinaryObjectSerializerProcess());
         objectMapper.registerModule(simpleModule);
+        ByteArrayOutputStream baos = null;
         try {
-            objectMapper.writeValue(new ByteArrayOutputStream(), entity);
+            baos = new ByteArrayOutputStream();
+            objectMapper.writeValue(baos, entity);
         } catch (IOException e) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             logger.warn("Failed to serialize entity for processing the binary content: {}", serializedEntity);
+        } finally {
+            if(baos != null){
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                    logger.warn("Failed to close output stream: ",e);
+                }
+            }
         }
     }
 

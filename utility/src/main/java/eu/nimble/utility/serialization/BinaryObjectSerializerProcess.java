@@ -60,11 +60,13 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
         // get correct format of the image (after image/... part)
         String format = mimeCode.substring(6);
 
-        BufferedImage image = new ImageScaler().scale(new ByteArrayInputStream(value), isThumbnail);
+        ByteArrayInputStream bais = new ByteArrayInputStream(value);
+        BufferedImage image = new ImageScaler().scale(bais, isThumbnail);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, format, baos);
         byte[] imageBytes = baos.toByteArray();
+        bais.close();
         baos.close();
         return imageBytes;
     }
