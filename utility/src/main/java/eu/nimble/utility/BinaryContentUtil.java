@@ -37,6 +37,7 @@ public class BinaryContentUtil {
         } catch (IOException e) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             logger.warn("Failed to serialize entity for processing the binary content: {}", serializedEntity);
+            throw new RuntimeException("Failed to serialize entity for processing the binary content:",e);
         } finally {
             if(baos != null){
                 try {
