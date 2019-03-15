@@ -3,6 +3,7 @@ package eu.nimble.utility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.exception.BinaryContentException;
 import eu.nimble.utility.serialization.BinaryObjectSerializerProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +29,24 @@ public class BinaryContentUtil {
     public static <T> void processBinaryContents (T entity) {
         ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
         SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(BinaryObjectType.class, new BinaryObjectSerializerProcess());
+        BinaryObjectSerializerProcess binaryObjectSerializerProcess = new BinaryObjectSerializerProcess();
+        simpleModule.addSerializer(BinaryObjectType.class,binaryObjectSerializerProcess);
         objectMapper.registerModule(simpleModule);
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream();
             objectMapper.writeValue(baos, entity);
+            // check whether we have any broken images or not
+            if(binaryObjectSerializerProcess.getNamesOfBrokenImages().size() > 0){
+                // since we have some broken images, remove the saved images to be consistent
+                removeBinaryContentFromDatabase(binaryObjectSerializerProcess.getUrisOfSavedImages());
+                throw new BinaryContentException("The following images are not valid : " + binaryObjectSerializerProcess.getNamesOfBrokenImages());
+            }
         } catch (IOException e) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             logger.warn("Failed to serialize entity for processing the binary content: {}", serializedEntity);
+            // there may be some images which are saved. Therefore, we need to remove those images from the database
+            removeBinaryContentFromDatabase(binaryObjectSerializerProcess.getUrisOfSavedImages());
             throw new RuntimeException("Failed to serialize entity for processing the binary content:",e);
         } finally {
             if(baos != null){
