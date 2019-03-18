@@ -78,17 +78,25 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
         String format = mimeCode.substring(6);
 
         ByteArrayInputStream bais = new ByteArrayInputStream(value);
-        BufferedImage image = new ImageScaler().scale(bais, isThumbnail);
+        BufferedImage image = null;
+        try {
+            image = new ImageScaler().scale(bais, isThumbnail);
+        } finally{
+            bais.close();
+        }
         // if image is equal to null,that means that we do not have a valid image
         if(image == null){
             return null;
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, format, baos);
+        try {
+            ImageIO.write(image, format, baos);
+        }finally {
+            baos.close();
+        }
+
         byte[] imageBytes = baos.toByteArray();
-        bais.close();
-        baos.close();
         return imageBytes;
     }
 
