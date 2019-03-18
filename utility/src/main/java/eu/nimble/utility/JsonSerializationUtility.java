@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
+import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.ClauseDeserializer;
+import eu.nimble.utility.serialization.MixInIgnoreType;
 import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -64,11 +66,18 @@ public class JsonSerializationUtility {
     public static <T> String serializeEntitySilently(T entity) {
         String serializedEntity = "";
         try {
-            serializedEntity = getObjectMapper().writeValueAsString(entity);
+            ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class,MixInIgnoreType.class);
+            serializedEntity = mapper.writeValueAsString(entity);
         } catch (JsonProcessingException e) {
             logger.warn("Failed to deserialize entity");
         }
         return serializedEntity;
+    }
+
+    public static ObjectMapper getObjectMapperWithMixIn(Class target,Class source){
+        ObjectMapper mapper = getObjectMapper();
+        mapper.addMixIn(target, source);
+        return mapper;
     }
 
     public static void removeHjidFields(JSONObject jsonObject) {
