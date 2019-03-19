@@ -3,6 +3,7 @@ package util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Column;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public class GenerateSourceUtil {
 
     public static void main(String [] args){
         GenerateSourceUtil generateSourceUtil = new GenerateSourceUtil();
-        generateSourceUtil.changePartyCascadeTypes(args[0]);
+        generateSourceUtil.postProcessORMAnnotations(args[0]);
     }
 
-    public void changePartyCascadeTypes(String path){
+    public void postProcessORMAnnotations(String path){
         logger.debug("Started to change party cascade types");
         File directory = new File(path);
         searchDirectory(directory);
@@ -40,6 +41,11 @@ public class GenerateSourceUtil {
                 searchRegex(fileUpdate);
                 removeOrphanRemovalFromTransientLists(fileUpdate);
                 addOrphanRemovalsToTransientLists(fileUpdate);
+
+                if(file.getName().contentEquals("TextType.java")) {
+                    updateTextTypeValueField(fileUpdate);
+                }
+
                 updateFile(file, fileUpdate);
             }
             else {
@@ -127,6 +133,12 @@ public class GenerateSourceUtil {
             fileUpdate.setContent(m.appendTail(sb).toString());
             fileUpdate.setFileUpdated(true);
         }
+    }
+
+    private void updateTextTypeValueField(FileUpdate fileUpdate) {
+        String fileContent = fileUpdate.getContent();
+        fileContent.replace("@Column(name = \"VALUE_\", length = 255)", "@Column(name = \"VALUE_\", columnDefinition = \"TEXT\", length = 255)");
+        System.out.println("***********************************************" + fileUpdate.getContent());
     }
 
     private void updateFile(File file, FileUpdate fileUpdate) {
