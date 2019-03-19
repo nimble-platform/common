@@ -137,8 +137,9 @@ public class GenerateSourceUtil {
 
     private void updateTextTypeValueField(FileUpdate fileUpdate) {
         String fileContent = fileUpdate.getContent();
-        fileContent.replace("@Column(name = \"VALUE_\", length = 255)", "@Column(name = \"VALUE_\", columnDefinition = \"TEXT\", length = 255)");
-        System.out.println("***********************************************" + fileUpdate.getContent());
+        fileContent = fileContent.replace("@Column(name = \"VALUE_\", length = 255)", "@Column(name = \"VALUE_\", columnDefinition = \"TEXT\", length = 255)");
+        fileUpdate.setContent(fileContent);
+        fileUpdate.setFileUpdated(true);
     }
 
     private void updateFile(File file, FileUpdate fileUpdate) {
