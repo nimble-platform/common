@@ -281,6 +281,7 @@
 	<xsd:element name="FaceValueAmount" type="AmountType"/>
 	<xsd:element name="FacilityDetails" type="xsd:string"/>
 	<xsd:element name="FamilyName" type="xsd:string"/>
+	<xsd:element name="FavouriteProductID" type="xsd:string"/>
 	<xsd:element name="FeatureTacticTypeCode" type="CodeType"/>
 	<xsd:element name="FederationInstanceID" type="xsd:string"/>
 	<xsd:element name="FeeAmount" type="AmountType"/>

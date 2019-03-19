@@ -155,20 +155,44 @@ public class GenerateSourceUtil {
     }
 
     private String getFileContent(File file) {
+        FileInputStream fileStream = null;
+        BufferedReader br = null;
+        InputStreamReader inputStreamReader = null;
         try {
             StringBuffer text = new StringBuffer();
-            FileInputStream fileStream = new FileInputStream(file);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fileStream));
+            fileStream = new FileInputStream(file);
+            inputStreamReader = new InputStreamReader(fileStream);
+            br = new BufferedReader(inputStreamReader);
             for (String line; (line = br.readLine()) != null; )
                 text.append(line + System.lineSeparator());
-            fileStream.close();
-            br.close();
 
             String fileText = text.toString();
             return fileText;
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to get file content", e);
+        } finally {
+            if(fileStream != null){
+                try {
+                    fileStream.close();
+                } catch (IOException e) {
+                    logger.warn("Failed to close file stream: ",e);
+                }
+            }
+            if(br != null){
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    logger.warn("Failed to close buffered reader: ",e);
+                }
+            }
+            if(inputStreamReader != null){
+                try {
+                    inputStreamReader.close();
+                } catch (IOException e) {
+                    logger.warn("Failed to close input stream reader: ",e);
+                }
+            }
         }
     }
 

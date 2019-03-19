@@ -41,26 +41,44 @@ public class FileUtility {
     }
 
     public static String readFile(String filePath) {
+        FileInputStream fis = null;
         try {
             File file = new File(filePath);
             byte[] content = new byte[(int) file.length()];
-            FileInputStream fis = new FileInputStream(file);
+            fis = new FileInputStream(file);
             fis.read(content);
             return new String(content);
         } catch (Exception ex) {
             log.error("", ex);
+        } finally {
+            if(fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    log.error("Failed to close input stream: ",e);
+                }
+            }
         }
         return null;
     }
 
     public static String readFile(File file) {
+        FileInputStream fis = null;
         try {
             byte[] content = new byte[(int) file.length()];
-            FileInputStream fis = new FileInputStream(file);
+            fis = new FileInputStream(file);
             fis.read(content);
             return new String(content);
         } catch (Exception ex) {
             log.error("", ex);
+        } finally {
+            if(fis != null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    log.error("Failed to close input stream: ",e);
+                }
+            }
         }
         return null;
     }

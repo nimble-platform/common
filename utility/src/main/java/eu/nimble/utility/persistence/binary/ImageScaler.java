@@ -47,7 +47,10 @@ public class ImageScaler {
             logger.error("Failed to read the original image content", e);
             throw e;
         }
-
+        // if we could not read the image for some reasons, then return null
+        if(img == null){
+            return null;
+        }
         // get scale ratios
         ScaleRatios ratios = getScaleRatios(img, isThumbnail);
 

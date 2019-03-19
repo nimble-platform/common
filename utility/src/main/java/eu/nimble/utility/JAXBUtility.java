@@ -5,10 +5,7 @@
  */
 package eu.nimble.utility;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -64,8 +61,9 @@ public class JAXBUtility {
 
 	public static Object deserialize(String xmlContent, String packageName) {
 		javax.xml.bind.JAXBElement result = null;
+		InputStream is = null;
 		try {
-			InputStream is = new ByteArrayInputStream(
+		    is = new ByteArrayInputStream(
 				xmlContent.getBytes("UTF-8"));
 			JAXBContext context = JAXBContext.newInstance(packageName);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -73,7 +71,15 @@ public class JAXBUtility {
 			log.debug(" $$$ Deserialization complete and the class name is: " + result.getClass().getName());
 		} catch (UnsupportedEncodingException | JAXBException e) {
 			log.error("", e);
-		}
+		} finally {
+		    if(is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    log.error("Failed to close input stream: ",e);
+                }
+            }
+        }
 
 		return result.getValue();
 	}

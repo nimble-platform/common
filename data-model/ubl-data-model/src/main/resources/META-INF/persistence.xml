@@ -65,6 +65,7 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PaymentTermsTypePaymentConditionsItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PeriodType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PersonTypeFavouriteProductIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PersonTypeRoleItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionTypeIncotermsItem</class>
