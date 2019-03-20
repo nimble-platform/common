@@ -38,15 +38,13 @@ public class BinaryContentUtil {
             objectMapper.writeValue(baos, entity);
             // check whether we have any broken images or not
             if(binaryObjectSerializerProcess.getNamesOfBrokenImages().size() > 0){
-                // since we have some broken images, remove the saved images to be consistent
-                removeBinaryContentFromDatabase(binaryObjectSerializerProcess.getUrisOfSavedImages());
                 throw new BinaryContentException("The following images are not valid : " + binaryObjectSerializerProcess.getNamesOfBrokenImages());
             }
+            // save binary objects
+            CommonSpringBridge.getInstance().getBinaryContentService().createContents(binaryObjectSerializerProcess.getBinaryObjectsToBeSaved());
         } catch (IOException e) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             logger.warn("Failed to serialize entity for processing the binary content: {}", serializedEntity);
-            // there may be some images which are saved. Therefore, we need to remove those images from the database
-            removeBinaryContentFromDatabase(binaryObjectSerializerProcess.getUrisOfSavedImages());
             throw new RuntimeException("Failed to serialize entity for processing the binary content:",e);
         } finally {
             if(baos != null){
