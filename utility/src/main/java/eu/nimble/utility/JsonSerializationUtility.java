@@ -69,7 +69,18 @@ public class JsonSerializationUtility {
             ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class,MixInIgnoreType.class);
             serializedEntity = mapper.writeValueAsString(entity);
         } catch (JsonProcessingException e) {
-            logger.warn("Failed to deserialize entity");
+            logger.warn("Failed to serialize entity: {}", entity.getClass());
+        }
+        return serializedEntity;
+    }
+
+    public static <T> String serializeEntitySilentlyWithMixin(T entity, Class target, Class source) {
+        String serializedEntity = "";
+        try {
+            ObjectMapper mapper = getObjectMapperWithMixIn(target, source);
+            serializedEntity = mapper.writeValueAsString(entity);
+        } catch (JsonProcessingException e) {
+            logger.warn("Failed to serialize entity: {}", entity.getClass());
         }
         return serializedEntity;
     }
