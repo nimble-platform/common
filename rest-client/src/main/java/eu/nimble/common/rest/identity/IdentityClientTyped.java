@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,29 +29,13 @@ public class IdentityClientTyped {
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId) throws IOException {
         Response response = identityClient.getParty(bearerToken, storeId);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
+        return processGetPartyResponse(response, storeId);
+    }
 
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the party with id: %s", storeId);
-            logger.error(msg);
-            throw e;
-        }
-
-        if (response.status() == 200) {
-            try {
-                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<PartyType>() {
-                });
-            } catch (IOException e) {
-                String msg = String.format("Failed to deserialize party: %s", responseBody);
-                logger.error(msg);
-                throw e;
-            }
-        } else {
-            logger.warn("Failed to get party with id: {}, response status: {}, response body: {}", storeId, response.status(), responseBody);
-            return null;
-        }
+    public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId,
+                              @RequestParam(value = "includeRoles") boolean includeRoles) throws IOException {
+        Response response = identityClient.getParty(bearerToken, storeId, includeRoles);
+        return processGetPartyResponse(response, storeId);
     }
 
     public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException {
@@ -183,5 +168,31 @@ public class IdentityClientTyped {
             return true;
         }
         return false;
+    }
+
+    private PartyType processGetPartyResponse(Response response, String storeId) throws IOException {
+        String responseBody;
+        try {
+            responseBody = IOUtils.toString(response.body().asInputStream());
+
+        } catch (IOException e) {
+            String msg = String.format("Failed to obtain body response while getting the party with id: %s", storeId);
+            logger.error(msg);
+            throw e;
+        }
+
+        if (response.status() == 200) {
+            try {
+                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<PartyType>() {
+                });
+            } catch (IOException e) {
+                String msg = String.format("Failed to deserialize party: %s", responseBody);
+                logger.error(msg);
+                throw e;
+            }
+        } else {
+            logger.warn("Failed to get party with id: {}, response status: {}, response body: {}", storeId, response.status(), responseBody);
+            return null;
+        }
     }
 }
