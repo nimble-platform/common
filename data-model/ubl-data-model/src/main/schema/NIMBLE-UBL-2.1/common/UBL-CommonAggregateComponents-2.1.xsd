@@ -48,7 +48,8 @@
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
-	<xsd:element name="LifeCycleCostDetails" type="LifeCycleCostDetailsType"/>
+	<xsd:element name="AdditionalLCPADetail" type="ItemPropertyType"/>
+	<xsd:element name="LifeCyclePerformanceAssessmentDetails" type="LifeCyclePerformanceAssessmentDetailsType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
 	<xsd:element name="MainTransportationService" type="ItemType"/>
@@ -470,7 +471,7 @@
 			</xsd:element>
 			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
 			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0"/>
-			<xsd:element ref="cac:LifeCycleCostDetails" minOccurs="0"/>
+			<xsd:element ref="cac:LifeCyclePerformanceAssessmentDetails" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemIdentificationType">
@@ -1473,7 +1474,7 @@
 			<xsd:element ref="cbc:TypeCode"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LifeCycleCostDetailsType">
+	<xsd:complexType name="LifeCyclePerformanceAssessmentDetailsType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:LifeCycleLength" minOccurs="0"/>
 			<xsd:element ref="cbc:PurchasingPrice" minOccurs="0"/>
@@ -1484,6 +1485,7 @@
 			<xsd:element ref="cbc:MaintenanceCost" minOccurs="0"/>
 			<xsd:element ref="cbc:SparePartCost" minOccurs="0"/>
 			<xsd:element ref="cbc:EndOfLifeCost" minOccurs="0"/>
+			<xsd:element ref="cac:AdditionalLCPADetail" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
