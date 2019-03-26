@@ -19,15 +19,6 @@ public class DiffUtil {
             }
         }
 
-        System.out.println("not 1-1s");
-        lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
-        while(lineIterator.hasNext()) {
-            String line = lineIterator.next();
-            if(!line.startsWith("1\t1\t")) {
-                System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
-            }
-        }
-
         System.out.println("\n1-1s");
         lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
         while(lineIterator.hasNext()) {
