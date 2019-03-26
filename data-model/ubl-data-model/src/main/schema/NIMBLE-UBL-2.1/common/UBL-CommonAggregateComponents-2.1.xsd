@@ -48,7 +48,7 @@
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
-	<xsd:element name="AdditionalLCPADetail" type="ItemPropertyType"/>
+	<xsd:element name="AdditionalLCPADetail" type="LCPADetailType"/>
 	<xsd:element name="LifeCyclePerformanceAssessmentDetails" type="LifeCyclePerformanceAssessmentDetailsType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
@@ -1486,6 +1486,13 @@
 			<xsd:element ref="cbc:SparePartCost" minOccurs="0"/>
 			<xsd:element ref="cbc:EndOfLifeCost" minOccurs="0"/>
 			<xsd:element ref="cac:AdditionalLCPADetail" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LCPADetailType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name"/>
+			<xsd:element ref="cbc:Value"/>
+			<xsd:element ref="cbc:ValueQuantity"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
