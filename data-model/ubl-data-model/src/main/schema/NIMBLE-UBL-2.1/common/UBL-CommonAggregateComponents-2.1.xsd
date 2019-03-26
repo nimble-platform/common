@@ -48,8 +48,8 @@
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
-	<xsd:element name="AdditionalLCPADetail" type="LCPADetailType"/>
-	<xsd:element name="LifeCyclePerformanceAssessmentDetails" type="LifeCyclePerformanceAssessmentDetailsType"/>
+	<xsd:element name="AdditionalLCPAInputDetail" type="LCPAInputDetailType"/>
+	<xsd:element name="LifeCyclePerformanceAssessmentInput" type="LifeCyclePerformanceAssessmentInputType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
 	<xsd:element name="MainTransportationService" type="ItemType"/>
@@ -471,7 +471,7 @@
 			</xsd:element>
 			<xsd:element ref="cac:TransportationServiceDetails" minOccurs="0"/>
 			<xsd:element ref="cac:TrackAndTraceDetails" minOccurs="0"/>
-			<xsd:element ref="cac:LifeCyclePerformanceAssessmentDetails" minOccurs="0"/>
+			<xsd:element ref="cac:LifeCyclePerformanceAssessmentInput" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ItemIdentificationType">
@@ -1474,7 +1474,7 @@
 			<xsd:element ref="cbc:TypeCode"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LifeCyclePerformanceAssessmentDetailsType">
+	<xsd:complexType name="LifeCyclePerformanceAssessmentInputType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:LifeCycleLength" minOccurs="0"/>
 			<xsd:element ref="cbc:PurchasingPrice" minOccurs="0"/>
@@ -1485,10 +1485,10 @@
 			<xsd:element ref="cbc:MaintenanceCost" minOccurs="0"/>
 			<xsd:element ref="cbc:SparePartCost" minOccurs="0"/>
 			<xsd:element ref="cbc:EndOfLifeCost" minOccurs="0"/>
-			<xsd:element ref="cac:AdditionalLCPADetail" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalLCPAInputDetail" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPADetailType">
+	<xsd:complexType name="LCPAInputDetailType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:Value"/>
