@@ -340,8 +340,9 @@
 	<xsd:element name="ImportanceCode" type="CodeType"/>
 	<xsd:element name="Incoterms" type="xsd:string"/>
 	<xsd:element name="IndicationIndicator" type="xsd:boolean"/>
+	<xsd:element name="IndustryClassification" type="TextType"/>
 	<xsd:element name="IndustryClassificationCode" type="CodeType"/>
-	<xsd:element name="IndustrySector" type="CodeType"/>
+	<xsd:element name="IndustrySector" type="TextType"/>
 	<xsd:element name="Information" type="xsd:string"/>
 	<xsd:element name="InformationURI" type="xsd:string"/>
 	<xsd:element name="InhalationToxicityZoneCode" type="CodeType"/>
@@ -706,7 +707,7 @@
 	<xsd:element name="RoamingPartnerName" type="xsd:string"/>
 	<xsd:element name="Role" type="xsd:string"/>
 	<xsd:element name="RoleCode" type="CodeType"/>
-	<xsd:element name="RoleDescription" type="xsd:string"/>
+	<xsd:element name="RoleDescription" type="TextType"/>
 	<xsd:element name="Room" type="xsd:string"/>
 	<xsd:element name="RoundingAmount" type="AmountType"/>
 	<xsd:element name="SafetyDataSheet" type="BinaryObjectType"/>
