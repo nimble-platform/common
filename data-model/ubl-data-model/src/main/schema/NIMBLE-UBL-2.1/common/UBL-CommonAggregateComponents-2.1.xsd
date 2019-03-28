@@ -4,6 +4,7 @@
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
 	<xsd:element name="AdditionalDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
+	<xsd:element name="AdditionalLCPAInputDetail" type="LCPAInputDetailType"/>
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
 	<xsd:element name="AnticipatedMonetaryTotal" type="MonetaryTotalType"/>
@@ -48,7 +49,8 @@
 	<xsd:element name="ItemInformationRequestLine" type="ItemInformationRequestLineType"/>
 	<xsd:element name="ItemLocationQuantity" type="ItemLocationQuantityType"/>
 	<xsd:element name="ItemSpecificationDocumentReference" type="DocumentReferenceType"/>
-	<xsd:element name="AdditionalLCPAInputDetail" type="LCPAInputDetailType"/>
+	<xsd:element name="LCPAInput" type="LCPAInputType"/>
+	<xsd:element name="LCPAOutput" type="LCPAOutputType"/>
 	<xsd:element name="LifeCyclePerformanceAssessmentDetails" type="LifeCyclePerformanceAssessmentDetailsType"/>
 	<xsd:element name="LineItem" type="LineItemType"/>
 	<xsd:element name="LineReference" type="LineReferenceType"/>
@@ -1476,6 +1478,12 @@
 	</xsd:complexType>
 	<xsd:complexType name="LifeCyclePerformanceAssessmentDetailsType">
 		<xsd:sequence>
+			<xsd:element ref="cac:LCPAInput"/>
+			<xsd:element ref="cac:LCPAOutput"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LCPAInputType">
+		<xsd:sequence>
 			<xsd:element ref="cbc:LifeCycleLength" minOccurs="0"/>
 			<xsd:element ref="cbc:PurchasingPrice" minOccurs="0"/>
 			<xsd:element ref="cbc:AssemblyCost" minOccurs="0"/>
@@ -1495,5 +1503,7 @@
 			<xsd:element ref="cbc:Value"/>
 			<xsd:element ref="cbc:ValueQuantity"/>
 		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LCPAOutputType">
 	</xsd:complexType>
 </xsd:schema>
