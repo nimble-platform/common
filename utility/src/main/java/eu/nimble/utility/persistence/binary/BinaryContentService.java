@@ -212,9 +212,9 @@ public class BinaryContentService {
             int queryResult = ps.executeUpdate();
 
             if (queryResult > 0) {
-                logger.info("Binary content deleted for uris: {}", uris);
+                logger.info("Binary content deleted for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
             } else {
-                logger.warn("Failed to delete binary content for uris: {}", uris);
+                logger.warn("Failed to delete binary content for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
             }
 
             ps.close();
