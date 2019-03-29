@@ -35,6 +35,7 @@ public class BinaryContentService {
     private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
 
+    private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
     @Autowired
@@ -49,7 +50,7 @@ public class BinaryContentService {
         PreparedStatement ps = null;
 
         if(binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(binaryContentUrl)) {
-            binaryObjectType.setUri(binaryContentUrl + UUID.randomUUID().toString());
+            binaryObjectType.setUri(getURI());
         }
 
         try {
@@ -80,6 +81,56 @@ public class BinaryContentService {
         }
     }
 
+    // we assume that given binary objects have valid uris
+    public void createContents(List<BinaryObjectType> binaryObjectTypes) {
+        Connection c = null;
+        PreparedStatement ps = null;
+
+        if(binaryObjectTypes == null || binaryObjectTypes.size() == 0){
+            return;
+        }
+
+        // get uris
+        StringBuilder uris = new StringBuilder();
+        int size = binaryObjectTypes.size();
+        for(int i = 0 ; i < size; i++){
+            uris.append(binaryObjectTypes.get(i).getUri());
+            if(i != size-1){
+                uris.append(",");
+            }
+        }
+
+        try {
+            c = dataSource.getConnection();
+            ps = c.prepareStatement(QUERY_INSERT_CONTENT);
+
+            int i = 0;
+            for(BinaryObjectType binaryObjectType:binaryObjectTypes){
+                ps.setString(1, binaryObjectType.getUri());
+                ps.setString(2, binaryObjectType.getMimeCode());
+                ps.setString(3, binaryObjectType.getFileName());
+                ps.setBytes(4, binaryObjectType.getValue());
+                ps.addBatch();
+                i++;
+
+                if(i % batchSize == 0 || i == binaryObjectTypes.size()){
+                    ps.executeBatch();
+                }
+            }
+
+            ps.close();
+
+            logger.info("Binary contents created with uris: {}", uris.toString());
+        } catch (SQLException e) {
+            String msg = String.format("Failed to create binary contents for uris: %s", uris.toString());
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+
+        } finally {
+            closeResources(c, ps, null, String.format("While creating binary contents for uris: %s", uris.toString()));
+        }
+    }
+
     public BinaryObjectType retrieveContent(String uri) {
         List<BinaryObjectType> results = retrieveContents(Arrays.asList(uri));
         if(results.size() > 0) {
@@ -87,6 +138,10 @@ public class BinaryContentService {
         } else {
             return null;
         }
+    }
+
+    public String getURI(){
+        return binaryContentUrl + UUID.randomUUID().toString();
     }
 
     public List<BinaryObjectType> retrieveContents(List<String> uris) {
@@ -157,9 +212,9 @@ public class BinaryContentService {
             int queryResult = ps.executeUpdate();
 
             if (queryResult > 0) {
-                logger.info("Binary content deleted for uris: {}", uris);
+                logger.info("Binary content deleted for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
             } else {
-                logger.warn("Failed to delete binary content for uris: {}", uris);
+                logger.warn("Failed to delete binary content for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
             }
 
             ps.close();

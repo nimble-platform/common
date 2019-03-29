@@ -265,7 +265,7 @@ public class ItemInformationRequestType
     @OneToMany(orphanRemoval = true,targetEntity = DocumentReferenceType.class, cascade = {
         javax.persistence.CascadeType.ALL
     })
-    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_4")
+    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_1")
     public List<DocumentReferenceType> getAdditionalDocumentReference() {
         if (additionalDocumentReference == null) {
             additionalDocumentReference = new ArrayList<DocumentReferenceType>();

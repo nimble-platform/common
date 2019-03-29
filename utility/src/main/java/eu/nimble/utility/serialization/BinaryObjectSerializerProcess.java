@@ -29,9 +29,8 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
 
     // the names of the broken images
     private List<String> namesOfBrokenImages = new ArrayList<>();
-    // the uris of the saved images
-    private List<String> urisOfSavedImages = new ArrayList<>();
-
+    // binary objects to be saved
+    private List<BinaryObjectType> binaryObjectsToBeSaved = new ArrayList<>();
     @Override
     public void serialize(BinaryObjectType binaryObjectType, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         // if binary object has a uri (saved to binary content database), then delete the binary object
@@ -63,11 +62,13 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
                 binaryObjectType.setValue(null);
             }
 
-            // save BinaryContent object
-            binaryContentDbObject = CommonSpringBridge.getInstance().getBinaryContentService().createContent(binaryContentDbObject);
-            binaryObjectType.setUri(binaryContentDbObject.getUri());
-            // add its uri to the list
-            urisOfSavedImages.add(binaryContentDbObject.getUri());
+            // retrieve a uri for Binary Object
+            String uri = CommonSpringBridge.getInstance().getBinaryContentService().getURI();
+            // set uris
+            binaryObjectType.setUri(uri);
+            binaryContentDbObject.setUri(uri);
+            // add binary object to the list
+            binaryObjectsToBeSaved.add(binaryContentDbObject);
         }
 
         jsonGenerator.writeObject(null);
@@ -104,7 +105,7 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
         return namesOfBrokenImages;
     }
 
-    public List<String> getUrisOfSavedImages() {
-        return urisOfSavedImages;
+    public List<BinaryObjectType> getBinaryObjectsToBeSaved() {
+        return binaryObjectsToBeSaved;
     }
 }

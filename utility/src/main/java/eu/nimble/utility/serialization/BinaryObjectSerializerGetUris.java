@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.CommonSpringBridge;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class BinaryObjectSerializerGetUris extends JsonSerializer<BinaryObjectTy
 
     @Override
     public void serialize(BinaryObjectType binaryObjectType, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if (binaryObjectType.getUri() != null && !binaryObjectType.getUri().equals("")) {
+        String binaryContentUrl = CommonSpringBridge.getInstance().getCommonConfig().getBinaryContentUrl();
+        if (binaryObjectType.getUri() != null && !binaryObjectType.getUri().equals("") && binaryObjectType.getUri().startsWith(binaryContentUrl)) {
             listOfUris.add(binaryObjectType.getUri());
         }
 

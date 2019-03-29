@@ -4,6 +4,7 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY cbc "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#" >
@@ -16,12 +17,13 @@
      xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace">
     <owl:Ontology rdf:about="http://www.nimble-project.org/catalogue#"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Object Properties
@@ -29,24 +31,35 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
 
 
-    <!-- http://www.nimble-project.org/catalogue#hasUnit -->
 
-    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnit">
-        <rdfs:range rdf:resource="&cbc;QuantityType"/>
-        <rdfs:range>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&cbc;unitCode"/>
-                <owl:someValuesFrom rdf:resource="&xsd;normalizedString"/>
-            </owl:Restriction>
-        </rdfs:range>
+    <!-- http://www.nimble-project.org/catalogue#hasCode -->
+
+    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasCode">
+        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
     </owl:ObjectProperty>
-    
 
 
-    <!-- 
+
+    <!-- http://www.nimble-project.org/catalogue#hasCodeList -->
+
+    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasCodeList">
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
+    </owl:ObjectProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#hasUnitList -->
+
+    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnitList">
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+    </owl:ObjectProperty>
+
+
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Data properties
@@ -54,7 +67,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#hasUnit -->
+
+    <owl:DatatypeProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnit">
+        <rdfs:range rdf:resource="&xsd;normalizedString"/>
+    </owl:DatatypeProperty>
+
 
 
     <!-- http://www.nimble-project.org/catalogue#id -->
@@ -64,7 +85,7 @@
         <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCode -->
@@ -74,7 +95,7 @@
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCodeListID -->
@@ -83,7 +104,7 @@
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#value -->
@@ -92,10 +113,10 @@
         <rdfs:range rdf:resource="&xsd;decimal"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
     </owl:DatatypeProperty>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Classes
@@ -103,28 +124,40 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#CodeList -->
+
+    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#CodeList"/>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#CodeType -->
+
+    <owl:Class rdf:about="http://www.nimble-project.org/catalogue#CodeType"/>
+
 
 
     <!-- http://www.nimble-project.org/catalogue#Unit -->
 
     <owl:Class rdf:about="http://www.nimble-project.org/catalogue#Unit"/>
-    
+
 
 
     <!-- http://www.nimble-project.org/catalogue#UnitList -->
 
     <owl:Class rdf:about="http://www.nimble-project.org/catalogue#UnitList"/>
-    
+
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#QuantityType -->
 
     <owl:Class rdf:about="&cbc;QuantityType"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Individuals
@@ -132,7 +165,17 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#FullTruckLoad -->
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#FullTruckLoad">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+        <rdfs:label xml:lang="en">FTL-Full truck load</rdfs:label>
+        <rdfs:label xml:lang="es">Carga completa</rdfs:label>
+    </owl:NamedIndividual>
+
 
 
     <!-- http://www.nimble-project.org/catalogue#LenghtUnitList -->
@@ -144,9 +187,20 @@
         <cbc:unitCode rdf:datatype="&xsd;normalizedString">m</cbc:unitCode>
         <cbc:unitCode rdf:datatype="&xsd;normalizedString">mm</cbc:unitCode>
     </owl:NamedIndividual>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#PartialTruckLoad -->
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#PartialTruckLoad">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#TruckLoadList -->
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#TruckLoadList">
+        <hasCode rdf:resource="http://www.nimble-project.org/catalogue#FullTruckLoad"/>
+    </owl:NamedIndividual>
 </rdf:RDF>
-
-
-
-<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
-
