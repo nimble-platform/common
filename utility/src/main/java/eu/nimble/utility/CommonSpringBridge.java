@@ -1,5 +1,6 @@
 package eu.nimble.utility;
 
+import eu.nimble.utility.config.CommonConfig;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.persistence.resource.ResourceValidationUtility;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
@@ -29,6 +30,8 @@ public class CommonSpringBridge implements ApplicationContextAware {
     @Autowired(required = false)
     @Qualifier("ubldbDataSource")
     private DataSource ubldbDataSource;
+    @Autowired
+    private CommonConfig commonConfig;
 
     public static CommonSpringBridge getInstance() {
         return applicationContext.getBean(CommonSpringBridge.class);
@@ -54,5 +57,9 @@ public class CommonSpringBridge implements ApplicationContextAware {
 
     public DataSource getUbldbDataSource() {
         return ubldbDataSource;
+    }
+
+    public CommonConfig getCommonConfig() {
+        return commonConfig;
     }
 }
