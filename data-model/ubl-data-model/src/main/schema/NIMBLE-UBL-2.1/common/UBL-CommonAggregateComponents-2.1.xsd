@@ -1478,8 +1478,26 @@
 	</xsd:complexType>
 	<xsd:complexType name="LifeCyclePerformanceAssessmentDetailsType">
 		<xsd:sequence>
-			<xsd:element ref="cac:LCPAInput"/>
-			<xsd:element ref="cac:LCPAOutput"/>
+			<xsd:element ref="cac:LCPAInput">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:LCPAOutput">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LCPAInputType">
@@ -1493,7 +1511,15 @@
 			<xsd:element ref="cbc:MaintenanceCost" minOccurs="0"/>
 			<xsd:element ref="cbc:SparePartCost" minOccurs="0"/>
 			<xsd:element ref="cbc:EndOfLifeCost" minOccurs="0"/>
-			<xsd:element ref="cac:AdditionalLCPAInputDetail" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cac:AdditionalLCPAInputDetail" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LCPAInputDetailType">
