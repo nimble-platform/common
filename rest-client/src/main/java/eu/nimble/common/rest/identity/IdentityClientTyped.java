@@ -99,6 +99,14 @@ public class IdentityClientTyped {
         }
     }
 
+    public Response getAllPartyIds(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "exclude", required = false) List<String> exclude){
+        return identityClient.getAllPartyIds(bearerToken,exclude);
+    }
+
+    public Response getPartyPartiesInUBL(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "page") String page, @RequestParam(value = "includeRoles") String includeRoles, @RequestParam(value = "size") String size){
+        return identityClient.getPartyPartiesInUBL(bearerToken,page,includeRoles,size);
+    }
+
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String personId) throws IOException {
         Response response = identityClient.getPerson(bearerToken, personId);
         String responseBody;
