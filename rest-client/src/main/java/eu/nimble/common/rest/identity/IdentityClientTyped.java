@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,8 +21,9 @@ import java.util.List;
 /**
  * Created by suat on 24-Apr-18.
  */
+@Profile("!test")
 @Component
-public class IdentityClientTyped {
+public class IdentityClientTyped implements IIdentityClientTyped{
     private static Logger logger = LoggerFactory.getLogger(IdentityClientTyped.class);
 
     @Autowired
