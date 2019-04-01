@@ -21,7 +21,7 @@ import java.sql.Statement;
  * Created by suat on 19-Dec-18.
  */
 @Component
-@Profile("!local_dev")
+@Profile("!test")
 public class CustomDbInitializer {
 
     private static final String QUERY_CREATE_RESOURCE_TABLE =
