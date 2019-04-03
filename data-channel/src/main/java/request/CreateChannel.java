@@ -4,10 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.Set;
 
 /**
  * Request and response entities for creating a channel.
@@ -19,23 +15,12 @@ public class CreateChannel {
     @ApiModel(value = "CreateChannelRequest", discriminator = "CCREQ")
     public static class Request {
 
-        @ApiModelProperty(value = "ID of creating company", required = true)
-        private String producerCompanyID;
+        @ApiModelProperty(value = "ID of seller company", required = true)
+        private String sellerCompanyID;
 
         @ElementCollection(targetClass = String.class)
-        @ApiModelProperty(value = "IDs of consuming companies", required = true)
-        private Set<String> consumerCompanyIDs;
-
-        @ApiModelProperty(value = "Description and purpose of data channel", required = true)
-        private String description;
-
-        @Temporal(TemporalType.TIMESTAMP)
-        @ApiModelProperty(value = "Opening date/time of data channel", required = true)
-        private Date startDateTime;
-
-        @Temporal(TemporalType.TIMESTAMP)
-        @ApiModelProperty(value = "Closing date/time of data channel", required = true)
-        private Date endDateTime;
+        @ApiModelProperty(value = "ID of buyer company", required = true)
+        private String buyerCompanyID;
 
         @ApiModelProperty(value = "ID of originating business process (optional)")
         private String businessProcessID;
@@ -43,53 +28,26 @@ public class CreateChannel {
         private Request() {
         }
 
-        public Request(String producerCompanyID, Set<String> consumerCompanyIDs, String description, Date startDateTime, Date endDateTime, String businessProcessID) {
-            this.producerCompanyID = producerCompanyID;
-            this.consumerCompanyIDs = consumerCompanyIDs;
-            this.description = description;
-            this.startDateTime = startDateTime;
-            this.endDateTime = endDateTime;
+        public Request(String sellerCompanyID, String buyerCompanyID, String businessProcessID) {
+            this.sellerCompanyID = sellerCompanyID;
+            this.buyerCompanyID = buyerCompanyID;
             this.businessProcessID = businessProcessID;
         }
 
-        public String getProducerCompanyID() {
-            return producerCompanyID;
+        public String getSellerCompanyID() {
+            return sellerCompanyID;
         }
 
-        public void setProducerCompanyID(String producerCompanyID) {
-            this.producerCompanyID = producerCompanyID;
+        public void setSellerCompanyID(String sellerCompanyID) {
+            this.sellerCompanyID = sellerCompanyID;
         }
 
-        public Set<String> getConsumerCompanyIDs() {
-            return consumerCompanyIDs;
+        public String getBuyerCompanyID() {
+            return buyerCompanyID;
         }
 
-        public void setConsumerCompanyIDs(Set<String> consumerCompanyIDs) {
-            this.consumerCompanyIDs = consumerCompanyIDs;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public Date getStartDateTime() {
-            return startDateTime;
-        }
-
-        public void setStartDateTime(Date startDateTime) {
-            this.startDateTime = startDateTime;
-        }
-
-        public Date getEndDateTime() {
-            return endDateTime;
-        }
-
-        public void setEndDateTime(Date endDateTime) {
-            this.endDateTime = endDateTime;
+        public void setBuyerCompanyID(String buyerCompanyID) {
+            this.buyerCompanyID = buyerCompanyID;
         }
 
         public String getBusinessProcessID() {
@@ -99,6 +57,8 @@ public class CreateChannel {
         public void setBusinessProcessID(String businessProcessID) {
             this.businessProcessID = businessProcessID;
         }
+
+        
     }
 
 
