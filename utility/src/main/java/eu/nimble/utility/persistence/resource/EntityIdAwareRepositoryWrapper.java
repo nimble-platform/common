@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,13 +125,19 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         return entity;
     }
 
+    /**
+     * This method is required e.g. when storing a document object in business process operations. In such cases, an {@link eu.nimble.service.model.ubl.commonaggregatecomponents.ItemType}
+     * object and/or a {@link eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType} object would be included in the document.
+     * Therefore, we cannot use persist operation and have to use update.
+     * @param entity
+     * @param <T>
+     * @return
+     */
     public <T> T updateEntityForPersistCases(T entity) {
         // check whether the ids included in the entity belongs to the party performing the update
         checkHjidAssociation(entity, UpdateMode.PERSIST);
-        // get binary object identifiers that are not included in the updated entity
-        List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.PERSIST);
         // clear the entity identifiers for the passed entity
-        clearIdsAndBinaryContents(entity, UpdateMode.PERSIST, binaryContentUrisToDelete);
+        clearIdsAndBinaryContents(entity, UpdateMode.PERSIST, new ArrayList<>());
         // create binary content references for the entity
         BinaryContentUtil.processBinaryContents(entity);
         // perform the update operation on the database

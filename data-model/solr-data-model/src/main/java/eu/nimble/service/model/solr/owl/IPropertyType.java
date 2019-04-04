@@ -20,6 +20,10 @@ public interface IPropertyType extends IConcept {
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";
+	String UNITS_TYPE_FIELD = "units";
+	String UNITS_TYPES_LIST_FIELD = "unitsList";
+	String VALUE_CODE__FIELD = "valueCode";
+	String VALUE_CODES_LIST_FIELD = "valueCodesList";
 	/**
 	 * Define the default field list 
 	 * 

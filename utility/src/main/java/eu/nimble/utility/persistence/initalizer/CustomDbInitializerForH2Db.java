@@ -13,12 +13,12 @@ import java.sql.*;
 
 /**
  * This component initializes the binary content database in the in-memory H2 database. It is only activated in the
- * local_dev profile.
+ * test profile.
  *
  * Created by suat on 19-Dec-18.
  */
 @Component
-@Profile({"local_dev", "test"})
+@Profile("test")
 public class CustomDbInitializerForH2Db {
 
     private static final String QUERY_CREATE_RESOURCE_TABLE =

@@ -48,13 +48,57 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
-	
+
+	@Indexed(required=false, name=UNITS_TYPE_FIELD)
+	private String unitsType;
+
+	@Indexed(required=false, name=UNITS_TYPES_LIST_FIELD)
+	private Collection<String> unitsTypeList;
+
+	@Indexed(required=false, name=VALUE_CODE__FIELD)
+	private String valueCode;
+
+	@Indexed(required=false, name= VALUE_CODES_LIST_FIELD)
+	private Collection<String> valueCodesList;
+
 	public String getPropertyType() {
 		return propertyType;
 	}
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
+	}
+
+	public String getUnitsType() {
+		return unitsType;
+	}
+
+	public void setUnitsType(String unitsType) {
+		this.unitsType = unitsType;
+	}
+
+	public Collection<String> getUnitsTypeList() {
+		return unitsTypeList;
+	}
+
+	public void setUnitsTypeList(Collection<String> unitsTypeList) {
+		this.unitsTypeList = unitsTypeList;
+	}
+
+    public String getValueCode() {
+        return valueCode;
+    }
+
+    public void setValueCode(String valueCode) {
+        this.valueCode = valueCode;
+    }
+
+    public Collection<String> getValueCodesList() {
+		return valueCodesList;
+	}
+
+	public void setValueCodesList(Collection<String> valueCodesList) {
+		this.valueCodesList = valueCodesList;
 	}
 
 	public String getRange() {
