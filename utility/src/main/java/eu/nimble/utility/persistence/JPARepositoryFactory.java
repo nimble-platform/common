@@ -40,8 +40,8 @@ public class JPARepositoryFactory implements ApplicationContextAware {
         return forCatalogueRepository(Configuration.Standard.UBL,false);
     }
 
-    public GenericJPARepository forCatalogueRepository(boolean lazyEnabled){
-        return forCatalogueRepository(Configuration.Standard.UBL,lazyEnabled);
+    public GenericJPARepository forCatalogueRepository(boolean lazyDisabled){
+        return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled);
     }
 
     public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled) {
