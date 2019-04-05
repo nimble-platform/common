@@ -1,9 +1,7 @@
 package eu.nimble.utility.persistence;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.nimble.utility.Configuration;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -31,24 +29,28 @@ public class JPARepositoryFactory implements ApplicationContextAware {
     }
 
     public GenericJPARepository forBpRepository() {
-        return withEmf("bpdbEntityManagerFactory");
+        return forBpRepository(false);
+    }
+
+    public GenericJPARepository forBpRepository(boolean lazyDisabled) {
+        return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY);
     }
 
     public GenericJPARepository forCatalogueRepository() {
-        return forCatalogueRepository(Configuration.Standard.UBL,true);
+        return forCatalogueRepository(Configuration.Standard.UBL,false);
     }
 
     public GenericJPARepository forCatalogueRepository(boolean lazyEnabled){
         return forCatalogueRepository(Configuration.Standard.UBL,lazyEnabled);
     }
 
-    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyEnabled) {
+    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         if(catalogueStandard.equals(Configuration.Standard.UBL)) {
-            if(lazyEnabled)
-                return withEmf(Configuration.UBL_ENTITY_MANAGER_FACTORY);
-            else
+            if(lazyDisabled)
                 return withEmf(Configuration.UBL_LAZY_DISABLED_ENTITY_MANAGER_FACTORY);
+            else
+                return withEmf(Configuration.UBL_ENTITY_MANAGER_FACTORY);
         } else if(catalogueStandard.equals(Configuration.Standard.MODAML)) {
             throw new RuntimeException("Configurations for MODA-ML catalogues are not set");
         }

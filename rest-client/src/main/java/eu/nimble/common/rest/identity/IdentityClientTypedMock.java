@@ -29,7 +29,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId) throws IOException {
         String insertQuery = "SELECT party FROM PartyType party join party.partyIdentification as partyIdentification where partyIdentification.ID = :partyId";
-        PartyType party = new JPARepositoryFactory().forCatalogueRepository().getSingleEntity(insertQuery,new String[]{"partyId"}, new Object[]{storeId});
+        PartyType party = new JPARepositoryFactory().forCatalogueRepository(true).getSingleEntity(insertQuery,new String[]{"partyId"}, new Object[]{storeId});
         if(party == null){
             party = createParty(storeId);
         }
@@ -51,7 +51,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         }
         commaSeparatedIds.append(partyIds.get(partyIds.size() - 1));
         String query = "SELECT party FROM PartyType party join party.partyIdentification as partyIdentification where partyIdentification.ID in :partyIds";
-        List<PartyType> parties = new JPARepositoryFactory().forCatalogueRepository().getEntities(query,new String[]{"partyIds"}, new Object[]{commaSeparatedIds.toString()});
+        List<PartyType> parties = new JPARepositoryFactory().forCatalogueRepository(true).getEntities(query,new String[]{"partyIds"}, new Object[]{commaSeparatedIds.toString()});
 
         for(String partyId:partyIds){
             boolean partyExists = false;
@@ -72,12 +72,12 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
         String query = "SELECT party FROM PartyType party join party.person as person where person.ID = :personId";
-        return new JPARepositoryFactory().forCatalogueRepository().getEntities(query,new String[]{"personId"}, new Object[]{personId});
+        return new JPARepositoryFactory().forCatalogueRepository(true).getEntities(query,new String[]{"personId"}, new Object[]{personId});
     }
 
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String personId) throws IOException {
         String query = "SELECT person FROM PersonType person where person.ID = :personId";
-        PersonType person = new JPARepositoryFactory().forCatalogueRepository().getSingleEntity(query,new String[]{"personId"}, new Object[]{personId});
+        PersonType person = new JPARepositoryFactory().forCatalogueRepository(true).getSingleEntity(query,new String[]{"personId"}, new Object[]{personId});
         return person;
     }
 
