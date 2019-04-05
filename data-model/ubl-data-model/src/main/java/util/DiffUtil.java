@@ -19,20 +19,29 @@ public class DiffUtil {
             }
         }
 
-        System.out.println("not 1-1s");
+        System.out.println("\n1-1s");
         lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
         while(lineIterator.hasNext()) {
             String line = lineIterator.next();
-            if(!line.startsWith("1\t1\t")) {
+            if(line.startsWith("1\t1\t")) {
                 System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
             }
         }
 
-        System.out.println("\n1-1s and 2-2s");
+        System.out.println("\n2-2s");
         lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
         while(lineIterator.hasNext()) {
             String line = lineIterator.next();
-            if(line.startsWith("1\t1\t") || line.startsWith("2\t2\t")) {
+            if(line.startsWith("2\t2\t")) {
+                System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
+            }
+        }
+
+        System.out.println("\n3-3s");
+        lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
+        while(lineIterator.hasNext()) {
+            String line = lineIterator.next();
+            if(line.startsWith("3\t3\t")) {
                 System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
             }
         }

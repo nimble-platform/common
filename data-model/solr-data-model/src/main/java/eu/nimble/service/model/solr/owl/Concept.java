@@ -48,6 +48,10 @@ public class Concept implements IConcept {
 	@Dynamic
 	protected Map<String, String> comment;
 
+	@Indexed(name=ALL_LABEL_FIELD)
+	protected Collection<String> allLabels;
+
+
 	public Concept() {
 		super();
 	}
@@ -69,6 +73,21 @@ public class Concept implements IConcept {
 		c.setNameSpace(other.getNameSpace());
 		c.setLocalName(other.getLocalName());
 		return c;
+	}
+
+	/**
+	 * Getter for all the labels in use, copied from es_label, en_label etc.
+	 */
+	public Collection<String> getAllLabels() {
+		return allLabels;
+	}
+
+	/**
+	 * Setter for all the labels in use, <pre>do not use directly</pre>t
+	 * @param allLabels
+	 */
+	public void setAllLabels(Collection<String> allLabels) {
+		this.allLabels = allLabels;
 	}
 	/**
 	 * Getter for the languages in use, the list is maintained by the add... methods

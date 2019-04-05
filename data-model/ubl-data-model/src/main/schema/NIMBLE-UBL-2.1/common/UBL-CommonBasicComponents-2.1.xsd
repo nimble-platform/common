@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm">
+<xsd:schema xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" xmlns:orm="http://java.sun.com/xml/ns/persistence/orm" targetNamespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1" jaxb:extensionBindingPrefixes="hj orm">
 	<xsd:element name="AcceptedIndicator" type="xsd:boolean"/>
 	<xsd:element name="AcceptedVariantsDescription" type="xsd:decimal"/>
 	<xsd:element name="AccountFormatCode" type="CodeType"/>
@@ -44,6 +44,7 @@
 	<xsd:element name="ApplicationStatusCode" type="CodeType"/>
 	<xsd:element name="ApprovalDate" type="xsd:date"/>
 	<xsd:element name="ApprovalStatus" type="xsd:string"/>
+	<xsd:element name="AssemblyCost" type="AmountType"/>
 	<xsd:element name="AssociatedProcessInstanceID" type="xsd:string"/>
 	<xsd:element name="AttributeID" type="xsd:string"/>
 	<xsd:element name="AuctionConstraintIndicator" type="xsd:boolean"/>
@@ -147,6 +148,7 @@
 	<xsd:element name="ConsignorAssignedID" type="xsd:string"/>
 	<xsd:element name="ConsolidatableIndicator" type="xsd:boolean"/>
 	<xsd:element name="ConstitutionCode" type="CodeType"/>
+	<xsd:element name="ConsumableCost" type="AmountType"/>
 	<xsd:element name="ConsumerIncentiveTacticTypeCode" type="CodeType"/>
 	<xsd:element name="ConsumerUnitQuantity" type="QuantityType"/>
 	<xsd:element name="ConsumersEnergyLevel" type="xsd:string"/>
@@ -247,8 +249,10 @@
 	<xsd:element name="EmployeeQuantity" type="QuantityType"/>
 	<xsd:element name="EncodingCode" type="CodeType"/>
 	<xsd:element name="EndDate" type="xsd:date"/>
+	<xsd:element name="EndOfLifeCost" type="AmountType"/>
 	<xsd:element name="EndTime" type="xsd:time"/>
 	<xsd:element name="EndpointID" type="xsd:string"/>
+	<xsd:element name="EnergyConsumptionCost" type="AmountType"/>
 	<xsd:element name="EnvironmentalEmissionTypeCode" type="CodeType"/>
 	<xsd:element name="EstimatedAmount" type="AmountType"/>
 	<xsd:element name="EstimatedConsumedQuantity" type="QuantityType"/>
@@ -392,6 +396,7 @@
 	<xsd:element name="LegalStatusIndicator" type="xsd:boolean"/>
 	<xsd:element name="LiabilityAmount" type="AmountType"/>
 	<xsd:element name="LicensePlateID" type="xsd:string"/>
+	<xsd:element name="LifeCycleLength" type="QuantityType"/>	
 	<xsd:element name="LifeCycleStatusCode" type="CodeType"/>
 	<xsd:element name="LimitationDescription" type="xsd:decimal"/>
 	<xsd:element name="Line" type="xsd:string"/>
@@ -419,6 +424,7 @@
 	<xsd:element name="LowTendersDescription" type="xsd:decimal"/>
 	<xsd:element name="LowerOrangeHazardPlacardID" type="xsd:string"/>
 	<xsd:element name="LowerTenderAmount" type="AmountType"/>
+	<xsd:element name="MaintenanceCost" type="AmountType"/>
 	<xsd:element name="MandateTypeCode" type="CodeType"/>
 	<xsd:element name="ManufactureDate" type="xsd:date"/>
 	<xsd:element name="ManufactureTime" type="xsd:time"/>
@@ -476,8 +482,8 @@
 	<xsd:element name="MovieTitle" type="xsd:string"/>
 	<xsd:element name="MultipleOrderQuantity" type="QuantityType"/>
 	<xsd:element name="MultiplierFactorNumeric" type="xsd:decimal"/>
-    <xsd:element name="NACE" type="CodeType"/>
-    <xsd:element name="Name" type="TextType"/>
+	<xsd:element name="NACE" type="CodeType"/>
+	<xsd:element name="Name" type="TextType"/>
 	<xsd:element name="NameCode" type="CodeType"/>
 	<xsd:element name="NameSuffix" type="xsd:string"/>
 	<xsd:element name="NationalityID" type="xsd:string"/>
@@ -628,6 +634,7 @@
 	<xsd:element name="PromotionalEventTypeCode" type="CodeType"/>
 	<xsd:element name="ProviderTypeCode" type="CodeType"/>
 	<xsd:element name="PublishAwardIndicator" type="xsd:boolean"/>
+	<xsd:element name="PurchasingPrice" type="AmountType"/>
 	<xsd:element name="Purpose" type="xsd:string"/>
 	<xsd:element name="PurposeCode" type="CodeType"/>
 	<xsd:element name="QualityControlCode" type="CodeType"/>
@@ -746,6 +753,7 @@
 	<xsd:element name="SourceForecastIssueDate" type="xsd:date"/>
 	<xsd:element name="SourceForecastIssueTime" type="xsd:time"/>
 	<xsd:element name="SourceValueMeasure" type="QuantityType"/>
+	<xsd:element name="SparePartCost" type="AmountType"/>
 	<xsd:element name="SpecialInstructions" type="xsd:string"/>
 	<xsd:element name="SpecialSecurityIndicator" type="xsd:boolean"/>
 	<xsd:element name="SpecialServiceInstructions" type="xsd:string"/>
@@ -853,6 +861,7 @@
 	<xsd:element name="TradingRestrictions" type="xsd:string"/>
 	<xsd:element name="TrainID" type="xsd:string"/>
 	<xsd:element name="TransactionCurrencyTaxAmount" type="AmountType"/>
+	<xsd:element name="TransportCost" type="AmountType"/>
 	<xsd:element name="TransitDirectionCode" type="CodeType"/>
 	<xsd:element name="TransportAuthorizationCode" type="CodeType"/>
 	<xsd:element name="TransportEmergencyCardCode" type="CodeType"/>
