@@ -9,6 +9,8 @@
 package eu.nimble.service.model.ubl.transportexecutionplan;
 
 import java.io.Serializable;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.document.IDocument;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
@@ -91,7 +93,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Table(name = "TRANSPORT_EXECUTION_PLAN_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TransportExecutionPlanType
-    implements Serializable, Equals
+    implements Serializable, Equals, IDocument
 {
 
     private final static long serialVersionUID = 1L;
@@ -116,6 +118,43 @@ public class TransportExecutionPlanType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<TransportExecutionPlanTypeNoteItem> noteItems;
+
+    @Override
+	@Transient
+    public String getSellerPartyId() {
+        return transportServiceProviderParty.getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getSellerPartyName() {
+        return transportServiceProviderParty.getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String getBuyerPartyId() {
+        return transportUserParty.getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getBuyerPartyName() {
+        return transportUserParty.getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String isAccepted() {
+        return documentStatusCode.getName();
+    }
+
+    @Override
+	@Transient
+    public ItemType getItemType() {
+        return null;
+    }
+
 
     /**
      * 

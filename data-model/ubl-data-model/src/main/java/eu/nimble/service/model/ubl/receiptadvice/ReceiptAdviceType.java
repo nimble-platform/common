@@ -9,6 +9,8 @@
 package eu.nimble.service.model.ubl.receiptadvice;
 
 import java.io.Serializable;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.document.IDocument;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +92,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Table(name = "RECEIPT_ADVICE_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ReceiptAdviceType
-    implements Serializable, Equals
+    implements Serializable, Equals, IDocument
 {
 
     private final static long serialVersionUID = 1L;
@@ -114,6 +116,43 @@ public class ReceiptAdviceType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<ReceiptAdviceTypeNoteItem> noteItems;
+
+    @Override
+	@Transient
+    public String getSellerPartyId() {
+        return despatchSupplierParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getSellerPartyName() {
+        return despatchSupplierParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String getBuyerPartyId() {
+        return deliveryCustomerParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getBuyerPartyName() {
+        return deliveryCustomerParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String isAccepted() {
+        return null;
+    }
+
+    @Override
+	@Transient
+    public ItemType getItemType() {
+        return receiptLine.get(0).getItem();
+    }
+
 
     /**
      * Gets the value of the id property.
