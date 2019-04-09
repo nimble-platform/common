@@ -4,7 +4,6 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY cbc "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#" >
@@ -17,9 +16,57 @@
      xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:xml="http://www.w3.org/XML/1998/namespace">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <owl:Ontology rdf:about="http://www.nimble-project.org/catalogue#"/>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#code -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#code">
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+    </owl:AnnotationProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#hasCodeList -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#hasCodeList">
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
+    </owl:AnnotationProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#hasUnitList -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnitList">
+        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+    </owl:AnnotationProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#isHiddenOnUI -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#isHiddenOnUI">
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:AnnotationProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#value -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#value"/>
 
 
 
@@ -34,27 +81,56 @@
 
 
 
-    <!-- http://www.nimble-project.org/catalogue#hasCode -->
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#hasLength -->
 
-    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasCode">
-        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
-        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+    <owl:ObjectProperty rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#hasLength">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">Length</rdfs:label>
+        <rdfs:label xml:lang="es">Longitud</rdfs:label>
+        <isHiddenOnUI rdf:datatype="&xsd;boolean">true</isHiddenOnUI>
+        <rdfs:comment xml:lang="en">Length of the element. The standard order when defining the dimensions of an object is: Length (L) x Width (W) x Height (H).</rdfs:comment>
+        <rdfs:comment xml:lang="es">Longitud del elemento. El orden estándar para indicar las dimensiones de un elemento son: Longitud (L) x Anchura (W) x Altura (H).</rdfs:comment>
+        <hasUnitList rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList"/>
+        <unitCode>dm</unitCode>
+        <rdfs:range rdf:resource="&cbc;QuantityType"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#AssemblyComplement"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Component"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Equipment"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#FurnitureComplement"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#HomeTextile"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Machine"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Material"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Nut"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#PieceOfFurniture"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Screw"/>
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Washer"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
     </owl:ObjectProperty>
 
 
 
-    <!-- http://www.nimble-project.org/catalogue#hasCodeList -->
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#truckLoad -->
 
-    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasCodeList">
-        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
-    </owl:ObjectProperty>
-
-
-
-    <!-- http://www.nimble-project.org/catalogue#hasUnitList -->
-
-    <owl:ObjectProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnitList">
-        <rdfs:range rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+    <owl:ObjectProperty rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#truckLoad">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">Truck Load</rdfs:label>
+        <rdfs:label xml:lang="es">Carga del Camión</rdfs:label>
+        <isHiddenOnUI rdf:datatype="&xsd;boolean">false</isHiddenOnUI>
+        <hasCodeList rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#TruckLoadList"/>
+        <code rdf:resource="http://www.nimble-project.org/catalogue#LessThanTruckLoad"></code>
+        <rdfs:range rdf:resource="&cbc;CodeType"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Product"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
     </owl:ObjectProperty>
 
 
@@ -70,49 +146,32 @@
 
 
 
-    <!-- http://www.nimble-project.org/catalogue#hasUnit -->
-
-    <owl:DatatypeProperty rdf:about="http://www.nimble-project.org/catalogue#hasUnit">
-        <rdfs:range rdf:resource="&xsd;normalizedString"/>
-    </owl:DatatypeProperty>
-
-
-
     <!-- http://www.nimble-project.org/catalogue#id -->
 
-    <owl:DatatypeProperty rdf:about="http://www.nimble-project.org/catalogue#id">
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#id">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
-    </owl:DatatypeProperty>
+    </owl:AnnotationProperty>
 
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCode -->
 
-    <owl:DatatypeProperty rdf:about="&cbc;unitCode">
+    <owl:AnnotationProperty rdf:about="&cbc;unitCode">
         <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
-        <rdfs:range rdf:resource="&xsd;normalizedString"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
-    </owl:DatatypeProperty>
-
-
-
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCodeListID -->
-
-    <owl:DatatypeProperty rdf:about="&cbc;unitCodeListID">
         <rdfs:range rdf:resource="&xsd;normalizedString"/>
-        <rdfs:domain rdf:resource="&cbc;QuantityType"/>
-    </owl:DatatypeProperty>
+    </owl:AnnotationProperty>
 
 
 
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#value -->
 
-    <owl:DatatypeProperty rdf:about="&cbc;value">
+    <owl:AnnotationProperty rdf:about="&cbc;value">
         <rdfs:range rdf:resource="&xsd;decimal"/>
         <rdfs:domain rdf:resource="&cbc;QuantityType"/>
-    </owl:DatatypeProperty>
+    </owl:AnnotationProperty>
 
 
 
@@ -124,6 +183,78 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#AssemblyComplement -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#AssemblyComplement"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Component -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Component"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Equipment -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Equipment"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#FurnitureComplement -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#FurnitureComplement"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#HomeTextile -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#HomeTextile"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Machine -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Machine"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Material -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Material"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Nut -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Nut"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#PieceOfFurniture -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#PieceOfFurniture"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Product -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Product"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Screw -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Screw"/>
+
+
+
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#Washer -->
+
+    <owl:Class rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#Washer"/>
 
 
 
@@ -151,6 +282,12 @@
 
 
 
+    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#CodeType -->
+
+    <owl:Class rdf:about="&cbc;CodeType"/>
+
+
+
     <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#QuantityType -->
 
     <owl:Class rdf:about="&cbc;QuantityType"/>
@@ -168,19 +305,9 @@
 
 
 
-    <!-- http://www.nimble-project.org/catalogue#FullTruckLoad -->
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList -->
 
-    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#FullTruckLoad">
-        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
-        <rdfs:label xml:lang="en">FTL-Full truck load</rdfs:label>
-        <rdfs:label xml:lang="es">Carga completa</rdfs:label>
-    </owl:NamedIndividual>
-
-
-
-    <!-- http://www.nimble-project.org/catalogue#LenghtUnitList -->
-
-    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#LenghtUnitList">
+    <owl:NamedIndividual rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList">
         <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
         <id rdf:datatype="&xsd;normalizedString">LengthUnitListId</id>
         <cbc:unitCode rdf:datatype="&xsd;normalizedString">cm</cbc:unitCode>
@@ -190,17 +317,37 @@
 
 
 
+    <!-- http://www.aidimme.es/FurnitureSectorOntology.owl#TruckLoadList -->
+
+    <owl:NamedIndividual rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#TruckLoadList">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeList"/>
+        <code rdf:resource="http://www.nimble-project.org/catalogue#FullTruckLoad"/>
+        <code rdf:resource="http://www.nimble-project.org/catalogue#PartialTruckLoad"/>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#FullTruckLoad -->
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#LessThanTruckLoad">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+        <rdfs:label xml:lang="en">LTL-Less-than truck load</rdfs:label>
+        <value>LessThanTruckLoad</value>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#FullTruckLoad">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+        <value></value>
+    </owl:NamedIndividual>
+
     <!-- http://www.nimble-project.org/catalogue#PartialTruckLoad -->
 
     <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#PartialTruckLoad">
         <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
     </owl:NamedIndividual>
-
-
-
-    <!-- http://www.nimble-project.org/catalogue#TruckLoadList -->
-
-    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#TruckLoadList">
-        <hasCode rdf:resource="http://www.nimble-project.org/catalogue#FullTruckLoad"/>
-    </owl:NamedIndividual>
 </rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
