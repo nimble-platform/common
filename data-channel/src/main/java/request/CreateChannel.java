@@ -31,7 +31,8 @@ public class CreateChannel {
         private Request() {
         }
 
-        public Request(String businessProcessID, String sellerCompanyID, String buyerCompanyID, String description) {
+        //to mantain backward compatibility i change order of argument---> in catalog service it is used in this order .buyerId, consumerIds,desc, processInstanceId
+        public Request(String buyerCompanyID, String sellerCompanyID, String description, String businessProcessID) {
             this.businessProcessID = businessProcessID;
             this.sellerCompanyID = sellerCompanyID;
             this.buyerCompanyID = buyerCompanyID;
