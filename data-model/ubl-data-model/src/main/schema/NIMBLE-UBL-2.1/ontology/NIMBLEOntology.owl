@@ -56,11 +56,26 @@
 
 
 
+    <!-- http://www.nimble-project.org/catalogue#id -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#id">
+        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
+        <rdfs:range rdf:resource="&xsd;normalizedString"/>
+    </owl:AnnotationProperty>
+
+
+
     <!-- http://www.nimble-project.org/catalogue#isHiddenOnUI -->
 
     <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#isHiddenOnUI">
         <rdfs:range rdf:resource="&xsd;boolean"/>
     </owl:AnnotationProperty>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#unitCode -->
+
+    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#unitCode"/>
 
 
 
@@ -90,8 +105,8 @@
         <isHiddenOnUI rdf:datatype="&xsd;boolean">true</isHiddenOnUI>
         <rdfs:comment xml:lang="en">Length of the element. The standard order when defining the dimensions of an object is: Length (L) x Width (W) x Height (H).</rdfs:comment>
         <rdfs:comment xml:lang="es">Longitud del elemento. El orden estándar para indicar las dimensiones de un elemento son: Longitud (L) x Anchura (W) x Altura (H).</rdfs:comment>
-        <hasUnitList rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList"/>
         <unitCode>dm</unitCode>
+        <hasUnitList rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList"/>
         <rdfs:range rdf:resource="&cbc;QuantityType"/>
         <rdfs:domain>
             <owl:Class>
@@ -122,7 +137,7 @@
         <rdfs:label xml:lang="es">Carga del Camión</rdfs:label>
         <isHiddenOnUI rdf:datatype="&xsd;boolean">false</isHiddenOnUI>
         <hasCodeList rdf:resource="http://www.aidimme.es/FurnitureSectorOntology.owl#TruckLoadList"/>
-        <code rdf:resource="http://www.nimble-project.org/catalogue#LessThanTruckLoad"></code>
+        <code rdf:resource="http://www.nimble-project.org/catalogue#LessThanTruckLoad"/>
         <rdfs:range rdf:resource="&cbc;CodeType"/>
         <rdfs:domain>
             <owl:Class>
@@ -132,46 +147,6 @@
             </owl:Class>
         </rdfs:domain>
     </owl:ObjectProperty>
-
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Data properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-
-
-    <!-- http://www.nimble-project.org/catalogue#id -->
-
-    <owl:AnnotationProperty rdf:about="http://www.nimble-project.org/catalogue#id">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
-        <rdfs:range rdf:resource="&xsd;normalizedString"/>
-    </owl:AnnotationProperty>
-
-
-
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#unitCode -->
-
-    <owl:AnnotationProperty rdf:about="&cbc;unitCode">
-        <rdfs:domain rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
-        <rdfs:domain rdf:resource="&cbc;QuantityType"/>
-        <rdfs:range rdf:resource="&xsd;normalizedString"/>
-    </owl:AnnotationProperty>
-
-
-
-    <!-- urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2#value -->
-
-    <owl:AnnotationProperty rdf:about="&cbc;value">
-        <rdfs:range rdf:resource="&xsd;decimal"/>
-        <rdfs:domain rdf:resource="&cbc;QuantityType"/>
-    </owl:AnnotationProperty>
 
 
 
@@ -310,9 +285,6 @@
     <owl:NamedIndividual rdf:about="http://www.aidimme.es/FurnitureSectorOntology.owl#LengthUnitList">
         <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#UnitList"/>
         <id rdf:datatype="&xsd;normalizedString">LengthUnitListId</id>
-        <cbc:unitCode rdf:datatype="&xsd;normalizedString">cm</cbc:unitCode>
-        <cbc:unitCode rdf:datatype="&xsd;normalizedString">m</cbc:unitCode>
-        <cbc:unitCode rdf:datatype="&xsd;normalizedString">mm</cbc:unitCode>
     </owl:NamedIndividual>
 
 
@@ -329,16 +301,22 @@
 
     <!-- http://www.nimble-project.org/catalogue#FullTruckLoad -->
 
+    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#FullTruckLoad">
+        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
+        <value>FullTruckLoad</value>
+    </owl:NamedIndividual>
+
+
+
+    <!-- http://www.nimble-project.org/catalogue#LessThanTruckLoad -->
+
     <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#LessThanTruckLoad">
         <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
         <rdfs:label xml:lang="en">LTL-Less-than truck load</rdfs:label>
         <value>LessThanTruckLoad</value>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="http://www.nimble-project.org/catalogue#FullTruckLoad">
-        <rdf:type rdf:resource="http://www.nimble-project.org/catalogue#CodeType"/>
-        <value></value>
-    </owl:NamedIndividual>
+
 
     <!-- http://www.nimble-project.org/catalogue#PartialTruckLoad -->
 
