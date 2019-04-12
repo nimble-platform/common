@@ -3,6 +3,7 @@ package eu.nimble.service.model.solr;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.SolrPageRequest;
 
@@ -21,7 +22,8 @@ public class Search {
 	private int rows = ROWS;
 	private int start = START;
 	private FacetedSearch facet;
-	
+	private List<String> sort;
+
 	public Search() {
 		// default
 	}
@@ -36,7 +38,13 @@ public class Search {
 		this(query, filter);
 		this.facet = new FacetedSearch(facets);
 	}
-	
+
+	public Search(String query, List<String> filter, List<String> facets, List<String> sort) {
+		this(query, filter);
+		this.sort = sort;
+		this.facet = new FacetedSearch(facets);
+	}
+
 	public Search query(String query) {
 		this.query = query;
 		return this;
@@ -55,6 +63,7 @@ public class Search {
 		facet.addFacet(field);
 		return this;
 	}
+
 	public Search facetMinCount(int minCount) {
 		if ( facet == null ) {
 			facet = new FacetedSearch();
@@ -83,7 +92,12 @@ public class Search {
 	public void setQuery(String query) {
 		this.query = query;
 	}
-	
+
+	@JsonProperty(value="sort")
+	public List<String> getSort() { return sort; }
+	@JsonProperty(value="sort")
+	public void setSort(List<String> sort) { this.sort = sort; }
+
 	@JsonProperty(value="fq")
 	public List<String> getFilterQuery() {
 		return filterQuery;
