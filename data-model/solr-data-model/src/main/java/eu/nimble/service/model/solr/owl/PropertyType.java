@@ -42,6 +42,9 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=IS_FACET_FIELD)
 	private boolean facet = true;
+
+	@Indexed(required=false, name=IS_HIDDEN_ON_UI_FIELD)
+	private boolean hiddenOnUI = false;
 	
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
@@ -160,6 +163,14 @@ public class PropertyType extends Concept implements IPropertyType {
 	@JsonIgnore
 	public boolean isFacet() {
 		return facet;
+	}
+
+	public void setHiddenOnUI(boolean hiddenOnUI) {
+		this.hiddenOnUI = hiddenOnUI;
+	}
+
+	public boolean isHiddenOnUI() {
+		return hiddenOnUI;
 	}
 
 	public void setFacet(boolean facet) {
