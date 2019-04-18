@@ -25,6 +25,7 @@ public class DataModelUtility {
         party.setCertificate(null);
         party.setContact(null);
         party.setDocumentReference(null);
+        party.setIndustryClassification(null);
         party.setIndustryClassificationCode(null);
         party.setIndustrySector(null);
         party.setMostRecentItemsClassificationCode(null);
@@ -66,6 +67,7 @@ public class DataModelUtility {
         targetParty.setCertificate(sourceParty.getCertificate());
         targetParty.setContact(sourceParty.getContact());
         targetParty.setDocumentReference(sourceParty.getDocumentReference());
+        targetParty.setIndustryClassification(sourceParty.getIndustryClassification());
         targetParty.setIndustryClassificationCode(sourceParty.getIndustryClassificationCode());
         targetParty.setIndustrySector(sourceParty.getIndustrySector());
         targetParty.setMostRecentItemsClassificationCode(sourceParty.getMostRecentItemsClassificationCode());

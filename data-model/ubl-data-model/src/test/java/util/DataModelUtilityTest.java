@@ -5,7 +5,10 @@ import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.soap.Text;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.List;
  * Created by suat on 25-Sep-18.
  */
 public class DataModelUtilityTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(DataModelUtilityTest.class);
 
     @Test
     public void nullifyPartyFields() throws IllegalAccessException {
@@ -57,7 +62,9 @@ public class DataModelUtilityTest {
             f.setAccessible(false);
         }
 
-        Assert.assertTrue(copiedFields.containsAll(fieldNames) && fieldNames.containsAll(copiedFields));
+        if(!(copiedFields.containsAll(fieldNames) && fieldNames.containsAll(copiedFields))) {
+            Assert.fail("Not all the fields in the PartyType are copied");
+        }
     }
 
     private PartyType createEmptyParty() {
@@ -80,6 +87,8 @@ public class DataModelUtilityTest {
         party.setDocumentReference(new ArrayList<>());
         party.setExternalAward("award");
         party.setFederationInstanceID("fedid");
+        TextType industryClassification = new TextType();
+        party.setIndustryClassification(industryClassification);
         party.setIndustryClassificationCode(new CodeType());
         party.setMostRecentItemsClassificationCode(new ArrayList<>());
         party.setIndustrySector(new ArrayList<>());

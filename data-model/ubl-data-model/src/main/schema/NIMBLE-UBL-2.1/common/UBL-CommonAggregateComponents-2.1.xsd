@@ -729,6 +729,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
+			<xsd:element ref="cbc:IndustryClassification" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
