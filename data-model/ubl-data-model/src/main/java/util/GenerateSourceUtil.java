@@ -3,7 +3,6 @@ package util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Column;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,31 @@ import java.util.regex.Pattern;
 public class GenerateSourceUtil {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    final private String partyTypeRegex = "@ManyToOne.targetEntity = PartyType.class,.*public PartyType";
-    final private String cascadeRegex = "@Cascade.*DELETE_ORPHAN.*@OneToMany.";
+    final private String regex_party_relations = "@ManyToOne.targetEntity = PartyType.class,.*public PartyType";
+    final private String regex_onetomanys_with_orphan_removal = "@Cascade.*DELETE_ORPHAN.*@OneToMany.";
+    final private String regex_onetoones_with_orphan_removal = "@Cascade.*DELETE_ORPHAN.*@OneToOne.";
     final private String regex_transientListsWithOrphanRemovals = "@Cascade.*\\s*.*DELETE_ORPHAN\\s*.*\\s+@Transient\\s*.*List.*";
     final private String regex_transientListDefs = "protected transient List.*";
     final private String regex_builtInListWithOrm = "target.*\\s+.*\\s+.*\\s+.*\\s+.*";
+
+    final private String regex_bp_documents = "public class (ReceiptAdviceType|QuotationType|ItemInformationResponseType|TransportExecutionPlanType|PpapResponseType|OrderResponseSimpleType|OrderType|PpapRequestType|RequestForQuotationType|DespatchAdviceType|TransportExecutionPlanRequestType|ItemInformationRequestType)\\s+implements Serializable, Equals";
+
+    final private String regex_order_note_items = "protected transient List<OrderTypeNoteItem> noteItems;";
+    final private String regex_order_response_simple_note_items = "protected transient List<OrderResponseSimpleTypeNoteItem> noteItems;";
+    final private String regex_request_for_quotation_note_items = "protected transient List<RequestForQuotationTypeNoteItem> noteItems;";
+    final private String regex_quotation_note_items = "protected transient List<QuotationTypeNoteItem> noteItems;";
+    final private String regex_ppap_request_document_type_items = "protected transient List<PpapRequestTypeDocumentTypeItem> documentTypeItems;";
+    final private String regex_ppap_response_note_items = "protected transient List<PpapResponseTypeNoteItem> noteItems;";
+    final private String regex_despatch_advice_note_items = "protected transient List<DespatchAdviceTypeNoteItem> noteItems;";
+    final private String regex_receipt_advice_note_items = "protected transient List<ReceiptAdviceTypeNoteItem> noteItems;";
+    final private String regex_transport_execution_plan_requet_note_items = "protected transient List<TransportExecutionPlanRequestTypeNoteItem> noteItems;";
+    final private String regex_transport_execution_plan_note_items = "protected transient List<TransportExecutionPlanTypeNoteItem> noteItems;";
+    final private String regex_item_information_request_note_items = "protected transient List<ItemInformationRequestTypeNoteItem> noteItems;";
+    final private String regex_item_information_response_note_items = "protected transient List<ItemInformationResponseTypeNoteItem> noteItems;";
+
+    final private String regex_import_serializable = "import java.io.Serializable;";
+    final private String imports_IDocument = "import eu.nimble.service.model.ubl.commonaggregatecomponents.*;\n" +
+            "import eu.nimble.service.model.ubl.document.IDocument;";
 
     public static void main(String [] args){
         GenerateSourceUtil generateSourceUtil = new GenerateSourceUtil();
@@ -38,9 +57,11 @@ public class GenerateSourceUtil {
                 String fileContent = getFileContent(file);
                 FileUpdate fileUpdate = new FileUpdate();
                 fileUpdate.setContent(fileContent);
-                searchRegex(fileUpdate);
+                removeRemoveCascadesFromPartyTypes(fileUpdate);
+                upgradeDeprecatedOrphanRemovalAnnotations(fileUpdate);
                 removeOrphanRemovalFromTransientLists(fileUpdate);
                 addOrphanRemovalsToTransientLists(fileUpdate);
+                extendDocumentsWithIDocumentImplementations(fileUpdate);
 
                 if(file.getName().contentEquals("TextType.java")) {
                     updateTextTypeValueField(fileUpdate);
@@ -54,31 +75,594 @@ public class GenerateSourceUtil {
         }
     }
 
-    public void searchRegex(FileUpdate fileUpdate){
+    private void extendDocumentsWithIDocumentImplementations(FileUpdate fileUpdate){
         try {
             String fileText = fileUpdate.getContent();
-            Pattern p = Pattern.compile(partyTypeRegex,Pattern.DOTALL);
-            Pattern p2 = Pattern.compile(cascadeRegex,Pattern.DOTALL);
+            Pattern p = Pattern.compile(regex_bp_documents,Pattern.DOTALL);
             Matcher m = p.matcher(fileText);
-            Matcher m2 = p2.matcher(fileText);
 
-            boolean firstFound = m.find();
-            boolean secondFound = m2.find();
+            // find (request/response) Bp Documents
+            if(m.find()){
+                String group = m.group();
+                // implement IDocument
+                String newGroup = group +", IDocument";
+                fileText = fileText.replace(group,newGroup);
+
+                fileUpdate.setFileUpdated(true);
+                fileUpdate.setContent(fileText);
+
+                if(group.contains("OrderType")){
+                    p = Pattern.compile(regex_order_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_order_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return orderLine.get(0).getLineItem().getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("PpapRequestType")){
+                    p = Pattern.compile(regex_ppap_request_document_type_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_ppap_request_document_type_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return lineItem.getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("RequestForQuotationType")){
+                    p = Pattern.compile(regex_request_for_quotation_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_request_for_quotation_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return requestForQuotationLine.get(0).getLineItem().getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("DespatchAdviceType")){
+                    p = Pattern.compile(regex_despatch_advice_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_despatch_advice_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return despatchSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return despatchSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return deliveryCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return deliveryCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return despatchLine.get(0).getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("TransportExecutionPlanRequestType")){
+                    p = Pattern.compile(regex_transport_execution_plan_requet_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_transport_execution_plan_requet_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return transportServiceProviderParty.getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return transportServiceProviderParty.getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return transportUserParty.getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return transportUserParty.getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return mainTransportationService;\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("ItemInformationRequestType")){
+                    p = Pattern.compile(regex_item_information_request_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_item_information_request_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return itemInformationRequestLine.get(0).getSalesItem().get(0).getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("OrderResponseSimpleType")){
+                    p = Pattern.compile(regex_order_response_simple_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_order_response_simple_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return Boolean.toString(acceptedIndicator);\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return null;\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("PpapResponseType")){
+                    p = Pattern.compile(regex_ppap_response_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_ppap_response_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return Boolean.toString(acceptedIndicator);\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return null;\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("TransportExecutionPlanType")){
+                    p = Pattern.compile(regex_transport_execution_plan_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_transport_execution_plan_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return transportServiceProviderParty.getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return transportServiceProviderParty.getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return transportUserParty.getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return transportUserParty.getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return documentStatusCode.getName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return null;\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("ItemInformationResponseType")){
+                    p = Pattern.compile(regex_item_information_response_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_item_information_response_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "    \n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType(){\n" +
+                                "        return item.get(0);\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("QuotationType")){
+                    p = Pattern.compile(regex_quotation_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        newGroup = regex_quotation_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return sellerSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return buyerCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return quotationLine.get(0).getLineItem().getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+                else if(group.contains("ReceiptAdviceType")){
+                    p = Pattern.compile(regex_receipt_advice_note_items,Pattern.DOTALL);
+                    m = p.matcher(fileText);
+                    // implement methods
+                    if(m.find()){
+                        group = m.group();
+                        // first replace the annotations with full package names
+                        newGroup = regex_receipt_advice_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getSellerPartyId() {\n" +
+                                "        return despatchSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getSellerPartyName() {\n" +
+                                "        return despatchSupplierParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getBuyerPartyId() {\n" +
+                                "        return deliveryCustomerParty.getParty().getPartyIdentification().get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<PartyNameType> getBuyerPartyName() {\n" +
+                                "        return deliveryCustomerParty.getParty().getPartyName();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String isAccepted() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public ItemType getItemType() {\n" +
+                                "        return receiptLine.get(0).getItem();\n" +
+                                "    }\n";
+                        fileText = fileText.replace(group,newGroup);
+
+                        fileUpdate.setFileUpdated(true);
+                        fileUpdate.setContent(fileText);
+                    }
+                }
+
+                p = Pattern.compile(regex_import_serializable,Pattern.DOTALL);
+                m = p.matcher(fileText);
+                // add import statements
+                if(m.find()){
+                    group = m.group();
+                    newGroup = regex_import_serializable + "\n" + imports_IDocument;
+                    fileText = fileText.replace(group,newGroup);
+
+                    fileUpdate.setFileUpdated(true);
+                    fileUpdate.setContent(fileText);
+                }
+            }
+        }
+        catch (Exception e){
+            throw new RuntimeException("Failed to extend documents with IDocument:",e);
+        }
+    }
+
+    private void removeRemoveCascadesFromPartyTypes(FileUpdate fileUpdate) {
+        try {
+            String fileText = fileUpdate.getContent();
+            Pattern p = Pattern.compile(regex_party_relations,Pattern.DOTALL);
+            Matcher m = p.matcher(fileText);
+
             // now try to find at least one match
-            if (firstFound){
+            if (m.find()){
                 String group = m.group();
                 // first replace the annotations with full package names
                 String newGroup = group.replace("javax.persistence.CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
                 // in case the annotations do not have full package names, the line below has effect
                 newGroup = newGroup.replace("CascadeType.ALL","javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH");
                 fileText = fileText.replace(group,newGroup);
+
+                fileUpdate.setFileUpdated(true);
+                fileUpdate.setContent(fileText);
             }
-            if(secondFound){
+        }
+        catch (Exception e){
+            throw new RuntimeException("Failed to change cascade type of parties",e);
+        }
+    }
+
+    public void upgradeDeprecatedOrphanRemovalAnnotations(FileUpdate fileUpdate){
+        try {
+            String fileText = fileUpdate.getContent();
+            Pattern p = Pattern.compile(regex_onetomanys_with_orphan_removal,Pattern.DOTALL);
+            Pattern p2 = Pattern.compile(regex_onetoones_with_orphan_removal,Pattern.DOTALL);
+            Matcher m = p.matcher(fileText);
+            Matcher m2 = p2.matcher(fileText);
+
+            if (m.find() || m2.find()){
                 fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToMany.","@OneToMany(orphanRemoval = true,");
                 fileText = fileText.replaceAll("@Cascade.+\\s+org.hibernate.annotations.CascadeType.DELETE_ORPHAN\\s+.+\\s+@OneToOne.","@OneToOne(orphanRemoval = true,");
-            }
 
-            if(firstFound || secondFound){
                 fileUpdate.setFileUpdated(true);
                 fileUpdate.setContent(fileText);
             }

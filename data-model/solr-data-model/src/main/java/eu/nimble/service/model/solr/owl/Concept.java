@@ -32,7 +32,8 @@ public class Concept implements IConcept {
 
 	@Indexed(name=LANGUAGES_FIELD)
 	protected Collection<String> languages;
-	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, ALL_LABEL_FIELD, TEXT_FIELD})
+
+	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
 	@Dynamic
 	protected Map<String, String> label;
 	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
@@ -70,6 +71,7 @@ public class Concept implements IConcept {
 		c.setLocalName(other.getLocalName());
 		return c;
 	}
+
 	/**
 	 * Getter for the languages in use, the list is maintained by the add... methods
 	 */
@@ -119,7 +121,7 @@ public class Concept implements IConcept {
 	 * Helper method for adding alternate multilingual label to the concept. Multiple labels per language are stored.
 	 * This method maintains the list of languages in use, see {@link #getLanguages()}
 	 * @param language The language code such as <i>en</i>, <i>es</i>
-	 * @param label The respective label
+	 * @param alternate The respective label
 	 */
 	public void addAlternateLabel(String language, String alternate) {
 		if (this.alternateLabel ==null) {
@@ -136,7 +138,7 @@ public class Concept implements IConcept {
 	 * Helper method for adding hidden multilingual label to the concept. Multiple labels per language are stored.
 	 * This method maintains the list of languages in use, see {@link #getLanguages()}
 	 * @param language The language code such as <i>en</i>, <i>es</i>
-	 * @param label The respective label
+	 * @param alternate The respective label
 	 */
 	public void addHiddenLabel(String language, String alternate) {
 		if (this.hiddenLabel ==null) {

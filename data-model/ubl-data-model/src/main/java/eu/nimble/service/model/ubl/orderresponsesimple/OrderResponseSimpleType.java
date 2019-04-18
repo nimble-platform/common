@@ -9,6 +9,8 @@
 package eu.nimble.service.model.ubl.orderresponsesimple;
 
 import java.io.Serializable;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.document.IDocument;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,7 +94,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Table(name = "ORDER_RESPONSE_SIMPLE_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class OrderResponseSimpleType
-    implements Serializable, Equals
+    implements Serializable, Equals, IDocument
 {
 
     private final static long serialVersionUID = 1L;
@@ -118,6 +120,43 @@ public class OrderResponseSimpleType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<OrderResponseSimpleTypeNoteItem> noteItems;
+
+    @Override
+	@Transient
+    public String getSellerPartyId() {
+        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getSellerPartyName() {
+        return sellerSupplierParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String getBuyerPartyId() {
+        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getBuyerPartyName() {
+        return buyerCustomerParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String isAccepted() {
+        return Boolean.toString(acceptedIndicator);
+    }
+
+    @Override
+	@Transient
+    public ItemType getItemType() {
+        return null;
+    }
+
 
     /**
      * Gets the value of the id property.

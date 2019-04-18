@@ -9,6 +9,8 @@
 package eu.nimble.service.model.ubl.iteminformationrequest;
 
 import java.io.Serializable;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.document.IDocument;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -102,7 +104,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Table(name = "ITEM_INFORMATION_REQUEST_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ItemInformationRequestType
-    implements Serializable, Equals
+    implements Serializable, Equals, IDocument
 {
 
     private final static long serialVersionUID = 1L;
@@ -130,6 +132,43 @@ public class ItemInformationRequestType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<ItemInformationRequestTypeNoteItem> noteItems;
+
+    @Override
+	@Transient
+    public String getSellerPartyId() {
+        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getSellerPartyName() {
+        return sellerSupplierParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String getBuyerPartyId() {
+        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getBuyerPartyName() {
+        return buyerCustomerParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String isAccepted() {
+        return null;
+    }
+
+    @Override
+	@Transient
+    public ItemType getItemType() {
+        return itemInformationRequestLine.get(0).getSalesItem().get(0).getItem();
+    }
+
 
     /**
      * 
@@ -265,7 +304,7 @@ public class ItemInformationRequestType
     @OneToMany(orphanRemoval = true,targetEntity = DocumentReferenceType.class, cascade = {
         javax.persistence.CascadeType.ALL
     })
-    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_4")
+    @JoinColumn(name = "ADDITIONAL_DOCUMENT_REFERENC_1")
     public List<DocumentReferenceType> getAdditionalDocumentReference() {
         if (additionalDocumentReference == null) {
             additionalDocumentReference = new ArrayList<DocumentReferenceType>();

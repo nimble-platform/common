@@ -9,6 +9,8 @@
 package eu.nimble.service.model.ubl.ppapresponse;
 
 import java.io.Serializable;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.document.IDocument;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
@@ -82,7 +84,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Table(name = "PPAP_RESPONSE_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PpapResponseType
-    implements Serializable, Equals
+    implements Serializable, Equals, IDocument
 {
 
     private final static long serialVersionUID = 1L;
@@ -105,6 +107,43 @@ public class PpapResponseType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<PpapResponseTypeNoteItem> noteItems;
+
+    @Override
+	@Transient
+    public String getSellerPartyId() {
+        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getSellerPartyName() {
+        return sellerSupplierParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String getBuyerPartyId() {
+        return buyerCustomerParty.getParty().getPartyIdentification().get(0).getID();
+    }
+
+    @Override
+	@Transient
+    public List<PartyNameType> getBuyerPartyName() {
+        return buyerCustomerParty.getParty().getPartyName();
+    }
+
+    @Override
+	@Transient
+    public String isAccepted() {
+        return Boolean.toString(acceptedIndicator);
+    }
+
+    @Override
+	@Transient
+    public ItemType getItemType() {
+        return null;
+    }
+
 
     /**
      * Gets the value of the id property.

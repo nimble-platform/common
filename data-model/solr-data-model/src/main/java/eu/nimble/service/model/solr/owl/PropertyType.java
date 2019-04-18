@@ -42,19 +42,66 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=IS_FACET_FIELD)
 	private boolean facet = true;
+
+	@Indexed(required=false, name=IS_HIDDEN_ON_UI_FIELD)
+	private boolean hiddenOnUI = false;
 	
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
 	
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
-	
+
+	@Indexed(required=false, name=UNITS_TYPE_FIELD)
+	private String unitsType;
+
+	@Indexed(required=false, name=UNITS_TYPES_LIST_FIELD)
+	private Collection<String> unitsTypeList;
+
+	@Indexed(required=false, name=VALUE_CODE__FIELD)
+	private String valueCode;
+
+	@Indexed(required=false, name= VALUE_CODES_LIST_FIELD)
+	private Collection<String> valueCodesList;
+
 	public String getPropertyType() {
 		return propertyType;
 	}
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
+	}
+
+	public String getUnitsType() {
+		return unitsType;
+	}
+
+	public void setUnitsType(String unitsType) {
+		this.unitsType = unitsType;
+	}
+
+	public Collection<String> getUnitsTypeList() {
+		return unitsTypeList;
+	}
+
+	public void setUnitsTypeList(Collection<String> unitsTypeList) {
+		this.unitsTypeList = unitsTypeList;
+	}
+
+    public String getValueCode() {
+        return valueCode;
+    }
+
+    public void setValueCode(String valueCode) {
+        this.valueCode = valueCode;
+    }
+
+    public Collection<String> getValueCodesList() {
+		return valueCodesList;
+	}
+
+	public void setValueCodesList(Collection<String> valueCodesList) {
+		this.valueCodesList = valueCodesList;
 	}
 
 	public String getRange() {
@@ -116,6 +163,14 @@ public class PropertyType extends Concept implements IPropertyType {
 	@JsonIgnore
 	public boolean isFacet() {
 		return facet;
+	}
+
+	public void setHiddenOnUI(boolean hiddenOnUI) {
+		this.hiddenOnUI = hiddenOnUI;
+	}
+
+	public boolean isHiddenOnUI() {
+		return hiddenOnUI;
 	}
 
 	public void setFacet(boolean facet) {
