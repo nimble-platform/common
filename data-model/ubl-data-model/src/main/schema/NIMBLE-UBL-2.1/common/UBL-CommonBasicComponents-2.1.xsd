@@ -219,6 +219,7 @@
 	<xsd:element name="DescriptionCode" type="CodeType"/>
 	<xsd:element name="DespatchAdviceTypeCode" type="CodeType"/>
 	<xsd:element name="DifferenceTemperatureReductionQuantity" type="QuantityType"/>
+	<xsd:element name="DigitalAgreementConfirmed" type="xsd:boolean"/>
 	<xsd:element name="DirectionCode" type="CodeType"/>
 	<xsd:element name="DisplayTacticTypeCode" type="CodeType"/>
 	<xsd:element name="DispositionCode" type="CodeType"/>
@@ -397,7 +398,7 @@
 	<xsd:element name="LegalStatusIndicator" type="xsd:boolean"/>
 	<xsd:element name="LiabilityAmount" type="AmountType"/>
 	<xsd:element name="LicensePlateID" type="xsd:string"/>
-	<xsd:element name="LifeCycleLength" type="QuantityType"/>	
+	<xsd:element name="LifeCycleLength" type="QuantityType"/>
 	<xsd:element name="LifeCycleStatusCode" type="CodeType"/>
 	<xsd:element name="LimitationDescription" type="xsd:decimal"/>
 	<xsd:element name="Line" type="xsd:string"/>

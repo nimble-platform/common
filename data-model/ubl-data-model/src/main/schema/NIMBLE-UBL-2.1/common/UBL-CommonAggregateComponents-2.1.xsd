@@ -35,6 +35,8 @@
 	<xsd:element name="DespatchDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="DespatchLine" type="DespatchLineType"/>
 	<xsd:element name="DespatchSupplierParty" type="SupplierPartyType"/>
+	<xsd:element name="DigitalProcess" type="DigitalProcessType"/>	
+	<xsd:element name="DigitalAgreementTerms" type="DigitalAgreementTermsType"/>
 	<xsd:element name="Dimension" type="DimensionType"/>
 	<xsd:element name="DocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="EnvironmentalEmission" type="EnvironmentalEmissionType"/>
@@ -62,6 +64,7 @@
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
+	<xsd:element name="ParticipantParty" type="PartyType"/>
 	<xsd:element name="Party" type="PartyType"/>
 	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>
 	<xsd:element name="PartyName" type="PartyNameType"/>
@@ -350,6 +353,14 @@
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DigitalAgreementTermsType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Description"/>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DigitalProcessType">
 	</xsd:complexType>
 	<xsd:complexType name="DimensionType">
 		<xsd:sequence>
@@ -1548,6 +1559,5 @@
 			<xsd:element ref="cbc:ValueQuantity"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPAOutputType">
-	</xsd:complexType>
+	<xsd:complexType name="LCPAOutputType"/>
 </xsd:schema>
