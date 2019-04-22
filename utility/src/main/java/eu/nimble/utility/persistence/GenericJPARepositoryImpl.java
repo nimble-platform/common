@@ -40,7 +40,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             entity = em.find(klass, hjid);
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to get single entity result by hjid",e);
         }finally {
             em.close();
@@ -60,7 +62,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
         } catch (NoResultException e){
             em.getTransaction().commit();
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to get single entity result",e);
         } finally {
             em.close();
@@ -100,7 +104,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             result = query.getResultList();
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to get entities",e);
         }finally {
             em.close();
@@ -118,7 +124,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             results = em.createQuery(String.format(QUERY_SELECT_ALL_BY_CLASS, klass.getName())).getResultList();
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to get entities",e);
         }finally {
             em.close();
@@ -135,7 +143,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             entity = em.merge(entity);
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to update the entity",e);
         }finally {
             em.close();
@@ -155,7 +165,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             em.remove(entity);
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to delete the entity",e);
         }finally {
             em.close();
@@ -179,7 +191,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             em.persist(entity);
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to persist the entity",e);
         }finally {
             em.close();
@@ -197,7 +211,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to persist entities",e);
         }finally {
             em.close();
@@ -214,7 +230,9 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             queryObj.executeUpdate();
             em.getTransaction().commit();
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to execute update query",e);
         }finally {
             em.close();

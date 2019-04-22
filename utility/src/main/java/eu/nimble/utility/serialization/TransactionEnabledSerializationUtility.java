@@ -47,7 +47,9 @@ public class TransactionEnabledSerializationUtility {
             return serializedObject;
 
         }catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to serialize ubl object",e);
         } finally {
             em.close();
