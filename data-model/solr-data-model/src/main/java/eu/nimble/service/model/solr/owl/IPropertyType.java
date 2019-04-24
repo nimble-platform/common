@@ -7,10 +7,20 @@ import org.springframework.data.solr.core.query.Field;
 import org.springframework.data.solr.core.query.SimpleField;
 
 public interface IPropertyType extends IConcept {
+	/**
+	 * Name of the properties collection
+	 */
 	String COLLECTION = "props";
+	/**
+	 * Field pointing to the contained SOLR documents
+	 */
 	String TYPE_FIELD = "doctype";
+	/**
+	 * Value Constant for the contained SOLR documents
+	 */
 	String TYPE_VALUE = "property";
 	String IS_FACET_FIELD = "isFacet";
+	String IS_VISIBLE_FIELD = "isVisible";
 	String BOOST_FIELD = "boost";
 	String RANGE_FIELD = "range";
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
@@ -20,11 +30,8 @@ public interface IPropertyType extends IConcept {
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";
-	String UNITS_TYPE_FIELD = "units";
-	String UNITS_TYPES_LIST_FIELD = "unitsList";
-	String VALUE_CODE__FIELD = "valueCode";
-	String VALUE_CODES_LIST_FIELD = "valueCodesList";
-	String IS_HIDDEN_ON_UI_FIELD = "isHiddenOnUI";
+	String UNITS_FIELD = "units";
+	String VALUE_CODES_FIELD = "valueCodes";
 	/**
 	 * Define the default field list 
 	 * 
@@ -34,6 +41,7 @@ public interface IPropertyType extends IConcept {
 		return new String[] {
 				TYPE_FIELD, 
 				IS_FACET_FIELD, 
+				IS_VISIBLE_FIELD,
 				BOOST_FIELD, 
 				IDX_FIELD_NAME_FIELD,
 				PROPERTY_TYPE_FIELD, 
@@ -48,7 +56,9 @@ public interface IPropertyType extends IConcept {
 				COMMENT_FIELD, 
 				DESCRIPTION_FIELD,
 				RANGE_FIELD,
-				VALUE_QUALIFIER_FIELD
+				VALUE_QUALIFIER_FIELD,
+				VALUE_CODES_FIELD
+				
 		};
 		
 	}
