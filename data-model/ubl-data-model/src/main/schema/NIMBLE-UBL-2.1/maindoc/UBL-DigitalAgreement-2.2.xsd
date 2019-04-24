@@ -97,6 +97,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cac:Item"/>
 			<xsd:element ref="cac:DigitalAgreementTerms" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>
