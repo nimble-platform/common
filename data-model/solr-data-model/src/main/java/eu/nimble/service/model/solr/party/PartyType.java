@@ -46,6 +46,8 @@ public class PartyType extends Concept implements IParty {
 	private Double trustDeliveryPackaging;
 	@Indexed(name=TRUST_NUMBER_OF_TRANSACTIONS_FIELD, type="pdouble")
 	private Double trustNumberOfTransactions;
+	@Indexed(name=TRUST_NUMBER_OF_EVALUATIONS_FIELD, type="pdouble",required=false)
+	private Double trustNumberOfEvaluations;
 	public String getId() {
 		return getUri();
 	}
@@ -142,7 +144,7 @@ public class PartyType extends Concept implements IParty {
 			this.certificateType = null;
 		}
 	}
-	/** 
+	/**
 	 * Helper method for adding a (multilingual) label to the list of certificat types 
 	 * @param language
 	 * @param certificatTypeLabel
@@ -208,6 +210,11 @@ public class PartyType extends Concept implements IParty {
 	public void setTrustNumberOfTransactions(Double trustNumberOfTransactions) {
 		this.trustNumberOfTransactions = trustNumberOfTransactions;
 	}
+	public Double getTrustNumberOfEvaluations() { return trustNumberOfEvaluations; }
+	public void setTrustNumberOfEvaluations(Double trustNumberOfEvaluations) {
+		this.trustNumberOfEvaluations = trustNumberOfEvaluations;
+	}
+
 	public String getLegalName() {
 		return legalName;
 	}

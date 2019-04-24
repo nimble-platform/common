@@ -23,4 +23,5 @@ public interface IParty {
 	public String TRUST_FULFILLMENT_OF_TERMS_FIELD = "trustFullfillmentOfTerms";
 	public String TRUST_DELIVERY_PACKAGING_FIELD = "trustDeliveryPackaging";
 	public String TRUST_NUMBER_OF_TRANSACTIONS_FIELD = "trustNumberOfTransactions";
+	public String TRUST_NUMBER_OF_EVALUATIONS_FIELD = "trustNumberOfEvaluations";
 }
