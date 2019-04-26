@@ -91,24 +91,7 @@ public class Concept implements IConcept {
 	public void setLanguages(Collection<String> languages) {
 		this.languages = languages;
 	}
-	/**
-	 * Getter for the multilingual labels
-	 */
 
-	/**
-	 * Getter for all the labels copied from other fields (*_labels, hidden and alternative fields)
-	 */
-	public Collection<String> getAllLabels() {
-		return allLabels;
-	}
-
-	/**
-	 * Setter for all the labels copied from other fields (*_labels, hidden and alternative fields
-	 * @param allLabels
-	 */
-	public void setAllLabels(Collection<String> allLabels) {
-		this.allLabels = allLabels;
-	}
 	/**
 	 * Getter for the multilingual labels
 	 */
