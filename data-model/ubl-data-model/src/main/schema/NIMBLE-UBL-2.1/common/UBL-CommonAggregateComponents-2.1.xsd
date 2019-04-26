@@ -109,6 +109,7 @@
 	<xsd:element name="TransportServiceProviderParty" type="PartyType"/>
 	<xsd:element name="TransportUserParty" type="PartyType"/>
 	<xsd:element name="TransportationServiceDetails" type="TransportationServiceType"/>
+	<xsd:element name="Value" type="MultiTypeValueType"/>
 	<xsd:element name="WarrantyValidityPeriod" type="PeriodType"/>
 	<xsd:complexType name="AddressType">
 		<xsd:sequence>
@@ -1116,15 +1117,7 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:TradingTermFormat" minOccurs="0"/>
-			<xsd:element ref="cbc:Value" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:appinfo>
-						<annox:annotate>
-							<ha:Cascade value="DELETE_ORPHAN"/>
-						</annox:annotate>
-					</xsd:appinfo>
-				</xsd:annotation>
-			</xsd:element>
+			<xsd:element ref="cac:Value" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TransportEquipmentType">
