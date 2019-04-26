@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(content=Include.NON_EMPTY)
@@ -98,6 +99,7 @@ public class Concept implements IConcept {
 	/**
 	 * Getter for all the labels copied from other fields (*_labels, hidden and alternative fields)
 	 */
+	@JsonIgnore
 	public Collection<String> getAllLabels() {
 		return allLabels;
 	}
