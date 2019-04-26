@@ -6,5 +6,6 @@ public enum ValueQualifier {
 	BOOLEAN,
 	STRING,
 	TEXT,
+	CODE,
 	;
 }

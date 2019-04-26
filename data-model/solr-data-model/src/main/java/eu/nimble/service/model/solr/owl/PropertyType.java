@@ -43,8 +43,8 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name=IS_FACET_FIELD)
 	private boolean facet = true;
 
-	@Indexed(required=false, name=IS_HIDDEN_ON_UI_FIELD)
-	private boolean hiddenOnUI = false;
+	@Indexed(required=false, name=IS_VISIBLE_FIELD)
+	private boolean visible = true;
 	
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
@@ -52,17 +52,17 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
 
-	@Indexed(required=false, name=UNITS_TYPE_FIELD)
-	private String unitsType;
+//	@Indexed(required=false, name=PREFERRED_UNIT_FIELD)
+//	private String preferredUnit;
 
-	@Indexed(required=false, name=UNITS_TYPES_LIST_FIELD)
-	private Collection<String> unitsTypeList;
+	@Indexed(required=false, name=UNITS_FIELD)
+	private Collection<String> units;
 
-	@Indexed(required=false, name=VALUE_CODE__FIELD)
-	private String valueCode;
+//	@Indexed(required=false, name=PEFERRED_VALUE_CODE_FIELD)
+//	private String valueCode;
 
-	@Indexed(required=false, name= VALUE_CODES_LIST_FIELD)
-	private Collection<String> valueCodesList;
+	@Indexed(required=false, name= VALUE_CODES_FIELD)
+	private Collection<String> valueCodes;
 
 	public String getPropertyType() {
 		return propertyType;
@@ -72,36 +72,20 @@ public class PropertyType extends Concept implements IPropertyType {
 		this.propertyType = propertyType;
 	}
 
-	public String getUnitsType() {
-		return unitsType;
+	public Collection<String> getUnits() {
+		return units;
 	}
 
-	public void setUnitsType(String unitsType) {
-		this.unitsType = unitsType;
+	public void setUnits(Collection<String> unitsTypeList) {
+		this.units = unitsTypeList;
 	}
 
-	public Collection<String> getUnitsTypeList() {
-		return unitsTypeList;
+    public Collection<String> getValueCodes() {
+		return valueCodes;
 	}
 
-	public void setUnitsTypeList(Collection<String> unitsTypeList) {
-		this.unitsTypeList = unitsTypeList;
-	}
-
-    public String getValueCode() {
-        return valueCode;
-    }
-
-    public void setValueCode(String valueCode) {
-        this.valueCode = valueCode;
-    }
-
-    public Collection<String> getValueCodesList() {
-		return valueCodesList;
-	}
-
-	public void setValueCodesList(Collection<String> valueCodesList) {
-		this.valueCodesList = valueCodesList;
+	public void setValueCodes(Collection<String> valueCodesList) {
+		this.valueCodes = valueCodesList;
 	}
 
 	public String getRange() {
@@ -165,14 +149,6 @@ public class PropertyType extends Concept implements IPropertyType {
 		return facet;
 	}
 
-	public void setHiddenOnUI(boolean hiddenOnUI) {
-		this.hiddenOnUI = hiddenOnUI;
-	}
-
-	public boolean isHiddenOnUI() {
-		return hiddenOnUI;
-	}
-
 	public void setFacet(boolean facet) {
 		this.facet = facet;
 	}
@@ -205,6 +181,22 @@ public class PropertyType extends Concept implements IPropertyType {
 		}
 		return items.remove(item);
 		
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	@Deprecated
+	public void setHiddenOnUI(boolean hiddenOnUI) {
+		this.visible = !hiddenOnUI;
+	}
+	@Deprecated
+	public boolean isHiddenOnUI() {
+		return !visible;
 	}
 
 }
