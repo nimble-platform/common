@@ -45,6 +45,7 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.QuotationLineType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.SupplierPartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.TradingTermType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
+import eu.nimble.service.model.ubl.quotation.QuotationTypeNoteItem;
 import org.hibernate.annotations.Cascade;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
@@ -81,6 +82,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PaymentMeans" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PaymentTerms" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}TradingTerms" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}TermOrCondition" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}AdditionalDocumentReference" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -107,6 +109,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "paymentMeans",
     "paymentTerms",
     "tradingTerms",
+    "termOrCondition",
     "additionalDocumentReference"
 })
 @Entity(name = "QuotationType")
@@ -148,6 +151,8 @@ public class QuotationType
     protected PaymentTermsType paymentTerms;
     @XmlElement(name = "TradingTerms", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     protected List<TradingTermType> tradingTerms;
+    @XmlElement(name = "TermOrCondition", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
+    protected List<TradingTermType> termOrCondition;
     @XmlElement(name = "AdditionalDocumentReference", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     protected List<DocumentReferenceType> additionalDocumentReference;
     @XmlAttribute(name = "Hjid")
@@ -639,6 +644,47 @@ public class QuotationType
     }
 
     /**
+     * Gets the value of the termOrCondition property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the termOrCondition property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getTermOrCondition().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TradingTermType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = TradingTermType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "TERM_OR_CONDITION_QUOTATION__0")
+    public List<TradingTermType> getTermOrCondition() {
+        if (termOrCondition == null) {
+            termOrCondition = new ArrayList<TradingTermType>();
+        }
+        return this.termOrCondition;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setTermOrCondition(List<TradingTermType> termOrCondition) {
+        this.termOrCondition = termOrCondition;
+    }
+
+    /**
      * Gets the value of the additionalDocumentReference property.
      * 
      * <p>
@@ -819,6 +865,15 @@ public class QuotationType
             List<TradingTermType> rhsTradingTerms;
             rhsTradingTerms = (((that.tradingTerms!= null)&&(!that.tradingTerms.isEmpty()))?that.getTradingTerms():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "tradingTerms", lhsTradingTerms), LocatorUtils.property(thatLocator, "tradingTerms", rhsTradingTerms), lhsTradingTerms, rhsTradingTerms)) {
+                return false;
+            }
+        }
+        {
+            List<TradingTermType> lhsTermOrCondition;
+            lhsTermOrCondition = (((this.termOrCondition!= null)&&(!this.termOrCondition.isEmpty()))?this.getTermOrCondition():null);
+            List<TradingTermType> rhsTermOrCondition;
+            rhsTermOrCondition = (((that.termOrCondition!= null)&&(!that.termOrCondition.isEmpty()))?that.getTermOrCondition():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "termOrCondition", lhsTermOrCondition), LocatorUtils.property(thatLocator, "termOrCondition", rhsTermOrCondition), lhsTermOrCondition, rhsTermOrCondition)) {
                 return false;
             }
         }
