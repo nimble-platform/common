@@ -53,6 +53,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Type"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Content" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}TradingTerms" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -66,7 +67,9 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "id",
     "note",
     "type",
-    "content"
+    "content",
+    "type",
+    "tradingTerms"
 })
 @XmlSeeAlso({
     DataMonitoringClauseType.class,
@@ -88,6 +91,8 @@ public class ClauseType
     protected String type;
     @XmlElement(name = "Content", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected List<TextType> content;
+    @XmlElement(name = "TradingTerms")
+    protected List<TradingTermType> tradingTerms;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<ClauseTypeNoteItem> noteItems;
@@ -223,6 +228,47 @@ public class ClauseType
         this.content = content;
     }
 
+    /**
+     * Gets the value of the tradingTerms property.
+     *
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the tradingTerms property.
+     *
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getTradingTerms().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TradingTermType }
+     *
+     *
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = TradingTermType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "TRADING_TERMS_CLAUSE_TYPE_HJ_0")
+    public List<TradingTermType> getTradingTerms() {
+        if (tradingTerms == null) {
+            tradingTerms = new ArrayList<TradingTermType>();
+        }
+        return this.tradingTerms;
+    }
+
+    /**
+     *
+     *
+     */
+    public void setTradingTerms(List<TradingTermType> tradingTerms) {
+        this.tradingTerms = tradingTerms;
+    }
+
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
         if ((object == null)||(this.getClass()!= object.getClass())) {
             return false;
@@ -264,6 +310,15 @@ public class ClauseType
             List<TextType> rhsContent;
             rhsContent = (((that.content!= null)&&(!that.content.isEmpty()))?that.getContent():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "content", lhsContent), LocatorUtils.property(thatLocator, "content", rhsContent), lhsContent, rhsContent)) {
+                return false;
+            }
+        }
+        {
+            List<TradingTermType> lhsTradingTerms;
+            lhsTradingTerms = (((this.tradingTerms!= null)&&(!this.tradingTerms.isEmpty()))?this.getTradingTerms():null);
+            List<TradingTermType> rhsTradingTerms;
+            rhsTradingTerms = (((that.tradingTerms!= null)&&(!that.tradingTerms.isEmpty()))?that.getTradingTerms():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "tradingTerms", lhsTradingTerms), LocatorUtils.property(thatLocator, "tradingTerms", rhsTradingTerms), lhsTradingTerms, rhsTradingTerms)) {
                 return false;
             }
         }
