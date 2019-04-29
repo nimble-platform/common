@@ -97,6 +97,7 @@
 	<xsd:element name="ShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="SupportedCommodityClassification" type="CommodityClassificationType"/>
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
+	<xsd:element name="TermOrCondition" type="TradingTermType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
 	<xsd:element name="TotalCapacityDimension" type="DimensionType"/>
 	<xsd:element name="TrackAndTraceDetails" type="TrackAndTraceDetailsType"/>
@@ -1542,6 +1543,5 @@
 			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPAOutputType">
-	</xsd:complexType>
+	<xsd:complexType name="LCPAOutputType"/>
 </xsd:schema>
