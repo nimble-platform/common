@@ -33,13 +33,16 @@ public class Concept implements IConcept {
 	@Indexed(name=LANGUAGES_FIELD)
 	protected Collection<String> languages;
 
-	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name= ALL_LABELS_FIELD)
+	protected Collection<String> allLabels;
+
+	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, String> label;
-	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, Collection<String>> alternateLabel;
-	@Indexed(name=HIDDEN_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name=HIDDEN_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, Collection<String>> hiddenLabel;
 	@Indexed(name=DESCRIPTION_FIELD,copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
@@ -48,6 +51,7 @@ public class Concept implements IConcept {
 	@Indexed(name=COMMENT_FIELD,copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
 	@Dynamic
 	protected Map<String, String> comment;
+
 
 	public Concept() {
 		super();
@@ -87,6 +91,7 @@ public class Concept implements IConcept {
 	public void setLanguages(Collection<String> languages) {
 		this.languages = languages;
 	}
+
 	/**
 	 * Getter for the multilingual labels
 	 */

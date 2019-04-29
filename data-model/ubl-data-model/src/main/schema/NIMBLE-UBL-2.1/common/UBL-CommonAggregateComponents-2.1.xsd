@@ -4,7 +4,7 @@
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="UBL-CommonBasicComponents-2.1.xsd"/>
 	<xsd:element name="AdditionalDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="AdditionalItemProperty" type="ItemPropertyType"/>
-	<xsd:element name="AdditionalLCPAInputDetail" type="LCPAInputDetailType"/>
+	<xsd:element name="AdditionalLCPAInputDetail" type="MultiTypeValueType"/>
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
 	<xsd:element name="AnticipatedMonetaryTotal" type="MonetaryTotalType"/>
@@ -97,6 +97,7 @@
 	<xsd:element name="ShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="SupportedCommodityClassification" type="CommodityClassificationType"/>
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
+	<xsd:element name="TermOrCondition" type="TradingTermType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
 	<xsd:element name="TotalCapacityDimension" type="DimensionType"/>
 	<xsd:element name="TrackAndTraceDetails" type="TrackAndTraceDetailsType"/>
@@ -109,6 +110,7 @@
 	<xsd:element name="TransportServiceProviderParty" type="PartyType"/>
 	<xsd:element name="TransportUserParty" type="PartyType"/>
 	<xsd:element name="TransportationServiceDetails" type="TransportationServiceType"/>
+	<xsd:element name="Value" type="MultiTypeValueType"/>
 	<xsd:element name="WarrantyValidityPeriod" type="PeriodType"/>
 	<xsd:complexType name="AddressType">
 		<xsd:sequence>
@@ -1125,15 +1127,7 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cbc:TradingTermFormat" minOccurs="0"/>
-			<xsd:element ref="cbc:Value" maxOccurs="unbounded">
-				<xsd:annotation>
-					<xsd:appinfo>
-						<annox:annotate>
-							<ha:Cascade value="DELETE_ORPHAN"/>
-						</annox:annotate>
-					</xsd:appinfo>
-				</xsd:annotation>
-			</xsd:element>
+			<xsd:element ref="cac:Value" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TransportEquipmentType">
@@ -1549,14 +1543,14 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPAInputDetailType">
+	<xsd:complexType name="MultiTypeValueType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:ValueQualifier"/>
-			<xsd:element ref="cbc:Value"/>
-			<xsd:element ref="cbc:ValueQuantity"/>
+			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:ValueQuantity" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPAOutputType">
-	</xsd:complexType>
+	<xsd:complexType name="LCPAOutputType"/>
 </xsd:schema>
