@@ -905,6 +905,7 @@
 	<xsd:element name="Value" type="TextType"/>
 	<xsd:element name="ValueAmount" type="AmountType"/>
 	<xsd:element name="ValueBinary" type="BinaryObjectType"/>
+	<xsd:element name="ValueCode" type="CodeType"/>
 	<xsd:element name="ValueDecimal" type="xsd:decimal"/>
 	<xsd:element name="ValueMeasure" type="QuantityType"/>
 	<xsd:element name="ValueQualifier" type="xsd:string"/>
