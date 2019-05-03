@@ -162,7 +162,7 @@
 	<xsd:element name="ConsumptionTypeCode" type="CodeType"/>
 	<xsd:element name="ConsumptionWaterQuantity" type="QuantityType"/>
 	<xsd:element name="ContainerizedIndicator" type="xsd:boolean"/>
-	<xsd:element name="Content" type="xsd:string"/>
+	<xsd:element name="Content" type="TextType"/>
 	<xsd:element name="ContentUnitQuantity" type="QuantityType"/>
 	<xsd:element name="ContractFolderID" type="xsd:string"/>
 	<xsd:element name="ContractName" type="xsd:string"/>
