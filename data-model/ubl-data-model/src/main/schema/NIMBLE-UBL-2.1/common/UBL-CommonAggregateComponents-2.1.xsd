@@ -35,7 +35,7 @@
 	<xsd:element name="DespatchDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="DespatchLine" type="DespatchLineType"/>
 	<xsd:element name="DespatchSupplierParty" type="SupplierPartyType"/>
-	<xsd:element name="DigitalProcess" type="DigitalProcessType"/>	
+	<xsd:element name="DigitalProcess" type="DigitalProcessType"/>
 	<xsd:element name="DigitalAgreementTerms" type="DigitalAgreementTermsType"/>
 	<xsd:element name="Dimension" type="DimensionType"/>
 	<xsd:element name="DocumentReference" type="DocumentReferenceType"/>
@@ -81,6 +81,7 @@
 	<xsd:element name="PurchaseTerms" type="TradingPreferences"/>
 	<xsd:element name="QualityIndicator" type="QualityIndicatorType"/>
 	<xsd:element name="QuotationLine" type="QuotationLineType"/>
+	<xsd:element name="QuotationReference" type="DocumentReferenceType"/>
 	<xsd:element name="QuotedMonetaryTotal" type="MonetaryTotalType"/>
 	<xsd:element name="ReceiptLine" type="ReceiptLineType"/>
 	<xsd:element name="ReceiverParty" type="PartyType"/>
@@ -371,8 +372,7 @@
 			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="DigitalProcessType">
-	</xsd:complexType>
+	<xsd:complexType name="DigitalProcessType"/>
 	<xsd:complexType name="DimensionType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:AttributeID"/>
