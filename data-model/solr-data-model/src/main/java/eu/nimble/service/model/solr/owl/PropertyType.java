@@ -64,6 +64,12 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name= VALUE_CODES_FIELD)
 	private Collection<String> valueCodes;
 
+	@Indexed(required=false, name=CODELIST_URI_FIELD)
+	private String codeListUri;
+
+	@Indexed(required=false, name=UNITLIST_URI_FIELD)
+	private String unitListUri;
+
 	public String getPropertyType() {
 		return propertyType;
 	}
@@ -199,4 +205,19 @@ public class PropertyType extends Concept implements IPropertyType {
 		return !visible;
 	}
 
+	public String getCodeListUri() {
+		return codeListUri;
+	}
+
+	public void setCodeListUri(String codeListUri) {
+		this.codeListUri = codeListUri;
+	}
+
+	public String getUnitListUri() {
+		return unitListUri;
+	}
+
+	public void setUnitListUri(String unitListUri) {
+		this.unitListUri = unitListUri;
+	}
 }

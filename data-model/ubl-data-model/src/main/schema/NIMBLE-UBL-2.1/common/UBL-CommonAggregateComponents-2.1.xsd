@@ -209,6 +209,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:Type"/>
+			<xsd:element ref="cbc:Content" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>

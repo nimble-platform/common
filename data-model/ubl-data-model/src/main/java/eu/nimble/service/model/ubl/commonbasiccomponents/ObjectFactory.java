@@ -2473,12 +2473,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TextType }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "Content")
-    public JAXBElement<String> createContent(String value) {
-        return new JAXBElement<String>(_Content_QNAME, String.class, null, value);
+    public JAXBElement<TextType> createContent(TextType value) {
+        return new JAXBElement<TextType>(_Content_QNAME, TextType.class, null, value);
     }
 
     /**

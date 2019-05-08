@@ -32,6 +32,10 @@ public interface IPropertyType extends IConcept {
 	String PROPERTY_TYPE_FIELD = "propType";
 	String UNITS_FIELD = "units";
 	String VALUE_CODES_FIELD = "valueCodes";
+
+	String CODELIST_URI_FIELD = "codeListUri";
+	String UNITLIST_URI_FIELD = "unitListUri";
+
 	/**
 	 * Define the default field list 
 	 * 
@@ -57,7 +61,10 @@ public interface IPropertyType extends IConcept {
 				DESCRIPTION_FIELD,
 				RANGE_FIELD,
 				VALUE_QUALIFIER_FIELD,
-				VALUE_CODES_FIELD
+				VALUE_CODES_FIELD,
+				UNITS_FIELD,
+				CODELIST_URI_FIELD,
+				UNITLIST_URI_FIELD
 				
 		};
 		
