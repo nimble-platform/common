@@ -14,7 +14,14 @@ public interface IConcept {
 	 * The language based label, e.g. <code><i>en</i>_label</code> for english label
 	 */
 	String LABEL_FIELD = "*_label";
-	String ALL_LABEL_FIELD = "all_label";
+	/**
+	 * Copy Field. All labels, hidden labels and alternate labels of any language are copied to this field
+	 */
+	String ALL_LABELS_FIELD = "allLabels";
+	/**
+	 * Copy Field. All labels, hidden labels and alternate labels (language dependent) are copied to this field
+	 */
+	String LANGUAGE_ALL_LABELS_FIELD = "*_labels";
 	/**
 	 * The language based label, e.g. <code><i>en</i>_alternate</code> for english alternate label
 	 */

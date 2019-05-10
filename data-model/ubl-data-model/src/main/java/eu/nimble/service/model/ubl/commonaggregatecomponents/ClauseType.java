@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.hibernate.annotations.Cascade;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
 import org.jvnet.jaxb2_commons.lang.Equals;
@@ -51,6 +52,8 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Note" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Type"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Content" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}TradingTerms" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -63,7 +66,10 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @XmlType(name = "ClauseType", propOrder = {
     "id",
     "note",
-    "type"
+    "type",
+    "content",
+    "type",
+    "tradingTerms"
 })
 @XmlSeeAlso({
     DataMonitoringClauseType.class,
@@ -83,6 +89,10 @@ public class ClauseType
     protected List<String> note;
     @XmlElement(name = "Type", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected String type;
+    @XmlElement(name = "Content", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
+    protected List<TextType> content;
+    @XmlElement(name = "TradingTerms")
+    protected List<TradingTermType> tradingTerms;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<ClauseTypeNoteItem> noteItems;
@@ -177,6 +187,88 @@ public class ClauseType
         this.type = value;
     }
 
+    /**
+     * Gets the value of the content property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the content property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getContent().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TextType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = TextType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "CONTENT_CLAUSE_TYPE_HJID")
+    public List<TextType> getContent() {
+        if (content == null) {
+            content = new ArrayList<TextType>();
+        }
+        return this.content;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setContent(List<TextType> content) {
+        this.content = content;
+    }
+
+    /**
+     * Gets the value of the tradingTerms property.
+     *
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the tradingTerms property.
+     *
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getTradingTerms().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TradingTermType }
+     *
+     *
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = TradingTermType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "TRADING_TERMS_CLAUSE_TYPE_HJ_0")
+    public List<TradingTermType> getTradingTerms() {
+        if (tradingTerms == null) {
+            tradingTerms = new ArrayList<TradingTermType>();
+        }
+        return this.tradingTerms;
+    }
+
+    /**
+     *
+     *
+     */
+    public void setTradingTerms(List<TradingTermType> tradingTerms) {
+        this.tradingTerms = tradingTerms;
+    }
+
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
         if ((object == null)||(this.getClass()!= object.getClass())) {
             return false;
@@ -209,6 +301,24 @@ public class ClauseType
             String rhsType;
             rhsType = that.getType();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "type", lhsType), LocatorUtils.property(thatLocator, "type", rhsType), lhsType, rhsType)) {
+                return false;
+            }
+        }
+        {
+            List<TextType> lhsContent;
+            lhsContent = (((this.content!= null)&&(!this.content.isEmpty()))?this.getContent():null);
+            List<TextType> rhsContent;
+            rhsContent = (((that.content!= null)&&(!that.content.isEmpty()))?that.getContent():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "content", lhsContent), LocatorUtils.property(thatLocator, "content", rhsContent), lhsContent, rhsContent)) {
+                return false;
+            }
+        }
+        {
+            List<TradingTermType> lhsTradingTerms;
+            lhsTradingTerms = (((this.tradingTerms!= null)&&(!this.tradingTerms.isEmpty()))?this.getTradingTerms():null);
+            List<TradingTermType> rhsTradingTerms;
+            rhsTradingTerms = (((that.tradingTerms!= null)&&(!that.tradingTerms.isEmpty()))?that.getTradingTerms():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "tradingTerms", lhsTradingTerms), LocatorUtils.property(thatLocator, "tradingTerms", rhsTradingTerms), lhsTradingTerms, rhsTradingTerms)) {
                 return false;
             }
         }

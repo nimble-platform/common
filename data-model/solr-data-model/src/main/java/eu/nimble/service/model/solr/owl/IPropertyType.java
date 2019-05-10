@@ -7,10 +7,20 @@ import org.springframework.data.solr.core.query.Field;
 import org.springframework.data.solr.core.query.SimpleField;
 
 public interface IPropertyType extends IConcept {
+	/**
+	 * Name of the properties collection
+	 */
 	String COLLECTION = "props";
+	/**
+	 * Field pointing to the contained SOLR documents
+	 */
 	String TYPE_FIELD = "doctype";
+	/**
+	 * Value Constant for the contained SOLR documents
+	 */
 	String TYPE_VALUE = "property";
 	String IS_FACET_FIELD = "isFacet";
+	String IS_VISIBLE_FIELD = "isVisible";
 	String BOOST_FIELD = "boost";
 	String RANGE_FIELD = "range";
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
@@ -20,6 +30,10 @@ public interface IPropertyType extends IConcept {
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";
+	String CODE_LIST_FIELD = "codeList";
+	String CODE_LIST_ID_FIELD = "codeListId";
+
+
 	/**
 	 * Define the default field list 
 	 * 
@@ -29,6 +43,7 @@ public interface IPropertyType extends IConcept {
 		return new String[] {
 				TYPE_FIELD, 
 				IS_FACET_FIELD, 
+				IS_VISIBLE_FIELD,
 				BOOST_FIELD, 
 				IDX_FIELD_NAME_FIELD,
 				PROPERTY_TYPE_FIELD, 
@@ -43,7 +58,10 @@ public interface IPropertyType extends IConcept {
 				COMMENT_FIELD, 
 				DESCRIPTION_FIELD,
 				RANGE_FIELD,
-				VALUE_QUALIFIER_FIELD
+				VALUE_QUALIFIER_FIELD,
+				CODE_LIST_FIELD,
+				CODE_LIST_ID_FIELD
+				
 		};
 		
 	}

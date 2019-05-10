@@ -12,7 +12,7 @@ import org.springframework.data.solr.core.mapping.Indexed;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(content=Include.NON_EMPTY)
-public class Concept implements IConcept {
+public abstract class Concept implements IConcept {
 	/**
 	 * The uri of the property including namespace
 	 */
@@ -32,13 +32,14 @@ public class Concept implements IConcept {
 
 	@Indexed(name=LANGUAGES_FIELD)
 	protected Collection<String> languages;
-	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, ALL_LABEL_FIELD, TEXT_FIELD})
+
+	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD, LANGUAGE_ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, String> label;
-	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD, LANGUAGE_ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, Collection<String>> alternateLabel;
-	@Indexed(name=HIDDEN_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
+	@Indexed(name=HIDDEN_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD, LANGUAGE_ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, Collection<String>> hiddenLabel;
 	@Indexed(name=DESCRIPTION_FIELD,copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
@@ -47,6 +48,7 @@ public class Concept implements IConcept {
 	@Indexed(name=COMMENT_FIELD,copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
 	@Dynamic
 	protected Map<String, String> comment;
+
 
 	public Concept() {
 		super();
@@ -70,6 +72,7 @@ public class Concept implements IConcept {
 		c.setLocalName(other.getLocalName());
 		return c;
 	}
+
 	/**
 	 * Getter for the languages in use, the list is maintained by the add... methods
 	 */
@@ -85,6 +88,7 @@ public class Concept implements IConcept {
 	public void setLanguages(Collection<String> languages) {
 		this.languages = languages;
 	}
+
 	/**
 	 * Getter for the multilingual labels
 	 */
@@ -119,7 +123,7 @@ public class Concept implements IConcept {
 	 * Helper method for adding alternate multilingual label to the concept. Multiple labels per language are stored.
 	 * This method maintains the list of languages in use, see {@link #getLanguages()}
 	 * @param language The language code such as <i>en</i>, <i>es</i>
-	 * @param label The respective label
+	 * @param alternate The respective label
 	 */
 	public void addAlternateLabel(String language, String alternate) {
 		if (this.alternateLabel ==null) {
@@ -128,7 +132,9 @@ public class Concept implements IConcept {
 		if ( !this.alternateLabel.containsKey(language)) {
 			this.alternateLabel.put(language, new HashSet<>());
 		}
-		this.alternateLabel.get(language).add(alternate);
+		if (! this.alternateLabel.get(language).contains(alternate)) {
+			this.alternateLabel.get(language).add(alternate);
+		}
 		// 
 		addLanguage(language);
 	}
@@ -136,16 +142,18 @@ public class Concept implements IConcept {
 	 * Helper method for adding hidden multilingual label to the concept. Multiple labels per language are stored.
 	 * This method maintains the list of languages in use, see {@link #getLanguages()}
 	 * @param language The language code such as <i>en</i>, <i>es</i>
-	 * @param label The respective label
+	 * @param hidden The respective label
 	 */
-	public void addHiddenLabel(String language, String alternate) {
+	public void addHiddenLabel(String language, String hidden) {
 		if (this.hiddenLabel ==null) {
 			this.hiddenLabel = new HashMap<>();
 		}
 		if ( !this.hiddenLabel.containsKey(language)) {
 			this.hiddenLabel.put(language, new HashSet<>());
 		}
-		this.hiddenLabel.get(language).add(alternate);
+		if ( ! this.hiddenLabel.get(language).contains(hidden)) {
+			this.hiddenLabel.get(language).add(hidden);
+		}
 		// 
 		addLanguage(language);
 	}

@@ -42,19 +42,49 @@ public class PropertyType extends Concept implements IPropertyType {
 	
 	@Indexed(required=false, name=IS_FACET_FIELD)
 	private boolean facet = true;
+
+	@Indexed(required=false, name=IS_VISIBLE_FIELD)
+	private boolean visible = true;
 	
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
 	
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
-	
+
+//	@Indexed(required=false, name=PEFERRED_VALUE_CODE_FIELD)
+//	private String valueCode;
+
+	@Indexed(required=false, name= CODE_LIST_FIELD)
+	private Collection<String> codeList;
+
+	@Indexed(required=false, name=CODE_LIST_ID_FIELD)
+	private String codeListId;
+
 	public String getPropertyType() {
 		return propertyType;
 	}
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
+	}
+	@JsonIgnore
+	public Collection<String> getUnits() {
+		return codeList;
+	}
+
+	public void setUnits(Collection<String> unitsTypeList) {
+		this.codeList = unitsTypeList;
+	}
+
+    public Collection<String> getCodeList() {
+    	if ( codeList == null) {
+    		codeList = new HashSet<String>();
+    	}
+		return codeList;
+	}
+	public void setCodeList(Collection<String> valueCodesList) {
+		this.codeList = valueCodesList;
 	}
 
 	public String getRange() {
@@ -152,4 +182,19 @@ public class PropertyType extends Concept implements IPropertyType {
 		
 	}
 
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public String getCodeListId() {
+		return codeListId;
+	}
+
+	public void setCodeListId(String codeListUri) {
+		this.codeListId = codeListUri;
+	}
 }
