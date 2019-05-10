@@ -52,23 +52,14 @@ public class PropertyType extends Concept implements IPropertyType {
 	@Indexed(required=false, name=PROPERTY_TYPE_FIELD)
 	private String propertyType;
 
-//	@Indexed(required=false, name=PREFERRED_UNIT_FIELD)
-//	private String preferredUnit;
-
-	@Indexed(required=false, name=UNITS_FIELD)
-	private Collection<String> units;
-
 //	@Indexed(required=false, name=PEFERRED_VALUE_CODE_FIELD)
 //	private String valueCode;
 
-	@Indexed(required=false, name= VALUE_CODES_FIELD)
-	private Collection<String> valueCodes;
+	@Indexed(required=false, name= CODE_LIST_FIELD)
+	private Collection<String> codeList;
 
-	@Indexed(required=false, name=CODELIST_URI_FIELD)
-	private String codeListUri;
-
-	@Indexed(required=false, name=UNITLIST_URI_FIELD)
-	private String unitListUri;
+	@Indexed(required=false, name=CODE_LIST_ID_FIELD)
+	private String codeListId;
 
 	public String getPropertyType() {
 		return propertyType;
@@ -77,21 +68,23 @@ public class PropertyType extends Concept implements IPropertyType {
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
-
+	@JsonIgnore
 	public Collection<String> getUnits() {
-		return units;
+		return codeList;
 	}
 
 	public void setUnits(Collection<String> unitsTypeList) {
-		this.units = unitsTypeList;
+		this.codeList = unitsTypeList;
 	}
 
-    public Collection<String> getValueCodes() {
-		return valueCodes;
+    public Collection<String> getCodeList() {
+    	if ( codeList == null) {
+    		codeList = new HashSet<String>();
+    	}
+		return codeList;
 	}
-
-	public void setValueCodes(Collection<String> valueCodesList) {
-		this.valueCodes = valueCodesList;
+	public void setCodeList(Collection<String> valueCodesList) {
+		this.codeList = valueCodesList;
 	}
 
 	public String getRange() {
@@ -196,28 +189,12 @@ public class PropertyType extends Concept implements IPropertyType {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	@Deprecated
-	public void setHiddenOnUI(boolean hiddenOnUI) {
-		this.visible = !hiddenOnUI;
-	}
-	@Deprecated
-	public boolean isHiddenOnUI() {
-		return !visible;
+
+	public String getCodeListId() {
+		return codeListId;
 	}
 
-	public String getCodeListUri() {
-		return codeListUri;
-	}
-
-	public void setCodeListUri(String codeListUri) {
-		this.codeListUri = codeListUri;
-	}
-
-	public String getUnitListUri() {
-		return unitListUri;
-	}
-
-	public void setUnitListUri(String unitListUri) {
-		this.unitListUri = unitListUri;
+	public void setCodeListId(String codeListUri) {
+		this.codeListId = codeListUri;
 	}
 }
