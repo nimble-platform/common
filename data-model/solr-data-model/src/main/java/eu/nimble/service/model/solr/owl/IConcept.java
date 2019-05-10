@@ -15,9 +15,13 @@ public interface IConcept {
 	 */
 	String LABEL_FIELD = "*_label";
 	/**
-	 * Copy Field. All labels, hidden labels and alternate labels are copied to this field
+	 * Copy Field. All labels, hidden labels and alternate labels of any language are copied to this field
 	 */
 	String ALL_LABELS_FIELD = "allLabels";
+	/**
+	 * Copy Field. All labels, hidden labels and alternate labels (language dependent) are copied to this field
+	 */
+	String LANGUAGE_ALL_LABELS_FIELD = "*_labels";
 	/**
 	 * The language based label, e.g. <code><i>en</i>_alternate</code> for english alternate label
 	 */
