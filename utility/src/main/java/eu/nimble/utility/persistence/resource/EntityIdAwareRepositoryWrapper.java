@@ -12,6 +12,7 @@ import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
+import eu.nimble.utility.serialization.BinaryObjectSerializerClearUris;
 import eu.nimble.utility.serialization.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,6 +180,23 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
         throw new RuntimeException("Not implemented yet");
+    }
+
+    public  <T> void clearBinaryObjectUris(T entity){
+        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
+        BinaryObjectSerializerClearUris serializer = new BinaryObjectSerializerClearUris();
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(BinaryObjectType.class, serializer);
+        objectMapper.registerModule(simpleModule);
+
+        try {
+            objectMapper.writeValueAsString(entity);
+
+        } catch (JsonProcessingException e) {
+            String msg = String.format("Failed to serialize object: %s", entity.getClass().getName());
+            logger.error(msg);
+            throw new RuntimeException(msg, e);
+        }
     }
 
     private <T> void checkHjidAssociation(T entity, UpdateMode updateMode) {
