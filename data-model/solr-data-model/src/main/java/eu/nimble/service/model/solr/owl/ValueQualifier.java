@@ -7,5 +7,6 @@ public enum ValueQualifier {
 	STRING,
 	TEXT,
 	CODE,
+	FILE,
 	;
 }
