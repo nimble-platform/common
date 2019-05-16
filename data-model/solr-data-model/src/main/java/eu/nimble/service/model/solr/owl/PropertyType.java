@@ -55,11 +55,11 @@ public class PropertyType extends Concept implements IPropertyType {
 //	@Indexed(required=false, name=PEFERRED_VALUE_CODE_FIELD)
 //	private String valueCode;
 
-	@Indexed(required=false, name= CODE_LIST_FIELD)
-	private Collection<String> codeList;
+	@Indexed(required=false, name= VALUE_CODES_FIELD)
+	private Collection<String> valueCodes;
 
-	@Indexed(required=false, name=CODE_LIST_ID_FIELD)
-	private String codeListId;
+	@Indexed(required=false, name= CODE_LIST_URI_FIELD)
+	private String codeListUri;
 
 	public String getPropertyType() {
 		return propertyType;
@@ -68,23 +68,15 @@ public class PropertyType extends Concept implements IPropertyType {
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
-	@JsonIgnore
-	public Collection<String> getUnits() {
-		return codeList;
-	}
 
-	public void setUnits(Collection<String> unitsTypeList) {
-		this.codeList = unitsTypeList;
-	}
-
-    public Collection<String> getCodeList() {
-    	if ( codeList == null) {
-    		codeList = new HashSet<String>();
+    public Collection<String> getValueCodes() {
+    	if ( valueCodes == null) {
+    		valueCodes = new HashSet<String>();
     	}
-		return codeList;
+		return valueCodes;
 	}
-	public void setCodeList(Collection<String> valueCodesList) {
-		this.codeList = valueCodesList;
+	public void setValueCodes(Collection<String> valueCodesList) {
+		this.valueCodes = valueCodesList;
 	}
 
 	public String getRange() {
@@ -190,11 +182,11 @@ public class PropertyType extends Concept implements IPropertyType {
 		this.visible = visible;
 	}
 
-	public String getCodeListId() {
-		return codeListId;
+	public String getCodeListUri() {
+		return codeListUri;
 	}
 
-	public void setCodeListId(String codeListUri) {
-		this.codeListId = codeListUri;
+	public void setCodeListUri(String codeListUri) {
+		this.codeListUri = codeListUri;
 	}
 }
