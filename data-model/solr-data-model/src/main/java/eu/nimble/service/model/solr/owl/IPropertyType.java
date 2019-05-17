@@ -30,8 +30,8 @@ public interface IPropertyType extends IConcept {
 	String IDX_FIELD_NAME_FIELD = "idxField";
 	
 	String PROPERTY_TYPE_FIELD = "propType";
-	String VALUE_CODES_FIELD = "valueCodes";
-	String CODE_LIST_URI_FIELD = "codeListUri";
+	String CODE_LIST_FIELD = "codeList";
+	String CODE_LIST_ID_FIELD = "codeListId";
 
 
 	/**
@@ -59,8 +59,8 @@ public interface IPropertyType extends IConcept {
 				DESCRIPTION_FIELD,
 				RANGE_FIELD,
 				VALUE_QUALIFIER_FIELD,
-				VALUE_CODES_FIELD,
-				CODE_LIST_URI_FIELD
+				CODE_LIST_FIELD,
+				CODE_LIST_ID_FIELD
 				
 		};
 		
