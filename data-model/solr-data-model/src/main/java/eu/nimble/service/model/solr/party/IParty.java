@@ -26,6 +26,6 @@ public interface IParty {
 	public String TRUST_NUMBER_OF_EVALUATIONS_FIELD = "trustNumberOfEvaluations";
 	public String LOGO_ID_FIELD = "logoId";
 	public String BUSINESS_TYPE_FIELD = "businessType";
-	public String ACTIVITY_SECTORS_FIELD = "activitySectors";
-	public String BUSINESS_KEYWORDS_FIELD = "businessKeywords";
+	public String ACTIVITY_SECTORS_FIELD = "*_activitySectors";
+	public String BUSINESS_KEYWORDS_FIELD = "*_businessKeywords";
 }

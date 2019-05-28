@@ -52,10 +52,12 @@ public class PartyType extends Concept implements IParty {
 	private String logoId;
 	@Indexed(name=BUSINESS_TYPE_FIELD)
 	private String businessType;
-	@Indexed(name= ACTIVITY_SECTORS_FIELD)
-	private Collection<String> activitySectors;
-	@Indexed(name=BUSINESS_KEYWORDS_FIELD)
-	private Collection<String> businessKeywords;
+	@Indexed(name= ACTIVITY_SECTORS_FIELD, type="string")
+	@Dynamic
+	private Map<String, Collection<String>> activitySectors;
+	@Indexed(name=BUSINESS_KEYWORDS_FIELD, type="string")
+	@Dynamic
+	protected Map<String, Collection<String>> businessKeywords;
 
 	public String getId() {
 		return getUri();
@@ -277,33 +279,41 @@ public class PartyType extends Concept implements IParty {
 		this.businessType = businessType;
 	}
 
-	public Collection<String> getActivitySectors() {
+	public Map<String, Collection<String>> getActivitySectors() {
 		return activitySectors;
 	}
 
-	public void setActivitySectors(Collection<String> activitySectors) {
+	public void setActivitySectors(Map<String, Collection<String>> activitySectors) {
 		this.activitySectors = activitySectors;
 	}
 
-	public Collection<String> getBusinessKeywords() {
+	public Map<String, Collection<String>> getBusinessKeywords() {
 		return businessKeywords;
 	}
 
-	public void setBusinessKeywords(Collection<String> businessKeywords) {
+	public void setBusinessKeywords(Map<String, Collection<String>> businessKeywords) {
 		this.businessKeywords = businessKeywords;
 	}
 
-	public void addActivitySector(String activitySector) {
-		if ( this.activitySectors == null) {
-			this.activitySectors = new HashSet<String>();
+	public void addActivitySector(String language, String activitySector) {
+		if (this.activitySectors ==null) {
+			this.activitySectors = new HashMap<>();
 		}
-		activitySectors.add(activitySector);
+		if ( !this.activitySectors.containsKey(language)) {
+			this.activitySectors.put(language, new HashSet<>());
+		}
+		this.activitySectors.get(language).add(activitySector);
+		addLanguage(language);
 	}
 
-	public void addBusinessKeyword(String businessKeyword) {
-		if ( this.businessKeywords == null) {
-			this.businessKeywords = new HashSet<String>();
+	public void addBusinessKeyword(String language,String businessKeyword) {
+		if (this.businessKeywords ==null) {
+			this.businessKeywords = new HashMap<>();
 		}
-		businessKeywords.add(businessKeyword);
+		if ( !this.businessKeywords.containsKey(language)) {
+			this.businessKeywords.put(language, new HashSet<>());
+		}
+		this.businessKeywords.get(language).add(businessKeyword);
+		addLanguage(language);
 	}
 }
