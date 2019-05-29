@@ -48,6 +48,17 @@ public class PartyType extends Concept implements IParty {
 	private Double trustNumberOfTransactions;
 	@Indexed(name=TRUST_NUMBER_OF_EVALUATIONS_FIELD, type="pdouble",required=false)
 	private Double trustNumberOfEvaluations;
+	@Indexed(name= LOGO_ID_FIELD)
+	private String logoId;
+	@Indexed(name=BUSINESS_TYPE_FIELD)
+	private String businessType;
+	@Indexed(name= ACTIVITY_SECTORS_FIELD, type="string")
+	@Dynamic
+	private Map<String, Collection<String>> activitySectors;
+	@Indexed(name=BUSINESS_KEYWORDS_FIELD, type="string")
+	@Dynamic
+	protected Map<String, Collection<String>> businessKeywords;
+
 	public String getId() {
 		return getUri();
 	}
@@ -252,4 +263,57 @@ public class PartyType extends Concept implements IParty {
 		addLanguage(language);
 	}
 
+	public String getLogoId() {
+		return logoId;
+	}
+
+	public void setLogoId(String logoId) {
+		this.logoId = logoId;
+	}
+
+	public String getBusinessType() {
+		return businessType;
+	}
+
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
+	}
+
+	public Map<String, Collection<String>> getActivitySectors() {
+		return activitySectors;
+	}
+
+	public void setActivitySectors(Map<String, Collection<String>> activitySectors) {
+		this.activitySectors = activitySectors;
+	}
+
+	public Map<String, Collection<String>> getBusinessKeywords() {
+		return businessKeywords;
+	}
+
+	public void setBusinessKeywords(Map<String, Collection<String>> businessKeywords) {
+		this.businessKeywords = businessKeywords;
+	}
+
+	public void addActivitySector(String language, String activitySector) {
+		if (this.activitySectors ==null) {
+			this.activitySectors = new HashMap<>();
+		}
+		if ( !this.activitySectors.containsKey(language)) {
+			this.activitySectors.put(language, new HashSet<>());
+		}
+		this.activitySectors.get(language).add(activitySector);
+		addLanguage(language);
+	}
+
+	public void addBusinessKeyword(String language,String businessKeyword) {
+		if (this.businessKeywords ==null) {
+			this.businessKeywords = new HashMap<>();
+		}
+		if ( !this.businessKeywords.containsKey(language)) {
+			this.businessKeywords.put(language, new HashSet<>());
+		}
+		this.businessKeywords.get(language).add(businessKeyword);
+		addLanguage(language);
+	}
 }
