@@ -11,34 +11,8 @@ import java.io.IOException;
  */
 public class DiffUtil {
     public static void main(String[] args) throws IOException {
+        System.out.println("\n1-1s");
         LineIterator lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
-        while(lineIterator.hasNext()) {
-            String line = lineIterator.next();
-            if(!line.startsWith("1\t1\t")) {
-                System.out.println(line);
-            }
-        }
-
-        System.out.println("\n1-1s");
-        lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
-        while(lineIterator.hasNext()) {
-            String line = lineIterator.next();
-            if(line.startsWith("1\t1\t")) {
-                System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
-            }
-        }
-
-        System.out.println("\n2-2s");
-        lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
-        while(lineIterator.hasNext()) {
-            String line = lineIterator.next();
-            if(line.startsWith("2\t2\t")) {
-                System.out.print(line.substring(line.lastIndexOf('\t')+1) + " ");
-            }
-        }
-
-        System.out.println("\n1-1s");
-        lineIterator = FileUtils.lineIterator(new File("D:\\srdc\\projects\\NIMBLE\\project_starts\\codes\\common\\diff.txt"));
         while(lineIterator.hasNext()) {
             String line = lineIterator.next();
             if(line.startsWith("1\t1\t")) {

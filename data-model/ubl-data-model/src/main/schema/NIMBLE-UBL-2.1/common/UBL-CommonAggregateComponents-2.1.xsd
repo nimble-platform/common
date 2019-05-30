@@ -8,6 +8,7 @@
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
 	<xsd:element name="AnticipatedMonetaryTotal" type="MonetaryTotalType"/>
+	<xsd:element name="ApplicableTaxCategory" type="TaxCategoryType"/>
 	<xsd:element name="ApplicableTerritoryAddress" type="AddressType"/>
 	<xsd:element name="Attachment" type="AttachmentType"/>
 	<xsd:element name="BuyerCustomerParty" type="CustomerPartyType"/>
@@ -556,7 +557,16 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
-			<xsd:element ref="cac:AllowanceCharge" maxOccurs="unbounded">
+			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ApplicableTaxCategory" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1097,6 +1107,11 @@
 	<xsd:complexType name="SupplierPartyType">
 		<xsd:sequence>
 			<xsd:element ref="cac:Party" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TaxCategoryType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Percent" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="TaxSchemeType">
