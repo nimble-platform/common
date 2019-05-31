@@ -14,7 +14,7 @@ public interface IDocument {
 
     List<PartyNameType> getBuyerPartyName();
 
-    String isAccepted();
+    String getDocumentStatus();
 
     ItemType getItemType();
 }

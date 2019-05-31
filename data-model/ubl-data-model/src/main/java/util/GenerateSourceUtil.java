@@ -120,7 +120,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -163,7 +163,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -206,7 +206,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -249,7 +249,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -292,7 +292,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -335,7 +335,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -378,7 +378,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return Boolean.toString(acceptedIndicator);\n" +
                                 "    }\n" +
                                 "\n" +
@@ -421,7 +421,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return Boolean.toString(acceptedIndicator);\n" +
                                 "    }\n" +
                                 "\n" +
@@ -464,7 +464,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return documentStatusCode.getName();\n" +
                                 "    }\n" +
                                 "\n" +
@@ -507,7 +507,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "    \n" +
@@ -550,8 +550,8 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
-                                "        return null;\n" +
+                                "    public String getDocumentStatus() {\n" +
+                                "        return documentStatusCode.getName();\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -594,7 +594,7 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
