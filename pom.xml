@@ -33,6 +33,6 @@
 		<module>data-model</module>
 		<module>utility</module>
 		<module>rest-client</module>
-		<module>data-channel</module>
+		<module>data-createChannelRequest</module>
     </modules>
 </project>
