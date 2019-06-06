@@ -29,7 +29,7 @@
         </dependency>
     </dependencies>
 
-    <artifactId>data-createChannelRequest</artifactId>
+    <artifactId>data-channel</artifactId>
 
 
 </project>
