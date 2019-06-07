@@ -46,6 +46,37 @@ public class LoggerUtils {
     }
 
     /**
+     * add contextual information to the log with MDC
+     * @param logger
+     * @param params
+     * @param logLevel
+     * @param message
+     */
+    public static void logWithMDC(Logger logger, Map<String,String> params, LogLevel logLevel, String message, Object... objects){
+
+        for(String key : params.keySet()){
+            MDC.put(key, params.get(key));
+        }
+        switch (logLevel){
+            case INFO:
+                logger.info(message, objects);
+                break;
+            case  ERROR:
+                logger.error(message, objects);
+                break;
+            case DEBUG:
+                logger.debug(message, objects);
+                break;
+            case WARN:
+                logger.warn(message, objects);
+                break;
+            default:
+                logger.info(message, objects);
+        }
+        MDC.clear();
+    }
+
+    /**
      * log error with contextual information with MDC
      * @param logger
      * @param params
