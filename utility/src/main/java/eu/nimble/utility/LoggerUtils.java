@@ -10,27 +10,30 @@ import java.util.Map;
  */
 public class LoggerUtils {
 
-    public enum LogLevel{
+    public enum LogLevel {
         INFO, ERROR, DEBUG, WARN
     }
 
     /**
      * add contextual information to the log with MDC
+     *
      * @param logger
      * @param params
      * @param logLevel
      * @param message
      */
-    public static void logWithMDC(Logger logger, Map<String,String> params, LogLevel logLevel, String message){
+    public static void logWithMDC(Logger logger, Map<String, String> params, LogLevel logLevel, String message) {
 
-        for(String key : params.keySet()){
-            MDC.put(key, params.get(key));
+        for (String key : params.keySet()) {
+            if (params.get(key) != null) {
+                MDC.put(key, params.get(key));
+            }
         }
-        switch (logLevel){
+        switch (logLevel) {
             case INFO:
                 logger.info(message);
                 break;
-            case  ERROR:
+            case ERROR:
                 logger.error(message);
                 break;
             case DEBUG:
@@ -47,21 +50,24 @@ public class LoggerUtils {
 
     /**
      * add contextual information to the log with MDC
+     *
      * @param logger
      * @param params
      * @param logLevel
      * @param message
      */
-    public static void logWithMDC(Logger logger, Map<String,String> params, LogLevel logLevel, String message, Object... objects){
+    public static void logWithMDC(Logger logger, Map<String, String> params, LogLevel logLevel, String message, Object... objects) {
 
-        for(String key : params.keySet()){
-            MDC.put(key, params.get(key));
+        for (String key : params.keySet()) {
+            if (params.get(key) != null) {
+                MDC.put(key, params.get(key));
+            }
         }
-        switch (logLevel){
+        switch (logLevel) {
             case INFO:
                 logger.info(message, objects);
                 break;
-            case  ERROR:
+            case ERROR:
                 logger.error(message, objects);
                 break;
             case DEBUG:
@@ -78,15 +84,18 @@ public class LoggerUtils {
 
     /**
      * log error with contextual information with MDC
+     *
      * @param logger
      * @param params
      * @param message
      * @param ex
      */
-    public static void logErrorWithMDC(Logger logger, Map<String,String> params, String message, Throwable ex){
+    public static void logErrorWithMDC(Logger logger, Map<String, String> params, String message, Throwable ex) {
 
-        for(String key : params.keySet()){
-            MDC.put(key, params.get(key));
+        for (String key : params.keySet()) {
+            if (params.get(key) != null) {
+                MDC.put(key, params.get(key));
+            }
         }
         logger.error(message, ex);
         MDC.clear();
