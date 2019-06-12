@@ -53,7 +53,7 @@ public class UblUtil {
      * @param partyType
      * @return
      */
-    public String getName(PartyType partyType) {
+    public static String getName(PartyType partyType) {
         String name = getName(partyType.getPartyName(), LanguageID.ENGLISH.toString());
         if (name == null) {
             name = getName(partyType.getPartyName());
