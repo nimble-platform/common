@@ -1,5 +1,6 @@
 package eu.nimble.utility;
 
+import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
@@ -45,6 +46,11 @@ public class UblUtil {
     public static String getName(Collection<PartyNameType> partyNameTypes) {
         List<TextType> textTypes = partyNameTypes.stream().map(PartyNameType::getName).collect(Collectors.toList());
         return getText(textTypes);
+    }
+
+    public static String getId(Collection<PartyIdentificationType> partyIdentifications) {
+        String partyId = partyIdentifications.stream().map(PartyIdentificationType::getID).findFirst().orElse(null);
+        return partyId;
     }
 
     /**
