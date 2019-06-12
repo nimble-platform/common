@@ -1,5 +1,6 @@
 package eu.nimble.service.model.ubl.document;
 
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ItemType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 
@@ -17,4 +18,6 @@ public interface IDocument {
     String getDocumentStatus();
 
     ItemType getItemType();
+
+    List<DocumentReferenceType> getAdditionalDocuments();
 }
