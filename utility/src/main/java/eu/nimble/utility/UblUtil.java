@@ -1,5 +1,6 @@
 package eu.nimble.utility;
 
+import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
@@ -47,13 +48,18 @@ public class UblUtil {
         return getText(textTypes);
     }
 
+    public static String getId(Collection<PartyIdentificationType> partyIdentifications) {
+        String partyId = partyIdentifications.stream().map(PartyIdentificationType::getID).findFirst().orElse(null);
+        return partyId;
+    }
+
     /**
      * This method will return the party name (legal name) of a company, preference will be given to the default language ID : ENGLISH
      *
      * @param partyType
      * @return
      */
-    public String getName(PartyType partyType) {
+    public static String getName(PartyType partyType) {
         String name = getName(partyType.getPartyName(), LanguageID.ENGLISH.toString());
         if (name == null) {
             name = getName(partyType.getPartyName());
