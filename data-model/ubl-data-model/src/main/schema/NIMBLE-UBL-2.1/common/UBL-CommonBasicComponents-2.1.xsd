@@ -102,6 +102,7 @@
 	<xsd:element name="CandidateStatement" type="xsd:string"/>
 	<xsd:element name="CanonicalizationMethod" type="xsd:string"/>
 	<xsd:element name="CapabilityTypeCode" type="CodeType"/>
+	<xsd:element name="CapexOpexRelation" type="QuantityType"/>
 	<xsd:element name="CardChipCode" type="CodeType"/>
 	<xsd:element name="CardTypeCode" type="CodeType"/>
 	<xsd:element name="CargoTypeCode" type="CodeType"/>
@@ -219,6 +220,7 @@
 	<xsd:element name="DescriptionCode" type="CodeType"/>
 	<xsd:element name="DespatchAdviceTypeCode" type="CodeType"/>
 	<xsd:element name="DifferenceTemperatureReductionQuantity" type="QuantityType"/>
+	<xsd:element name="DigitalAgreementConfirmed" type="xsd:boolean"/>
 	<xsd:element name="DirectionCode" type="CodeType"/>
 	<xsd:element name="DisplayTacticTypeCode" type="CodeType"/>
 	<xsd:element name="DispositionCode" type="CodeType"/>
@@ -397,7 +399,8 @@
 	<xsd:element name="LegalStatusIndicator" type="xsd:boolean"/>
 	<xsd:element name="LiabilityAmount" type="AmountType"/>
 	<xsd:element name="LicensePlateID" type="xsd:string"/>
-	<xsd:element name="LifeCycleLength" type="QuantityType"/>	
+	<xsd:element name="LifeCycleCost" type="AmountType"/>
+	<xsd:element name="LifeCycleLength" type="QuantityType"/>
 	<xsd:element name="LifeCycleStatusCode" type="CodeType"/>
 	<xsd:element name="LimitationDescription" type="xsd:decimal"/>
 	<xsd:element name="Line" type="xsd:string"/>
@@ -508,6 +511,7 @@
 	<xsd:element name="OntologyURI" type="xsd:string"/>
 	<xsd:element name="OpenTenderID" type="xsd:string"/>
 	<xsd:element name="OperatingYearsQuantity" type="QuantityType"/>
+	<xsd:element name="OperationCostsPerYear" type="AmountType"/>
 	<xsd:element name="OptionalLineItemIndicator" type="xsd:boolean"/>
 	<xsd:element name="OptionsDescription" type="xsd:decimal"/>
 	<xsd:element name="OrderIntervalDaysNumeric" type="xsd:decimal"/>

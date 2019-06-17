@@ -120,14 +120,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return orderLine.get(0).getLineItem().getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -163,14 +168,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return lineItem.getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -206,14 +216,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return requestForQuotationLine.get(0).getLineItem().getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -249,14 +264,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return despatchLine.get(0).getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -292,14 +312,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return mainTransportationService;\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -335,14 +360,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return itemInformationRequestLine.get(0).getSalesItem().get(0).getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -378,14 +408,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return Boolean.toString(acceptedIndicator);\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return null;\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -421,14 +456,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return Boolean.toString(acceptedIndicator);\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return null;\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -464,14 +504,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return documentStatusCode.getName();\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return null;\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -507,14 +552,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "    \n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType(){\n" +
                                 "        return item.get(0);\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -550,14 +600,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
-                                "        return null;\n" +
+                                "    public String getDocumentStatus() {\n" +
+                                "        return documentStatusCode.getName();\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return quotationLine.get(0).getLineItem().getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);
@@ -594,14 +649,19 @@ public class GenerateSourceUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public String isAccepted() {\n" +
+                                "    public String getDocumentStatus() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public ItemType getItemType() {\n" +
                                 "        return receiptLine.get(0).getItem();\n" +
-                                "    }\n";
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public List<DocumentReferenceType> getAdditionalDocuments() {\n" +
+                                "        return additionalDocumentReference;\n" +
+                                "    }";
                         fileText = fileText.replace(group,newGroup);
 
                         fileUpdate.setFileUpdated(true);

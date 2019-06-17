@@ -20,6 +20,7 @@
 			<xsd:element ref="cbc:DocumentStatusCode" minOccurs="0"/>
 			<xsd:element ref="cbc:DocumentStatusReasonCode" minOccurs="0"/>
 			<xsd:element ref="cbc:DataMonitoringPromised" minOccurs="0"/>
+			<xsd:element ref="cbc:DigitalAgreementConfirmed" minOccurs="0"/>
 			<xsd:element ref="cac:RequestForQuotationDocumentReference" minOccurs="0"/>
 			<xsd:element ref="cac:SellerSupplierParty"/>
 			<xsd:element ref="cac:BuyerCustomerParty"/>

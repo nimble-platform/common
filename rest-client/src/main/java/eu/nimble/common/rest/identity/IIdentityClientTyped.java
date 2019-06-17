@@ -23,7 +23,7 @@ public interface IIdentityClientTyped {
 
     public Response getPartyPartiesInUBL(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "page") String page, @RequestParam(value = "includeRoles") String includeRoles, @RequestParam(value = "size") String size) throws Exception;
 
-    public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String personId) throws IOException;
+    public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("personId") String personId) throws IOException;
 
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken) throws IOException;
 

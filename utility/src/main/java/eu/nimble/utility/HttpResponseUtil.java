@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Utility methods to log erroneous cases in REST services
@@ -30,6 +32,22 @@ public class HttpResponseUtil {
 
 
     public static ResponseEntity createResponseEntityAndLog(String msg, Exception e, HttpStatus httpStatus, LogLevel logLevel) {
+        log(msg, e, logLevel);
+        return ResponseEntity.status(httpStatus).body(msg);
+    }
+
+    public static void writeMessageServletResponseAndLog(HttpServletResponse response, String msg, Exception e, HttpStatus httpStatus, LogLevel logLevel) {
+        log(msg, e, logLevel);
+
+        response.setStatus(httpStatus.value());
+        try {
+            response.getOutputStream().write(msg.getBytes());
+        } catch (IOException e1) {
+            logger.error("Failed to write the error message to the output stream", e);
+        }
+    }
+
+    private static void log(String msg, Exception e, LogLevel logLevel) {
         if(logLevel == null || logLevel == LogLevel.INFO) {
             if(e != null) {
                 logger.info(msg, e);
@@ -49,7 +67,6 @@ public class HttpResponseUtil {
                 logger.error(msg);
             }
         }
-        return ResponseEntity.status(httpStatus).body(msg);
     }
 
     public static String baseUrl(HttpServletRequest request) {

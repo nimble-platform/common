@@ -12,6 +12,7 @@ import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
+import eu.nimble.utility.serialization.BinaryObjectSerializerClearUris;
 import eu.nimble.utility.serialization.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,6 +182,23 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         throw new RuntimeException("Not implemented yet");
     }
 
+    public  <T> void clearBinaryObjectUris(T entity){
+        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
+        BinaryObjectSerializerClearUris serializer = new BinaryObjectSerializerClearUris();
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(BinaryObjectType.class, serializer);
+        objectMapper.registerModule(simpleModule);
+
+        try {
+            objectMapper.writeValueAsString(entity);
+
+        } catch (JsonProcessingException e) {
+            String msg = String.format("Failed to serialize object: %s", entity.getClass().getName());
+            logger.error(msg);
+            throw new RuntimeException(msg, e);
+        }
+    }
+
     private <T> void checkHjidAssociation(T entity, UpdateMode updateMode) {
         if(updateMode.equals(UpdateMode.PERSIST)) {
             checkHjidAssociation(entity);
@@ -198,7 +216,9 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
                 em.getTransaction().commit();
             }
         } catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to check hjid association ",e);
         }finally {
             em.close();
@@ -324,7 +344,9 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
             }
             return getBinaryObjectUrisToDelete(entity);
         } catch (Exception e){
-            em.getTransaction().rollback();
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new RuntimeException("Failed to get binary object uris to delete",e);
         }finally {
             em.close();

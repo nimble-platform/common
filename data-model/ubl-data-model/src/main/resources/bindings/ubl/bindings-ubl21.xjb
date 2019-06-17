@@ -25,6 +25,11 @@
 			<package name="eu.nimble.service.model.ubl.despatchadvice" />
 		</schemaBindings>
 	</bindings>
+	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-DigitalAgreement-2.2.xsd" node="/xsd:schema">
+		<schemaBindings>
+			<package name="eu.nimble.service.model.ubl.digitalagreement" />
+		</schemaBindings>
+	</bindings>
 	<bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-Order-2.1.xsd" node="/xsd:schema">
 		<schemaBindings>
 			<package name="eu.nimble.service.model.ubl.order" />

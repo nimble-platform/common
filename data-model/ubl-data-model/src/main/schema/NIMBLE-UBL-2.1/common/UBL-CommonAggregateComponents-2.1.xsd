@@ -8,6 +8,7 @@
 	<xsd:element name="Address" type="AddressType"/>
 	<xsd:element name="AllowanceCharge" type="AllowanceChargeType"/>
 	<xsd:element name="AnticipatedMonetaryTotal" type="MonetaryTotalType"/>
+	<xsd:element name="ApplicableTaxCategory" type="TaxCategoryType"/>
 	<xsd:element name="ApplicableTerritoryAddress" type="AddressType"/>
 	<xsd:element name="Attachment" type="AttachmentType"/>
 	<xsd:element name="BuyerCustomerParty" type="CustomerPartyType"/>
@@ -35,6 +36,8 @@
 	<xsd:element name="DespatchDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="DespatchLine" type="DespatchLineType"/>
 	<xsd:element name="DespatchSupplierParty" type="SupplierPartyType"/>
+	<xsd:element name="DigitalProcess" type="DigitalProcessType"/>
+	<xsd:element name="DigitalAgreementTerms" type="DigitalAgreementTermsType"/>
 	<xsd:element name="Dimension" type="DimensionType"/>
 	<xsd:element name="DocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="EnvironmentalEmission" type="EnvironmentalEmissionType"/>
@@ -62,6 +65,7 @@
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
+	<xsd:element name="ParticipantParty" type="PartyType"/>
 	<xsd:element name="Party" type="PartyType"/>
 	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>
 	<xsd:element name="PartyName" type="PartyNameType"/>
@@ -78,6 +82,7 @@
 	<xsd:element name="PurchaseTerms" type="TradingPreferences"/>
 	<xsd:element name="QualityIndicator" type="QualityIndicatorType"/>
 	<xsd:element name="QuotationLine" type="QuotationLineType"/>
+	<xsd:element name="QuotationReference" type="DocumentReferenceType"/>
 	<xsd:element name="QuotedMonetaryTotal" type="MonetaryTotalType"/>
 	<xsd:element name="ReceiptLine" type="ReceiptLineType"/>
 	<xsd:element name="ReceiverParty" type="PartyType"/>
@@ -371,6 +376,13 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="DigitalAgreementTermsType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Description"/>
+			<xsd:element ref="cac:ValidityPeriod" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DigitalProcessType"/>
 	<xsd:complexType name="DimensionType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:AttributeID"/>
@@ -545,7 +557,16 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:Price" minOccurs="0"/>
-			<xsd:element ref="cac:AllowanceCharge" maxOccurs="unbounded">
+			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:ApplicableTaxCategory" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1088,6 +1109,11 @@
 			<xsd:element ref="cac:Party" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="TaxCategoryType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Percent" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="TaxSchemeType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:TaxTypeCode" minOccurs="0"/>
@@ -1121,6 +1147,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:PaymentMeans" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:TermOrCondition" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1562,5 +1597,11 @@
 			<xsd:element ref="cbc:ValueCode" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LCPAOutputType"/>
+	<xsd:complexType name="LCPAOutputType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:LifeCycleCost"/>
+			<xsd:element ref="cbc:OperationCostsPerYear"/>
+			<xsd:element ref="cbc:CapexOpexRelation"/>
+		</xsd:sequence>
+	</xsd:complexType>
 </xsd:schema>

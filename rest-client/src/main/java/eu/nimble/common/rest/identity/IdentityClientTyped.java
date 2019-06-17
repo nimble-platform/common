@@ -109,7 +109,7 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         return identityClient.getPartyPartiesInUBL(bearerToken,page,includeRoles,size);
     }
 
-    public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String personId) throws IOException {
+    public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("personId") String personId) throws IOException {
         Response response = identityClient.getPerson(bearerToken, personId);
         String responseBody;
         try {
