@@ -1,6 +1,7 @@
 package eu.nimble.common.rest.identity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import eu.nimble.common.rest.identity.model.NegotiationSettings;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
 import eu.nimble.utility.JsonSerializationUtility;
@@ -178,6 +179,24 @@ public class IdentityClientTyped implements IIdentityClientTyped{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public NegotiationSettings getNegotiationSettings(String companyID) throws IOException {
+        Response response = identityClient.getNegotiationSettings(companyID);
+        String responseBody;
+        try {
+            responseBody = IOUtils.toString(response.body().asInputStream());
+        } catch (IOException e){
+            String msg = String.format("Failed to obtain body response while getting the negotiation settings for party: %s", companyID);
+            logger.error(msg);
+            throw e;
+        }
+
+        if (response.status() == 200){
+            return JsonSerializationUtility.getObjectMapper().readValue(responseBody,NegotiationSettings.class);
+        }
+        return null;
     }
 
     private PartyType processGetPartyResponse(Response response, String storeId) throws IOException {
