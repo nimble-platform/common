@@ -1591,10 +1591,42 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:Name"/>
 			<xsd:element ref="cbc:ValueQualifier"/>
-			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:ValueQuantity" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="cbc:ValueCode" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ValueQuantity" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ValueDecimal" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ValueCode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LCPAOutputType">
