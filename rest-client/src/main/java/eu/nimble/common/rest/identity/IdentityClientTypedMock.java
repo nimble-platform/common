@@ -1,5 +1,6 @@
 package eu.nimble.common.rest.identity;
 
+import eu.nimble.common.rest.identity.model.NegotiationSettings;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
@@ -116,6 +117,21 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
                 .status(200)
                 .headers(new HashMap<>())
                 .build();
+    }
+
+    @Override
+    public NegotiationSettings getNegotiationSettings(String companyID) throws IOException {
+        NegotiationSettings negotiationSettings = null;
+        if(companyID.contentEquals("706")){
+            PartyType party = createParty("706");
+            List<String> paymentMeans = new ArrayList<>();
+            paymentMeans.add("Credit Card");
+            List<String> paymentTerms = new ArrayList<>();
+            paymentTerms.add("PIA - Payment in advance");
+
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans);
+        }
+        return negotiationSettings;
     }
 
     private PartyType createParty(String partyId){
