@@ -1,17 +1,15 @@
 package eu.nimble.utility.persistence.binary;
 
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.persistence.JPARepositoryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +32,7 @@ public class BinaryContentService {
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
     private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
+    private static final String QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) = 1";
 
     private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
@@ -227,6 +226,10 @@ public class BinaryContentService {
         } finally {
             closeResources(c, ps, null, String.format("While deleting binary content for uris: %s", uris));
         }
+    }
+
+    public List<String> getUrisWithOnlyOneBinaryObject(List<String> binaryObjectUris){
+        return new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{binaryObjectUris});
     }
 
     private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {
