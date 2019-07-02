@@ -46,55 +46,59 @@ public class BinaryContentService {
     @Value("${nimble.binary-content.url}")
     private String binaryContentUrl;
 
-    public List<BinaryObjectType> getBinaryObjects(){
-        return new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_BINARY_OBJECTS,new String[]{"uri"}, new Object[]{"%"+binaryContentUrl+"%"});
+    public List<BinaryObjectType> getBinaryObjects(String uri){
+        return new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_BINARY_OBJECTS,new String[]{"uri"}, new Object[]{"%"+uri+"%"});
     }
 
-    public void updateBinaryContentUris(List<BinaryObjectType> binaryObjects, String newUrl){
+    public void updateBinaryContentUris(List<BinaryObjectType> binaryObjects, String newUrl, String oldUrl){
         GenericJPARepository repo = new JPARepositoryFactory().forCatalogueRepository();
         for(BinaryObjectType binaryObject: binaryObjects){
-            // get binary content
-            BinaryObjectType binaryContent = retrieveContent(binaryObject.getUri());
-            if(binaryContent != null){
-                // create a new content
-                BinaryObjectType newBinaryContent = new BinaryObjectType();
-                newBinaryContent.setValue(binaryContent.getValue());
-                newBinaryContent.setMimeCode(binaryContent.getMimeCode());
-                newBinaryContent.setFileName(binaryContent.getFileName());
-                newBinaryContent.setUri(binaryContent.getUri().replace(binaryContentUrl,newUrl));
 
-                if(retrieveContent(newBinaryContent.getUri()) == null){
-                    createContent(newBinaryContent,false);
+            if(binaryObject.getUri().contains(oldUrl)){
+                // get binary content
+                BinaryObjectType binaryContent = retrieveContent(binaryObject.getUri());
+                if(binaryContent != null){
+                    // create a new content
+                    BinaryObjectType newBinaryContent = new BinaryObjectType();
+                    newBinaryContent.setValue(binaryContent.getValue());
+                    newBinaryContent.setMimeCode(binaryContent.getMimeCode());
+                    newBinaryContent.setFileName(binaryContent.getFileName());
+                    newBinaryContent.setUri(binaryContent.getUri().replace(oldUrl,newUrl));
+
+                    if(retrieveContent(newBinaryContent.getUri()) == null){
+                        createContent(newBinaryContent,false);
+                    }
                 }
+
+                // update uri of binary object
+                binaryObject.setUri(binaryObject.getUri().replace(oldUrl,newUrl));
+                repo.updateEntity(binaryObject);
             }
 
-            // update uri of binary object
-            binaryObject.setUri(binaryObject.getUri().replace(binaryContentUrl,newUrl));
-            repo.updateEntity(binaryObject);
         }
         logger.info("Uris of binary contents are updated to the new url: {}",newUrl);
     }
 
-    public void deleteBinaryContents(){
+    public void deleteBinaryContents(String uri){
         Connection c = null;
         PreparedStatement ps = null;
 
         try {
             c = dataSource.getConnection();
             ps = c.prepareStatement(QUERY_DELETE_CONTENTS);
-            ps.setString(1, "%"+binaryContentUrl+"%");
+            ps.setString(1, "%"+uri+"%");
             ps.executeUpdate();
 
             ps.close();
 
-            logger.info("Binary contents whose uri starts with {} deleted",binaryContentUrl);
+            logger.info("Binary contents whose uri starts with {} deleted",uri);
         } catch (SQLException e) {
-            String msg = String.format("Failed to delete binary contents whose uri starts with %s:",binaryContentUrl);
+            String msg = String.format("Failed to delete binary contents whose uri starts with %s:",uri);
             logger.error(msg, e);
             throw new RuntimeException(msg, e);
 
         } finally {
-            closeResources(c, ps, null, String.format("While deleting binary contents whose uri starts with %s",binaryContentUrl));
+            closeResources(c, ps, null, String.format("While deleting binary contents whose uri starts with %s",uri));
         }
     }
 
@@ -198,7 +202,7 @@ public class BinaryContentService {
     }
 
     public String getURI(){
-        return binaryContentUrl + UUID.randomUUID().toString();
+        return binaryContentUrl + ":" + UUID.randomUUID().toString();
     }
 
     public List<BinaryObjectType> retrieveContents(List<String> uris) {
