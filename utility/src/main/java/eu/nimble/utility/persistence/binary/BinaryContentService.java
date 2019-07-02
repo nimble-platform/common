@@ -1,6 +1,7 @@
 package eu.nimble.utility.persistence.binary;
 
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,8 @@ public class BinaryContentService {
     private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
     private static final String QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) = 1";
-
+    private static final String QUERY_GET_BINARY_OBJECTS = "FROM BinaryObjectType binaryObject WHERE binaryObject.uri LIKE :uri";
+    private static final String QUERY_DELETE_CONTENTS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " LIKE ?";
     private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -44,11 +46,67 @@ public class BinaryContentService {
     @Value("${nimble.binary-content.url}")
     private String binaryContentUrl;
 
-    public BinaryObjectType createContent(BinaryObjectType binaryObjectType) {
+    public List<BinaryObjectType> getBinaryObjects(){
+        return new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_BINARY_OBJECTS,new String[]{"uri"}, new Object[]{"%"+binaryContentUrl+"%"});
+    }
+
+    public void updateBinaryContentUris(List<BinaryObjectType> binaryObjects, String newUrl){
+        GenericJPARepository repo = new JPARepositoryFactory().forCatalogueRepository();
+        for(BinaryObjectType binaryObject: binaryObjects){
+            // get binary content
+            BinaryObjectType binaryContent = retrieveContent(binaryObject.getUri());
+            if(binaryContent != null){
+                // create a new content
+                BinaryObjectType newBinaryContent = new BinaryObjectType();
+                newBinaryContent.setValue(binaryContent.getValue());
+                newBinaryContent.setMimeCode(binaryContent.getMimeCode());
+                newBinaryContent.setFileName(binaryContent.getFileName());
+                newBinaryContent.setUri(binaryContent.getUri().replace(binaryContentUrl,newUrl));
+
+                if(retrieveContent(newBinaryContent.getUri()) == null){
+                    createContent(newBinaryContent,false);
+                }
+            }
+
+            // update uri of binary object
+            binaryObject.setUri(binaryObject.getUri().replace(binaryContentUrl,newUrl));
+            repo.updateEntity(binaryObject);
+        }
+        logger.info("Uris of binary contents are updated to the new url: {}",newUrl);
+    }
+
+    public void deleteBinaryContents(){
         Connection c = null;
         PreparedStatement ps = null;
 
-        if(binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(binaryContentUrl)) {
+        try {
+            c = dataSource.getConnection();
+            ps = c.prepareStatement(QUERY_DELETE_CONTENTS);
+            ps.setString(1, "%"+binaryContentUrl+"%");
+            ps.executeUpdate();
+
+            ps.close();
+
+            logger.info("Binary contents whose uri starts with {} deleted",binaryContentUrl);
+        } catch (SQLException e) {
+            String msg = String.format("Failed to delete binary contents whose uri starts with %s:",binaryContentUrl);
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+
+        } finally {
+            closeResources(c, ps, null, String.format("While deleting binary contents whose uri starts with %s",binaryContentUrl));
+        }
+    }
+
+    public BinaryObjectType createContent(BinaryObjectType binaryObjectType){
+        return createContent(binaryObjectType,true);
+    }
+
+    public BinaryObjectType createContent(BinaryObjectType binaryObjectType, Boolean checkUri) {
+        Connection c = null;
+        PreparedStatement ps = null;
+
+        if(checkUri && (binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(binaryContentUrl))){
             binaryObjectType.setUri(getURI());
         }
 
