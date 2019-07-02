@@ -95,6 +95,9 @@
 							<ccts:RepresentationTerm>Participant Party</ccts:RepresentationTerm>
 						</ccts:Component>
 					</xsd:documentation>
+					<xsd:appinfo>
+						<hj:many-to-many/>
+					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:Item"/>
