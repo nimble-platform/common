@@ -3,7 +3,6 @@ package eu.nimble.utility.persistence.resource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.BinaryContentUtil;
 import eu.nimble.utility.CommonSpringBridge;
@@ -368,7 +367,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
             logger.error(msg);
             throw new RuntimeException(msg, e);
         }
-        return serializer.getListOfUris();
+        return CommonSpringBridge.getInstance().getBinaryContentService().getUrisWithOnlyOneBinaryObject(serializer.getListOfUris());
     }
 
     private enum UpdateMode {
