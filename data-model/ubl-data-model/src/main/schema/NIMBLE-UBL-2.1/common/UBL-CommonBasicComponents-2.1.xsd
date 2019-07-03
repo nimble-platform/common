@@ -625,6 +625,7 @@
 	<xsd:element name="PrizeIndicator" type="xsd:boolean"/>
 	<xsd:element name="ProcedureCode" type="CodeType"/>
 	<xsd:element name="ProcessDescription" type="xsd:decimal"/>
+	<xsd:element name="ProcessID" type="xsd:string"/>
 	<xsd:element name="ProcessReason" type="xsd:string"/>
 	<xsd:element name="ProcessReasonCode" type="CodeType"/>
 	<xsd:element name="ProcurementSubTypeCode" type="CodeType"/>
