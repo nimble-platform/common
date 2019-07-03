@@ -232,7 +232,11 @@ public class BinaryContentService {
     }
 
     public List<String> getUrisWithOnlyOneBinaryObject(List<String> binaryObjectUris){
-        return new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{binaryObjectUris});
+        List<String> uris = new ArrayList<>();
+        if(binaryObjectUris.size() > 0){
+            uris = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{binaryObjectUris});
+        }
+        return uris;
     }
 
     private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {
