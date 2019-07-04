@@ -30,6 +30,7 @@ public class DataModelUtility {
         party.setIndustrySector(null);
         party.setMostRecentItemsClassificationCode(null);
         party.setNACE(null);
+        party.setProcessID(null);
         party.setPartyTaxScheme(null);
         party.setPerson(null);
         party.setPostalAddress(null);
@@ -79,5 +80,6 @@ public class DataModelUtility {
         targetParty.setPreferredItemClassificationCode(sourceParty.getPreferredItemClassificationCode());
         targetParty.setPurchaseTerms(sourceParty.getPurchaseTerms());
         targetParty.setSalesTerms(sourceParty.getSalesTerms());
+        targetParty.setProcessID(sourceParty.getProcessID());
     }
 }

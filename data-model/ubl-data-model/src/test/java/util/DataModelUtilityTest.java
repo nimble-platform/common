@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.soap.Text;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,10 +28,20 @@ public class DataModelUtilityTest {
         Field[] fields = PartyType.class.getDeclaredFields();
         PartyType initializedParty = createEmptyParty();
 
+        // check the empty party contains a non-null value for all fields
+        for(Field f : fields) {
+            if(!f.getType().isPrimitive() && !Modifier.isTransient(f.getModifiers())) {
+                f.setAccessible(true);
+                Object fieldValue = f.get(initializedParty);
+                Assert.assertNotNull(fieldValue);
+                f.setAccessible(false);
+            }
+        }
+
         DataModelUtility.nullifyPartyFields(initializedParty);
 
         for(Field f : fields) {
-            if(!f.getType().isPrimitive()) {
+            if(!f.getType().isPrimitive() && !Modifier.isTransient(f.getModifiers())) {
                 f.setAccessible(true);
                 Object fieldValue = f.get(initializedParty);
                 Assert.assertNull(fieldValue);
@@ -44,7 +55,9 @@ public class DataModelUtilityTest {
         List<String> fieldNames = new ArrayList<>();
         Field[] fields = PartyType.class.getDeclaredFields();
         for(Field f : fields) {
-            fieldNames.add(f.getName());
+            if(!Modifier.isTransient(f.getModifiers())) {
+                fieldNames.add(f.getName());
+            }
         }
 
         PartyType p1 = new PartyType();
@@ -54,12 +67,14 @@ public class DataModelUtilityTest {
 
         List<String> copiedFields = new ArrayList<>();
         for(Field f : fields) {
-            f.setAccessible(true);
-            Object fieldValue = f.get(p1);
-            if (fieldValue != null) {
-                copiedFields.add(f.getName());
+            if(!Modifier.isTransient(f.getModifiers())) {
+                f.setAccessible(true);
+                Object fieldValue = f.get(p1);
+                if (fieldValue != null) {
+                    copiedFields.add(f.getName());
+                }
+                f.setAccessible(false);
             }
-            f.setAccessible(false);
         }
 
         if(!(copiedFields.containsAll(fieldNames) && fieldNames.containsAll(copiedFields))) {
@@ -71,6 +86,8 @@ public class DataModelUtilityTest {
         PartyType party = new PartyType();
         party.setHjid(1L);
         party.setWebsiteURI("website");
+        party.setDescription(new ArrayList<>());
+        party.setBrandName(new ArrayList<>());
         PartyIdentificationType partyIdentificationType = new PartyIdentificationType();
         partyIdentificationType.setID("id");
         PartyNameType partyNameType = new PartyNameType();
@@ -87,6 +104,7 @@ public class DataModelUtilityTest {
         party.setDocumentReference(new ArrayList<>());
         party.setExternalAward("award");
         party.setFederationInstanceID("fedid");
+        party.setProcessID(new ArrayList<>());
         TextType industryClassification = new TextType();
         party.setIndustryClassification(industryClassification);
         party.setIndustryClassificationCode(new CodeType());
