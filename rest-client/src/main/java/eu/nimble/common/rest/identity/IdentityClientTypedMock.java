@@ -29,13 +29,7 @@ import java.util.List;
 public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId) throws IOException {
-        String insertQuery = "SELECT party FROM PartyType party join party.partyIdentification as partyIdentification where partyIdentification.ID = :partyId";
-        PartyType party = new JPARepositoryFactory().forCatalogueRepository(true).getSingleEntity(insertQuery,new String[]{"partyId"}, new Object[]{storeId});
-        if(party == null){
-            party = createParty(storeId);
-        }
-
-        return party;
+        return createParty(storeId);
     }
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId,
@@ -186,8 +180,11 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             text.setValue("alpCompany");
             partyName.setName(text);
 
+            List<String> processIds = Arrays.asList("Item_Information_Request");
+
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
+            party.setProcessID(processIds);
         }
 
         return party;
