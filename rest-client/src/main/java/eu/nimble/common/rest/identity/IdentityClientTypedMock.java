@@ -125,6 +125,15 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
             negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans);
         }
+        else if(companyID.contentEquals("1339")){
+            PartyType party = createParty("1339");
+            List<String> paymentMeans = new ArrayList<>();
+            paymentMeans.add("Credit Card");
+            List<String> paymentTerms = new ArrayList<>();
+            paymentTerms.add("PIA - Payment in advance");
+
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans);
+        }
         return negotiationSettings;
     }
 
