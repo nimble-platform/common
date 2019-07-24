@@ -197,6 +197,9 @@ public class BinaryContentService {
         Connection c = null;
         PreparedStatement ps = null;
 
+        // delete the contents which have only one reference, and discard the others
+        uris = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{uris});
+
         // construct the condition
         String condition = "";
         for(int i=0; i<uris.size(); i++) {
@@ -229,14 +232,6 @@ public class BinaryContentService {
         } finally {
             closeResources(c, ps, null, String.format("While deleting binary content for uris: %s", uris));
         }
-    }
-
-    public List<String> getUrisWithOnlyOneBinaryObject(List<String> binaryObjectUris){
-        List<String> uris = new ArrayList<>();
-        if(binaryObjectUris.size() > 0){
-            uris = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{binaryObjectUris});
-        }
-        return uris;
     }
 
     private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {

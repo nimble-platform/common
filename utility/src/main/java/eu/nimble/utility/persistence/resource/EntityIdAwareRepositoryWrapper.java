@@ -367,7 +367,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
             logger.error(msg);
             throw new RuntimeException(msg, e);
         }
-        return CommonSpringBridge.getInstance().getBinaryContentService().getUrisWithOnlyOneBinaryObject(serializer.getListOfUris());
+        return serializer.getListOfUris();
     }
 
     private enum UpdateMode {
