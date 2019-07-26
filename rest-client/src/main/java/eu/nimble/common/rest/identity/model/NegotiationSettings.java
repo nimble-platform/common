@@ -10,14 +10,16 @@ public class NegotiationSettings {
     private PartyType company;
     private List<String> paymentTerms = new ArrayList<>();
     private List<String> paymentMeans = new ArrayList<>();
+    private List<String> incoterms = new ArrayList<>();
 
     public NegotiationSettings() {
     }
 
-    public NegotiationSettings(PartyType company, List<String> paymentTerms, List<String> paymentMeans) {
+    public NegotiationSettings(PartyType company, List<String> paymentTerms, List<String> paymentMeans, List<String> incoterms) {
         this.company = company;
         this.paymentTerms = paymentTerms;
         this.paymentMeans = paymentMeans;
+        this.incoterms = incoterms;
     }
 
     public PartyType getCompany() {
@@ -42,5 +44,13 @@ public class NegotiationSettings {
 
     public void setPaymentMeans(List<String> paymentMeans) {
         this.paymentMeans = paymentMeans;
+    }
+
+    public List<String> getIncoterms() {
+        return incoterms;
+    }
+
+    public void setIncoterms(List<String> incoterms) {
+        this.incoterms = incoterms;
     }
 }

@@ -122,8 +122,10 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             paymentMeans.add("Credit Card");
             List<String> paymentTerms = new ArrayList<>();
             paymentTerms.add("PIA - Payment in advance");
+            List<String> incoterms = new ArrayList<>();
+            incoterms.add("FCA (Free Carrier)");
 
-            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans);
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans,incoterms);
         }
         else if(companyID.contentEquals("1339")){
             PartyType party = createParty("1339");
@@ -131,8 +133,9 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             paymentMeans.add("Credit Card");
             List<String> paymentTerms = new ArrayList<>();
             paymentTerms.add("PIA - Payment in advance");
+            List<String> incoterms = new ArrayList<>();
 
-            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans);
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans,incoterms);
         }
         return negotiationSettings;
     }
