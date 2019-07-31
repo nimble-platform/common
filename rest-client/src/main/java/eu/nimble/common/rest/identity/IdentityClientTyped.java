@@ -50,14 +50,16 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         commaSeparatedIds.append(partyIds.get(partyIds.size() - 1));
 
         Response response = identityClient.getParties(bearerToken, commaSeparatedIds.toString());
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
 
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the parties with ids: %s", commaSeparatedIds.toString());
-            logger.error(msg);
-            throw e;
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the parties with ids: %s", commaSeparatedIds.toString());
+                logger.error(msg);
+                throw e;
+            }
         }
 
         if (response.status() == 200) {
@@ -78,13 +80,15 @@ public class IdentityClientTyped implements IIdentityClientTyped{
 
     public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
         Response response = identityClient.getPartyByPersonID(personId);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the party for person with id: %s", personId);
-            logger.error(msg);
-            throw e;
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the party for person with id: %s", personId);
+                logger.error(msg);
+                throw e;
+            }
         }
 
         if (response.status() == 200) {
@@ -112,14 +116,16 @@ public class IdentityClientTyped implements IIdentityClientTyped{
 
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("personId") String personId) throws IOException {
         Response response = identityClient.getPerson(bearerToken, personId);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
 
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the person with id: %s", personId);
-            logger.error(msg);
-            throw e;
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the person with id: %s", personId);
+                logger.error(msg);
+                throw e;
+            }
         }
 
         if (response.status() == 200) {
@@ -139,14 +145,16 @@ public class IdentityClientTyped implements IIdentityClientTyped{
 
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken) throws IOException {
         Response response = identityClient.getPerson(bearerToken);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
 
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the person with token: %s", bearerToken);
-            logger.error(msg);
-            throw e;
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the person with token: %s", bearerToken);
+                logger.error(msg);
+                throw e;
+            }
         }
 
         if (response.status() == 200) {
@@ -164,16 +172,8 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         }
     }
 
-    public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException{
+    public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken){
         Response response = identityClient.getUserInfo(bearerToken);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
-        } catch (IOException e){
-            String msg = String.format("Failed to obtain body response while getting the user info with token: %s", bearerToken);
-            logger.error(msg);
-            throw e;
-        }
 
         if(response.status() == 200){
             return true;
@@ -184,30 +184,34 @@ public class IdentityClientTyped implements IIdentityClientTyped{
     @Override
     public NegotiationSettings getNegotiationSettings(String companyID) throws IOException {
         Response response = identityClient.getNegotiationSettings(companyID);
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
-        } catch (IOException e){
-            String msg = String.format("Failed to obtain body response while getting the negotiation settings for party: %s", companyID);
-            logger.error(msg);
-            throw e;
-        }
 
         if (response.status() == 200){
-            return JsonSerializationUtility.getObjectMapper().readValue(responseBody,NegotiationSettings.class);
+            try {
+                String responseBody = null;
+                if(response.body() != null){
+                    responseBody = IOUtils.toString(response.body().asInputStream());
+                }
+                return JsonSerializationUtility.getObjectMapper().readValue(responseBody,NegotiationSettings.class);
+            } catch (IOException e){
+                String msg = String.format("Failed to obtain body response while getting the negotiation settings for party: %s", companyID);
+                logger.error(msg);
+                throw e;
+            }
         }
         return null;
     }
 
     private PartyType processGetPartyResponse(Response response, String storeId) throws IOException {
-        String responseBody;
-        try {
-            responseBody = IOUtils.toString(response.body().asInputStream());
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
 
-        } catch (IOException e) {
-            String msg = String.format("Failed to obtain body response while getting the party with id: %s", storeId);
-            logger.error(msg);
-            throw e;
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the party with id: %s", storeId);
+                logger.error(msg);
+                throw e;
+            }
         }
 
         if (response.status() == 200) {
