@@ -32,7 +32,7 @@ public class BinaryContentService {
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
     private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
-    private static final String QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) = 1";
+    private static final String QUERY_GET_URIS_HAVING_MORE_THAN_ONE_REFERENCE = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) > 1";
     private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -197,8 +197,10 @@ public class BinaryContentService {
         Connection c = null;
         PreparedStatement ps = null;
 
-        // delete the contents which have only one reference, and discard the others
-        uris = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{uris});
+        // get the uris which have more than one reference
+        List<String> urisHavingMoreThanOneReference = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_HAVING_MORE_THAN_ONE_REFERENCE,new String[]{"uris"}, new Object[]{uris});
+        // discard those uris and delete the rest (having zero or one BinaryObject reference)
+        uris.removeAll(urisHavingMoreThanOneReference);
 
         // construct the condition
         String condition = "";
