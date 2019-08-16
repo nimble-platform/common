@@ -625,6 +625,7 @@
 	<xsd:element name="PrizeIndicator" type="xsd:boolean"/>
 	<xsd:element name="ProcedureCode" type="CodeType"/>
 	<xsd:element name="ProcessDescription" type="xsd:decimal"/>
+	<xsd:element name="ProcessID" type="xsd:string"/>
 	<xsd:element name="ProcessReason" type="xsd:string"/>
 	<xsd:element name="ProcessReasonCode" type="CodeType"/>
 	<xsd:element name="ProcurementSubTypeCode" type="CodeType"/>
@@ -941,6 +942,7 @@
 				<xsd:attribute name="mimeCode" type="xsd:normalizedString" use="required"/>
 				<xsd:attribute name="fileName" type="xsd:normalizedString" use="optional"/>
 				<xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+				<xsd:attribute name="languageID" type="xsd:normalizedString" use="optional"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>

@@ -1,5 +1,6 @@
 package eu.nimble.common.rest.identity;
 
+import eu.nimble.common.rest.identity.model.NegotiationSettings;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
@@ -28,13 +29,7 @@ import java.util.List;
 public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId) throws IOException {
-        String insertQuery = "SELECT party FROM PartyType party join party.partyIdentification as partyIdentification where partyIdentification.ID = :partyId";
-        PartyType party = new JPARepositoryFactory().forCatalogueRepository(true).getSingleEntity(insertQuery,new String[]{"partyId"}, new Object[]{storeId});
-        if(party == null){
-            party = createParty(storeId);
-        }
-
-        return party;
+        return createParty(storeId);
     }
 
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId,
@@ -118,6 +113,33 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
                 .build();
     }
 
+    @Override
+    public NegotiationSettings getNegotiationSettings(String companyID) throws IOException {
+        NegotiationSettings negotiationSettings = null;
+        if(companyID.contentEquals("706")){
+            PartyType party = createParty("706");
+            List<String> paymentMeans = new ArrayList<>();
+            paymentMeans.add("Credit Card");
+            List<String> paymentTerms = new ArrayList<>();
+            paymentTerms.add("PIA - Payment in advance");
+            List<String> incoterms = new ArrayList<>();
+            incoterms.add("FCA (Free Carrier)");
+
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans,incoterms);
+        }
+        else if(companyID.contentEquals("1339")){
+            PartyType party = createParty("1339");
+            List<String> paymentMeans = new ArrayList<>();
+            paymentMeans.add("Credit Card");
+            List<String> paymentTerms = new ArrayList<>();
+            paymentTerms.add("PIA - Payment in advance");
+            List<String> incoterms = new ArrayList<>();
+
+            negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans,incoterms);
+        }
+        return negotiationSettings;
+    }
+
     private PartyType createParty(String partyId){
         PartyIdentificationType partyIdentification = new PartyIdentificationType();
         partyIdentification.setID(partyId);
@@ -170,8 +192,11 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             text.setValue("alpCompany");
             partyName.setName(text);
 
+            List<String> processIds = Arrays.asList("Item_Information_Request");
+
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
+            party.setProcessID(processIds);
         }
 
         return party;

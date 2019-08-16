@@ -32,7 +32,7 @@ public class BinaryContentService {
     private static final String QUERY_SELECT_CONTENT_BY_URI = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " = ?";
     private static final String QUERY_SELECT_CONTENT_BY_URIS = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant methods
     private static final String QUERY_DELETE_CONTENT_BY_URIS = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_ID + " IN (%s)"; // query to complete in the relevant method
-    private static final String QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) = 1";
+    private static final String QUERY_GET_URIS_HAVING_REFERENCES = "SELECT binaryObject.uri FROM BinaryObjectType binaryObject WHERE binaryObject.uri in :uris group by binaryObject.uri having count(*) > 0";
     private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
@@ -193,9 +193,20 @@ public class BinaryContentService {
         deleteContents(Arrays.asList(uri));
     }
 
+    // delete the ones which have no BinaryObject references and discard the rest
     public void deleteContents(List<String> uris) {
         Connection c = null;
         PreparedStatement ps = null;
+
+        // get the uris having references
+        List<String> urisHavingReferences = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_HAVING_REFERENCES,new String[]{"uris"}, new Object[]{uris});
+        // discard those uris and delete the rest (having no BinaryObject reference)
+        uris.removeAll(urisHavingReferences);
+
+        // return if there is nothing to delete
+        if(uris.size() == 0){
+            return;
+        }
 
         // construct the condition
         String condition = "";
@@ -229,14 +240,6 @@ public class BinaryContentService {
         } finally {
             closeResources(c, ps, null, String.format("While deleting binary content for uris: %s", uris));
         }
-    }
-
-    public List<String> getUrisWithOnlyOneBinaryObject(List<String> binaryObjectUris){
-        List<String> uris = new ArrayList<>();
-        if(binaryObjectUris.size() > 0){
-            uris = new JPARepositoryFactory().forCatalogueRepository().getEntities(QUERY_GET_URIS_WITH_ONLY_ONE_BINARY_OBJECT,new String[]{"uris"}, new Object[]{binaryObjectUris});
-        }
-        return uris;
     }
 
     private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {

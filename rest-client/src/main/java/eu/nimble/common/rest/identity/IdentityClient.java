@@ -39,4 +39,7 @@ public interface IdentityClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/user-info",produces = "application/json")
     Response getUserInfo(@RequestHeader("Authorization") String bearerToken);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/company-settings/{companyID}/negotiation/", produces = "application/json")
+    Response getNegotiationSettings(@PathVariable("companyID") String companyID);
 }

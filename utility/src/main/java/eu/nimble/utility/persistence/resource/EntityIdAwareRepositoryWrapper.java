@@ -115,11 +115,13 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         T originalEntity = (T) genericJPARepository.getSingleEntityByHjid(entity.getClass(), id);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, originalEntity, UpdateMode.UPDATE);
         // clear the entity identifiers for the passed entity
-        clearIdsAndBinaryContents(entity, originalEntity, UpdateMode.UPDATE, binaryContentUrisToDelete);
+        clearIds(entity, originalEntity, UpdateMode.UPDATE);
         // create binary content references for the entity
         BinaryContentUtil.processBinaryContents(entity);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
+        // clear binary contents
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
         // create entity ids for the entity
         CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
         return entity;
@@ -137,7 +139,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         // check whether the ids included in the entity belongs to the party performing the update
         checkHjidAssociation(entity, UpdateMode.PERSIST);
         // clear the entity identifiers for the passed entity
-        clearIdsAndBinaryContents(entity, UpdateMode.PERSIST, new ArrayList<>());
+        clearIds(entity, UpdateMode.PERSIST);
         // create binary content references for the entity
         BinaryContentUtil.processBinaryContents(entity);
         // perform the update operation on the database
@@ -152,7 +154,9 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         checkHjidAssociationWithTransaction(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
-        clearIdsAndBinaryContents(entity, UpdateMode.DELETE, binaryContentUrisToDelete);
+        clearIds(entity, UpdateMode.DELETE);
+        // clear binary contents
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
     }
 
     @Override
@@ -161,7 +165,9 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         checkHjidAssociationWithTransaction(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
-        clearIdsAndBinaryContents(entity, UpdateMode.DELETE, binaryContentUrisToDelete);
+        clearIds(entity, UpdateMode.DELETE);
+        // clear binary contents
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
     }
 
     @Override
@@ -288,11 +294,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         }
     }
 
-    private <T> void clearIdsAndBinaryContents(T entity, UpdateMode updateMode, List<String> binaryContentUrisToDelete) {
-        clearIdsAndBinaryContents(entity, null, updateMode, binaryContentUrisToDelete);
+    private <T> void clearIds(T entity, UpdateMode updateMode) {
+        clearIds(entity, null, updateMode);
     }
 
-    private <T> void clearIdsAndBinaryContents(T entity, T originalEntity, UpdateMode updateMode, List<String> binaryContentUrisToDelete) {
+    private <T> void clearIds(T entity, T originalEntity, UpdateMode updateMode) {
         // remove the previous ids associated with the entity.
         // this checks the persisted entities that might be present the passed entity
         CommonSpringBridge.getInstance().getResourceValidationUtil().removeHjidsForObject(entity, catalogueRepositoryName);
@@ -301,7 +307,6 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
             // remove ids for the entity
             CommonSpringBridge.getInstance().getResourceValidationUtil().removeHjidsForObject(originalEntity, catalogueRepositoryName);
         }
-        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
     }
 
     private <T> void createIdsAndBinaryContentsForEntity(T entity) {
@@ -367,7 +372,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
             logger.error(msg);
             throw new RuntimeException(msg, e);
         }
-        return CommonSpringBridge.getInstance().getBinaryContentService().getUrisWithOnlyOneBinaryObject(serializer.getListOfUris());
+        return serializer.getListOfUris();
     }
 
     private enum UpdateMode {
