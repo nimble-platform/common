@@ -36,38 +36,38 @@ public class IDocumentDeserializer extends JsonDeserializer<IDocument> {
         }
 
         if(node.has("itemInformationRequestLine")){
-            return mapper.readValue(node.toString(), ItemInformationRequestType.class);
+            return (IDocument) mapper.readValue(node.toString(), ItemInformationRequestType.class);
         }
         else if(node.has("itemInformationRequestDocumentReference")){
-            return mapper.readValue(node.toString(), ItemInformationResponseType.class);
+            return (IDocument) mapper.readValue(node.toString(), ItemInformationResponseType.class);
         }
         else if(node.has("requestForQuotationLine")){
-            return mapper.readValue(node.toString(), RequestForQuotationType.class);
+            return (IDocument) mapper.readValue(node.toString(), RequestForQuotationType.class);
         }
         else if(node.has("requestForQuotationDocumentReference")){
-            return mapper.readValue(node.toString(), QuotationType.class);
+            return (IDocument) mapper.readValue(node.toString(), QuotationType.class);
         }
         else if(node.has("despatchLine")){
-            return mapper.readValue(node.toString(), DespatchAdviceType.class);
+            return (IDocument) mapper.readValue(node.toString(), DespatchAdviceType.class);
         }
         else if(node.has("despatchDocumentReference")){
-            return mapper.readValue(node.toString(), ReceiptAdviceType.class);
+            return (IDocument) mapper.readValue(node.toString(), ReceiptAdviceType.class);
         }
         else if(node.has("orderLine")){
-            return mapper.readValue(node.toString(), OrderType.class);
+            return (IDocument) mapper.readValue(node.toString(), OrderType.class);
         }
         else if(node.has("orderReference")){
-            return mapper.readValue(node.toString(), OrderResponseSimpleType.class);
+            return (IDocument) mapper.readValue(node.toString(), OrderResponseSimpleType.class);
         }
         else if(node.has("mainTransportationService")){
-            return mapper.readValue(node.toString(), TransportExecutionPlanRequestType.class);
+            return (IDocument) mapper.readValue(node.toString(), TransportExecutionPlanRequestType.class);
         }
         else if(node.has("transportExecutionPlanRequestDocumentReference")){
-            return mapper.readValue(node.toString(), TransportExecutionPlanType.class);
+            return (IDocument) mapper.readValue(node.toString(), TransportExecutionPlanType.class);
         }
         else if(node.has("ppapDocumentReference")){
-            return mapper.readValue(node.toString(), PpapResponseType.class);
+            return (IDocument) mapper.readValue(node.toString(), PpapResponseType.class);
         }
-        return mapper.readValue(node.toString(), PpapRequestType.class);
+        return (IDocument) mapper.readValue(node.toString(), PpapRequestType.class);
     }
 }
