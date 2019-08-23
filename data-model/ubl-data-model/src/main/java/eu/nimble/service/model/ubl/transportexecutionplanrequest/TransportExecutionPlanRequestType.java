@@ -136,6 +136,12 @@ public class TransportExecutionPlanRequestType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return null;
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return transportServiceProviderParty;
     }

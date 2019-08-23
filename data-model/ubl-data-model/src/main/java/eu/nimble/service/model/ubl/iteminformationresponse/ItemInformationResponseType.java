@@ -107,6 +107,12 @@ public class ItemInformationResponseType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return itemInformationRequestDocumentReference.getID();
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return sellerSupplierParty.getParty();
     }

@@ -161,6 +161,12 @@ public class QuotationType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return requestForQuotationDocumentReference.getID();
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return sellerSupplierParty.getParty();
     }

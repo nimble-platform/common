@@ -125,6 +125,12 @@ public class DespatchAdviceType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return null;
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return despatchSupplierParty.getParty();
     }

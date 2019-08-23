@@ -27,4 +27,6 @@ public interface IDocument {
     PartyType getSellerParty();
     @JsonIgnore
     PartyType getBuyerParty();
+    @JsonIgnore
+    String getRequestDocumentId();
 }

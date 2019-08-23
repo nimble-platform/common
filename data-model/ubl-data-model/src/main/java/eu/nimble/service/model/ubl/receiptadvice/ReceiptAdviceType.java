@@ -119,6 +119,12 @@ public class ReceiptAdviceType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return despatchDocumentReference.get(0).getID();
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return despatchSupplierParty.getParty();
     }

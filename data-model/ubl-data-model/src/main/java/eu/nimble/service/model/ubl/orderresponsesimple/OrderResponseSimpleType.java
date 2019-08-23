@@ -123,6 +123,12 @@ public class OrderResponseSimpleType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return orderReference.getDocumentReference().getID();
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return sellerSupplierParty.getParty();
     }

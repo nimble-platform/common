@@ -135,6 +135,12 @@ public class OrderType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return null;
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return sellerSupplierParty.getParty();
     }

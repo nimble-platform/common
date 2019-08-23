@@ -110,6 +110,12 @@ public class PpapResponseType
 
     @Override
 	@Transient
+    public String getRequestDocumentId() {
+        return ppapDocumentReference.getID();
+    }
+
+    @Override
+	@Transient
     public PartyType getSellerParty() {
         return sellerSupplierParty.getParty();
     }
