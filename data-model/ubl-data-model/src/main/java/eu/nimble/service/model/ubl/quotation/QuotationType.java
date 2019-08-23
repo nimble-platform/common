@@ -161,6 +161,18 @@ public class QuotationType
 
     @Override
 	@Transient
+    public PartyType getSellerParty() {
+        return sellerSupplierParty.getParty();
+    }
+
+    @Override
+	@Transient
+    public PartyType getBuyerParty() {
+        return buyerCustomerParty.getParty();
+    }
+
+    @Override
+	@Transient
     public String getSellerPartyId() {
         return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();
     }

@@ -119,6 +119,18 @@ public class ReceiptAdviceType
 
     @Override
 	@Transient
+    public PartyType getSellerParty() {
+        return despatchSupplierParty.getParty();
+    }
+
+    @Override
+	@Transient
+    public PartyType getBuyerParty() {
+        return deliveryCustomerParty.getParty();
+    }
+
+    @Override
+	@Transient
     public String getSellerPartyId() {
         return despatchSupplierParty.getParty().getPartyIdentification().get(0).getID();
     }

@@ -136,6 +136,18 @@ public class TransportExecutionPlanRequestType
 
     @Override
 	@Transient
+    public PartyType getSellerParty() {
+        return transportServiceProviderParty;
+    }
+
+    @Override
+	@Transient
+    public PartyType getBuyerParty() {
+        return transportUserParty;
+    }
+
+    @Override
+	@Transient
     public String getSellerPartyId() {
         return transportServiceProviderParty.getPartyIdentification().get(0).getID();
     }
