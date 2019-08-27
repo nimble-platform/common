@@ -30,6 +30,15 @@
 					<ccts:ObjectClass>Transport Execution Plan Request</ccts:ObjectClass>
 				</ccts:Component>
 			</xsd:documentation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="TRANSPORT_EXECUTION_PLAN_REQ_2">
+						<orm:unique-constraint>
+							<orm:column-name>ID</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
+			</xsd:appinfo>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID">
