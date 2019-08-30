@@ -189,6 +189,48 @@ public class BinaryContentService {
         }
     }
 
+    public void deleteContentIdentity(String uri) {
+        deleteContentsIdentity(Arrays.asList(uri));
+    }
+
+    public void deleteContentsIdentity(List<String> uris) {
+        Connection c = null;
+        PreparedStatement ps = null;
+
+        // construct the condition
+        String condition = "";
+        for(int i=0; i<uris.size(); i++) {
+            if(i == uris.size()-1){
+                condition += "'"+uris.get(i)+"'";
+            }else {
+                condition += "'"+uris.get(i)+"'"+",";
+            }
+        }
+
+        try {
+            c = dataSource.getConnection();
+            ps = c.prepareStatement(String.format(QUERY_DELETE_CONTENT_BY_URIS, condition));
+            //            ps.setString(1, condition.substring(0, condition.length() - 1));
+            int queryResult = ps.executeUpdate();
+
+            if (queryResult > 0) {
+                logger.info("Binary content deleted for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
+            } else {
+                logger.warn("Failed to delete binary content for uris: {}, stacktrace: {}", uris, Arrays.toString(Thread.currentThread().getStackTrace()).replaceAll(",", "\n"));
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+            String msg = String.format("Failed to delete binary content for uris: %s", uris);
+            logger.error(msg, e);
+            throw new RuntimeException(msg, e);
+
+        } finally {
+            closeResources(c, ps, null, String.format("While deleting binary content for uris: %s", uris));
+        }
+    }
+
     public void deleteContent(String uri) {
         deleteContents(Arrays.asList(uri));
     }
