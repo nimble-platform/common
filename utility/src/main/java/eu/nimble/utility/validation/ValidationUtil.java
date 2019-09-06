@@ -48,13 +48,13 @@ public class ValidationUtil implements IValidationUtil {
                 Iterator<JsonNode> availableRoles = actualObj.get(TOKEN_FIELD_REALM_ACCESS).get(TOKEN_FIELD_ROLES).elements();
                 while (availableRoles.hasNext()) {
                     String role = availableRoles.next().asText();
-                    if (role.contentEquals(requiredRole.toString())) {
+                    if (role.contentEquals(requiredRole.getName())) {
                         return true;
                     }
                 }
             }
             logger.warn("Token: {} does not include one of the roles: {}", token,
-                    Arrays.asList(requiredRoles).stream().map(role -> role.toString()).collect(Collectors.joining(", ","[","]")));
+                    Arrays.asList(requiredRoles).stream().map(role -> role.getName()).collect(Collectors.joining(", ","[","]")));
             return false;
 
         } catch (IOException e) {
