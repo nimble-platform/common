@@ -31,6 +31,15 @@
 					<ccts:AlternativeBusinessTerms>Item Information Request</ccts:AlternativeBusinessTerms>
 				</ccts:Component>
 			</xsd:documentation>
+            <xsd:appinfo>
+                <hj:entity>
+                    <orm:table name="ITEM_INFORMATION_REQUEST_TYPE">
+                        <orm:unique-constraint>
+                            <orm:column-name>ID</orm:column-name>
+                        </orm:unique-constraint>
+                    </orm:table>
+                </hj:entity>
+            </xsd:appinfo>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID">
