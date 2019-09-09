@@ -817,6 +817,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cbc:Deleted"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -972,6 +973,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cbc:Deleted"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>

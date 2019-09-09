@@ -210,6 +210,7 @@
 	<xsd:element name="DeclaredCustomsValueAmount" type="AmountType"/>
 	<xsd:element name="DeclaredForCarriageValueAmount" type="AmountType"/>
 	<xsd:element name="DeclaredStatisticsValueAmount" type="AmountType"/>
+	<xsd:element name="Deleted" type="xsd:boolean"/>
 	<xsd:element name="DeliveredQuantity" type="QuantityType"/>
 	<xsd:element name="DeliveryInstructions" type="xsd:string"/>
 	<!-- TODO remove the demo-specific element -->
