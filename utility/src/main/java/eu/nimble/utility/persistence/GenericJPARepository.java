@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by suat on 20-Nov-18.
  */
-public interface GenericJPARepository {
+public interface GenericJPARepository extends TransactionAcrossMultipleDB{
     EntityManagerFactory getEmf();
 
     <T> T getSingleEntityByHjid(Class<T> klass, long hjid);

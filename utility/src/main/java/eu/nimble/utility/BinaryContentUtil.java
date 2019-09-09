@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.exception.BinaryContentException;
+import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.serialization.BinaryObjectSerializerProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class BinaryContentUtil {
      * @return
      * @throws IOException
      */
-    public static <T> void processBinaryContents (T entity) {
+    public static <T> void processBinaryContents (T entity, BinaryContentService binaryContentService) {
         ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
         SimpleModule simpleModule = new SimpleModule();
         BinaryObjectSerializerProcess binaryObjectSerializerProcess = new BinaryObjectSerializerProcess();
@@ -41,7 +42,7 @@ public class BinaryContentUtil {
                 throw new BinaryContentException("The following images are not valid : " + binaryObjectSerializerProcess.getNamesOfBrokenImages());
             }
             // save binary objects
-            CommonSpringBridge.getInstance().getBinaryContentService().createContents(binaryObjectSerializerProcess.getBinaryObjectsToBeSaved());
+            binaryContentService.createContents(binaryObjectSerializerProcess.getBinaryObjectsToBeSaved());
         } catch (IOException e) {
             String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
             logger.warn("Failed to serialize entity for processing the binary content: {}", serializedEntity);
@@ -61,9 +62,9 @@ public class BinaryContentUtil {
      * removes binary contents with the given ids from the database
      * @param uris
      */
-    public static void removeBinaryContentFromDatabase(List<String> uris) {
+    public static void removeBinaryContentFromDatabase(List<String> uris, BinaryContentService binaryContentService) {
         if(uris.size() > 0){
-            CommonSpringBridge.getInstance().getBinaryContentService().deleteContents(uris);
+            binaryContentService.deleteContents(uris);
         }
     }
 }
