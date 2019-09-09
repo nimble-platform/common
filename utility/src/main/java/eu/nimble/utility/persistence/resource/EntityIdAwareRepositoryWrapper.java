@@ -11,16 +11,15 @@ import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
+import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.serialization.BinaryObjectSerializerClearUris;
 import eu.nimble.utility.serialization.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,24 +50,53 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     protected String partyId;
     protected String userId;
     protected String catalogueRepositoryName;
+    private BinaryContentService binaryContentService = new BinaryContentService();
 
     public EntityIdAwareRepositoryWrapper() {
-        this(null, null, Configuration.Standard.UBL.toString());
+        this(null, null, Configuration.Standard.UBL.toString(),new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
     }
 
     public EntityIdAwareRepositoryWrapper(String partyId) {
-        this(partyId, null, Configuration.Standard.UBL.toString());
+        this(partyId, null, Configuration.Standard.UBL.toString(), new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
+    }
+
+    public EntityIdAwareRepositoryWrapper(String partyId, GenericJPARepository repository) {
+        this(partyId, null, Configuration.Standard.UBL.toString(),repository);
     }
 
     public EntityIdAwareRepositoryWrapper(String partyId, String catalogueRepositoryName) {
-        this(partyId, null, catalogueRepositoryName);
+        this(partyId, null, catalogueRepositoryName, new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
     }
 
     public EntityIdAwareRepositoryWrapper(String partyId, String userId, String catalogueRepositoryName) {
+        this(partyId, userId, catalogueRepositoryName, new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
+    }
+
+    /**
+     * @param repository single-transaction enabled Catalogue repository
+     * */
+    public EntityIdAwareRepositoryWrapper(String partyId, String userId, String catalogueRepositoryName, GenericJPARepository repository) {
         this.partyId = partyId;
         this.userId = userId;
         this.catalogueRepositoryName = catalogueRepositoryName;
-        this.genericJPARepository = new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true);
+        this.genericJPARepository = repository;
+    }
+
+    @Override
+    public void beginTransaction() {
+        this.binaryContentService.beginTransaction();
+    }
+
+    @Override
+    public void commit() {
+        this.genericJPARepository.commit();
+        this.binaryContentService.commit();
+    }
+
+    @Override
+    public void rollback() {
+        this.genericJPARepository.rollback();
+        this.binaryContentService.rollback();
     }
 
     @Override
@@ -118,11 +146,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         // clear the entity identifiers for the passed entity
         clearIds(entity, originalEntity, UpdateMode.UPDATE);
         // create binary content references for the entity
-        BinaryContentUtil.processBinaryContents(entity);
+        BinaryContentUtil.processBinaryContents(entity,binaryContentService);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
         // clear binary contents
-        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
         // create entity ids for the entity
         CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
         return entity;
@@ -143,7 +171,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         // clear the entity identifiers for the passed entity
         clearIds(entity, UpdateMode.PERSIST);
         // create binary content references for the entity
-        BinaryContentUtil.processBinaryContents(entity);
+        BinaryContentUtil.processBinaryContents(entity,binaryContentService);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
         // create entity ids for the entity
@@ -159,7 +187,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         genericJPARepository.deleteEntity(entity);
         clearIds(entity, UpdateMode.DELETE);
         // clear binary contents
-        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
     }
 
     @Override
@@ -171,7 +199,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         genericJPARepository.deleteEntity(entity);
         clearIds(entity, UpdateMode.DELETE);
         // clear binary contents
-        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete);
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
     }
 
     @Override
@@ -315,7 +343,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
 
     private <T> void createIdsAndBinaryContentsForEntity(T entity) {
         CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
-        BinaryContentUtil.processBinaryContents(entity);
+        BinaryContentUtil.processBinaryContents(entity,binaryContentService);
     }
 
     private <T> List<String> getBinaryObjectUrisToDeleteWithTransaction(T entity, UpdateMode updateMode) {
