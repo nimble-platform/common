@@ -109,7 +109,8 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public <T> T updateEntity(T entity) {
         // check whether the ids included in the entity belongs to the party performing the update
-        checkHjidAssociation(entity, UpdateMode.UPDATE);
+//        checkHjidAssociation(entity, UpdateMode.UPDATE);
+        checkHjidAssociation(entity);
         // get binary object identifiers that are not included in the updated entity
         Long id = extractIdFromEntity(entity);
         T originalEntity = (T) genericJPARepository.getSingleEntityByHjid(entity.getClass(), id);
@@ -137,7 +138,8 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
      */
     public <T> T updateEntityForPersistCases(T entity) {
         // check whether the ids included in the entity belongs to the party performing the update
-        checkHjidAssociation(entity, UpdateMode.PERSIST);
+//        checkHjidAssociation(entity, UpdateMode.PERSIST);
+        checkHjidAssociation(entity);
         // clear the entity identifiers for the passed entity
         clearIds(entity, UpdateMode.PERSIST);
         // create binary content references for the entity
@@ -151,7 +153,8 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
 
     @Override
     public <T> void deleteEntity(T entity) {
-        checkHjidAssociationWithTransaction(entity);
+//        checkHjidAssociationWithTransaction(entity);
+        checkHjidAssociation(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
         clearIds(entity, UpdateMode.DELETE);
@@ -162,7 +165,8 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public <T> void deleteEntityByHjid(Class<T> klass, long hjid) {
         T entity = getSingleEntityByHjid(klass, hjid);
-        checkHjidAssociationWithTransaction(entity);
+//        checkHjidAssociationWithTransaction(entity);
+        checkHjidAssociation(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
         clearIds(entity, UpdateMode.DELETE);
@@ -204,31 +208,31 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         }
     }
 
-    private <T> void checkHjidAssociation(T entity, UpdateMode updateMode) {
-        if(updateMode.equals(UpdateMode.PERSIST)) {
-            checkHjidAssociation(entity);
-        } else {
-            checkHjidAssociationWithTransaction(entity);
-        }
-    }
+//    private <T> void checkHjidAssociation(T entity, UpdateMode updateMode) {
+//        if(updateMode.equals(UpdateMode.PERSIST)) {
+//            checkHjidAssociation(entity);
+//        } else {
+//            checkHjidAssociationWithTransaction(entity);
+//        }
+//    }
 
-    private <T> void checkHjidAssociationWithTransaction(T entity) {
-        EntityManager em = genericJPARepository.getEmf().createEntityManager();
-        try {
-            em.getTransaction().begin();
-            checkHjidAssociation(entity);
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().commit();
-            }
-        } catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Failed to check hjid association ",e);
-        }finally {
-            em.close();
-        }
-    }
+//    private <T> void checkHjidAssociationWithTransaction(T entity) {
+//        EntityManager em = genericJPARepository.getEmf().createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            checkHjidAssociation(entity);
+//            if(em.getTransaction().isActive()) {
+//                em.getTransaction().commit();
+//            }
+//        } catch (Exception e){
+//            if(em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Failed to check hjid association ",e);
+//        }finally {
+//            em.close();
+//        }
+//    }
 
     private <T> void checkHjidAssociation(T entity) {
         boolean entityAssociationCheck = CommonSpringBridge.getInstance().getResourceValidationUtil().hjidsBelongsToParty(entity, partyId, catalogueRepositoryName);
@@ -322,16 +326,18 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         List<String> binaryContentUrisToDelete;
         // do not use a transaction-enabled serializer in persist method to prevent the passed entity from being
         // persisted as a side-effect of serialization procedure
-        if(updateMode.equals(UpdateMode.PERSIST)) {
-            binaryContentUrisToDelete = getBinaryObjectUrisToDelete(entity);
-        } else {
-            binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity);
-        }
+//        if(updateMode.equals(UpdateMode.PERSIST)) {
+//            binaryContentUrisToDelete = getBinaryObjectUrisToDelete(entity);
+//        } else {
+//            binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity);
+//        }
+        binaryContentUrisToDelete = getBinaryObjectUrisToDelete(entity);
 
         if(updateMode.equals(UpdateMode.UPDATE)) {
             // remove binary content from the binary content db for the passed entity
             // get uris of binary contents in the updated entity
-            List<String> existingUris = getBinaryObjectUrisToDeleteWithTransaction(originalEntity);
+//            List<String> existingUris = getBinaryObjectUrisToDeleteWithTransaction(originalEntity);
+            List<String> existingUris = getBinaryObjectUrisToDelete(originalEntity);
             existingUris.removeAll(binaryContentUrisToDelete);
             binaryContentUrisToDelete = existingUris;
         }
@@ -339,23 +345,23 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         return binaryContentUrisToDelete;
     }
 
-    private <T> List<String> getBinaryObjectUrisToDeleteWithTransaction(T entity) {
-        EntityManager em = genericJPARepository.getEmf().createEntityManager();
-        try {
-            em.getTransaction().begin();
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().commit();
-            }
-            return getBinaryObjectUrisToDelete(entity);
-        } catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Failed to get binary object uris to delete",e);
-        }finally {
-            em.close();
-        }
-    }
+//    private <T> List<String> getBinaryObjectUrisToDeleteWithTransaction(T entity) {
+//        EntityManager em = genericJPARepository.getEmf().createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            if(em.getTransaction().isActive()) {
+//                em.getTransaction().commit();
+//            }
+//            return getBinaryObjectUrisToDelete(entity);
+//        } catch (Exception e){
+//            if(em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Failed to get binary object uris to delete",e);
+//        }finally {
+//            em.close();
+//        }
+//    }
 
     private <T> List<String> getBinaryObjectUrisToDelete(T entity) {
         ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
