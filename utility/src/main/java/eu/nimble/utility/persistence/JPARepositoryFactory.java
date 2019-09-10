@@ -21,11 +21,23 @@ public class JPARepositoryFactory implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public GenericJPARepository withEmf(String emfBeanName) {
+    public GenericJPARepository withEmf(String emfBeanName, Boolean multiTransactions) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         EntityManagerFactory emf = applicationContext.getBean(emfBeanName, EntityManagerFactory.class);
         repository.emf = emf;
+
+        if(multiTransactions){
+            repository.beginTransaction();
+        }
         return repository;
+    }
+
+    public GenericJPARepository forBpRepositoryMultiTransaction() {
+        return forBpRepositoryMultiTransaction(false);
+    }
+
+    public GenericJPARepository forBpRepositoryMultiTransaction(boolean lazyDisabled) {
+        return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY,true):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY,true);
     }
 
     public GenericJPARepository forBpRepository() {
@@ -33,24 +45,32 @@ public class JPARepositoryFactory implements ApplicationContextAware {
     }
 
     public GenericJPARepository forBpRepository(boolean lazyDisabled) {
-        return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY);
+        return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY,false):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY,false);
+    }
+
+    public GenericJPARepository forCatalogueRepositoryMultiTransaction() {
+        return forCatalogueRepository(Configuration.Standard.UBL,false,true);
+    }
+
+    public GenericJPARepository forCatalogueRepositoryMultiTransaction(boolean lazyDisabled){
+        return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled,true);
     }
 
     public GenericJPARepository forCatalogueRepository() {
-        return forCatalogueRepository(Configuration.Standard.UBL,false);
+        return forCatalogueRepository(Configuration.Standard.UBL,false,false);
     }
 
     public GenericJPARepository forCatalogueRepository(boolean lazyDisabled){
-        return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled);
+        return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled,false);
     }
 
-    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled) {
+    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled, boolean multiTransactions) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         if(catalogueStandard.equals(Configuration.Standard.UBL)) {
             if(lazyDisabled)
-                return withEmf(Configuration.UBL_LAZY_DISABLED_ENTITY_MANAGER_FACTORY);
+                return withEmf(Configuration.UBL_LAZY_DISABLED_ENTITY_MANAGER_FACTORY,multiTransactions);
             else
-                return withEmf(Configuration.UBL_ENTITY_MANAGER_FACTORY);
+                return withEmf(Configuration.UBL_ENTITY_MANAGER_FACTORY,multiTransactions);
         } else if(catalogueStandard.equals(Configuration.Standard.MODAML)) {
             throw new RuntimeException("Configurations for MODA-ML catalogues are not set");
         }

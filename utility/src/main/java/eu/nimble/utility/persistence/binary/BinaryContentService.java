@@ -1,15 +1,11 @@
 package eu.nimble.utility.persistence.binary;
 
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
+import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
+import eu.nimble.utility.persistence.TransactionAcrossMultipleDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +17,7 @@ import java.util.UUID;
  *
  * Created by suat on 03-Dec-18.
  */
-@Component
-public class BinaryContentService {
+public class BinaryContentService implements TransactionAcrossMultipleDB{
     private static final String TABLE_NAME = "binary_content";
     private static final String COLUMN_NAME_ID = "id";
     private static final String COLUMN_NAME_MIME_CODE = "mime_code";
@@ -36,12 +31,71 @@ public class BinaryContentService {
     private int batchSize = 1000;
     private static Logger logger = LoggerFactory.getLogger(BinaryContentService.class);
 
-    @Autowired
-    @Qualifier("binarycontentdbDataSource")
-    private DataSource dataSource;
+    // this connection is used when all operations should be performed in a single transaction
+    private Connection singleTransactionConnection = null;
 
-    @Value("${nimble.binary-content.url}")
-    private String binaryContentUrl;
+    @Override
+    public void beginTransaction() {
+        try {
+            // get connection
+            singleTransactionConnection = CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
+            // start the transaction
+            singleTransactionConnection.setAutoCommit(false);
+        } catch (SQLException e) {
+            logger.error("Failed to get connection while setting single transaction connection",e);
+        }
+    }
+
+    @Override
+    public void commit() {
+        if(singleTransactionConnection != null){
+            try {
+                // commit the changes
+                if(!singleTransactionConnection.isClosed()){
+                    singleTransactionConnection.commit();
+                }
+            } catch (SQLException e) {
+                logger.error("Failed to commit single transaction connection",e);
+            }
+            finally {
+                try {
+                    // close the connection
+                    if (!singleTransactionConnection.isClosed()) {
+                        singleTransactionConnection.close();
+                    }
+                }
+                catch (SQLException e){
+                    logger.error("Failed to close single transaction connection",e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void rollback() {
+        if(singleTransactionConnection != null){
+            try {
+                // rollback the updates
+                if(!singleTransactionConnection.isClosed()){
+                    singleTransactionConnection.rollback();
+                }
+
+            } catch (SQLException e) {
+                logger.error("Failed to rollback single transaction connection",e);
+            }
+            finally {
+                try {
+                    // close the transaction
+                    if (!singleTransactionConnection.isClosed()) {
+                        singleTransactionConnection.close();
+                    }
+                }
+                catch (SQLException e){
+                    logger.error("Failed to close single transaction connection",e);
+                }
+            }
+        }
+    }
 
     public BinaryObjectType createContent(BinaryObjectType binaryObjectType){
         return createContent(binaryObjectType,true);
@@ -51,12 +105,12 @@ public class BinaryContentService {
         Connection c = null;
         PreparedStatement ps = null;
 
-        if(checkUri && (binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(binaryContentUrl))){
+        if(checkUri && (binaryObjectType.getUri() == null || !binaryObjectType.getUri().startsWith(CommonSpringBridge.getInstance().getBinaryContentUrl()))){
             binaryObjectType.setUri(getURI());
         }
 
         try {
-            c = dataSource.getConnection();
+            c = singleTransactionConnection != null ? singleTransactionConnection: CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
             ps = c.prepareStatement(QUERY_INSERT_CONTENT);
             ps.setString(1, binaryObjectType.getUri());
             ps.setString(2, binaryObjectType.getMimeCode());
@@ -103,7 +157,7 @@ public class BinaryContentService {
         }
 
         try {
-            c = dataSource.getConnection();
+            c = singleTransactionConnection != null ? singleTransactionConnection: CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
             ps = c.prepareStatement(QUERY_INSERT_CONTENT);
 
             int i = 0;
@@ -143,7 +197,7 @@ public class BinaryContentService {
     }
 
     public String getURI(){
-        return binaryContentUrl + ":" + UUID.randomUUID().toString();
+        return CommonSpringBridge.getInstance().getBinaryContentUrl() + ":" + UUID.randomUUID().toString();
     }
 
     public List<BinaryObjectType> retrieveContents(List<String> uris) {
@@ -162,7 +216,7 @@ public class BinaryContentService {
         }
 
         try {
-            c = dataSource.getConnection();
+            c = singleTransactionConnection != null ? singleTransactionConnection: CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
             ps = c.prepareStatement(String.format(QUERY_SELECT_CONTENT_BY_URIS, condition));
             rs = ps.executeQuery();
             List<BinaryObjectType> binaryObjects = new ArrayList<>();
@@ -208,7 +262,7 @@ public class BinaryContentService {
         }
 
         try {
-            c = dataSource.getConnection();
+            c = CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
             ps = c.prepareStatement(String.format(QUERY_DELETE_CONTENT_BY_URIS, condition));
             //            ps.setString(1, condition.substring(0, condition.length() - 1));
             int queryResult = ps.executeUpdate();
@@ -261,7 +315,7 @@ public class BinaryContentService {
         }
 
         try {
-            c = dataSource.getConnection();
+            c = singleTransactionConnection != null ? singleTransactionConnection: CommonSpringBridge.getInstance().getBinarycontentdbDataSource().getConnection();
             ps = c.prepareStatement(String.format(QUERY_DELETE_CONTENT_BY_URIS, condition));
 //            ps.setString(1, condition.substring(0, condition.length() - 1));
             int queryResult = ps.executeUpdate();
@@ -285,7 +339,8 @@ public class BinaryContentService {
     }
 
     private void closeResources(Connection c, Statement ps, ResultSet rs, String msg) {
-        if (c != null) {
+        // we should not close the connection if single transaction connection is enabled
+        if (c != null && singleTransactionConnection == null) {
             try {
                 if (!c.isClosed()) {
                     c.close();
