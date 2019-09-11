@@ -581,7 +581,15 @@
 	<xsd:complexType name="ItemPropertyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -624,6 +632,15 @@
 			<xsd:element ref="cbc:ValueQualifier" minOccurs="0"/>
 			<xsd:element ref="cbc:URI"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:AssociatedCatalogueLineID" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LineItemType">
