@@ -101,6 +101,7 @@
 	<xsd:element name="Shipment" type="ShipmentType"/>
 	<xsd:element name="ShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="SupportedCommodityClassification" type="CommodityClassificationType"/>
+	<xsd:element name="TaxExclusivePrice" type="PriceType"/>
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
 	<xsd:element name="TermOrCondition" type="ClauseType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
@@ -1055,6 +1056,7 @@
 	<xsd:complexType name="SalesItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Quantity"/>
+			<xsd:element ref="cac:TaxExclusivePrice"/>
 			<xsd:element ref="cac:Item"/>
 		</xsd:sequence>
 	</xsd:complexType>
