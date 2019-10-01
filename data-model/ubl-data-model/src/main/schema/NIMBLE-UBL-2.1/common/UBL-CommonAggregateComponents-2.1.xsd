@@ -101,6 +101,7 @@
 	<xsd:element name="Shipment" type="ShipmentType"/>
 	<xsd:element name="ShipmentStage" type="ShipmentStageType"/>
 	<xsd:element name="SupportedCommodityClassification" type="CommodityClassificationType"/>
+	<xsd:element name="TaxExclusivePrice" type="PriceType"/>
 	<xsd:element name="TaxScheme" type="TaxSchemeType"/>
 	<xsd:element name="TermOrCondition" type="ClauseType"/>
 	<xsd:element name="ToLocation" type="LocationType"/>
@@ -580,7 +581,15 @@
 	<xsd:complexType name="ItemPropertyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
-			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:Value" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -623,6 +632,15 @@
 			<xsd:element ref="cbc:ValueQualifier" minOccurs="0"/>
 			<xsd:element ref="cbc:URI"/>
 			<xsd:element ref="cbc:ItemClassificationCode" minOccurs="0"/>
+			<xsd:element ref="cbc:AssociatedCatalogueLineID" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LineItemType">
@@ -817,6 +835,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cbc:Deleted"/>
 			<xsd:element ref="cac:PostalAddress" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -972,6 +991,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cbc:Deleted"/>
 			<xsd:element ref="cac:Contact" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -1053,6 +1073,7 @@
 	<xsd:complexType name="SalesItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:Quantity"/>
+			<xsd:element ref="cac:TaxExclusivePrice"/>
 			<xsd:element ref="cac:Item"/>
 		</xsd:sequence>
 	</xsd:complexType>

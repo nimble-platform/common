@@ -19,7 +19,7 @@ public class HttpResponseUtil {
     private static final Logger logger = LoggerFactory.getLogger(HttpResponseUtil.class);
 
     public static ResponseEntity createResponseEntityAndLog(String msg, HttpStatus httpStatus) {
-        return createResponseEntityAndLog(msg, null, httpStatus, LogLevel.WARN);
+        return createResponseEntityAndLog(msg, null, httpStatus);
     }
 
     public static ResponseEntity createResponseEntityAndLog(String msg, Exception e, HttpStatus httpStatus) {
@@ -34,6 +34,10 @@ public class HttpResponseUtil {
     public static ResponseEntity createResponseEntityAndLog(String msg, Exception e, HttpStatus httpStatus, LogLevel logLevel) {
         log(msg, e, logLevel);
         return ResponseEntity.status(httpStatus).body(msg);
+    }
+
+    public static void writeMessageServletResponseAndLog(HttpServletResponse response, String msg, HttpStatus httpStatus) {
+        writeMessageServletResponseAndLog(response, msg, null, httpStatus, null);
     }
 
     public static void writeMessageServletResponseAndLog(HttpServletResponse response, String msg, Exception e, HttpStatus httpStatus, LogLevel logLevel) {

@@ -49,6 +49,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_order_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -94,6 +109,21 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_ppap_request_document_type_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
@@ -143,6 +173,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_request_for_quotation_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -188,6 +233,21 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_despatch_advice_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return despatchSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return deliveryCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
@@ -237,6 +297,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_transport_execution_plan_requet_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return transportServiceProviderParty;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return transportUserParty;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return transportServiceProviderParty.getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -282,6 +357,21 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_item_information_request_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return null;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
@@ -331,6 +421,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_order_response_simple_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return orderReference.getDocumentReference().getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -376,6 +481,21 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_ppap_response_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return ppapDocumentReference.getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
@@ -425,6 +545,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_transport_execution_plan_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return transportExecutionPlanRequestDocumentReference.getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return transportServiceProviderParty;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return transportUserParty;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return transportServiceProviderParty.getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -470,6 +605,21 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_item_information_response_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return itemInformationRequestDocumentReference.getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
@@ -519,6 +669,21 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_quotation_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return requestForQuotationDocumentReference.getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return sellerSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return buyerCustomerParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +
                                 "        return sellerSupplierParty.getParty().getPartyIdentification().get(0).getID();\n" +
                                 "    }\n" +
@@ -565,6 +730,21 @@ public class IDocumentCodeGeneratorUtil {
                         group = m.group();
                         // first replace the annotations with full package names
                         newGroup = regex_receipt_advice_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getRequestDocumentId() {\n" +
+                                "        return despatchDocumentReference.get(0).getID();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getSellerParty() {\n" +
+                                "        return despatchSupplierParty.getParty();\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public PartyType getBuyerParty() {\n" +
+                                "        return deliveryCustomerParty.getParty();\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getSellerPartyId() {\n" +

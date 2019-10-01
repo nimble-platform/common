@@ -46,6 +46,7 @@
 	<xsd:element name="ApprovalStatus" type="xsd:string"/>
 	<xsd:element name="AssemblyCost" type="AmountType"/>
 	<xsd:element name="AssociatedProcessInstanceID" type="xsd:string"/>
+	<xsd:element name="AssociatedCatalogueLineID" type="xsd:decimal"/>
 	<xsd:element name="AttributeID" type="xsd:string"/>
 	<xsd:element name="AuctionConstraintIndicator" type="xsd:boolean"/>
 	<xsd:element name="AuctionURI" type="xsd:string"/>
@@ -210,6 +211,7 @@
 	<xsd:element name="DeclaredCustomsValueAmount" type="AmountType"/>
 	<xsd:element name="DeclaredForCarriageValueAmount" type="AmountType"/>
 	<xsd:element name="DeclaredStatisticsValueAmount" type="AmountType"/>
+	<xsd:element name="Deleted" type="xsd:boolean"/>
 	<xsd:element name="DeliveredQuantity" type="QuantityType"/>
 	<xsd:element name="DeliveryInstructions" type="xsd:string"/>
 	<!-- TODO remove the demo-specific element -->

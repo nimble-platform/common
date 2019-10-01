@@ -5,6 +5,17 @@
 	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="../common/UBL-CommonBasicComponents-2.1.xsd"/>
 	<xsd:element name="PpapResponse" type="PpapResponseType"/>
 	<xsd:complexType name="PpapResponseType">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="PPAP_RESPONSE_TYPE">
+						<orm:unique-constraint>
+							<orm:column-name>ID</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Note" minOccurs="0" maxOccurs="unbounded">

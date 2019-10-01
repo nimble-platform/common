@@ -1,15 +1,11 @@
 package eu.nimble.utility.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
-import eu.nimble.utility.CommonSpringBridge;
+import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.persistence.binary.ImageScaler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -63,7 +59,7 @@ public class BinaryObjectSerializerProcess extends JsonSerializer<BinaryObjectTy
             }
 
             // retrieve a uri for Binary Object
-            String uri = CommonSpringBridge.getInstance().getBinaryContentService().getURI();
+            String uri = new BinaryContentService().getURI();
             // set uris
             binaryObjectType.setUri(uri);
             binaryContentDbObject.setUri(uri);

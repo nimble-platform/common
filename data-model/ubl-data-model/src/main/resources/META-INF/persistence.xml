@@ -47,6 +47,7 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemInformationRequestLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemLocationQuantityType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemPropertyType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemPropertyTypeAssociatedCatalogueLineIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemPropertyTypeValueDecimalItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ItemType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.LCPAInputType</class>

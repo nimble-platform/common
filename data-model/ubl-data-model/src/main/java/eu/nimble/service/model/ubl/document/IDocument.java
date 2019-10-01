@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ItemType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 
 import java.util.List;
 
@@ -22,4 +23,10 @@ public interface IDocument {
     ItemType getItemType();
     @JsonIgnore
     List<DocumentReferenceType> getAdditionalDocuments();
+    @JsonIgnore
+    PartyType getSellerParty();
+    @JsonIgnore
+    PartyType getBuyerParty();
+    @JsonIgnore
+    String getRequestDocumentId();
 }

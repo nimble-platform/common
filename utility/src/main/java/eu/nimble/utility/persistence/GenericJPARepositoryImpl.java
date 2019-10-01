@@ -5,10 +5,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -23,6 +20,10 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     // Entity manager factory required to be used in cases where a clean EntityManager is required
     protected EntityManagerFactory emf;
 
+    // this entity manager will use a single transaction to perform all operations
+    // make sure that you flush the changes after each operation so that we can handle any exceptions before committing the updates
+    private EntityManager singleTransactionEntityManager;
+
     public EntityManagerFactory getEmf() {
         return emf;
     }
@@ -32,44 +33,120 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
         this.applicationContext = applicationContext;
     }
 
-    public <T> T getSingleEntityByHjid(Class<T> klass, long hjid) {
-        EntityManager em = emf.createEntityManager();
-        T entity = null;
-        try {
-            em.getTransaction().begin();
-            entity = em.find(klass, hjid);
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+    @Override
+    public void beginTransaction(){
+        // create an entity manager
+        singleTransactionEntityManager = emf.createEntityManager();
+        // transaction begins
+        singleTransactionEntityManager.getTransaction().begin();
+    }
+
+    @Override
+    public void commit() {
+        if(singleTransactionEntityManager != null && singleTransactionEntityManager.isOpen()){
+            try {
+                // commit the changes
+                if(singleTransactionEntityManager.getTransaction().isActive()){
+                    singleTransactionEntityManager.getTransaction().commit();
+                }
             }
-            throw new RuntimeException("Failed to get single entity result by hjid",e);
-        }finally {
-            em.close();
+            catch (Exception e){
+                // rollback the changes
+                if (singleTransactionEntityManager.getTransaction().isActive()) {
+                    singleTransactionEntityManager.getTransaction().rollback();
+                }
+                throw e;
+            }
+            finally {
+                // close the entity manager
+                singleTransactionEntityManager.close();
+            }
         }
-        return entity;
+    }
+
+    @Override
+    public void rollback() {
+        if(singleTransactionEntityManager != null && singleTransactionEntityManager.isOpen()){
+            try {
+                // rollback the changes
+                if (singleTransactionEntityManager.getTransaction().isActive()) {
+                    singleTransactionEntityManager.getTransaction().rollback();
+                }
+            }
+            catch (Exception e){
+                throw e;
+            }
+            finally {
+                // close the entity manager
+                singleTransactionEntityManager.close();
+            }
+        }
+    }
+
+    public <T> T getSingleEntityByHjid(Class<T> klass, long hjid) {
+        if(singleTransactionEntityManager != null){
+            try {
+                T entity = singleTransactionEntityManager.find(klass, hjid);
+                singleTransactionEntityManager.flush();
+                return entity;
+            }
+            catch (Exception e){
+                throw new RuntimeException("Failed to get single entity result by hjid",e);
+            }
+        }
+        else{
+            EntityManager em = emf.createEntityManager();
+            T entity = null;
+            try {
+                em.getTransaction().begin();
+                entity = em.find(klass, hjid);
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to get single entity result by hjid",e);
+            }finally {
+                em.close();
+            }
+            return entity;
+        }
     }
 
     public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues) {
-        EntityManager em = emf.createEntityManager();
-
-        T result = null;
-        try {
-            em.getTransaction().begin();
-            Query query = createQuery(queryStr, parameterNames, parameterValues, em);
-            result = (T) query.getSingleResult();
-            em.getTransaction().commit();
-        } catch (NoResultException e){
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+        if(singleTransactionEntityManager != null){
+            try {
+                Query query = createQuery(queryStr, parameterNames, parameterValues, singleTransactionEntityManager);
+                T result = (T) query.getSingleResult();
+                singleTransactionEntityManager.flush();
+                return result;
+            } catch (NoResultException e){
+                return null;
             }
-            throw new RuntimeException("Failed to get single entity result",e);
-        } finally {
-            em.close();
+            catch (Exception e){
+                throw new RuntimeException("Failed to get single entity result",e);
+            }
+        }else {
+            EntityManager em = emf.createEntityManager();
+
+            T result = null;
+            try {
+                em.getTransaction().begin();
+                Query query = createQuery(queryStr, parameterNames, parameterValues, em);
+                result = (T) query.getSingleResult();
+                em.getTransaction().commit();
+            } catch (NoResultException e){
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to get single entity result",e);
+            } finally {
+                em.close();
+            }
+            return result;
         }
-        return result;
     }
 
     @Override
@@ -89,88 +166,138 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
     @Override
     public <T> List<T> getEntities(String queryStr, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative) {
-        EntityManager em = emf.createEntityManager();
-
-        List<T> result = null;
-        try {
-            em.getTransaction().begin();
-            Query query = createQuery(queryStr, parameterNames, parameterValues, em,isNative);
-
-            if (limit != null && offset != null) {
-                query.setFirstResult(offset);
-                query.setMaxResults(limit);
+        if(singleTransactionEntityManager != null){
+            try {
+                Query query = createQuery(queryStr, parameterNames, parameterValues, singleTransactionEntityManager,isNative);
+                if (limit != null && offset != null) {
+                    query.setFirstResult(offset);
+                    query.setMaxResults(limit);
+                }
+                List<T> result = query.getResultList();
+                singleTransactionEntityManager.flush();
+                return result;
+            }catch (Exception e){
+                throw new RuntimeException("Failed to get entities",e);
             }
+        }else {
+            EntityManager em = emf.createEntityManager();
 
-            result = query.getResultList();
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            List<T> result = null;
+            try {
+                em.getTransaction().begin();
+                Query query = createQuery(queryStr, parameterNames, parameterValues, em,isNative);
+
+                if (limit != null && offset != null) {
+                    query.setFirstResult(offset);
+                    query.setMaxResults(limit);
+                }
+
+                result = query.getResultList();
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to get entities",e);
+            }finally {
+                em.close();
             }
-            throw new RuntimeException("Failed to get entities",e);
-        }finally {
-            em.close();
+            return result;
         }
-        return result;
     }
 
     @Override
     public <T> List<T> getEntities(Class<T> klass) {
-        EntityManager em = emf.createEntityManager();
-
-        List<T> results = null;
-        try {
-            em.getTransaction().begin();
-            results = em.createQuery(String.format(QUERY_SELECT_ALL_BY_CLASS, klass.getName())).getResultList();
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+        if(singleTransactionEntityManager != null){
+            try {
+                List<T> results = singleTransactionEntityManager.createQuery(String.format(QUERY_SELECT_ALL_BY_CLASS, klass.getName())).getResultList();
+                singleTransactionEntityManager.flush();
+                return results;
+            }catch (Exception e){
+                throw new RuntimeException("Failed to get entities",e);
             }
-            throw new RuntimeException("Failed to get entities",e);
-        }finally {
-            em.close();
         }
-        return results;
+        else {
+            EntityManager em = emf.createEntityManager();
+
+            List<T> results = null;
+            try {
+                em.getTransaction().begin();
+                results = em.createQuery(String.format(QUERY_SELECT_ALL_BY_CLASS, klass.getName())).getResultList();
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to get entities",e);
+            }finally {
+                em.close();
+            }
+            return results;
+        }
     }
 
     @Override
     public <T> T updateEntity(T entity) {
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            entity = em.merge(entity);
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+        if(singleTransactionEntityManager != null){
+            try {
+                entity = singleTransactionEntityManager.merge(entity);
+                singleTransactionEntityManager.flush();
+                return entity;
+            }catch (Exception e){
+                throw new RuntimeException("Failed to update the entity",e);
             }
-            throw new RuntimeException("Failed to update the entity",e);
-        }finally {
-            em.close();
         }
-        return entity;
+        else {
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                em.getTransaction().begin();
+                entity = em.merge(entity);
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to update the entity",e);
+            }finally {
+                em.close();
+            }
+            return entity;
+        }
     }
 
     @Override
     public <T> void deleteEntity(T entity) {
-        EntityManager em = emf.createEntityManager();
+        if(singleTransactionEntityManager != null){
+            try {
+                if (!singleTransactionEntityManager.contains(entity)) {
+                    entity = singleTransactionEntityManager.merge(entity);
+                }
+                singleTransactionEntityManager.remove(entity);
+                singleTransactionEntityManager.flush();
+            }catch (Exception e){
+                throw new RuntimeException("Failed to delete the entity",e);
+            }
+        }
+        else{
+            EntityManager em = emf.createEntityManager();
 
-        try {
-            em.getTransaction().begin();
-            if (!em.contains(entity)) {
-                entity = em.merge(entity);
+            try {
+                em.getTransaction().begin();
+                if (!em.contains(entity)) {
+                    entity = em.merge(entity);
+                }
+                em.remove(entity);
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to delete the entity",e);
+            }finally {
+                em.close();
             }
-            em.remove(entity);
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Failed to delete the entity",e);
-        }finally {
-            em.close();
         }
     }
 
@@ -184,58 +311,93 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
     @Override
     public <T> void persistEntity(T entity) {
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            em.persist(entity);
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+        if(singleTransactionEntityManager != null){
+            try {
+                singleTransactionEntityManager.persist(entity);
+                singleTransactionEntityManager.flush();
             }
-            throw new RuntimeException("Failed to persist the entity",e);
-        }finally {
-            em.close();
+            catch (Exception e){
+                throw new RuntimeException("Failed to persist the entity",e);
+            }
+        }
+        else {
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                em.getTransaction().begin();
+                em.persist(entity);
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to persist the entity",e);
+            }finally {
+                em.close();
+            }
         }
     }
 
     @Override
     public <T> void persistEntities(Iterable<T> entities) {
-        EntityManager em = emf.createEntityManager();
+        if(singleTransactionEntityManager != null){
+            try {
+                for (T entity : entities) {
+                    singleTransactionEntityManager.persist(entity);
+                }
+                singleTransactionEntityManager.flush();
+            }
+            catch (Exception e){
+                throw new RuntimeException("Failed to persist entities",e);
+            }
+        }
+        else {
+            EntityManager em = emf.createEntityManager();
 
-        try {
-            em.getTransaction().begin();
-            for (T entity : entities) {
-                em.persist(entity);
+            try {
+                em.getTransaction().begin();
+                for (T entity : entities) {
+                    em.persist(entity);
+                }
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to persist entities",e);
+            }finally {
+                em.close();
             }
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Failed to persist entities",e);
-        }finally {
-            em.close();
         }
     }
 
     @Override
     public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            Query queryObj = createQuery(query, parameterNames, parameterValues, em);
-            queryObj.executeUpdate();
-            em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+        if(singleTransactionEntityManager != null){
+            try {
+                Query queryObj = createQuery(query, parameterNames, parameterValues, singleTransactionEntityManager);
+                queryObj.executeUpdate();
+                singleTransactionEntityManager.flush();
+            }catch (Exception e){
+                throw new RuntimeException("Failed to execute update query",e);
             }
-            throw new RuntimeException("Failed to execute update query",e);
-        }finally {
-            em.close();
+        }
+        else {
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                em.getTransaction().begin();
+                Query queryObj = createQuery(query, parameterNames, parameterValues, em);
+                queryObj.executeUpdate();
+                em.getTransaction().commit();
+            }catch (Exception e){
+                if(em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+                throw new RuntimeException("Failed to execute update query",e);
+            }finally {
+                em.close();
+            }
         }
     }
 

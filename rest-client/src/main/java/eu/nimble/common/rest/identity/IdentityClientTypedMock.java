@@ -1,10 +1,7 @@
 package eu.nimble.common.rest.identity;
 
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
@@ -152,6 +149,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             person.setID("704");
             person.setFirstName("ali");
             person.setFamilyName("can");
+            person.setContact(new ContactType());
 
             PersonType person2 = new PersonType();
             person2.setID("379");
@@ -192,11 +190,23 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             text.setValue("alpCompany");
             partyName.setName(text);
 
+            AddressType address = new AddressType();
+            CountryType country = new CountryType();
+            TextType textType = new TextType();
+            textType.setLanguageID("en");
+            textType.setValue("Turkey");
+            country.setName(textType);
+            address.setBuildingNumber("10");
+            address.setCityName("Ankara");
+            address.setCountry(country);
+            address.setStreetName("Cankaya");
+
             List<String> processIds = Arrays.asList("Item_Information_Request");
 
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
             party.setProcessID(processIds);
+            party.setPostalAddress(address);
         }
 
         return party;
