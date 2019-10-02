@@ -4,7 +4,8 @@ package eu.nimble.utility.validation;
  * Created by suat on 02-Sep-19.
  */
 public enum NimbleRole {
-    COMPANY_ADMIN("initial_representative"),
+    COMPANY_ADMIN("company_admin"),
+    INITIAL_REPRESENTATIVE("initial_representative"),
     EXTERNAL_REPRESENTATIVE("external_representative"),
     LEGAL_REPRESENTATIVE("legal_representative"),
     MONITOR("monitor"),
