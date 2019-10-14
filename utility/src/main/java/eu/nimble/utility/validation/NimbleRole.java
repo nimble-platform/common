@@ -10,7 +10,8 @@ public enum NimbleRole {
     MONITOR("monitor"),
     PUBLISHER("publisher"),
     PURCHASER("purchaser"),
-    SALES_OFFICER("sales_officer");
+    SALES_OFFICER("sales_officer"),
+    NIMBLE_DELETED_USER("nimble_deleted_user");
 
     private String name;
 
