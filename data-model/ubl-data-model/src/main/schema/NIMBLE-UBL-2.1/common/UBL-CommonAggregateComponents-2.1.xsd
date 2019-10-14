@@ -422,6 +422,7 @@
 	<xsd:complexType name="GoodsItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:Quantity"/>
 			<xsd:element ref="cac:Item" minOccurs="0"/>
 			<xsd:element ref="cac:ContainingPackage" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
