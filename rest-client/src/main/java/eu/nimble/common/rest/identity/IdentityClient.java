@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Johannes Innerbichler on 02/05/17.
  * Feign client for identity microservice.
  */
-@FeignClient(name = "identity-service", url = "${nimble.identity.url:}")
+@FeignClient(name = "identity-service", url = "${nimble.identity.url:}",fallback = IdentityClientFallback.class)
 public interface IdentityClient {
     @RequestMapping(method = RequestMethod.GET, value = "/party/{partyId}", produces = "application/json")
     Response getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId);
