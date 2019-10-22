@@ -648,6 +648,7 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Quantity" minOccurs="0"/>
+			<xsd:element ref="cbc:DataMonitoringRequested"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
 			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -662,6 +663,26 @@
 			<xsd:element ref="cac:Item"/>
 			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:LineReference" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PaymentMeans"/>
+			<xsd:element ref="cac:PaymentTerms"/>
+			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Clause" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
