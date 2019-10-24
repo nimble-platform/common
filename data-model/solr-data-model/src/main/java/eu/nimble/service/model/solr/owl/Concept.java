@@ -1,9 +1,6 @@
 package eu.nimble.service.model.solr.owl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Dynamic;
@@ -49,6 +46,12 @@ public abstract class Concept implements IConcept {
 	@Dynamic
 	protected Map<String, String> comment;
 
+//	@Indexed(name= INDEXED_DATE_FIELD, type="pdate")
+//	private Date indexedDate;
+
+	@Indexed(name=BASE_PLATFORM_FIELD)
+	private String basePlatform;
+
 
 	public Concept() {
 		super();
@@ -87,6 +90,22 @@ public abstract class Concept implements IConcept {
 	 */
 	public void setLanguages(Collection<String> languages) {
 		this.languages = languages;
+	}
+
+
+	/**
+	 * Getter for the basePlatform
+	 */
+	public String getBasePlatform() {
+		return basePlatform;
+	}
+
+	/**
+	 * Setter for basePlatform
+	 * @param basePlatform
+	 */
+	public void setBasePlatform(String basePlatform) {
+		this.basePlatform = basePlatform;
 	}
 
 	/**
@@ -308,7 +327,7 @@ public abstract class Concept implements IConcept {
 	}
 	/**
 	 * Setter for the hidden labels
-	 * @param alternateLabel
+	 * @param hiddenLabel
 	 */
 	public void setHiddenLabel(Map<String, Collection<String>> hiddenLabel) {
 		if ( hiddenLabel != null ) {
