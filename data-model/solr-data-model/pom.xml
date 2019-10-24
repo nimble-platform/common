@@ -9,7 +9,7 @@
   </parent>
   <groupId>eu.nimble.core.common</groupId>
   <artifactId>solr-data-model</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>solr-data-model</name>
   <url>http://maven.apache.org</url>
   <properties>
