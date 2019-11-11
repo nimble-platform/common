@@ -89,8 +89,12 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return orderLine.get(0).getLineItem().getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (OrderLineType orderLineType : orderLine) {\n" +
+                                "            itemTypes.add(orderLineType.getLineItem().getItem());\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -151,8 +155,10 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return lineItem.getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        itemTypes.add(lineItem.getItem());\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -213,8 +219,12 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return requestForQuotationLine.get(0).getLineItem().getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (RequestForQuotationLineType requestForQuotationLineType : requestForQuotationLine) {\n" +
+                                "            itemTypes.add(requestForQuotationLineType.getLineItem().getItem());\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -275,8 +285,12 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return despatchLine.get(0).getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (DespatchLineType despatchLineType : despatchLine) {\n" +
+                                "            itemTypes.add(despatchLineType.getItem());\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -337,8 +351,10 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return mainTransportationService;\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        itemTypes.add(mainTransportationService);\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -399,8 +415,14 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return itemInformationRequestLine.get(0).getSalesItem().get(0).getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (ItemInformationRequestLineType itemInformationRequestLineType : itemInformationRequestLine) {\n" +
+                                "            for (SalesItemType salesItemType : itemInformationRequestLineType.getSalesItem()) {\n" +
+                                "                itemTypes.add(salesItemType.getItem());\n" +
+                                "            }\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -461,7 +483,7 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -523,7 +545,7 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -585,7 +607,7 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
                                 "\n" +
@@ -647,8 +669,8 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "    \n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType(){\n" +
-                                "        return item.get(0);\n" +
+                                "    public List<ItemType> getItemTypes(){\n" +
+                                "        return item;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -709,8 +731,12 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return quotationLine.get(0).getLineItem().getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (QuotationLineType quotationLineType : quotationLine) {\n" +
+                                "            itemTypes.add(quotationLineType.getLineItem().getItem());\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
@@ -772,8 +798,12 @@ public class IDocumentCodeGeneratorUtil {
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
-                                "    public ItemType getItemType() {\n" +
-                                "        return receiptLine.get(0).getItem();\n" +
+                                "    public List<ItemType> getItemTypes() {\n" +
+                                "        List<ItemType> itemTypes = new ArrayList<>();\n" +
+                                "        for (ReceiptLineType receiptLineType : receiptLine) {\n" +
+                                "            itemTypes.add(receiptLineType.getItem());\n" +
+                                "        }\n" +
+                                "        return itemTypes;\n" +
                                 "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
