@@ -12,7 +12,8 @@ public enum NimbleRole {
     PUBLISHER("publisher"),
     PURCHASER("purchaser"),
     SALES_OFFICER("sales_officer"),
-    NIMBLE_DELETED_USER("nimble_deleted_user");
+    NIMBLE_DELETED_USER("nimble_deleted_user"),
+    EFACTORY_USER("eFactoryUser");;
 
     private String name;
 
