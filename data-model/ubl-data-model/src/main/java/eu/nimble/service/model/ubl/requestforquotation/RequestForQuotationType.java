@@ -203,8 +203,12 @@ public class RequestForQuotationType
 
     @Override
 	@Transient
-    public ItemType getItemType() {
-        return requestForQuotationLine.get(0).getLineItem().getItem();
+    public List<ItemType> getItemTypes() {
+        List<ItemType> itemTypes = new ArrayList<>();
+        for (RequestForQuotationLineType requestForQuotationLineType : requestForQuotationLine) {
+            itemTypes.add(requestForQuotationLineType.getLineItem().getItem());
+        }
+        return itemTypes;
     }
 
     @Override

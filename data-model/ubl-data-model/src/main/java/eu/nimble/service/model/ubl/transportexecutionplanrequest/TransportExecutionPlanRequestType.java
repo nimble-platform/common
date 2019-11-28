@@ -189,8 +189,10 @@ public class TransportExecutionPlanRequestType
 
     @Override
 	@Transient
-    public ItemType getItemType() {
-        return mainTransportationService;
+    public List<ItemType> getItemTypes() {
+        List<ItemType> itemTypes = new ArrayList<>();
+        itemTypes.add(mainTransportationService);
+        return itemTypes;
     }
 
     @Override

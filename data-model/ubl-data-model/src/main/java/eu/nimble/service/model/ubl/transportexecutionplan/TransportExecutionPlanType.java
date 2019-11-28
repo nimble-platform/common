@@ -174,7 +174,7 @@ public class TransportExecutionPlanType
 
     @Override
 	@Transient
-    public ItemType getItemType() {
+    public List<ItemType> getItemTypes() {
         return null;
     }
 

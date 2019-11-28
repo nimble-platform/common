@@ -31,14 +31,18 @@ public class CreateChannel {
         @ApiModelProperty(value = "ID of originating business process (optional)")
         private String businessProcessID;
 
+        @ApiModelProperty(value = "ID of originating business process (optional)" ,required = false)
+        private String productID;
+
         private Request() {
         }
 
-        public Request(String buyerCompanyID, String sellerCompanyID, String description, String businessProcessID) {
+        public Request(String buyerCompanyID, String sellerCompanyID, String description, String businessProcessID,String productID) {
             this.buyerCompanyID = buyerCompanyID;
             this.sellerCompanyID = sellerCompanyID;
             this.description = description;
             this.businessProcessID = businessProcessID;
+            this.productID = productID;
         }
 
         public String getBuyerCompanyID() {
@@ -71,6 +75,14 @@ public class CreateChannel {
 
         public void setBusinessProcessID(String businessProcessID) {
             this.businessProcessID = businessProcessID;
+        }
+
+        public String getProductID() {
+            return productID;
+        }
+
+        public void setProductID(String productID) {
+            this.productID = productID;
         }
     }
 

@@ -87,4 +87,10 @@
     			<package name="eu.nimble.service.model.ubl.ppaprequest" />
     		</schemaBindings>
     </bindings>
+
+    <bindings schemaLocation="../../../schema/NIMBLE-UBL-2.1/maindoc/UBL-Invoice-2.1.xsd" node="/xsd:schema">
+        		<schemaBindings>
+        			<package name="eu.nimble.service.model.ubl.invoice" />
+        		</schemaBindings>
+    </bindings>
 </bindings>
