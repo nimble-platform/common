@@ -109,6 +109,7 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.despatchadvice.DespatchAdviceType</class>
         <class>eu.nimble.service.model.ubl.despatchadvice.DespatchAdviceTypeNoteItem</class>
         <class>eu.nimble.service.model.ubl.digitalagreement.DigitalAgreementType</class>
+        <class>eu.nimble.service.model.ubl.invoice.InvoiceType</class>
         <class>eu.nimble.service.model.ubl.iteminformationrequest.ItemInformationRequestType</class>
         <class>eu.nimble.service.model.ubl.iteminformationrequest.ItemInformationRequestTypeNoteItem</class>
         <class>eu.nimble.service.model.ubl.iteminformationresponse.ItemInformationResponseType</class>
