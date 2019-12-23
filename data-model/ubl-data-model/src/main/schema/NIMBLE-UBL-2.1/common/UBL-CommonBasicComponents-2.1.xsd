@@ -7,6 +7,7 @@
 	<xsd:element name="AccountTypeCode" type="CodeType"/>
 	<xsd:element name="AccountingCost" type="xsd:string"/>
 	<xsd:element name="AccountingCostCode" type="CodeType"/>
+	<xsd:element name="AcidificationPotential" type="QuantityType"/>
 	<xsd:element name="ActionCode" type="CodeType"/>
 	<xsd:element name="ActivityType" type="xsd:string"/>
 	<xsd:element name="ActivityTypeCode" type="CodeType"/>
@@ -27,6 +28,7 @@
 	<xsd:element name="AdjustmentReasonCode" type="CodeType"/>
 	<xsd:element name="AdmissionCode" type="CodeType"/>
 	<xsd:element name="AdvertisementAmount" type="AmountType"/>
+	<xsd:element name="AerosolFormationPotential" type="QuantityType"/>
 	<xsd:element name="AgencyID" type="xsd:string"/>
 	<xsd:element name="AgencyName" type="xsd:string"/>
 	<xsd:element name="AirFlowPercent" type="xsd:decimal"/>
@@ -103,7 +105,7 @@
 	<xsd:element name="CandidateStatement" type="xsd:string"/>
 	<xsd:element name="CanonicalizationMethod" type="xsd:string"/>
 	<xsd:element name="CapabilityTypeCode" type="CodeType"/>
-	<xsd:element name="CapexOpexRelation" type="QuantityType"/>
+	<xsd:element name="Capex" type="AmountType"/>
 	<xsd:element name="CardChipCode" type="CodeType"/>
 	<xsd:element name="CardTypeCode" type="CodeType"/>
 	<xsd:element name="CargoTypeCode" type="CodeType"/>
@@ -187,6 +189,7 @@
 	<xsd:element name="CreditNoteTypeCode" type="CodeType"/>
 	<xsd:element name="CreditedQuantity" type="QuantityType"/>
 	<xsd:element name="CrewQuantity" type="QuantityType"/>
+	<xsd:element name="CumulativeEnergyDemand" type="QuantityType"/>
 	<xsd:element name="CurrencyCode" type="CodeType"/>
 	<xsd:element name="CurrentChargeType" type="xsd:string"/>
 	<xsd:element name="CurrentChargeTypeCode" type="CodeType"/>
@@ -258,6 +261,7 @@
 	<xsd:element name="EndpointID" type="xsd:string"/>
 	<xsd:element name="EnergyConsumptionCost" type="AmountType"/>
 	<xsd:element name="EnvironmentalEmissionTypeCode" type="CodeType"/>
+	<xsd:element name="EutrophicationPotential" type="QuantityType"/>
 	<xsd:element name="EstimatedAmount" type="AmountType"/>
 	<xsd:element name="EstimatedConsumedQuantity" type="QuantityType"/>
 	<xsd:element name="EstimatedDeliveryDate" type="xsd:date"/>
@@ -319,6 +323,7 @@
 	<xsd:element name="GasPressureQuantity" type="QuantityType"/>
 	<xsd:element name="GenderCode" type="CodeType"/>
 	<xsd:element name="GeneralCargoIndicator" type="xsd:boolean"/>
+	<xsd:element name="GlobalWarmingPotential" type="QuantityType"/>
 	<xsd:element name="GovernmentAgreementConstraintIndicator" type="xsd:boolean"/>
 	<xsd:element name="GrossTonnageMeasure" type="QuantityType"/>
 	<xsd:element name="GrossVolumeMeasure" type="QuantityType"/>
@@ -513,7 +518,7 @@
 	<xsd:element name="OntologyURI" type="xsd:string"/>
 	<xsd:element name="OpenTenderID" type="xsd:string"/>
 	<xsd:element name="OperatingYearsQuantity" type="QuantityType"/>
-	<xsd:element name="OperationCostsPerYear" type="AmountType"/>
+	<xsd:element name="Opex" type="AmountType"/>
 	<xsd:element name="OptionalLineItemIndicator" type="xsd:boolean"/>
 	<xsd:element name="OptionsDescription" type="xsd:decimal"/>
 	<xsd:element name="OrderIntervalDaysNumeric" type="xsd:decimal"/>

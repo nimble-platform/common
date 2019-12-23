@@ -1685,8 +1685,13 @@
 	<xsd:complexType name="LCPAOutputType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:LifeCycleCost"/>
-			<xsd:element ref="cbc:OperationCostsPerYear"/>
-			<xsd:element ref="cbc:CapexOpexRelation"/>
+			<xsd:element ref="cbc:GlobalWarmingPotential"/>
+			<xsd:element ref="cbc:CumulativeEnergyDemand"/>
+			<xsd:element ref="cbc:AerosolFormationPotential"/>
+			<xsd:element ref="cbc:AcidificationPotential"/>
+			<xsd:element ref="cbc:EutrophicationPotential"/>
+			<xsd:element ref="cbc:Capex"/>
+			<xsd:element ref="cbc:Opex"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
