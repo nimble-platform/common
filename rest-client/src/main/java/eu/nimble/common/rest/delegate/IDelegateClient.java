@@ -3,6 +3,8 @@ package eu.nimble.common.rest.delegate;
 import feign.Response;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 public interface IDelegateClient {
     @RequestMapping(method = RequestMethod.POST, value = "/collaboration-groups/document/{documentId}",consumes = "application/json",produces = "application/json")
     Response addFederatedMetadataToCollaborationGroup(@RequestHeader("Authorization") String bearerToken,
@@ -40,5 +42,14 @@ public interface IDelegateClient {
     Response unMergeCollaborationGroup(@RequestHeader("Authorization") String bearerToken,
                                        @PathVariable("groupId") String groupId,
                                    @RequestParam("delegateId") String delegateId);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/catalogueline/{hjid}", produces = "application/json")
+    Response getCatalogLineByHjid(@RequestHeader("Authorization") String bearerToken,
+                                       @PathVariable("hjid") Long hjid);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/documents/expected-orders", produces = "application/json")
+    Response getExpectedOrders(@RequestHeader("Authorization") String bearerToken,
+                               @RequestParam("forAll") Boolean forAll,
+                                  @RequestParam("unShippedOrderIds") List<String> unShippedOrderIds);
 
 }
