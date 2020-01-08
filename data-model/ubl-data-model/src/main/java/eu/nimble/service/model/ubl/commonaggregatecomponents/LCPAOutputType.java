@@ -45,8 +45,13 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}LifeCycleCost"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}OperationCostsPerYear"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}CapexOpexRelation"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}GlobalWarmingPotential"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}CumulativeEnergyDemand"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}AerosolFormationPotential"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}AcidificationPotential"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}EutrophicationPotential"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Capex"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Opex"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -58,8 +63,13 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LCPAOutputType", propOrder = {
     "lifeCycleCost",
-    "operationCostsPerYear",
-    "capexOpexRelation"
+    "globalWarmingPotential",
+    "cumulativeEnergyDemand",
+    "aerosolFormationPotential",
+    "acidificationPotential",
+    "eutrophicationPotential",
+    "capex",
+    "opex"
 })
 @Entity(name = "LCPAOutputType")
 @Table(name = "LCPAOUTPUT_TYPE")
@@ -71,10 +81,20 @@ public class LCPAOutputType
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "LifeCycleCost", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
     protected AmountType lifeCycleCost;
-    @XmlElement(name = "OperationCostsPerYear", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
-    protected AmountType operationCostsPerYear;
-    @XmlElement(name = "CapexOpexRelation", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
-    protected QuantityType capexOpexRelation;
+    @XmlElement(name = "GlobalWarmingPotential", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected QuantityType globalWarmingPotential;
+    @XmlElement(name = "CumulativeEnergyDemand", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected QuantityType cumulativeEnergyDemand;
+    @XmlElement(name = "AerosolFormationPotential", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected QuantityType aerosolFormationPotential;
+    @XmlElement(name = "AcidificationPotential", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected QuantityType acidificationPotential;
+    @XmlElement(name = "EutrophicationPotential", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected QuantityType eutrophicationPotential;
+    @XmlElement(name = "Capex", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected AmountType capex;
+    @XmlElement(name = "Opex", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected AmountType opex;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
 
@@ -107,35 +127,7 @@ public class LCPAOutputType
     }
 
     /**
-     * Gets the value of the operationCostsPerYear property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link AmountType }
-     *     
-     */
-    @ManyToOne(targetEntity = AmountType.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "OPERATION_COSTS_PER_YEAR_LCP_0")
-    public AmountType getOperationCostsPerYear() {
-        return operationCostsPerYear;
-    }
-
-    /**
-     * Sets the value of the operationCostsPerYear property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link AmountType }
-     *     
-     */
-    public void setOperationCostsPerYear(AmountType value) {
-        this.operationCostsPerYear = value;
-    }
-
-    /**
-     * Gets the value of the capexOpexRelation property.
+     * Gets the value of the globalWarmingPotential property.
      * 
      * @return
      *     possible object is
@@ -145,21 +137,189 @@ public class LCPAOutputType
     @ManyToOne(targetEntity = QuantityType.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "CAPEX_OPEX_RELATION_LCPAOUTP_0")
-    public QuantityType getCapexOpexRelation() {
-        return capexOpexRelation;
+    @JoinColumn(name = "GLOBAL_WARMING_POTENTIAL_LCP_0")
+    public QuantityType getGlobalWarmingPotential() {
+        return globalWarmingPotential;
     }
 
     /**
-     * Sets the value of the capexOpexRelation property.
+     * Sets the value of the globalWarmingPotential property.
      * 
      * @param value
      *     allowed object is
      *     {@link QuantityType }
      *     
      */
-    public void setCapexOpexRelation(QuantityType value) {
-        this.capexOpexRelation = value;
+    public void setGlobalWarmingPotential(QuantityType value) {
+        this.globalWarmingPotential = value;
+    }
+
+    /**
+     * Gets the value of the cumulativeEnergyDemand property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QuantityType }
+     *     
+     */
+    @ManyToOne(targetEntity = QuantityType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "CUMULATIVE_ENERGY_DEMAND_LCP_0")
+    public QuantityType getCumulativeEnergyDemand() {
+        return cumulativeEnergyDemand;
+    }
+
+    /**
+     * Sets the value of the cumulativeEnergyDemand property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QuantityType }
+     *     
+     */
+    public void setCumulativeEnergyDemand(QuantityType value) {
+        this.cumulativeEnergyDemand = value;
+    }
+
+    /**
+     * Gets the value of the aerosolFormationPotential property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QuantityType }
+     *     
+     */
+    @ManyToOne(targetEntity = QuantityType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "AEROSOL_FORMATION_POTENTIAL__0")
+    public QuantityType getAerosolFormationPotential() {
+        return aerosolFormationPotential;
+    }
+
+    /**
+     * Sets the value of the aerosolFormationPotential property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QuantityType }
+     *     
+     */
+    public void setAerosolFormationPotential(QuantityType value) {
+        this.aerosolFormationPotential = value;
+    }
+
+    /**
+     * Gets the value of the acidificationPotential property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QuantityType }
+     *     
+     */
+    @ManyToOne(targetEntity = QuantityType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "ACIDIFICATION_POTENTIAL_LCPA_0")
+    public QuantityType getAcidificationPotential() {
+        return acidificationPotential;
+    }
+
+    /**
+     * Sets the value of the acidificationPotential property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QuantityType }
+     *     
+     */
+    public void setAcidificationPotential(QuantityType value) {
+        this.acidificationPotential = value;
+    }
+
+    /**
+     * Gets the value of the eutrophicationPotential property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QuantityType }
+     *     
+     */
+    @ManyToOne(targetEntity = QuantityType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "EUTROPHICATION_POTENTIAL_LCP_0")
+    public QuantityType getEutrophicationPotential() {
+        return eutrophicationPotential;
+    }
+
+    /**
+     * Sets the value of the eutrophicationPotential property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QuantityType }
+     *     
+     */
+    public void setEutrophicationPotential(QuantityType value) {
+        this.eutrophicationPotential = value;
+    }
+
+    /**
+     * Gets the value of the capex property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AmountType }
+     *     
+     */
+    @ManyToOne(targetEntity = AmountType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "CAPEX_LCPAOUTPUT_TYPE_HJID")
+    public AmountType getCapex() {
+        return capex;
+    }
+
+    /**
+     * Sets the value of the capex property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AmountType }
+     *     
+     */
+    public void setCapex(AmountType value) {
+        this.capex = value;
+    }
+
+    /**
+     * Gets the value of the opex property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AmountType }
+     *     
+     */
+    @ManyToOne(targetEntity = AmountType.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name = "OPEX_LCPAOUTPUT_TYPE_HJID")
+    public AmountType getOpex() {
+        return opex;
+    }
+
+    /**
+     * Sets the value of the opex property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AmountType }
+     *     
+     */
+    public void setOpex(AmountType value) {
+        this.opex = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
@@ -180,20 +340,65 @@ public class LCPAOutputType
             }
         }
         {
-            AmountType lhsOperationCostsPerYear;
-            lhsOperationCostsPerYear = this.getOperationCostsPerYear();
-            AmountType rhsOperationCostsPerYear;
-            rhsOperationCostsPerYear = that.getOperationCostsPerYear();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "operationCostsPerYear", lhsOperationCostsPerYear), LocatorUtils.property(thatLocator, "operationCostsPerYear", rhsOperationCostsPerYear), lhsOperationCostsPerYear, rhsOperationCostsPerYear)) {
+            QuantityType lhsGlobalWarmingPotential;
+            lhsGlobalWarmingPotential = this.getGlobalWarmingPotential();
+            QuantityType rhsGlobalWarmingPotential;
+            rhsGlobalWarmingPotential = that.getGlobalWarmingPotential();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "globalWarmingPotential", lhsGlobalWarmingPotential), LocatorUtils.property(thatLocator, "globalWarmingPotential", rhsGlobalWarmingPotential), lhsGlobalWarmingPotential, rhsGlobalWarmingPotential)) {
                 return false;
             }
         }
         {
-            QuantityType lhsCapexOpexRelation;
-            lhsCapexOpexRelation = this.getCapexOpexRelation();
-            QuantityType rhsCapexOpexRelation;
-            rhsCapexOpexRelation = that.getCapexOpexRelation();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "capexOpexRelation", lhsCapexOpexRelation), LocatorUtils.property(thatLocator, "capexOpexRelation", rhsCapexOpexRelation), lhsCapexOpexRelation, rhsCapexOpexRelation)) {
+            QuantityType lhsCumulativeEnergyDemand;
+            lhsCumulativeEnergyDemand = this.getCumulativeEnergyDemand();
+            QuantityType rhsCumulativeEnergyDemand;
+            rhsCumulativeEnergyDemand = that.getCumulativeEnergyDemand();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "cumulativeEnergyDemand", lhsCumulativeEnergyDemand), LocatorUtils.property(thatLocator, "cumulativeEnergyDemand", rhsCumulativeEnergyDemand), lhsCumulativeEnergyDemand, rhsCumulativeEnergyDemand)) {
+                return false;
+            }
+        }
+        {
+            QuantityType lhsAerosolFormationPotential;
+            lhsAerosolFormationPotential = this.getAerosolFormationPotential();
+            QuantityType rhsAerosolFormationPotential;
+            rhsAerosolFormationPotential = that.getAerosolFormationPotential();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "aerosolFormationPotential", lhsAerosolFormationPotential), LocatorUtils.property(thatLocator, "aerosolFormationPotential", rhsAerosolFormationPotential), lhsAerosolFormationPotential, rhsAerosolFormationPotential)) {
+                return false;
+            }
+        }
+        {
+            QuantityType lhsAcidificationPotential;
+            lhsAcidificationPotential = this.getAcidificationPotential();
+            QuantityType rhsAcidificationPotential;
+            rhsAcidificationPotential = that.getAcidificationPotential();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "acidificationPotential", lhsAcidificationPotential), LocatorUtils.property(thatLocator, "acidificationPotential", rhsAcidificationPotential), lhsAcidificationPotential, rhsAcidificationPotential)) {
+                return false;
+            }
+        }
+        {
+            QuantityType lhsEutrophicationPotential;
+            lhsEutrophicationPotential = this.getEutrophicationPotential();
+            QuantityType rhsEutrophicationPotential;
+            rhsEutrophicationPotential = that.getEutrophicationPotential();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "eutrophicationPotential", lhsEutrophicationPotential), LocatorUtils.property(thatLocator, "eutrophicationPotential", rhsEutrophicationPotential), lhsEutrophicationPotential, rhsEutrophicationPotential)) {
+                return false;
+            }
+        }
+        {
+            AmountType lhsCapex;
+            lhsCapex = this.getCapex();
+            AmountType rhsCapex;
+            rhsCapex = that.getCapex();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "capex", lhsCapex), LocatorUtils.property(thatLocator, "capex", rhsCapex), lhsCapex, rhsCapex)) {
+                return false;
+            }
+        }
+        {
+            AmountType lhsOpex;
+            lhsOpex = this.getOpex();
+            AmountType rhsOpex;
+            rhsOpex = that.getOpex();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "opex", lhsOpex), LocatorUtils.property(thatLocator, "opex", rhsOpex), lhsOpex, rhsOpex)) {
                 return false;
             }
         }
