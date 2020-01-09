@@ -33,6 +33,17 @@ public interface IDelegateClient {
                       @RequestParam("includeRoles") boolean includeRoles,
                       @RequestParam("delegateId") String delegateId);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/parties/{partyIds}", produces = "application/json")
+    Response getParty(@RequestHeader("Authorization") String bearerToken,
+                      @PathVariable("partyIds") String partyIds,
+                      @RequestParam("includeRoles") boolean includeRoles,
+                      @RequestParam("delegateIds") List<String> delegateIds);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/person/{personId}", produces = "application/json")
+    Response getPerson(@RequestHeader("Authorization") String bearerToken,
+                      @PathVariable("personId") String personId,
+                      @RequestParam("delegateId") String delegateId);
+
     @RequestMapping(method = RequestMethod.GET, value = "/collaboration-groups/{id}", produces = "application/json")
     Response getCollaborationGroup(@RequestHeader("Authorization") String bearerToken,
                                    @PathVariable("id") String id,
