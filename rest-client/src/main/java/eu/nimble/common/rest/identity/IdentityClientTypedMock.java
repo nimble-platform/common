@@ -219,7 +219,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             party.setProcessID(processIds);
             party.setPostalAddress(address);
         }
-        party.setFederationInstanceID("11");
+        party.setFederationInstanceID("TEST_INSTANCE");
         return party;
     }
     private String getPartyNameIdPairs(List<String> ids){

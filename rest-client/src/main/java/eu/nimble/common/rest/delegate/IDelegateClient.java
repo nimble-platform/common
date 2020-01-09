@@ -40,7 +40,7 @@ public interface IDelegateClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/collaboration-groups/unmerge", produces = "application/json")
     Response unMergeCollaborationGroup(@RequestHeader("Authorization") String bearerToken,
-                                       @PathVariable("groupId") String groupId,
+                                       @RequestParam("groupId") String groupId,
                                    @RequestParam("delegateId") String delegateId);
 
     @RequestMapping(method = RequestMethod.GET, value = "/catalogueline/{hjid}", produces = "application/json")
