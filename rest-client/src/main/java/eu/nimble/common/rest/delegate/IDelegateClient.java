@@ -63,4 +63,6 @@ public interface IDelegateClient {
                                @RequestParam("forAll") Boolean forAll,
                                   @RequestParam("unShippedOrderIds") List<String> unShippedOrderIds);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/eureka/app-name", produces = "application/json")
+    Response getFederationId();
 }
