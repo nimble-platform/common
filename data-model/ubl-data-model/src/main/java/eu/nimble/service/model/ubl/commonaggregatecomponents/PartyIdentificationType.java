@@ -55,11 +55,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "id"
 })
 @Entity(name = "PartyIdentificationType")
-@Table(name = "PARTY_IDENTIFICATION_TYPE", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {
-        "ID"
-    })
-})
+@Table(name = "PARTY_IDENTIFICATION_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PartyIdentificationType
     implements Serializable, Equals

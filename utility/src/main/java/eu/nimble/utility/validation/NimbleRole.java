@@ -8,6 +8,7 @@ public enum NimbleRole {
     INITIAL_REPRESENTATIVE("initial_representative"),
     EXTERNAL_REPRESENTATIVE("external_representative"),
     LEGAL_REPRESENTATIVE("legal_representative"),
+    PLATFORM_MANAGER("platform_manager"),
     MONITOR("monitor"),
     PUBLISHER("publisher"),
     PURCHASER("purchaser"),
