@@ -427,6 +427,8 @@
 			<xsd:element ref="cac:Item" minOccurs="0"/>
 			<xsd:element ref="cac:ContainingPackage" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cbc:GrossWeightMeasure" minOccurs="0"/>
+			<xsd:element ref="cbc:GrossVolumeMeasure" minOccurs="0"/>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
