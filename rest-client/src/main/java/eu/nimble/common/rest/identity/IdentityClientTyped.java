@@ -114,6 +114,11 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         return identityClient.getAllPartyIds(bearerToken,exclude);
     }
 
+    public Response getVerifiedPartyIds(@RequestHeader("Authorization") String bearerToken){
+        return identityClient.getVerifiedPartyIds(bearerToken);
+    }
+
+
     public Response getPartyPartiesInUBL(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "page") String page, @RequestParam(value = "includeRoles") String includeRoles, @RequestParam(value = "size") String size){
         return identityClient.getPartyPartiesInUBL(bearerToken,page,includeRoles,size);
     }
