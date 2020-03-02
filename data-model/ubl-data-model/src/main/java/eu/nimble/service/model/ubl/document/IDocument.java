@@ -20,7 +20,7 @@ public interface IDocument {
     @JsonIgnore
     String getDocumentStatus();
     @JsonIgnore
-    ItemType getItemType();
+    List<ItemType> getItemTypes();
     @JsonIgnore
     List<DocumentReferenceType> getAdditionalDocuments();
     @JsonIgnore

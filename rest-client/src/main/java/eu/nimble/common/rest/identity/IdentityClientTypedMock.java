@@ -1,5 +1,4 @@
 package eu.nimble.common.rest.identity;
-
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
@@ -13,29 +12,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 @Profile("test")
 @Component
 public class IdentityClientTypedMock implements IIdentityClientTyped {
-
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId) throws IOException {
         return createParty(storeId);
     }
-
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId,
                               @RequestParam(value = "includeRoles") boolean includeRoles) throws IOException {
         return getParty(bearerToken,storeId);
     }
-
     public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException {
-
         StringBuilder commaSeparatedIds = new StringBuilder("");
         int i = 0;
         for (; i < partyIds.size() - 1; i++) {
@@ -44,7 +37,6 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         commaSeparatedIds.append(partyIds.get(partyIds.size() - 1));
         String query = "SELECT party FROM PartyType party join party.partyIdentification as partyIdentification where partyIdentification.ID in :partyIds";
         List<PartyType> parties = new JPARepositoryFactory().forCatalogueRepository(true).getEntities(query,new String[]{"partyIds"}, new Object[]{commaSeparatedIds.toString()});
-
         for(String partyId:partyIds){
             boolean partyExists = false;
             for(PartyType party:parties){
@@ -53,35 +45,39 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
                     break;
                 }
             }
-
             if(!partyExists){
                 parties.add(createParty(partyId));
             }
         }
-
         return parties;
     }
-
     public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
-        String query = "SELECT party FROM PartyType party join party.person as person where person.ID = :personId";
-        return new JPARepositoryFactory().forCatalogueRepository(true).getEntities(query,new String[]{"personId"}, new Object[]{personId});
+        PartyType party = null;
+        if(personId.contentEquals("704")){
+            party = createParty("706");
+        }
+        else if(personId.contentEquals("379")){
+            party = createParty("706");
+        }
+        else if(personId.contentEquals("745")){
+            party = createParty("747");
+        }
+        else if(personId.contentEquals("1337")){
+            party = createParty("1339");
+        }
+        return Arrays.asList(party);
     }
-
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String personId) throws IOException {
-        String query = "SELECT person FROM PersonType person where person.ID = :personId";
-        PersonType person = new JPARepositoryFactory().forCatalogueRepository(true).getSingleEntity(query,new String[]{"personId"}, new Object[]{personId});
-        return person;
+        return createPerson(personId);
     }
 
     // the bearer token is a person id in this method
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken) throws IOException {
-        return getPerson(bearerToken,bearerToken);
+        return createPerson(bearerToken);
     }
-
     public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException{
         return true;
     }
-
     @Override
     public Response getAllPartyIds(String bearerToken, List<String> exclude) {
         List<String> ids = Arrays.asList("706","747","1339");
@@ -90,6 +86,16 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         String nameIdPairs = getPartyNameIdPairs(ids);
         return Response.builder()
                 .body(nameIdPairs, StandardCharsets.UTF_8)
+                .status(200)
+                .headers(new HashMap<>())
+                .build();
+    }
+
+    @Override
+    public Response getVerifiedPartyIds(String bearerToken) throws Exception{
+        List<String> ids = Arrays.asList("706","747","1339");
+        return Response.builder()
+                .body(JsonSerializationUtility.getObjectMapper().writeValueAsString(ids), StandardCharsets.UTF_8)
                 .status(200)
                 .headers(new HashMap<>())
                 .build();
@@ -136,7 +142,28 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         }
         return negotiationSettings;
     }
-
+    private PersonType createPerson(String personId){
+        PersonType person = new PersonType();
+        if(personId.contentEquals("704")){
+            person.setID("704");
+            person.setFirstName("ali");
+            person.setFamilyName("can");
+        } else if(personId.contentEquals("379")){
+            person.setID("379");
+            person.setFirstName("Suat");
+            person.setFamilyName("Gonul");
+        } else if(personId.contentEquals("745")){
+            person.setID("745");
+            person.setFirstName("veli");
+            person.setFamilyName("cav");
+        } else if(personId.contentEquals("1337")){
+            person.setID("1337");
+            person.setFirstName("alp");
+            person.setFamilyName("cenk");
+        }
+        person.setContact(new ContactType());
+        return person;
+    }
     private PartyType createParty(String partyId){
         PartyIdentificationType partyIdentification = new PartyIdentificationType();
         partyIdentification.setID(partyId);
@@ -169,13 +196,11 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             person.setID("745");
             person.setFirstName("veli");
             person.setFamilyName("cav");
-
             PartyNameType partyName = new PartyNameType();
             TextType text = new TextType();
             text.setLanguageID("en");
             text.setValue("CavCompany");
             partyName.setName(text);
-
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
         } else if(partyId.contentEquals("1339")){
@@ -183,13 +208,11 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             person.setID("1337");
             person.setFirstName("alp");
             person.setFamilyName("cenk");
-
             PartyNameType partyName = new PartyNameType();
             TextType text = new TextType();
             text.setLanguageID("en");
             text.setValue("alpCompany");
             partyName.setName(text);
-
             AddressType address = new AddressType();
             CountryType country = new CountryType();
             TextType textType = new TextType();
@@ -200,37 +223,28 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             address.setCityName("Ankara");
             address.setCountry(country);
             address.setStreetName("Cankaya");
-
             List<String> processIds = Arrays.asList("Item_Information_Request");
-
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
             party.setProcessID(processIds);
             party.setPostalAddress(address);
         }
-
+        party.setFederationInstanceID("TEST_INSTANCE");
         return party;
     }
-
     private String getPartyNameIdPairs(List<String> ids){
         JSONArray jsonArray = new JSONArray();
-
         for(String id:ids){
             // get party
             PartyType partyType = createParty(id);
-
             JSONObject party = new JSONObject();
             party.put("companyID",partyType.getPartyIdentification().get(0).getID());
-
             JSONObject name = new JSONObject();
             name.put("en",partyType.getPartyName().get(0).getName().getValue());
-
             party.put("names",name);
             // add party name-id pair to the list
             jsonArray.put(party);
         }
-
         return jsonArray.toString();
     }
-
 }

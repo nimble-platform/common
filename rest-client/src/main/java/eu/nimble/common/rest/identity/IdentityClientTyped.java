@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +43,9 @@ public class IdentityClientTyped implements IIdentityClientTyped{
     }
 
     public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException {
+        if(partyIds.size() <= 0){
+            return new ArrayList<>();
+        }
         StringBuilder commaSeparatedIds = new StringBuilder("");
         int i = 0;
         for (; i < partyIds.size() - 1; i++) {
@@ -109,6 +113,11 @@ public class IdentityClientTyped implements IIdentityClientTyped{
     public Response getAllPartyIds(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "exclude", required = false) List<String> exclude){
         return identityClient.getAllPartyIds(bearerToken,exclude);
     }
+
+    public Response getVerifiedPartyIds(@RequestHeader("Authorization") String bearerToken){
+        return identityClient.getVerifiedPartyIds(bearerToken);
+    }
+
 
     public Response getPartyPartiesInUBL(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "page") String page, @RequestParam(value = "includeRoles") String includeRoles, @RequestParam(value = "size") String size){
         return identityClient.getPartyPartiesInUBL(bearerToken,page,includeRoles,size);

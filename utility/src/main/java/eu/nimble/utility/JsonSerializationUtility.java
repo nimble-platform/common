@@ -3,15 +3,19 @@ package eu.nimble.utility;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.ClauseDeserializer;
 import eu.nimble.utility.serialization.MixInIgnoreType;
 import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
+import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
+import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -121,6 +125,26 @@ public class JsonSerializationUtility {
                 }
             }
         }
+    }
+
+    public static <T> T removeHjidFields(T object) throws IOException {
+        return removeHjidFields(object, false);
+    }
+
+    public static <T> T removeHjidFields(T object, boolean excludePartyObjects) throws IOException{
+        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
+
+        if(excludePartyObjects) {
+            SimpleModule simpleModule = new SimpleModule();
+            PartyStandardSerializer partySerializer = new PartyStandardSerializer();
+            simpleModule.addSerializer(PartyType.class, partySerializer);
+            objectMapper.registerModule(simpleModule);
+        }
+
+        objectMapper.addMixIn(Object.class, JsonFieldFilter.class);
+        String[] ignorableFieldNames = {"hjid"};
+        FilterProvider filters = new SimpleFilterProvider().addFilter(JsonFieldFilter.JSON_FILTER, SimpleBeanPropertyFilter.serializeAllExcept(ignorableFieldNames));
+        return objectMapper.readValue(objectMapper.writer(filters).writeValueAsString(object), (Class<T>) object.getClass());
     }
 
     public static ObjectMapper getObjectMapper() {

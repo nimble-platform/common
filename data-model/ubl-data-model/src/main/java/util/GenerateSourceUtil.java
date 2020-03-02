@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class GenerateSourceUtil {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    final private String regex_party_relations = "@ManyToOne.targetEntity = PartyType.class,.*public PartyType";
+    final private String regex_party_relations = "@ManyTo(One|Many).targetEntity = PartyType.class,.*public (PartyType|List<PartyType>)";
     final private String regex_onetomanys_with_orphan_removal = "@Cascade.*DELETE_ORPHAN.*@OneToMany.";
     final private String regex_onetoones_with_orphan_removal = "@Cascade.*DELETE_ORPHAN.*@OneToOne.";
     final private String regex_transientListsWithOrphanRemovals = "@Cascade.*\\s*.*DELETE_ORPHAN\\s*.*\\s+@Transient\\s*.*List.*";

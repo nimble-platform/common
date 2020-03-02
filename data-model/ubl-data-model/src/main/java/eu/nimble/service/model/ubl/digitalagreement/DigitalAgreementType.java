@@ -238,7 +238,7 @@ public class DigitalAgreementType
      * 
      */
     @ManyToMany(targetEntity = PartyType.class, cascade = {
-        CascadeType.ALL
+        javax.persistence.CascadeType.PERSIST,javax.persistence.CascadeType.MERGE,javax.persistence.CascadeType.REFRESH
     })
     @JoinTable(name = "DIGITAL_AGREEMENT_TYPE_PARTI_0", joinColumns = {
         @JoinColumn(name = "PARENT_DIGITAL_AGREEMENT_TYP_0")

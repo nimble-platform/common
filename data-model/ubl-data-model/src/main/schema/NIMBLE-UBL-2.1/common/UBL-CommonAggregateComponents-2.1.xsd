@@ -422,9 +422,13 @@
 	<xsd:complexType name="GoodsItemType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:SequenceNumberID" minOccurs="0"/>
+			<xsd:element ref="cbc:Quantity"/>
 			<xsd:element ref="cac:Item" minOccurs="0"/>
 			<xsd:element ref="cac:ContainingPackage" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
+			<xsd:element ref="cbc:GrossWeightMeasure" minOccurs="0"/>
+			<xsd:element ref="cbc:GrossVolumeMeasure" minOccurs="0"/>
 			<xsd:element ref="cac:AllowanceCharge" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -647,6 +651,7 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:Quantity" minOccurs="0"/>
+			<xsd:element ref="cbc:DataMonitoringRequested"/>
 			<xsd:element ref="cac:DeliveryTerms" minOccurs="0"/>
 			<xsd:element ref="cac:Delivery" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -661,6 +666,26 @@
 			<xsd:element ref="cac:Item"/>
 			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:LineReference" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:PaymentMeans"/>
+			<xsd:element ref="cac:PaymentTerms"/>
+			<xsd:element ref="cac:TradingTerms" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Clause" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1662,8 +1687,13 @@
 	<xsd:complexType name="LCPAOutputType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:LifeCycleCost"/>
-			<xsd:element ref="cbc:OperationCostsPerYear"/>
-			<xsd:element ref="cbc:CapexOpexRelation"/>
+			<xsd:element ref="cbc:GlobalWarmingPotential"/>
+			<xsd:element ref="cbc:CumulativeEnergyDemand"/>
+			<xsd:element ref="cbc:AerosolFormationPotential"/>
+			<xsd:element ref="cbc:AcidificationPotential"/>
+			<xsd:element ref="cbc:EutrophicationPotential"/>
+			<xsd:element ref="cbc:Capex"/>
+			<xsd:element ref="cbc:Opex"/>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>
