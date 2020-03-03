@@ -59,6 +59,12 @@ public class PartyType extends Concept implements IParty {
 	@Dynamic
 	protected Map<String, Collection<String>> businessKeywords;
 
+	@Indexed(name=VERIFIED_FIELD,type="boolean")
+	private Boolean isVerified;
+
+	@Indexed(name=WEBSITE_FIELD, type="string")
+	private String website;
+
 	public String getId() {
 		return getUri();
 	}
@@ -315,5 +321,22 @@ public class PartyType extends Concept implements IParty {
 		}
 		this.businessKeywords.get(language).add(businessKeyword);
 		addLanguage(language);
+	}
+
+
+	public Boolean getVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(Boolean verified) {
+		isVerified = verified;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 }
