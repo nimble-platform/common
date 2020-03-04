@@ -60,7 +60,7 @@ public class PartyType extends Concept implements IParty {
 	protected Map<String, Collection<String>> businessKeywords;
 
 	@Indexed(name=VERIFIED_FIELD,type="boolean")
-	private Boolean isVerified;
+	private Boolean isVerified = false;
 
 	@Indexed(name=WEBSITE_FIELD, type="string")
 	private String website;
