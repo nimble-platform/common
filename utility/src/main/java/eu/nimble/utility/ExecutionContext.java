@@ -3,6 +3,7 @@ package eu.nimble.utility;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.List;
 /**
  * This a Http-request scoped bean which is instantiated for each REST call. It can be used to pass REST call-specific
  * information to inner-level code execution. For example, the authorization token might passed to inner-level code
@@ -14,7 +15,10 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class ExecutionContext {
     private String bearerToken;
+    // log representing the associates REST call
     private String requestLog;
+    // user roles available in the bearer token
+    private List<String> userRoles;
 
     public void setBearerToken(String bearerToken) {
         this.bearerToken = bearerToken;
@@ -30,5 +34,13 @@ public class ExecutionContext {
 
     public void setRequestLog(String requestLog) {
         this.requestLog = requestLog;
+    }
+
+    public List<String> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<String> userRoles) {
+        this.userRoles = userRoles;
     }
 }
