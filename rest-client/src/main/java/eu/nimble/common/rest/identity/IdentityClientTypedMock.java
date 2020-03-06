@@ -92,6 +92,16 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     }
 
     @Override
+    public Response getVerifiedPartyIds(String bearerToken) throws Exception{
+        List<String> ids = Arrays.asList("706","747","1339");
+        return Response.builder()
+                .body(JsonSerializationUtility.getObjectMapper().writeValueAsString(ids), StandardCharsets.UTF_8)
+                .status(200)
+                .headers(new HashMap<>())
+                .build();
+    }
+
+    @Override
     public Response getPartyPartiesInUBL(String bearerToken, String page, String includeRoles, String size) throws Exception{
         List<String> ids = Arrays.asList("706","747","1339");
         List<PartyType> parties = new ArrayList<>();
