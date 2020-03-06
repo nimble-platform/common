@@ -96,6 +96,14 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private String supportedCargoType;
 	@Indexed(name=EMISSION_STANDARD_FIELD)
 	private String emissionStandard;
+
+	/**
+	 *  Base quantity and unit type for items
+	 */
+	@Indexed(required=false, name=BASE_QUANTITY_FIELD, type="pdouble")
+	private Double baseQuantity;
+	@Indexed(required=false, name=BASE_QUANTITY_UNIT_FIELD)
+	private String baseQuantityUnit;
 	
 
 	/**
@@ -883,4 +891,22 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		this.manufactuerItemId = manufactuerItemId;
 	}
 
+	/**
+	 *  Base quantity and unit type for items
+	 */
+	public Double getBaseQuantity() {
+		return baseQuantity;
+	}
+
+	public void setBaseQuantity(Double baseQuantity) {
+		this.baseQuantity = baseQuantity;
+	}
+
+	public String getBaseQuantityUnit() {
+		return baseQuantityUnit;
+	}
+
+	public void setBaseQuantityUnit(String baseQuantityUnit) {
+		this.baseQuantityUnit = baseQuantityUnit;
+	}
 }
