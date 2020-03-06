@@ -19,6 +19,8 @@ public class ExecutionContext {
     private String requestLog;
     // user roles available in the bearer token
     private List<String> userRoles;
+    // user email retrieved from the bearer token
+    private String userEmail;
 
     public void setBearerToken(String bearerToken) {
         this.bearerToken = bearerToken;
@@ -42,5 +44,13 @@ public class ExecutionContext {
 
     public void setUserRoles(List<String> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }
