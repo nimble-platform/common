@@ -2,6 +2,7 @@ package eu.nimble.utility.exception;
 
 public enum NimbleExceptionMessageCode {
     BAD_REQUEST_MISSING_PARAMETERS("BAD_REQUEST.missingParameters"),
+    BAD_REQUEST_MISSING_PRICE_BASE_QUANTITY("BAD_REQUEST.missingPriceBaseQuantity"),
     UNAUTHORIZED_INVALID_ROLE("UNAUTHORIZED.invalidRole"),
     INTERNAL_SERVER_ERROR_CATALOGUE_PAGINATION_RESPONSE("INTERNAL_SERVER_ERROR.cataloguePaginationResponse"),
     NOT_FOUND_NO_CATALOGUE_FOR_PARTY("NOT_FOUND.noCatalogueForParty"),

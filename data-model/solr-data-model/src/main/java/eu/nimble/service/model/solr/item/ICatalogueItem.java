@@ -136,6 +136,11 @@ public interface ICatalogueItem extends IConcept {
 	String INCOTERMS_FIELD = "incoterm";
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
+
+	String BASE_QUANTITY_UNIT_FIELD = "baseQuantityUnit";
+	String BASE_QUANTITY_FIELD = "baseQuantity";
+
+
 	/**
 	 * Additional Properties
 	 */
