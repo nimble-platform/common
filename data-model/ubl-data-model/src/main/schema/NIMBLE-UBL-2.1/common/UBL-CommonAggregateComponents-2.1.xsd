@@ -1111,6 +1111,15 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:SpecialInstructions" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
 			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -1140,6 +1149,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:TransportHandlingUnit" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
