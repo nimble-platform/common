@@ -49,6 +49,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_order_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
@@ -115,6 +120,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_ppap_request_document_type_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
@@ -177,6 +187,11 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_request_for_quotation_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
@@ -245,6 +260,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_despatch_advice_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
@@ -311,6 +331,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_transport_execution_plan_requet_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return null;\n" +
                                 "    }\n" +
@@ -373,6 +398,11 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_item_information_request_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
@@ -443,6 +473,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_order_response_simple_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return orderReference.getDocumentReference().getID();\n" +
                                 "    }\n" +
@@ -503,6 +538,11 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_ppap_response_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
@@ -567,6 +607,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_transport_execution_plan_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return transportExecutionPlanRequestDocumentReference.getID();\n" +
                                 "    }\n" +
@@ -629,6 +674,11 @@ public class IDocumentCodeGeneratorUtil {
                         newGroup = regex_item_information_response_note_items + "\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
                                 "        return itemInformationRequestDocumentReference.getID();\n" +
                                 "    }\n" +
@@ -689,6 +739,11 @@ public class IDocumentCodeGeneratorUtil {
                     if (m.find()) {
                         group = m.group();
                         newGroup = regex_quotation_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
@@ -756,6 +811,11 @@ public class IDocumentCodeGeneratorUtil {
                         group = m.group();
                         // first replace the annotations with full package names
                         newGroup = regex_receipt_advice_note_items + "\n" +
+                                "\n" +
+                                "    @Override\n\t@Transient\n" +
+                                "    public String getDocumentId() {\n" +
+                                "        return id;\n" +
+                                "    }\n" +
                                 "\n" +
                                 "    @Override\n\t@Transient\n" +
                                 "    public String getRequestDocumentId() {\n" +
