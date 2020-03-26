@@ -94,6 +94,7 @@ public class ObjectFactory {
     private final static QName _OrderLineReference_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "OrderLineReference");
     private final static QName _OrderReference_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "OrderReference");
     private final static QName _OriginAddress_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "OriginAddress");
+    private final static QName _OriginatorDocumentReference_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "OriginatorDocumentReference");
     private final static QName _ParticipantParty_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "ParticipantParty");
     private final static QName _Party_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "Party");
     private final static QName _PartyIdentification_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PartyIdentification");
@@ -1385,6 +1386,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "OriginAddress")
     public JAXBElement<AddressType> createOriginAddress(AddressType value) {
         return new JAXBElement<AddressType>(_OriginAddress_QNAME, AddressType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DocumentReferenceType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "OriginatorDocumentReference")
+    public JAXBElement<DocumentReferenceType> createOriginatorDocumentReference(DocumentReferenceType value) {
+        return new JAXBElement<DocumentReferenceType>(_OriginatorDocumentReference_QNAME, DocumentReferenceType.class, null, value);
     }
 
     /**

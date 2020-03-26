@@ -10,6 +10,9 @@ package eu.nimble.service.model.ubl.invoice;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,12 +22,14 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DocumentReferenceType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.OrderReferenceType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
@@ -43,7 +48,9 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}OrderReference"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}OriginatorDocumentReference" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -54,7 +61,9 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InvoiceType", propOrder = {
-    "orderReference"
+    "id",
+    "orderReference",
+    "originatorDocumentReference"
 })
 @Entity(name = "InvoiceType")
 @Table(name = "INVOICE_TYPE")
@@ -64,10 +73,40 @@ public class InvoiceType
 {
 
     private final static long serialVersionUID = 1L;
+    @XmlElement(name = "ID", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", required = true)
+    protected String id;
     @XmlElement(name = "OrderReference", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", required = true)
     protected OrderReferenceType orderReference;
+    @XmlElement(name = "OriginatorDocumentReference", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
+    protected List<DocumentReferenceType> originatorDocumentReference;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+
+    /**
+     * Gets the value of the id property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    @Basic
+    @Column(name = "ID", length = 255)
+    public String getID() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setID(String value) {
+        this.id = value;
+    }
 
     /**
      * Gets the value of the orderReference property.
@@ -97,6 +136,47 @@ public class InvoiceType
         this.orderReference = value;
     }
 
+    /**
+     * Gets the value of the originatorDocumentReference property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the originatorDocumentReference property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getOriginatorDocumentReference().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DocumentReferenceType }
+     * 
+     * 
+     */
+    @OneToMany(orphanRemoval = true,targetEntity = DocumentReferenceType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "ORIGINATOR_DOCUMENT_REFERENC_0")
+    public List<DocumentReferenceType> getOriginatorDocumentReference() {
+        if (originatorDocumentReference == null) {
+            originatorDocumentReference = new ArrayList<DocumentReferenceType>();
+        }
+        return this.originatorDocumentReference;
+    }
+
+    /**
+     * 
+     * 
+     */
+    public void setOriginatorDocumentReference(List<DocumentReferenceType> originatorDocumentReference) {
+        this.originatorDocumentReference = originatorDocumentReference;
+    }
+
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
         if ((object == null)||(this.getClass()!= object.getClass())) {
             return false;
@@ -106,11 +186,29 @@ public class InvoiceType
         }
         final InvoiceType that = ((InvoiceType) object);
         {
+            String lhsID;
+            lhsID = this.getID();
+            String rhsID;
+            rhsID = that.getID();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "id", lhsID), LocatorUtils.property(thatLocator, "id", rhsID), lhsID, rhsID)) {
+                return false;
+            }
+        }
+        {
             OrderReferenceType lhsOrderReference;
             lhsOrderReference = this.getOrderReference();
             OrderReferenceType rhsOrderReference;
             rhsOrderReference = that.getOrderReference();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "orderReference", lhsOrderReference), LocatorUtils.property(thatLocator, "orderReference", rhsOrderReference), lhsOrderReference, rhsOrderReference)) {
+                return false;
+            }
+        }
+        {
+            List<DocumentReferenceType> lhsOriginatorDocumentReference;
+            lhsOriginatorDocumentReference = (((this.originatorDocumentReference!= null)&&(!this.originatorDocumentReference.isEmpty()))?this.getOriginatorDocumentReference():null);
+            List<DocumentReferenceType> rhsOriginatorDocumentReference;
+            rhsOriginatorDocumentReference = (((that.originatorDocumentReference!= null)&&(!that.originatorDocumentReference.isEmpty()))?that.getOriginatorDocumentReference():null);
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "originatorDocumentReference", lhsOriginatorDocumentReference), LocatorUtils.property(thatLocator, "originatorDocumentReference", rhsOriginatorDocumentReference), lhsOriginatorDocumentReference, rhsOriginatorDocumentReference)) {
                 return false;
             }
         }
