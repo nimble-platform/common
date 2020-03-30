@@ -17,4 +17,8 @@ public interface IValidationUtil {
      * Checks whether the token is valid or not
      */
     public Claims validateToken(String token) throws AuthenticationException;
+    /**
+     * Retrieves the Claims of the given token
+     */
+    public Claims getClaims(String token) throws AuthenticationException;
 }
