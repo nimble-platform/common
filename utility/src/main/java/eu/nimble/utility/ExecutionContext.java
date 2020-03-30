@@ -15,6 +15,10 @@ import java.util.List;
 @RequestScope
 public class ExecutionContext {
     private String bearerToken;
+    // the token of the user calling the REST service via delegate
+    private String originalBearerToken;
+    // federation id of the client calling the REST service via delegate
+    private String clientFederationId;
     // log representing the associates REST call
     private String requestLog;
     // user roles available in the bearer token
@@ -52,5 +56,21 @@ public class ExecutionContext {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getOriginalBearerToken() {
+        return originalBearerToken;
+    }
+
+    public void setOriginalBearerToken(String originalBearerToken) {
+        this.originalBearerToken = originalBearerToken;
+    }
+
+    public String getClientFederationId() {
+        return clientFederationId;
+    }
+
+    public void setClientFederationId(String clientFederationId) {
+        this.clientFederationId = clientFederationId;
     }
 }
