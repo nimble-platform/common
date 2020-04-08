@@ -65,6 +65,7 @@
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
+	<xsd:element name="OriginatorDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ParticipantParty" type="PartyType"/>
 	<xsd:element name="Party" type="PartyType"/>
 	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>

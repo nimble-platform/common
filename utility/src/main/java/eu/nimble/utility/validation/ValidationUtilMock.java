@@ -17,6 +17,11 @@ public class ValidationUtilMock implements IValidationUtil {
     private static final String TOKEN_FIELD_ROLES = "roles";
 
     @Override
+    public Claims getClaims(String token) throws AuthenticationException {
+        return validateToken(token);
+    }
+
+    @Override
     public boolean validateRole(String token, List<String> userRoles, NimbleRole[] requiredRoles) {
         return true;
     }
