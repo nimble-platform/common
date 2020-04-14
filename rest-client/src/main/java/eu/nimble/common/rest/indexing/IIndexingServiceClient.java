@@ -41,5 +41,5 @@ public interface IIndexingServiceClient {
     Response getProperties(@RequestHeader("Authorization") String bearerToken,@RequestParam(value = "uri",required = false) Set<String> uris, @RequestParam(value = "class",required = false) Set<String> classUris);
 
     @RequestMapping(method = RequestMethod.POST, value = "/item/search", consumes = "application/json", produces = "application/json")
-    Response searchItem(@RequestBody String query);
+    Response searchItem(@RequestHeader("Authorization") String bearerToken,@RequestBody String query);
 }
