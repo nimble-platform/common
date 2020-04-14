@@ -22,6 +22,8 @@ public class ExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
+    private final String SQL_INSUFFICIENT_RESOURCES_EXCEPTION_CLASS="53";
+
     @Autowired
     private MessageSource messageSource;
 
@@ -40,9 +42,9 @@ public class ExceptionHandler {
 
         // get the root cause of exception
         Throwable rootCause = e.getException() == null ? null: getRootCause(e.getException());
-        // if the root cause of the exception is PoolExhaustedException, PSQLException or HystrixRuntimeException,
+        // if the root cause of the exception is PoolExhaustedException, PSQLException (Insufficient resources class) or HystrixRuntimeException,
         // create a new NimbleException with the proper error messages
-        if(rootCause instanceof PoolExhaustedException || rootCause instanceof PSQLException){
+        if(rootCause instanceof PoolExhaustedException || (rootCause instanceof PSQLException && ((PSQLException) rootCause).getSQLState().startsWith(SQL_INSUFFICIENT_RESOURCES_EXCEPTION_CLASS))){
             e = new NimbleException(NimbleExceptionMessageCode.INTERNAL_SERVER_ERROR_NO_AVAILABLE_RESOURCE.toString(), (Exception) rootCause);
         }
         else if(rootCause instanceof HystrixRuntimeException){
