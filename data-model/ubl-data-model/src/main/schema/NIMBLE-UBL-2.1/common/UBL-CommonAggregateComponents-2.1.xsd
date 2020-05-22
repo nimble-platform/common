@@ -472,6 +472,7 @@
 			</xsd:element>
 			<xsd:element ref="cac:ManufacturersItemIdentification" minOccurs="0"/>
 			<xsd:element ref="cac:CatalogueDocumentReference" minOccurs="0"/>
+			<xsd:element ref="cbc:Customizable" minOccurs="0"/>
 			<xsd:element ref="cac:ItemSpecificationDocumentReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
