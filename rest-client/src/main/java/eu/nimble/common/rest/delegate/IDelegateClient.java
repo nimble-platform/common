@@ -44,6 +44,12 @@ public interface IDelegateClient {
                       @PathVariable("personId") String personId,
                       @RequestParam("delegateId") String delegateId);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/person/", produces = "application/json")
+    Response getPersonViaToken(@RequestHeader("Authorization") String bearerToken,@RequestHeader("tokenToBeCheckedHeader") String tokenToBeCheckedHeader,@RequestParam("delegateId") String delegateId);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/party_by_person/{personId}", produces = "application/json")
+    Response getPartyByPersonID(@RequestHeader("Authorization") String bearerToken,@PathVariable("personId") String personId,@RequestParam("delegateId") String delegateId);
+
     @RequestMapping(method = RequestMethod.GET, value = "/collaboration-groups/{id}", produces = "application/json")
     Response getCollaborationGroup(@RequestHeader("Authorization") String bearerToken,
                                    @PathVariable("id") String id,

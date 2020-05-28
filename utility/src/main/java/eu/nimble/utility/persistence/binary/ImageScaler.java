@@ -55,12 +55,12 @@ public class ImageScaler {
         ScaleRatios ratios = getScaleRatios(img, isThumbnail);
 
         // resize image
-        BufferedImage finalImage = resizeImage(ratios, img, isThumbnail);
+        BufferedImage finalImage = resizeImage(ratios, img);
 
         return finalImage;
     }
 
-    private BufferedImage resizeImage(ScaleRatios ratios, BufferedImage image, boolean isThumbnail) {
+    private BufferedImage resizeImage(ScaleRatios ratios, BufferedImage image) {
         int newWidth = (int) (image.getWidth() * ratios.widthRatio);
         int newHeight = (int) (image.getHeight() * ratios.heightRatio);
         int type = image.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : image.getType();
@@ -76,22 +76,7 @@ public class ImageScaler {
         g.drawImage(image, 0, 0, newWidth, newHeight, null);
         g.dispose();
 
-        int x = 0;
-        int y = 0;
-
-        if(isThumbnail) {
-            if(newWidth > THUMBNAIL_MAX_WIDTH) {
-                x = (newWidth - THUMBNAIL_MAX_WIDTH) / 2;
-                newWidth = THUMBNAIL_MAX_WIDTH;
-            }
-            if(newHeight > THUMBNAIL_MAX_WIDTH) {
-                y = (newHeight - THUMBNAIL_MAX_WIDTH) / 2;
-                newHeight = THUMBNAIL_MAX_WIDTH;
-            }
-        }
-
-        BufferedImage subImage = resizedImage.getSubimage(x, y, newWidth, newHeight);
-        return subImage;
+        return resizedImage;
     }
 
     private ScaleRatios getScaleRatios(BufferedImage originalImage, boolean isThumbnail) {
@@ -102,15 +87,15 @@ public class ImageScaler {
 
         if(isThumbnail) {
             if (width >= height) {
-                if (height > THUMBNAIL_MAX_WIDTH) {
-                    heightRatio = (double) THUMBNAIL_MAX_WIDTH / (double) height;
-                    widthRatio = heightRatio;
-                }
-
-            } else {
                 if (width > THUMBNAIL_MAX_WIDTH) {
                     widthRatio = (double) THUMBNAIL_MAX_WIDTH / (double) width;
                     heightRatio = widthRatio;
+                }
+
+            } else {
+                if (height > THUMBNAIL_MAX_WIDTH) {
+                    heightRatio = (double) THUMBNAIL_MAX_WIDTH / (double) height;
+                    widthRatio = heightRatio;
                 }
             }
 

@@ -65,6 +65,7 @@
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
 	<xsd:element name="OriginAddress" type="AddressType"/>
+	<xsd:element name="OriginatorDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="ParticipantParty" type="PartyType"/>
 	<xsd:element name="Party" type="PartyType"/>
 	<xsd:element name="PartyIdentification" type="PartyIdentificationType"/>
@@ -816,6 +817,7 @@
 			<xsd:element ref="cbc:IndustryClassification" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
+						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -825,6 +827,7 @@
 			<xsd:element ref="cbc:IndustryClassificationCode" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
+						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -864,6 +867,7 @@
 			<xsd:element ref="cac:PostalAddress" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
+						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -879,7 +883,16 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cac:Contact" minOccurs="0"/>
+			<xsd:element ref="cac:Contact" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Person" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:Certificate" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -929,6 +942,7 @@
 			<xsd:element ref="cac:SalesTerms">
 				<xsd:annotation>
 					<xsd:appinfo>
+						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -938,7 +952,7 @@
 			<xsd:element ref="cac:PurchaseTerms">
 				<xsd:annotation>
 					<xsd:appinfo>
-						<!--<hj:one-to-one/>-->
+						<hj:one-to-one/>
 						<annox:annotate>
 							<ha:Cascade value="DELETE_ORPHAN"/>
 						</annox:annotate>
@@ -1111,6 +1125,15 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:HandlingInstructions" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:SpecialInstructions" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:TotalTransportHandlingUnitQuantity" minOccurs="0"/>
 			<xsd:element ref="cac:Consignment" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
@@ -1140,6 +1163,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:TransportHandlingUnit" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:AdditionalDocumentReference" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1533,12 +1565,48 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="cbc:OperatingYearsQuantity" minOccurs="0"/>
-			<xsd:element ref="cbc:EmployeeQuantity" minOccurs="0"/>
+			<xsd:element ref="cbc:OperatingYearsQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:EmployeeQuantity" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cbc:BusinessClassificationEvidenceID" minOccurs="0"/>
 			<xsd:element ref="cbc:BusinessIdentityEvidenceID" minOccurs="0"/>
-			<xsd:element ref="cbc:TendererRoleCode" minOccurs="0"/>
-			<xsd:element ref="cac:BusinessClassificationScheme" minOccurs="0"/>
+			<xsd:element ref="cbc:TendererRoleCode" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:BusinessClassificationScheme" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:TechnicalCapability" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1568,7 +1636,16 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:Party" minOccurs="0"/>
-			<xsd:element ref="cac:EconomicOperatorRole" minOccurs="0"/>
+			<xsd:element ref="cac:EconomicOperatorRole" minOccurs="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Event" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
