@@ -29,6 +29,8 @@ public interface IParty {
 	public String ACTIVITY_SECTORS_FIELD = "*_activitySectors";
 	public String BUSINESS_KEYWORDS_FIELD = "*_businessKeywords";
 	public String VERIFIED_FIELD = "verified";
+	public String HAS_REGISTERED_USER_FIELD = "hasRegisteredUser";
+	public String VAT_NUMBER_FIELD = "vatNumber";
 	public String WEBSITE_FIELD = "website";
 
 }

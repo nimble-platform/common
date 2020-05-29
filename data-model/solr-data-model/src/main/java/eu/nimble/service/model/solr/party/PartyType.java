@@ -61,6 +61,10 @@ public class PartyType extends Concept implements IParty {
 
 	@Indexed(name=VERIFIED_FIELD,type="boolean")
 	private Boolean isVerified = false;
+	@Indexed(name=HAS_REGISTERED_USER_FIELD,type="boolean")
+	private Boolean hasRegisteredUser = false;
+	@Indexed(name=VAT_NUMBER_FIELD)
+	private String vatNumber;
 
 	@Indexed(name=WEBSITE_FIELD, type="string")
 	private String website;
@@ -238,6 +242,15 @@ public class PartyType extends Concept implements IParty {
 	public void setLegalName(String legalName) {
 		this.legalName = legalName;
 	}
+
+	public String getVatNumber() {
+		return vatNumber;
+	}
+
+	public void setVatNumber(String vatNumber) {
+		this.vatNumber = vatNumber;
+	}
+
 	/**
 	 * Getter for the multilingual origin labels
 	 */
@@ -330,6 +343,14 @@ public class PartyType extends Concept implements IParty {
 
 	public void setVerified(Boolean verified) {
 		isVerified = verified;
+	}
+
+	public Boolean getHasRegisteredUser() {
+		return hasRegisteredUser;
+	}
+
+	public void setHasRegisteredUser(Boolean hasRegisteredUser) {
+		this.hasRegisteredUser = hasRegisteredUser;
 	}
 
 	public String getWebsite() {
