@@ -25,6 +25,8 @@ public class ExecutionContext {
     private List<String> userRoles;
     // user email retrieved from the bearer token
     private String userEmail;
+    // language id
+    private String languageId;
 
     public void setBearerToken(String bearerToken) {
         this.bearerToken = bearerToken;
@@ -72,5 +74,13 @@ public class ExecutionContext {
 
     public void setClientFederationId(String clientFederationId) {
         this.clientFederationId = clientFederationId;
+    }
+
+    public String getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(String languageId) {
+        this.languageId = languageId;
     }
 }
