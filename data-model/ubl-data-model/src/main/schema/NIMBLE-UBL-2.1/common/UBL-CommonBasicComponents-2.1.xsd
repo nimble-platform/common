@@ -195,6 +195,7 @@
 	<xsd:element name="CurrentChargeTypeCode" type="CodeType"/>
 	<xsd:element name="CustomerAssignedAccountID" type="xsd:string"/>
 	<xsd:element name="CustomerReference" type="xsd:string"/>
+	<xsd:element name="Customizable" type="xsd:boolean"/>
 	<xsd:element name="CustomizationID" type="xsd:string"/>
 	<xsd:element name="CustomsClearanceServiceInstructions" type="xsd:string"/>
 	<xsd:element name="CustomsImportClassifiedIndicator" type="xsd:boolean"/>

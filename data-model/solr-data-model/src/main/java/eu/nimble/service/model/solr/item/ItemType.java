@@ -60,6 +60,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// FREE of charge indicator
 	@Indexed(name=FREE_OF_CHARGE_FIELD,type="boolean")
 	private Boolean freeOfCharge;
+	// Customizable
+	@Indexed(name=CUSTOMIZABLE_FIELD,type="boolean")
+	private Boolean customizable;
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
@@ -607,6 +610,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setFreeOfCharge(Boolean freeOfCharge) {
 		this.freeOfCharge = freeOfCharge;
+	}
+	public Boolean getCustomizable() {
+		return customizable;
+	}
+	public void setCustomizable(Boolean customizable) {
+		this.customizable = customizable;
 	}
 	public Set<String> getCertificateType() {
 		return certificateType;

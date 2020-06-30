@@ -37,6 +37,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String FREE_OF_CHARGE_FIELD = "freeOfCharge";
 	/**
+	 * Customizable
+	 */
+	String CUSTOMIZABLE_FIELD = "customizable";
+	/**
 	 * Certificate types
 	 */
 	String CERTIFICATE_TYPE_FIELD = "certificateType";
