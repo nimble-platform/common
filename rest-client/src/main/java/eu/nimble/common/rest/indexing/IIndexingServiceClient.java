@@ -34,6 +34,9 @@ public interface IIndexingServiceClient {
     @RequestMapping(method = RequestMethod.DELETE, value = "/item", produces = "application/json")
     Response deleteItem(@RequestHeader("Authorization") String bearerToken, @RequestParam("uri") String uri);
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/item/clear", produces = "application/json")
+    Response clearItemIndex(@RequestHeader("Authorization") String bearerToken);
+
     @RequestMapping(method = RequestMethod.POST, value = "/property", consumes = "application/json", produces = "application/json")
     Response setProperty(@RequestHeader("Authorization") String bearerToken, @RequestBody String prop);
 
