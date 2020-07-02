@@ -45,6 +45,14 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String CERTIFICATE_TYPE_FIELD = "certificateType";
 	/**
+	 * Permitted parties
+	 */
+	String PERMITTED_PARTIES_FIELD = "permittedParties";
+	/**
+	 * Restricted parties
+	 */
+	String RESTRICTED_PARTIES_FIELD = "restrictedParties";
+	/**
 	 * List of applicable countries the item is available
 	 */
 	String APPLICABLE_COUNTRIES_FIELD = "applicableCountries";
