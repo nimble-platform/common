@@ -929,6 +929,7 @@
 	<xsd:element name="VesselID" type="xsd:string"/>
 	<xsd:element name="VesselName" type="xsd:string"/>
 	<xsd:element name="WarrantyInformation" type="xsd:string"/>
+	<xsd:element name="VatNumber" type="xsd:string"/>
 	<xsd:element name="WebsiteURI" type="xsd:string"/>
 	<xsd:element name="WeekDayCode" type="CodeType"/>
 	<xsd:element name="Weight" type="xsd:string"/>

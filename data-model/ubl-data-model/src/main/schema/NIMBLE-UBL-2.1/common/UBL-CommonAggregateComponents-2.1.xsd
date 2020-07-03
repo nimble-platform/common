@@ -61,6 +61,7 @@
 	<xsd:element name="ManufacturerParty" type="PartyType"/>
 	<xsd:element name="ManufacturersItemIdentification" type="ItemIdentificationType"/>
 	<xsd:element name="MeasurementDimension" type="DimensionType"/>
+	<xsd:element name="Network" type="NetworkType"/>
 	<xsd:element name="OrderLine" type="OrderLineType"/>
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
@@ -713,6 +714,29 @@
 			<xsd:element ref="cbc:PayableAmount"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="NetworkType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID"/>
+			<xsd:element ref="cbc:VatNumber" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:Description" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="OrderLineReferenceType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:LineID"/>
@@ -806,6 +830,15 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cac:PartyIdentification" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Network" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
