@@ -118,6 +118,7 @@ public class DataModelUtilityTest {
         party.setPreferredItemClassificationCode(new ArrayList<>());
         party.setPurchaseTerms(new TradingPreferences());
         party.setSalesTerms(new TradingPreferences());
+        party.setNetwork(new ArrayList<>());
         return party;
     }
 }
