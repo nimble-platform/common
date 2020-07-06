@@ -60,9 +60,18 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// FREE of charge indicator
 	@Indexed(name=FREE_OF_CHARGE_FIELD,type="boolean")
 	private Boolean freeOfCharge;
+	// Customizable
+	@Indexed(name=CUSTOMIZABLE_FIELD,type="boolean")
+	private Boolean customizable;
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
+	// permitted parties
+	@Indexed(name=PERMITTED_PARTIES_FIELD)
+	private Set<String> permittedParties;
+	// restricted parties
+	@Indexed(name=RESTRICTED_PARTIES_FIELD)
+	private Set<String> restrictedParties;
 
 	// delivery time(s)
 	@Indexed(name=ESTIMATED_DELIVERY_TIME_UNIT_FIELD) @Dynamic
@@ -608,11 +617,29 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setFreeOfCharge(Boolean freeOfCharge) {
 		this.freeOfCharge = freeOfCharge;
 	}
+	public Boolean getCustomizable() {
+		return customizable;
+	}
+	public void setCustomizable(Boolean customizable) {
+		this.customizable = customizable;
+	}
 	public Set<String> getCertificateType() {
 		return certificateType;
 	}
 	public void setCertificateType(Set<String> certificateType) {
 		this.certificateType = certificateType;
+	}
+	public Set<String> getPermittedParties() {
+		return permittedParties;
+	}
+	public void setPermittedParties(Set<String> permittedParties) {
+		this.permittedParties = permittedParties;
+	}
+	public Set<String> getRestrictedParties() {
+		return restrictedParties;
+	}
+	public void setRestrictedParties(Set<String> restrictedParties) {
+		this.restrictedParties = restrictedParties;
 	}
 	public Set<String> getApplicableCountries() {
 		return applicableCountries;

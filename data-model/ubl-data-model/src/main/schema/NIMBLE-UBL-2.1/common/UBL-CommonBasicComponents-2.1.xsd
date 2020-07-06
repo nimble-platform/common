@@ -195,6 +195,7 @@
 	<xsd:element name="CurrentChargeTypeCode" type="CodeType"/>
 	<xsd:element name="CustomerAssignedAccountID" type="xsd:string"/>
 	<xsd:element name="CustomerReference" type="xsd:string"/>
+	<xsd:element name="Customizable" type="xsd:boolean"/>
 	<xsd:element name="CustomizationID" type="xsd:string"/>
 	<xsd:element name="CustomsClearanceServiceInstructions" type="xsd:string"/>
 	<xsd:element name="CustomsImportClassifiedIndicator" type="xsd:boolean"/>
@@ -217,8 +218,6 @@
 	<xsd:element name="Deleted" type="xsd:boolean"/>
 	<xsd:element name="DeliveredQuantity" type="QuantityType"/>
 	<xsd:element name="DeliveryInstructions" type="xsd:string"/>
-	<!-- TODO remove the demo-specific element -->
-	<xsd:element name="DemoSpecificMultipleContent" type="xsd:string"/>
 	<xsd:element name="DemurrageInstructions" type="xsd:string"/>
 	<xsd:element name="Department" type="xsd:string"/>
 	<xsd:element name="Description" type="TextType"/>
@@ -606,6 +605,7 @@
 	<xsd:element name="PreferenceCriterionCode" type="CodeType"/>
 	<xsd:element name="PreferredItemClassificationCode" type="CodeType"/>
 	<xsd:element name="MostRecentItemsClassificationCode" type="CodeType"/>
+	<xsd:element name="PermittedPartyID" type="xsd:string"/>
 	<xsd:element name="PrepaidAmount" type="AmountType"/>
 	<xsd:element name="PrepaidIndicator" type="xsd:boolean"/>
 	<xsd:element name="PrepaidPaymentReferenceID" type="xsd:string"/>
@@ -714,6 +714,7 @@
 	<xsd:element name="ResponseCode" type="CodeType"/>
 	<xsd:element name="ResponseDate" type="xsd:date"/>
 	<xsd:element name="ResponseTime" type="xsd:time"/>
+	<xsd:element name="RestrictedPartyID" type="xsd:string"/>
 	<xsd:element name="RetailEventName" type="xsd:string"/>
 	<xsd:element name="RetailEventStatusCode" type="CodeType"/>
 	<xsd:element name="ReturnabilityIndicator" type="xsd:boolean"/>
@@ -928,6 +929,7 @@
 	<xsd:element name="VesselID" type="xsd:string"/>
 	<xsd:element name="VesselName" type="xsd:string"/>
 	<xsd:element name="WarrantyInformation" type="xsd:string"/>
+	<xsd:element name="VatNumber" type="xsd:string"/>
 	<xsd:element name="WebsiteURI" type="xsd:string"/>
 	<xsd:element name="WeekDayCode" type="CodeType"/>
 	<xsd:element name="Weight" type="xsd:string"/>

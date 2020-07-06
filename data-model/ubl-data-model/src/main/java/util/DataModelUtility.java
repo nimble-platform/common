@@ -42,6 +42,7 @@ public class DataModelUtility {
         party.setDescription(null);
         party.setPartyIdentification(null);
         party.setPartyName(null);
+        party.setNetwork(null);
     }
 
     /**
@@ -81,5 +82,6 @@ public class DataModelUtility {
         targetParty.setPurchaseTerms(sourceParty.getPurchaseTerms());
         targetParty.setSalesTerms(sourceParty.getSalesTerms());
         targetParty.setProcessID(sourceParty.getProcessID());
+        targetParty.setNetwork(sourceParty.getNetwork());
     }
 }
