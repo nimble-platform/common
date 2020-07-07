@@ -1,10 +1,12 @@
 package eu.nimble.common.rest.indexing;
 
 import feign.Response;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
+@Profile("!test")
 public class IIndexingServiceClientFallback implements IIndexingServiceClient {
 
 
