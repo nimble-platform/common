@@ -21,6 +21,8 @@
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
 			<xsd:element ref="cbc:IssueDate"/>
 			<xsd:element ref="cac:ProviderParty"/>
+			<xsd:element ref="cbc:PermittedPartyID" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:RestrictedPartyID" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="cac:CatalogueLine" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>

@@ -27,6 +27,8 @@ public class ExecutionContext {
     private String userEmail;
     // language id
     private String languageId;
+    // vat number of user
+    private String vatNumber;
 
     public void setBearerToken(String bearerToken) {
         this.bearerToken = bearerToken;
@@ -82,5 +84,13 @@ public class ExecutionContext {
 
     public void setLanguageId(String languageId) {
         this.languageId = languageId;
+    }
+
+    public String getVatNumber() {
+        return vatNumber;
+    }
+
+    public void setVatNumber(String vatNumber) {
+        this.vatNumber = vatNumber;
     }
 }

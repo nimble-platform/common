@@ -146,6 +146,9 @@ Generated on: 2019.11.20 at 03:54:18 PM EET
     <bindings if-exists="true" scd="~tns:ItemIdentificationType">
       <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.ItemIdentificationType"/>
     </bindings>
+    <bindings if-exists="true" scd="~tns:NetworkType">
+      <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.NetworkType"/>
+    </bindings>
     <bindings if-exists="true" scd="~tns:OrderLineType">
       <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.OrderLineType"/>
     </bindings>
