@@ -801,6 +801,7 @@ public class ObjectFactory {
     private final static QName _SourceForecastIssueDate_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SourceForecastIssueDate");
     private final static QName _SourceForecastIssueTime_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SourceForecastIssueTime");
     private final static QName _SourceValueMeasure_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SourceValueMeasure");
+    private final static QName _SparePart_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SparePart");
     private final static QName _SparePartCost_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SparePartCost");
     private final static QName _SpecialInstructions_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SpecialInstructions");
     private final static QName _SpecialSecurityIndicator_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "SpecialSecurityIndicator");
@@ -7963,6 +7964,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "SourceValueMeasure")
     public JAXBElement<QuantityType> createSourceValueMeasure(QuantityType value) {
         return new JAXBElement<QuantityType>(_SourceValueMeasure_QNAME, QuantityType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Boolean }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "SparePart")
+    public JAXBElement<Boolean> createSparePart(Boolean value) {
+        return new JAXBElement<Boolean>(_SparePart_QNAME, Boolean.class, null, value);
     }
 
     /**

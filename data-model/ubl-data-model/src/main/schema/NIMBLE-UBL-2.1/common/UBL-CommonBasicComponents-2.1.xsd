@@ -767,6 +767,7 @@
 	<xsd:element name="SourceForecastIssueDate" type="xsd:date"/>
 	<xsd:element name="SourceForecastIssueTime" type="xsd:time"/>
 	<xsd:element name="SourceValueMeasure" type="QuantityType"/>
+	<xsd:element name="SparePart" type="xsd:boolean"/>
 	<xsd:element name="SparePartCost" type="AmountType"/>
 	<xsd:element name="SpecialInstructions" type="xsd:string"/>
 	<xsd:element name="SpecialSecurityIndicator" type="xsd:boolean"/>
