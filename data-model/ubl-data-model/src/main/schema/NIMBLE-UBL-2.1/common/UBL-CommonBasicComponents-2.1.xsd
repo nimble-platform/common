@@ -619,6 +619,7 @@
 	<xsd:element name="PriceAmount" type="AmountType"/>
 	<xsd:element name="PriceChangeReason" type="xsd:string"/>
 	<xsd:element name="PriceEvaluationCode" type="CodeType"/>
+	<xsd:element name="PriceHidden" type="xsd:boolean"/>
 	<xsd:element name="PriceRevisionFormulaDescription" type="xsd:decimal"/>
 	<xsd:element name="PriceType" type="xsd:string"/>
 	<xsd:element name="PriceTypeCode" type="CodeType"/>

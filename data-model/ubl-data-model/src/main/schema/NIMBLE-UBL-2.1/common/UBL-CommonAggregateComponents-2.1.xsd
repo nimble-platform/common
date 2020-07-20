@@ -150,6 +150,7 @@
 			<xsd:element ref="cbc:ID"/>
 			<xsd:element ref="cbc:MinimumOrderQuantity" minOccurs="0"/>
 			<xsd:element ref="cbc:FreeOfChargeIndicator" minOccurs="0"/>
+			<xsd:element ref="cbc:PriceHidden" minOccurs="0"/>
 			<xsd:element ref="cbc:WarrantyInformation" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
