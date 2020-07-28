@@ -63,6 +63,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// Customizable
 	@Indexed(name=CUSTOMIZABLE_FIELD,type="boolean")
 	private Boolean customizable;
+	// Spare Part
+	@Indexed(name=SPARE_PART_FIELD,type="boolean")
+	private Boolean sparePart;
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
@@ -622,6 +625,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setCustomizable(Boolean customizable) {
 		this.customizable = customizable;
+	}
+	public Boolean getSparePart() {
+		return sparePart;
+	}
+	public void setSparePart(Boolean sparePart) {
+		this.sparePart = sparePart;
 	}
 	public Set<String> getCertificateType() {
 		return certificateType;

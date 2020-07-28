@@ -41,6 +41,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String CUSTOMIZABLE_FIELD = "customizable";
 	/**
+	 * Spare Part
+	 */
+	String SPARE_PART_FIELD = "sparePart";
+	/**
 	 * Certificate types
 	 */
 	String CERTIFICATE_TYPE_FIELD = "certificateType";
