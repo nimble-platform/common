@@ -42,7 +42,7 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         return processGetPartyResponse(response, storeId);
     }
 
-    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException {
+    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds,@RequestParam(value = "includeRoles") boolean includeRoles) throws IOException {
         if(partyIds.size() <= 0){
             return new ArrayList<>();
         }
@@ -53,7 +53,7 @@ public class IdentityClientTyped implements IIdentityClientTyped{
         }
         commaSeparatedIds.append(partyIds.get(partyIds.size() - 1));
 
-        Response response = identityClient.getParties(bearerToken, commaSeparatedIds.toString());
+        Response response = identityClient.getParties(bearerToken, commaSeparatedIds.toString(),includeRoles);
         String responseBody = null;
         if(response.body() != null){
             try {

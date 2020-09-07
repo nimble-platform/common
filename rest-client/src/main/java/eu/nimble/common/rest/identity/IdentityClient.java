@@ -20,7 +20,7 @@ public interface IdentityClient {
                       @RequestParam(value = "includeRoles") boolean includeRoles);
 
     @RequestMapping(method = RequestMethod.GET, value = "/parties/{partyIds}", produces = "application/json")
-    Response getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") String partyIds);
+    Response getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") String partyIds,@RequestParam(value = "includeRoles") boolean includeRoles);
 
     @RequestMapping(method = RequestMethod.GET, value = "/party_by_person/{personId}", produces = "application/json")
     Response getPartyByPersonID(@PathVariable("personId") String personId);
