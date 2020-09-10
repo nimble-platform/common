@@ -129,6 +129,7 @@
 	<xsd:element name="ChipApplicationID" type="xsd:string"/>
 	<xsd:element name="CityName" type="xsd:string"/>
 	<xsd:element name="CitySubdivisionName" type="xsd:string"/>
+	<xsd:element name="ClauseTitle" type="TextType"/>
 	<xsd:element name="CodeValue" type="xsd:string"/>
 	<xsd:element name="CollaborationPriorityCode" type="CodeType"/>
 	<xsd:element name="Comment" type="xsd:string"/>
