@@ -28,7 +28,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
                               @RequestParam(value = "includeRoles") boolean includeRoles) throws IOException {
         return getParty(bearerToken,storeId);
     }
-    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException {
+    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds,@RequestParam(value = "includeRoles") boolean includeRoles) throws IOException {
         StringBuilder commaSeparatedIds = new StringBuilder("");
         int i = 0;
         for (; i < partyIds.size() - 1; i++) {

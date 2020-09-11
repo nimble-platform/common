@@ -16,7 +16,7 @@ public interface IIdentityClientTyped {
     public PartyType getParty(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyId") String storeId,
                               @RequestParam(value = "includeRoles") boolean includeRoles) throws IOException;
 
-    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds) throws IOException;
+    public List<PartyType> getParties(@RequestHeader("Authorization") String bearerToken, @PathVariable("partyIds") List<String> partyIds,@RequestParam(value = "includeRoles") boolean includeRoles) throws IOException;
 
     public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException;
 

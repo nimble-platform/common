@@ -80,6 +80,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "manufacturersItemIdentification",
     "catalogueDocumentReference",
     "customizable",
+    "sparePart",
     "itemSpecificationDocumentReference",
     "commodityClassification",
     "additionalItemProperty",
