@@ -22,6 +22,11 @@ public class PartyType extends Concept implements IParty {
 //	private String name;
 	@Indexed(name=LEGAL_NAME_FIELD)
 	private String legalName;
+	/**
+	 * Lowercase of the legal name to be used for the sorting
+	 * */
+	@Indexed(name=LOWERCASE_LEGAL_NAME_FIELD)
+	private String lowercaseLegalName;
 	@Indexed(name=BRAND_NAME_FIELD) @Dynamic
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
@@ -237,6 +242,9 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setLegalName(String legalName) {
 		this.legalName = legalName;
+		if(legalName != null){
+			this.lowercaseLegalName = legalName.toLowerCase();
+		}
 	}
 	/**
 	 * Getter for the multilingual origin labels
