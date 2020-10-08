@@ -15,6 +15,10 @@ public interface IConcept {
 	 */
 	String LABEL_FIELD = "*_label";
 	/**
+	 * The language based lowercase label, e.g. <code><i>en</i>_lowecase_label</code> for english label
+	 */
+	String LOWERCASE_LABEL_FIELD = "*_lowercaseLabel";
+	/**
 	 * Copy Field. All labels, hidden labels and alternate labels of any language are copied to this field
 	 */
 	String ALL_LABELS_FIELD = "allLabels";
