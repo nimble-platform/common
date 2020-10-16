@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -125,7 +126,8 @@ public abstract class Concept implements IConcept {
 		}
 		this.label.put(language, label);
 		if(label != null){
-			this.lowercaseLabel.put(language, label.toLowerCase());
+			String labelWithoutAccents = StringUtils.stripAccents(label);
+			this.lowercaseLabel.put(language, labelWithoutAccents.toLowerCase());
 		}
 		addLanguage(language);
 	}

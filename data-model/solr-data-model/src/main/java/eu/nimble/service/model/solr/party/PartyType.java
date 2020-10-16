@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -243,7 +244,8 @@ public class PartyType extends Concept implements IParty {
 	public void setLegalName(String legalName) {
 		this.legalName = legalName;
 		if(legalName != null){
-			this.lowercaseLegalName = legalName.toLowerCase();
+			String legalNameWithoutAccents = StringUtils.stripAccents(legalName);
+			this.lowercaseLegalName = legalNameWithoutAccents.toLowerCase();
 		}
 	}
 	/**
