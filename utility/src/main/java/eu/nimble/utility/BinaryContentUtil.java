@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.exception.BinaryContentException;
+import eu.nimble.utility.exception.NimbleExceptionMessageCode;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
 import eu.nimble.utility.serialization.BinaryObjectSerializerProcess;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class BinaryContentUtil {
             objectMapper.writeValue(baos, entity);
             // check whether we have any broken images or not
             if(binaryObjectSerializerProcess.getNamesOfBrokenImages().size() > 0){
-                throw new BinaryContentException("The following images are not valid : " + binaryObjectSerializerProcess.getNamesOfBrokenImages());
+                throw new BinaryContentException(NimbleExceptionMessageCode.INVALID_IMAGE.toString(), binaryObjectSerializerProcess.getNamesOfBrokenImages());
             }
             // save binary objects
             binaryContentService.createContents(binaryObjectSerializerProcess.getBinaryObjectsToBeSaved());
