@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
@@ -36,6 +37,12 @@ public abstract class Concept implements IConcept {
 	@Indexed(name=LABEL_FIELD, copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD, LANGUAGE_ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, String> label;
+	/**
+	 * Lowercase of the labels to be used for the sorting
+	 * */
+	@Indexed(name=LOWERCASE_LABEL_FIELD)
+	@Dynamic
+	protected Map<String, String> lowercaseLabel;
 	@Indexed(name=ALTERNATE_LABEL_FIELD, type="string", copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD, ALL_LABELS_FIELD, LANGUAGE_ALL_LABELS_FIELD})
 	@Dynamic
 	protected Map<String, Collection<String>> alternateLabel;
@@ -103,6 +110,7 @@ public abstract class Concept implements IConcept {
 		}
 		else {
 			this.label = null;
+			this.lowercaseLabel = null;
 		}
 	}
 	/**
@@ -114,9 +122,13 @@ public abstract class Concept implements IConcept {
 	public void addLabel(String language, String label) {
 		if ( this.label == null) {
 			this.label = new HashMap<>();
+			this.lowercaseLabel = new HashMap<>();
 		}
 		this.label.put(language, label);
-		// 
+		if(label != null){
+			String labelWithoutAccents = StringUtils.stripAccents(label);
+			this.lowercaseLabel.put(language, labelWithoutAccents.toLowerCase());
+		}
 		addLanguage(language);
 	}
 	/**

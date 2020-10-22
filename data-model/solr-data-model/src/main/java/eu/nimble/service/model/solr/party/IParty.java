@@ -10,6 +10,7 @@ public interface IParty {
 	public String ID_FIELD = "id";
 	public String BRAND_NAME_FIELD = "*_brandName";
 	public String LEGAL_NAME_FIELD = "legalName";
+	public String LOWERCASE_LEGAL_NAME_FIELD = "lowercaseLegalName";
 	public String NAME_FIELD = "name";
 	public String NAME_ML_FIELD = "*_name";
 	public String ORIGIN_FIELD = "*_origin";

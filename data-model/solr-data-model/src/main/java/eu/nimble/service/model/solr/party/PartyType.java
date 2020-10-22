@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
@@ -22,6 +23,11 @@ public class PartyType extends Concept implements IParty {
 //	private String name;
 	@Indexed(name=LEGAL_NAME_FIELD)
 	private String legalName;
+	/**
+	 * Lowercase of the legal name to be used for the sorting
+	 * */
+	@Indexed(name=LOWERCASE_LEGAL_NAME_FIELD)
+	private String lowercaseLegalName;
 	@Indexed(name=BRAND_NAME_FIELD) @Dynamic
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
@@ -237,6 +243,10 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setLegalName(String legalName) {
 		this.legalName = legalName;
+		if(legalName != null){
+			String legalNameWithoutAccents = StringUtils.stripAccents(legalName);
+			this.lowercaseLegalName = legalNameWithoutAccents.toLowerCase();
+		}
 	}
 	/**
 	 * Getter for the multilingual origin labels
