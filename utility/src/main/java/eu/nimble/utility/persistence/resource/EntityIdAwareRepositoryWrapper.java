@@ -179,6 +179,18 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         return entity;
     }
 
+    /**
+     * Updates the given entity and persists the given binary objects
+     * @param entity
+     * @param binaryObjects
+     * @return
+     */
+    public <T> T updateEntity(T entity, List<BinaryObjectType> binaryObjects) {
+        binaryContentService.persistBinaryObjects(binaryObjects);
+        entity = genericJPARepository.updateEntity(entity);
+        return entity;
+    }
+
     @Override
     public <T> void deleteEntity(T entity) {
 //        checkHjidAssociationWithTransaction(entity);

@@ -2,15 +2,20 @@ package eu.nimble.utility.persistence.binary;
 
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.CommonSpringBridge;
+import eu.nimble.utility.exception.BinaryContentException;
+import eu.nimble.utility.exception.NimbleExceptionMessageCode;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.persistence.TransactionAcrossMultipleDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Service to manage data in the binary content database.
@@ -95,6 +100,93 @@ public class BinaryContentService implements TransactionAcrossMultipleDB{
                 }
             }
         }
+    }
+
+    /**
+     * Extracts the binary content from the given binary objects and stores them in the binary content db.
+     *
+     * Also, nullifies the given binary object unless the binary content is an image, otherwise puts a thumbnail instead of the original content.
+     * @param binaryObjects
+     */
+    public void persistBinaryObjects(List<BinaryObjectType> binaryObjects) {
+        List<String> brokenImages = new ArrayList<>();
+        List<BinaryObjectType> binaryObjectsToBePersisted = new ArrayList<>();
+
+        for (BinaryObjectType binaryObject : binaryObjects) {
+            if (binaryObject.getUri() == null || binaryObject.getUri().equals("")) {
+
+                String mimeCode = binaryObject.getMimeCode();
+
+                // create BinaryObjectType object
+                BinaryObjectType binaryContentDbObject = new BinaryObjectType();
+                binaryContentDbObject.setMimeCode(mimeCode);
+                binaryContentDbObject.setFileName(binaryObject.getFileName());
+
+                // check whether the binary object is an image or not
+                if (mimeCode.contains("image/")) {
+                    try {
+                        // scale the image
+                        byte[] bytes = scaleImage(binaryObject.getValue(), false, mimeCode);
+                        // if bytes is equal to null,that means that we do not have a valid image
+                        if (bytes == null) {
+                            // since this is a broken image, add its name to the list
+                            brokenImages.add(binaryObject.getFileName());
+                        }
+                        binaryContentDbObject.setValue(bytes);
+                        binaryObject.setValue(scaleImage(binaryObject.getValue(), true, mimeCode));
+
+                    } catch (IOException e) {
+                        brokenImages.add(binaryObject.getFileName());
+                    }
+
+                } else {
+                    binaryContentDbObject.setValue(binaryObject.getValue());
+                    binaryObject.setValue(null);
+                }
+
+                // retrieve a uri for Binary Object
+                String uri = new BinaryContentService().getURI();
+                // set uris
+                binaryObject.setUri(uri);
+                binaryContentDbObject.setUri(uri);
+                // add binary object to the list
+                binaryObjectsToBePersisted.add(binaryContentDbObject);
+            }
+        }
+
+        if (brokenImages.size() > 0) {
+            throw new BinaryContentException(NimbleExceptionMessageCode.INVALID_IMAGE.toString(), Collections.singletonList(String.join(",", brokenImages)));
+        }
+
+        // save binary objects
+        createContents(binaryObjectsToBePersisted);
+    }
+
+    private byte[] scaleImage(byte[] value, boolean isThumbnail, String mimeCode) throws IOException {
+        // get correct format of the image (after image/... part)
+        String format = mimeCode.substring(6);
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(value);
+        BufferedImage image = null;
+        try {
+            image = new ImageScaler().scale(bais, isThumbnail);
+        } finally{
+            bais.close();
+        }
+        // if image is equal to null,that means that we do not have a valid image
+        if(image == null){
+            return null;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, format, baos);
+        }finally {
+            baos.close();
+        }
+
+        byte[] imageBytes = baos.toByteArray();
+        return imageBytes;
     }
 
     public BinaryObjectType createContent(BinaryObjectType binaryObjectType){
