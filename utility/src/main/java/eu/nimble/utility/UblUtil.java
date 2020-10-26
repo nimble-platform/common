@@ -1,5 +1,6 @@
 package eu.nimble.utility;
 
+import eu.nimble.service.model.ubl.catalogue.CatalogueType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
@@ -65,6 +66,15 @@ public class UblUtil {
             name = getName(partyType.getPartyName());
         }
         return name;
+    }
+
+    /**
+     * Retrieves the identifier of provider party of a catalogue
+     * @param catalogue
+     * @return
+     */
+    public static String getCatalogueProviderPartyId(CatalogueType catalogue) {
+        return catalogue.getProviderParty().getPartyIdentification().stream().map(PartyIdentificationType::getID).findFirst().orElse(null);
     }
 
 }
