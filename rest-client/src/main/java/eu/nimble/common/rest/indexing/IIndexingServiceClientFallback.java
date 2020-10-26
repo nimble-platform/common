@@ -66,12 +66,22 @@ public class IIndexingServiceClientFallback implements IIndexingServiceClient {
     }
 
     @Override
+    public Response getProperty(String bearerToken, String uri) {
+        return null;
+    }
+
+    @Override
     public Response getProperties(String bearerToken, Set<String> uris, Set<String> classUris) {
         return null;
     }
 
     @Override
     public Response searchItem(String bearerToken, String query) {
+        return null;
+    }
+
+    @Override
+    public Response selectCode(String bearerToken, String query) {
         return null;
     }
 }

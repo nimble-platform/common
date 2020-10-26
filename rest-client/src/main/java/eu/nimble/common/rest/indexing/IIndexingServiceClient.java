@@ -40,9 +40,15 @@ public interface IIndexingServiceClient {
     @RequestMapping(method = RequestMethod.POST, value = "/property", consumes = "application/json", produces = "application/json")
     Response setProperty(@RequestHeader("Authorization") String bearerToken, @RequestBody String prop);
 
+    @RequestMapping(method = RequestMethod.GET, value = "/property", produces = "application/json")
+    Response getProperty(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "uri") String uri);
+
     @RequestMapping(method = RequestMethod.GET, value = "/properties", produces = "application/json")
     Response getProperties(@RequestHeader("Authorization") String bearerToken,@RequestParam(value = "uri",required = false) Set<String> uris, @RequestParam(value = "class",required = false) Set<String> classUris);
 
     @RequestMapping(method = RequestMethod.POST, value = "/item/search", consumes = "application/json", produces = "application/json")
     Response searchItem(@RequestHeader("Authorization") String bearerToken,@RequestBody String query);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/code/select", produces = "application/json")
+    Response selectCode(@RequestHeader("Authorization") String bearerToken, @RequestParam(value = "q",required = false) String query);
 }
