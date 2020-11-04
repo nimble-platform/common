@@ -109,6 +109,10 @@ public class BinaryContentService implements TransactionAcrossMultipleDB{
      * @param binaryObjects
      */
     public void persistBinaryObjects(List<BinaryObjectType> binaryObjects) {
+        if (binaryObjects == null || binaryObjects.size() == 0) {
+            return;
+        }
+
         List<String> brokenImages = new ArrayList<>();
         List<BinaryObjectType> binaryObjectsToBePersisted = new ArrayList<>();
 
@@ -383,6 +387,10 @@ public class BinaryContentService implements TransactionAcrossMultipleDB{
 
     // delete the ones which have no BinaryObject references and discard the rest
     public void deleteContents(List<String> uris) {
+        if (uris == null || uris.size() == 0) {
+            return;
+        }
+
         Connection c = null;
         PreparedStatement ps = null;
 
