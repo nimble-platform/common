@@ -67,10 +67,10 @@ public class ExceptionHandler {
 
         // log the exception
         if(e.getException() != null){
-            logger.error(logMessages.toString(),e.getException());
+            logger.error(logMessages.toString(), e.getException());
         }
         else {
-            logger.error(logMessages.toString());
+            logger.error(logMessages.toString(), e);
         }
 
         // write error message to HttpServletResponse Output Stream

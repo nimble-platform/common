@@ -45,7 +45,10 @@ public class PropertyType extends Concept implements IPropertyType {
 
 	@Indexed(required=false, name=IS_VISIBLE_FIELD)
 	private boolean visible = true;
-	
+
+	@Indexed(required=false, name=IS_REQUIRED_FIELD)
+	private boolean required = false;
+
 	@Indexed(required=false, name=BOOST_FIELD, type="pdouble")
 	private Double boost;
 	
@@ -188,6 +191,14 @@ public class PropertyType extends Concept implements IPropertyType {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
 	}
 
 	public String getCodeListId() {

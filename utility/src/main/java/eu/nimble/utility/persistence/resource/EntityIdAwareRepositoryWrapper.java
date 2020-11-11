@@ -20,7 +20,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -176,6 +178,23 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         entity = genericJPARepository.updateEntity(entity);
         // create entity ids for the entity
         CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
+        return entity;
+    }
+
+    /**
+     * Updates the given entity and persists the given binary objects
+     * @param entity
+     * @param binaryObjectsToPersist
+     * @return
+     */
+    public <T> T updateEntity(T entity, List<BinaryObjectType> binaryObjectsToPersist) {
+        return updateEntity(entity, binaryObjectsToPersist, new ArrayList<String>());
+    }
+
+    public <T> T updateEntity(T entity, List<BinaryObjectType> binaryObjectsToPersist, List<String> binaryObjectsToDelete) {
+        binaryContentService.persistBinaryObjects(binaryObjectsToPersist);
+        binaryContentService.deleteContents(binaryObjectsToDelete);
+        entity = genericJPARepository.updateEntity(entity);
         return entity;
     }
 

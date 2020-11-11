@@ -122,6 +122,8 @@ public abstract class Concept implements IConcept {
 	public void addLabel(String language, String label) {
 		if ( this.label == null) {
 			this.label = new HashMap<>();
+		}
+		if(this.lowercaseLabel == null){
 			this.lowercaseLabel = new HashMap<>();
 		}
 		this.label.put(language, label);

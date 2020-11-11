@@ -1,8 +1,8 @@
 package eu.nimble.utility;
 
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyIdentificationType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyNameType;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
+import eu.nimble.service.model.ubl.catalogue.CatalogueType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
+import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 
 import java.util.*;
@@ -67,4 +67,33 @@ public class UblUtil {
         return name;
     }
 
+    /**
+     * Retrieves the identifier of provider party of a catalogue
+     * @param catalogue
+     * @return
+     */
+    public static String getCatalogueProviderPartyId(CatalogueType catalogue) {
+        return catalogue.getProviderParty().getPartyIdentification().stream().map(PartyIdentificationType::getID).findFirst().orElse(null);
+    }
+
+    public static List<BinaryObjectType> getBinaryObjectsFrom(CatalogueLineType catalogueLine) {
+        List<BinaryObjectType> binaryObjects = new ArrayList<>();
+        binaryObjects.addAll(getBinaryObjectsFrom(catalogueLine.getGoodsItem().getItem()));
+        return binaryObjects;
+    }
+
+    public static List<BinaryObjectType> getBinaryObjectsFrom(ItemType item) {
+        List<BinaryObjectType> binaryObjects = new ArrayList<>();
+        if (item.getProductImage() != null) {
+            binaryObjects.addAll(item.getProductImage());
+        }
+        if (item.getItemSpecificationDocumentReference() != null) {
+            List<BinaryObjectType> objects = item.getItemSpecificationDocumentReference().stream()
+                    .filter(docRef -> docRef.getAttachment().getEmbeddedDocumentBinaryObject() != null)
+                    .map(docRef -> docRef.getAttachment().getEmbeddedDocumentBinaryObject())
+                    .collect(Collectors.toList());
+            binaryObjects.addAll(objects);
+        }
+        return binaryObjects;
+    }
 }

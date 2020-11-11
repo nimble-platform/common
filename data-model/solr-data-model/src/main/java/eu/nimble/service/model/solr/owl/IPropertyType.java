@@ -21,6 +21,7 @@ public interface IPropertyType extends IConcept {
 	String TYPE_VALUE = "property";
 	String IS_FACET_FIELD = "isFacet";
 	String IS_VISIBLE_FIELD = "isVisible";
+	String IS_REQUIRED_FIELD = "isRequired";
 	String BOOST_FIELD = "boost";
 	String RANGE_FIELD = "range";
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
