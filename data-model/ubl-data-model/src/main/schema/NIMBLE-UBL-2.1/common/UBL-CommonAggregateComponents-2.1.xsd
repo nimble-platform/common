@@ -809,18 +809,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PartyIdentificationType">
-		<xsd:annotation>
-			<xsd:appinfo>
-				<hj:entity>
-					<orm:table name="PARTY_IDENTIFICATION_TYPE">
-						<!-- adding this constraint to prevent creation of multiple party instances-->
-						<orm:unique-constraint>
-							<orm:column-name>ID</orm:column-name>
-						</orm:unique-constraint>
-					</orm:table>
-				</hj:entity>
-			</xsd:appinfo>
-		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 		</xsd:sequence>
