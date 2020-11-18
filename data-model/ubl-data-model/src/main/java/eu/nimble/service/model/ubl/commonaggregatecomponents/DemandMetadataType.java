@@ -9,7 +9,7 @@
 package eu.nimble.service.model.ubl.commonaggregatecomponents;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,16 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import eu.nimble.service.model.ubl.commonbasiccomponents.CodeType;
-import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -35,17 +31,17 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
 /**
- * <p>Java class for CountryType complex type.
+ * <p>Java class for DemandMetadataType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="CountryType"&gt;
+ * &lt;complexType name="DemandMetadataType"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IdentificationCode" minOccurs="0"/&gt;
- *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Name" minOccurs="0"/&gt;
+ *         &lt;element name="LastSeenDemandID" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="PersonID" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -55,79 +51,67 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CountryType", propOrder = {
-    "identificationCode",
-    "name"
+@XmlType(name = "DemandMetadataType", propOrder = {
+    "lastSeenDemandID",
+    "personID"
 })
-@Entity(name = "CountryType")
-@Table(name = "COUNTRY_TYPE")
+@Entity(name = "DemandMetadataType")
+@Table(name = "DEMAND_METADATA_TYPE")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class CountryType
+public class DemandMetadataType
     implements Serializable, Equals
 {
 
     private final static long serialVersionUID = 1L;
-    @XmlElement(name = "IdentificationCode", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected CodeType identificationCode;
-    @XmlElement(name = "Name", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
-    protected TextType name;
+    @XmlElement(name = "LastSeenDemandID")
+    protected long lastSeenDemandID;
+    @XmlElement(name = "PersonID", required = true)
+    protected String personID;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
 
     /**
-     * Gets the value of the identificationCode property.
+     * Gets the value of the lastSeenDemandID property.
+     * 
+     */
+    @Basic
+    @Column(name = "LAST_SEEN_DEMAND_ID", precision = 20, scale = 0)
+    public long getLastSeenDemandID() {
+        return lastSeenDemandID;
+    }
+
+    /**
+     * Sets the value of the lastSeenDemandID property.
+     * 
+     */
+    public void setLastSeenDemandID(long value) {
+        this.lastSeenDemandID = value;
+    }
+
+    /**
+     * Gets the value of the personID property.
      * 
      * @return
      *     possible object is
-     *     {@link CodeType }
+     *     {@link String }
      *     
      */
-    @ManyToOne(targetEntity = CodeType.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "IDENTIFICATION_CODE_COUNTRY__0")
-    public CodeType getIdentificationCode() {
-        return identificationCode;
+    @Basic
+    @Column(name = "PERSON_ID", length = 255)
+    public String getPersonID() {
+        return personID;
     }
 
     /**
-     * Sets the value of the identificationCode property.
+     * Sets the value of the personID property.
      * 
      * @param value
      *     allowed object is
-     *     {@link CodeType }
+     *     {@link String }
      *     
      */
-    public void setIdentificationCode(CodeType value) {
-        this.identificationCode = value;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TextType }
-     *     
-     */
-    @ManyToOne(targetEntity = TextType.class, cascade = {
-        CascadeType.ALL
-    })
-    @JoinColumn(name = "NAME__COUNTRY_TYPE_HJID")
-    public TextType getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TextType }
-     *     
-     */
-    public void setName(TextType value) {
-        this.name = value;
+    public void setPersonID(String value) {
+        this.personID = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
@@ -137,22 +121,22 @@ public class CountryType
         if (this == object) {
             return true;
         }
-        final CountryType that = ((CountryType) object);
+        final DemandMetadataType that = ((DemandMetadataType) object);
         {
-            CodeType lhsIdentificationCode;
-            lhsIdentificationCode = this.getIdentificationCode();
-            CodeType rhsIdentificationCode;
-            rhsIdentificationCode = that.getIdentificationCode();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "identificationCode", lhsIdentificationCode), LocatorUtils.property(thatLocator, "identificationCode", rhsIdentificationCode), lhsIdentificationCode, rhsIdentificationCode)) {
+            long lhsLastSeenDemandID;
+            lhsLastSeenDemandID = this.getLastSeenDemandID();
+            long rhsLastSeenDemandID;
+            rhsLastSeenDemandID = that.getLastSeenDemandID();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "lastSeenDemandID", lhsLastSeenDemandID), LocatorUtils.property(thatLocator, "lastSeenDemandID", rhsLastSeenDemandID), lhsLastSeenDemandID, rhsLastSeenDemandID)) {
                 return false;
             }
         }
         {
-            TextType lhsName;
-            lhsName = this.getName();
-            TextType rhsName;
-            rhsName = that.getName();
-            if (!strategy.equals(LocatorUtils.property(thisLocator, "name", lhsName), LocatorUtils.property(thatLocator, "name", rhsName), lhsName, rhsName)) {
+            String lhsPersonID;
+            lhsPersonID = this.getPersonID();
+            String rhsPersonID;
+            rhsPersonID = that.getPersonID();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "personID", lhsPersonID), LocatorUtils.property(thatLocator, "personID", rhsPersonID), lhsPersonID, rhsPersonID)) {
                 return false;
             }
         }

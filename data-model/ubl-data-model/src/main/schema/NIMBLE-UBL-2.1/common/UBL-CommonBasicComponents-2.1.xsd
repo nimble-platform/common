@@ -186,6 +186,7 @@
 	<xsd:element name="CorrectionUnitAmount" type="AmountType"/>
 	<xsd:element name="CountrySubentity" type="xsd:string"/>
 	<xsd:element name="CountrySubentityCode" type="CodeType"/>
+	<xsd:element name="CreationDate" type="xsd:dateTime"/>
 	<xsd:element name="CreditLineAmount" type="AmountType"/>
 	<xsd:element name="CreditNoteTypeCode" type="CodeType"/>
 	<xsd:element name="CreditedQuantity" type="QuantityType"/>
@@ -376,8 +377,6 @@
 	<xsd:element name="IssueTime" type="xsd:time"/>
 	<xsd:element name="IssuerID" type="xsd:string"/>
 	<xsd:element name="ItemClassificationCode" type="CodeType"/>
-	<!-- TODO remove the demo-specific element -->
-	<xsd:element name="ItemConfigurationImages" type="xsd:string"/>
 	<xsd:element name="ItemPropertyURI" type="xsd:string"/>
 	<xsd:element name="ItemUpdateRequestIndicator" type="xsd:boolean"/>
 	<xsd:element name="JobTitle" type="xsd:string"/>
@@ -484,6 +483,7 @@
 	<xsd:element name="MinimumValue" type="xsd:string"/>
 	<xsd:element name="MiscellaneousEventTypeCode" type="CodeType"/>
 	<xsd:element name="ModelName" type="xsd:string"/>
+	<xsd:element name="ModificationDate" type="xsd:dateTime"/>
 	<xsd:element name="MonetaryScope" type="xsd:string"/>
 	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>
 	<xsd:element name="MonitoredMachineID" type="xsd:string"/>
@@ -537,7 +537,9 @@
 	<xsd:element name="OutstandingQuantity" type="QuantityType"/>
 	<xsd:element name="OutstandingReason" type="xsd:string"/>
 	<xsd:element name="OversupplyQuantity" type="QuantityType"/>
+	<xsd:element name="OwnerCompany" type="xsd:string"/>
 	<xsd:element name="OwnerTypeCode" type="CodeType"/>
+	<xsd:element name="OwnerUser" type="xsd:string"/>
 	<xsd:element name="PackLevelCode" type="CodeType"/>
 	<xsd:element name="PackQuantity" type="QuantityType"/>
 	<xsd:element name="PackSizeNumeric" type="xsd:decimal"/>
@@ -853,7 +855,7 @@
 	<xsd:element name="TimezoneOffset" type="xsd:string"/>
 	<xsd:element name="TimingComplaint" type="xsd:string"/>
 	<xsd:element name="TimingComplaintCode" type="CodeType"/>
-	<xsd:element name="Title" type="xsd:string"/>
+	<xsd:element name="Title" type="TextType"/>
 	<xsd:element name="ToOrderIndicator" type="xsd:boolean"/>
 	<xsd:element name="TotalAmount" type="AmountType"/>
 	<xsd:element name="TotalBalanceAmount" type="AmountType"/>
