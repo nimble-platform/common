@@ -274,9 +274,6 @@ public class UblUtil {
     }
 
     public static void copy(QuantityType source, QuantityType target) {
-        if (target == null) {
-            target = new QuantityType();
-        }
         target.setUnitCode(source.getUnitCode());
         target.setUnitCodeListID(source.getUnitCodeListID());
         target.setValue(source.getValue());

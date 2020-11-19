@@ -193,8 +193,10 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
 
     public <T> T updateEntity(T entity, List<BinaryObjectType> binaryObjectsToPersist, List<String> binaryObjectsToDelete) {
         binaryContentService.persistBinaryObjects(binaryObjectsToPersist);
-        binaryContentService.deleteContents(binaryObjectsToDelete);
+        // update operation should be done before deleting the contents as the references should be updated to be able to
+        // check reference counts binary objects
         entity = genericJPARepository.updateEntity(entity);
+        binaryContentService.deleteContents(binaryObjectsToDelete);
         return entity;
     }
 
