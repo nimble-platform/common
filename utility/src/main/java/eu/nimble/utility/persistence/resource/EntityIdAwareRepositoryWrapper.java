@@ -209,6 +209,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
     }
 
+    public <T> void deleteEntityByHjid(Class<T> klass, long hjid, List<String> binaryObjectsToDelete) {
+        genericJPARepository.deleteEntityByHjid(klass, hjid);
+        BinaryContentUtil.removeBinaryContentFromDatabase(binaryObjectsToDelete, binaryContentService);
+    }
+
     @Override
     public <T> void deleteEntityByHjid(Class<T> klass, long hjid) {
         T entity = getSingleEntityByHjid(klass, hjid);
@@ -226,6 +231,11 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         checkHjidExistence(entity);
         genericJPARepository.persistEntity(entity);
         createIdsAndBinaryContentsForEntity(entity);
+    }
+
+    public <T> void persistEntity(T entity, List<BinaryObjectType> binaryObjects) {
+        binaryContentService.persistBinaryObjects(binaryObjects);
+        genericJPARepository.persistEntity(entity);
     }
 
     @Override
