@@ -7,7 +7,7 @@ public class PersonPartyTuple {
     public PersonPartyTuple() {
     }
 
-    PersonPartyTuple(String companyID, String personID) {
+    public PersonPartyTuple(String companyID, String personID) {
         this.companyID = companyID;
         this.personID = personID;
     }
