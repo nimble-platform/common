@@ -1,5 +1,6 @@
 package eu.nimble.common.rest.identity;
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
+import eu.nimble.common.rest.identity.model.PersonPartyTuple;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.*;
 import eu.nimble.service.model.ubl.commonbasiccomponents.TextType;
 import eu.nimble.utility.JsonSerializationUtility;
@@ -78,6 +79,12 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException{
         return true;
     }
+
+    @Override
+    public PersonPartyTuple getPersonPartyTuple(String bearerToken) throws IOException {
+        return createPersonPartyTuple(bearerToken);
+    }
+
     @Override
     public Response getAllPartyIds(String bearerToken, List<String> exclude) {
         List<String> ids = Arrays.asList("706","747","1339");
@@ -246,5 +253,20 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             jsonArray.put(party);
         }
         return jsonArray.toString();
+    }
+
+    private PersonPartyTuple createPersonPartyTuple(String personId) {
+        PersonPartyTuple personPartyTuple = new PersonPartyTuple();
+        personPartyTuple.setPersonID(personId);
+        if(personId.contentEquals("704")){
+            personPartyTuple.setCompanyID("706");
+        } else if(personId.contentEquals("379")){
+            personPartyTuple.setCompanyID("381");
+        } else if(personId.contentEquals("745")){
+            personPartyTuple.setCompanyID("747");
+        } else if(personId.contentEquals("1337")){
+            personPartyTuple.setCompanyID("1339");
+        }
+        return personPartyTuple;
     }
 }
