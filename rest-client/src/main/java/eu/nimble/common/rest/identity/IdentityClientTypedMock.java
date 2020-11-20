@@ -54,17 +54,14 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     }
     public List<PartyType> getPartyByPersonID(@PathVariable("personId") String personId) throws IOException {
         PartyType party = null;
-        if(personId.contentEquals("704")){
-            party = createParty("706");
+        if(personId.contentEquals(IdentityClientTypedMockConfig.sellerPersonID) || personId.contentEquals(IdentityClientTypedMockConfig.sellerPerson2ID)){
+            party = createParty(IdentityClientTypedMockConfig.sellerPartyID);
         }
-        else if(personId.contentEquals("379")){
-            party = createParty("706");
+        else if(personId.contentEquals(IdentityClientTypedMockConfig.transportServiceProviderPersonID)){
+            party = createParty(IdentityClientTypedMockConfig.transportServiceProviderPartyID);
         }
-        else if(personId.contentEquals("745")){
-            party = createParty("747");
-        }
-        else if(personId.contentEquals("1337")){
-            party = createParty("1339");
+        else if(personId.contentEquals(IdentityClientTypedMockConfig.buyerUserID)){
+            party = createParty(IdentityClientTypedMockConfig.buyerPartyID);
         }
         return Arrays.asList(party);
     }
@@ -87,7 +84,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     @Override
     public Response getAllPartyIds(String bearerToken, List<String> exclude) {
-        List<String> ids = Arrays.asList("706","747","1339");
+        List<String> ids = Arrays.asList(IdentityClientTypedMockConfig.sellerPartyID,IdentityClientTypedMockConfig.transportServiceProviderPartyID,IdentityClientTypedMockConfig.buyerPartyID);
         ids.removeAll(exclude);
 
         String nameIdPairs = getPartyNameIdPairs(ids);
@@ -100,7 +97,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     @Override
     public Response getVerifiedPartyIds(String bearerToken) throws Exception{
-        List<String> ids = Arrays.asList("706","747","1339");
+        List<String> ids = Arrays.asList(IdentityClientTypedMockConfig.sellerPartyID,IdentityClientTypedMockConfig.transportServiceProviderPartyID,IdentityClientTypedMockConfig.buyerPartyID);
         return Response.builder()
                 .body(JsonSerializationUtility.getObjectMapper().writeValueAsString(ids), StandardCharsets.UTF_8)
                 .status(200)
@@ -110,7 +107,7 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
     @Override
     public Response getPartyPartiesInUBL(String bearerToken, String page, String includeRoles, String size) throws Exception{
-        List<String> ids = Arrays.asList("706","747","1339");
+        List<String> ids = Arrays.asList(IdentityClientTypedMockConfig.sellerPartyID,IdentityClientTypedMockConfig.transportServiceProviderPartyID,IdentityClientTypedMockConfig.buyerPartyID);
         List<PartyType> parties = new ArrayList<>();
         for(String id:ids){
             parties.add(createParty(id));
@@ -126,8 +123,8 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     @Override
     public NegotiationSettings getNegotiationSettings(String companyID) throws IOException {
         NegotiationSettings negotiationSettings = null;
-        if(companyID.contentEquals("706")){
-            PartyType party = createParty("706");
+        if(companyID.contentEquals(IdentityClientTypedMockConfig.sellerPartyID)){
+            PartyType party = createParty(IdentityClientTypedMockConfig.sellerPartyID);
             List<String> paymentMeans = new ArrayList<>();
             paymentMeans.add("Credit Card");
             List<String> paymentTerms = new ArrayList<>();
@@ -137,8 +134,8 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
             negotiationSettings = new NegotiationSettings(party,paymentTerms,paymentMeans,incoterms);
         }
-        else if(companyID.contentEquals("1339")){
-            PartyType party = createParty("1339");
+        else if(companyID.contentEquals(IdentityClientTypedMockConfig.buyerPartyID)){
+            PartyType party = createParty(IdentityClientTypedMockConfig.buyerPartyID);
             List<String> paymentMeans = new ArrayList<>();
             paymentMeans.add("Credit Card");
             List<String> paymentTerms = new ArrayList<>();
@@ -151,20 +148,20 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     }
     private PersonType createPerson(String personId){
         PersonType person = new PersonType();
-        if(personId.contentEquals("704")){
-            person.setID("704");
+        if(personId.contentEquals(IdentityClientTypedMockConfig.sellerPersonID)){
+            person.setID(IdentityClientTypedMockConfig.sellerPersonID);
             person.setFirstName("ali");
             person.setFamilyName("can");
-        } else if(personId.contentEquals("379")){
-            person.setID("379");
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.sellerPerson2ID)){
+            person.setID(IdentityClientTypedMockConfig.sellerPerson2ID);
             person.setFirstName("Suat");
             person.setFamilyName("Gonul");
-        } else if(personId.contentEquals("745")){
-            person.setID("745");
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.transportServiceProviderPersonID)){
+            person.setID(IdentityClientTypedMockConfig.transportServiceProviderPersonID);
             person.setFirstName("veli");
             person.setFamilyName("cav");
-        } else if(personId.contentEquals("1337")){
-            person.setID("1337");
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.buyerUserID)){
+            person.setID(IdentityClientTypedMockConfig.buyerUserID);
             person.setFirstName("alp");
             person.setFamilyName("cenk");
         }
@@ -178,15 +175,15 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         PartyType party = new PartyType();
         party.getPartyIdentification().add(partyIdentification);
 
-        if(partyId.contentEquals("706")){
+        if(partyId.contentEquals(IdentityClientTypedMockConfig.sellerPartyID)){
             PersonType person = new PersonType();
-            person.setID("704");
+            person.setID(IdentityClientTypedMockConfig.sellerPersonID);
             person.setFirstName("ali");
             person.setFamilyName("can");
             person.setContact(new ContactType());
 
             PersonType person2 = new PersonType();
-            person2.setID("379");
+            person2.setID(IdentityClientTypedMockConfig.sellerPerson2ID);
             person2.setFirstName("Suat");
             person2.setFamilyName("Gonul");
 
@@ -198,9 +195,9 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
 
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person,person2));
-        } else if(partyId.contentEquals("747")){
+        } else if(partyId.contentEquals(IdentityClientTypedMockConfig.transportServiceProviderPartyID)){
             PersonType person = new PersonType();
-            person.setID("745");
+            person.setID(IdentityClientTypedMockConfig.transportServiceProviderPersonID);
             person.setFirstName("veli");
             person.setFamilyName("cav");
             PartyNameType partyName = new PartyNameType();
@@ -210,9 +207,9 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
             partyName.setName(text);
             party.getPartyName().add(partyName);
             party.setPerson(Arrays.asList(person));
-        } else if(partyId.contentEquals("1339")){
+        } else if(partyId.contentEquals(IdentityClientTypedMockConfig.buyerPartyID)){
             PersonType person = new PersonType();
-            person.setID("1337");
+            person.setID(IdentityClientTypedMockConfig.buyerUserID);
             person.setFirstName("alp");
             person.setFamilyName("cenk");
             PartyNameType partyName = new PartyNameType();
@@ -258,14 +255,14 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
     private PersonPartyTuple createPersonPartyTuple(String personId) {
         PersonPartyTuple personPartyTuple = new PersonPartyTuple();
         personPartyTuple.setPersonID(personId);
-        if(personId.contentEquals("704")){
-            personPartyTuple.setCompanyID("706");
-        } else if(personId.contentEquals("379")){
-            personPartyTuple.setCompanyID("381");
-        } else if(personId.contentEquals("745")){
-            personPartyTuple.setCompanyID("747");
-        } else if(personId.contentEquals("1337")){
-            personPartyTuple.setCompanyID("1339");
+        if(personId.contentEquals(IdentityClientTypedMockConfig.sellerPersonID)){
+            personPartyTuple.setCompanyID(IdentityClientTypedMockConfig.sellerPartyID);
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.sellerPerson2ID)){
+            personPartyTuple.setCompanyID(IdentityClientTypedMockConfig.sellerPartyID);
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.transportServiceProviderPersonID)){
+            personPartyTuple.setCompanyID(IdentityClientTypedMockConfig.transportServiceProviderPartyID);
+        } else if(personId.contentEquals(IdentityClientTypedMockConfig.buyerUserID)){
+            personPartyTuple.setCompanyID(IdentityClientTypedMockConfig.buyerPartyID);
         }
         return personPartyTuple;
     }
