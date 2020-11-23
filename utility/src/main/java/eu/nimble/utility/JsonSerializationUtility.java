@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
@@ -89,6 +90,10 @@ public class JsonSerializationUtility {
         return serializedEntity;
     }
 
+    public static ObjectMapper getObjectMapperWithIgnoreMixin() {
+        return getObjectMapperWithMixIn(BinaryObjectType.class, MixInIgnoreType.class);
+    }
+
     public static ObjectMapper getObjectMapperWithMixIn(Class target,Class source){
         ObjectMapper mapper = getObjectMapper();
         mapper.addMixIn(target, source);
@@ -158,6 +163,9 @@ public class JsonSerializationUtility {
         // add the following mapper feature since camunda injects serializer configurations that serialize entity fields
         // as appear in the @XmlElement annotations. however neither front-end nor catalogue service have these configurations
         mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+
+        // add hibernate5 module to exclude lazy loaded collections from serialization
+        mapper.registerModule(new Hibernate5Module());
 
         // add deserializer to be able deserialize derived ClauseType instances properly
         SimpleModule module = new SimpleModule();
