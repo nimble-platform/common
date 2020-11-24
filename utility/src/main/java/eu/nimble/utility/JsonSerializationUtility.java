@@ -14,6 +14,7 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.ClauseDeserializer;
 import eu.nimble.utility.serialization.MixInIgnoreType;
+import eu.nimble.utility.serialization.SerializerConfig;
 import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
 import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
 import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
@@ -26,6 +27,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by suat on 24-Apr-18.
@@ -164,9 +166,6 @@ public class JsonSerializationUtility {
         // as appear in the @XmlElement annotations. however neither front-end nor catalogue service have these configurations
         mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 
-        // add hibernate5 module to exclude lazy loaded collections from serialization
-        mapper.registerModule(new Hibernate5Module());
-
         // add deserializer to be able deserialize derived ClauseType instances properly
         SimpleModule module = new SimpleModule();
         module.addDeserializer(ClauseType.class, new ClauseDeserializer());
@@ -187,5 +186,37 @@ public class JsonSerializationUtility {
 
     public static ObjectMapper getMapperForTransientFields() {
         return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
+    }
+
+    /**
+     * Method to get an ObjectMapper instance in any desired configuration based on the {@link SerializerConfig} configs.
+     *
+     * @param configCode Aggregated config indicating the desired mapper configurations. For instance, to exclude binary object bytes and lazy collections from serialization,
+     *                   configCode should be set to 5, which is the sum of {@link SerializerConfig#EXCLUDE_BINARY_BYTES} and {@link SerializerConfig#EXCLUDE_LAZY_COLLECTIONS}
+     * @return
+     */
+    public static ObjectMapper getObjectMapper(int configCode) {
+        ObjectMapper mapper = getObjectMapper();
+        List<Integer> configs = SerializerConfig.fragmentConfig(configCode);
+        for (int i=1; i<configs.size(); i++) {
+            if (configs.get(i) == 1) {
+                switch (i+1) {
+                    case 1: {
+                        mapper.addMixIn(BinaryObjectType.class, MixInIgnoreType.class);
+                        break;
+                    }
+                    case 2: {
+                        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+                        break;
+                    }
+                    case 3: {
+                        mapper.registerModule(new Hibernate5Module());
+                        break;
+                    }
+                }
+            }
+        }
+        return mapper;
     }
 }
