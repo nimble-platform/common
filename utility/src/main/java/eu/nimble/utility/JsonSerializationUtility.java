@@ -13,8 +13,12 @@ import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.*;
+import eu.nimble.utility.serialization.generic.DateSerializer;
+import eu.nimble.utility.serialization.generic.XMLGregorianCalendarSerializer;
 import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
 import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
+import eu.nimble.utility.serialization.ubl.ClauseDeserializer;
+import eu.nimble.utility.serialization.ubl.IgnoreMixin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -71,7 +75,7 @@ public class JsonSerializationUtility {
     public static <T> String serializeEntitySilently(T entity) {
         String serializedEntity = "";
         try {
-            ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class,MixInIgnoreType.class);
+            ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class, IgnoreMixin.class);
             serializedEntity = mapper.writeValueAsString(entity);
         } catch (JsonProcessingException e) {
             logger.warn("Failed to serialize entity: {}", entity.getClass());
@@ -91,7 +95,7 @@ public class JsonSerializationUtility {
     }
 
     public static ObjectMapper getObjectMapperWithIgnoreMixin() {
-        return getObjectMapperWithMixIn(BinaryObjectType.class, MixInIgnoreType.class);
+        return getObjectMapperWithMixIn(BinaryObjectType.class, IgnoreMixin.class);
     }
 
     public static ObjectMapper getObjectMapperWithMixIn(Class target,Class source){
@@ -201,7 +205,7 @@ public class JsonSerializationUtility {
             if (configs.get(i) == 1) {
                 switch (i+1) {
                     case 1: {
-                        mapper.addMixIn(BinaryObjectType.class, MixInIgnoreType.class);
+                        mapper.addMixIn(BinaryObjectType.class, IgnoreMixin.class);
                         break;
                     }
                     case 2: {

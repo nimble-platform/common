@@ -1,4 +1,4 @@
-package eu.nimble.utility.serialization;
+package eu.nimble.utility.serialization.resource_monitoring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,4 +1,4 @@
-package eu.nimble.utility.serialization;
+package eu.nimble.utility.serialization.resource_monitoring;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -7,11 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import eu.nimble.service.model.ubl.commonaggregatecomponents.CatalogueLineType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.utility.JsonSerializationUtility;
-import eu.nimble.utility.serialization.PartyMapperSerializer;
-import eu.nimble.utility.serialization.PartySerializerGetIds;
+import eu.nimble.utility.serialization.resource_monitoring.PartySerializerGetIds;
 
 import java.io.IOException;
 import java.util.Iterator;

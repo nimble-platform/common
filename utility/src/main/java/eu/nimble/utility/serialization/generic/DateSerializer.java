@@ -1,4 +1,4 @@
-package eu.nimble.utility.serialization;
+package eu.nimble.utility.serialization.generic;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

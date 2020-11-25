@@ -12,8 +12,8 @@ import eu.nimble.utility.persistence.GenericJPARepository;
 import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.serialization.BinaryObjectSerializerClearUris;
-import eu.nimble.utility.serialization.BinaryObjectSerializerGetUris;
+import eu.nimble.utility.serialization.binary_processing.BinaryObjectSerializerClearUris;
+import eu.nimble.utility.serialization.binary_processing.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +22,6 @@ import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

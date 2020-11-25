@@ -1,4 +1,4 @@
-package eu.nimble.utility.serialization;
+package eu.nimble.utility.serialization.ubl;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
