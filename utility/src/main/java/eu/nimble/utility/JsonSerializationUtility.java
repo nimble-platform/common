@@ -12,10 +12,7 @@ import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
-import eu.nimble.utility.serialization.ClauseDeserializer;
-import eu.nimble.utility.serialization.MixInIgnoreType;
-import eu.nimble.utility.serialization.SerializerConfig;
-import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
+import eu.nimble.utility.serialization.*;
 import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
 import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
 import org.json.JSONArray;
@@ -26,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -173,6 +171,7 @@ public class JsonSerializationUtility {
 
         SimpleModule dateModule = new SimpleModule();
         dateModule.addSerializer(XMLGregorianCalendar.class,new XMLGregorianCalendarSerializer());
+        dateModule.addSerializer(Date.class, new DateSerializer());
         mapper.registerModule(dateModule);
         return mapper;
     }
