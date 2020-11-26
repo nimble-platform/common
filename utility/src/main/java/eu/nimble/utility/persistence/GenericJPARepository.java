@@ -25,8 +25,6 @@ public interface GenericJPARepository extends TransactionAcrossMultipleDB{
 
     <T> T updateEntity(T entity);
 
-    void executeUpdate(String query, String[] parameterNames, Object[] parameterValues);
-
     <T> void deleteEntity(T entity);
 
     <T> void deleteEntityByHjid(Class<T> klass, long hjid);

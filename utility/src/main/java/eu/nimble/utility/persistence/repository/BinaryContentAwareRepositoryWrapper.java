@@ -194,11 +194,6 @@ public class BinaryContentAwareRepositoryWrapper implements GenericJPARepository
         throw new RuntimeException("Not implemented yet");
     }
 
-    @Override
-    public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
-        throw new RuntimeException("Not implemented yet");
-    }
-
     /**
      * Extracts the {@link Long} value of {@code hjid} field of the given entity.
      *

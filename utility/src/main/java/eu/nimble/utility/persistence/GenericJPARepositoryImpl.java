@@ -371,11 +371,14 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
         }
     }
 
-    @Override
     public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
+        executeUpdate(query, parameterNames, parameterValues, false);
+    }
+
+    public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues, boolean isNative) {
         if(singleTransactionEntityManager != null){
             try {
-                Query queryObj = createQuery(query, parameterNames, parameterValues, singleTransactionEntityManager);
+                Query queryObj = createQuery(query, parameterNames, parameterValues, singleTransactionEntityManager, isNative);
                 queryObj.executeUpdate();
                 singleTransactionEntityManager.flush();
             }catch (Exception e){
@@ -387,7 +390,7 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
             try {
                 em.getTransaction().begin();
-                Query queryObj = createQuery(query, parameterNames, parameterValues, em);
+                Query queryObj = createQuery(query, parameterNames, parameterValues, em, isNative);
                 queryObj.executeUpdate();
                 em.getTransaction().commit();
             }catch (Exception e){
