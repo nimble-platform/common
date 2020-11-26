@@ -1,4 +1,4 @@
-package eu.nimble.utility.persistence.resource;
+package eu.nimble.utility.persistence.repository;
 
 import eu.nimble.service.model.ubl.commonaggregatecomponents.MetadataType;
 import eu.nimble.utility.exception.NimbleException;

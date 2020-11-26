@@ -1,22 +1,18 @@
-package eu.nimble.utility.persistence.resource;
+package eu.nimble.utility.persistence.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.BinaryContentUtil;
-import eu.nimble.utility.CommonSpringBridge;
 import eu.nimble.utility.Configuration;
 import eu.nimble.utility.JsonSerializationUtility;
 import eu.nimble.utility.persistence.GenericJPARepository;
-import eu.nimble.utility.persistence.GenericJPARepositoryImpl;
 import eu.nimble.utility.persistence.JPARepositoryFactory;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.serialization.binary_processing.BinaryObjectSerializerClearUris;
 import eu.nimble.utility.serialization.binary_processing.BinaryObjectSerializerGetUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.Field;
@@ -24,28 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
- * This class is intended to be used while connecting to catalogue databases. Other JPA-based repositories e.g.
- * businessprocessdb are not supposed to need the identifier and binary content check functionalities provided by this
- * wrapper.
- * <p>
- * This class is a wrapper on {@link GenericJPARepositoryImpl} and {@link JpaRepository} interfaces so that resource-id
- * mappings can be managed from a single entry point considering the modifying operations (create, update and delete).
- * The class associates entity ids with party ids and user ids (if available) so that each party can only update entities
- * containing only the identifiers associated to it. Identifiers included in the {@link eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType} and {@link eu.nimble.service.model.ubl.commonaggregatecomponents.QualifyingPartyType}
- * objects are excluded since these entities are managed in a singleton manner and can be reused in documents
- * (e.g. {@link eu.nimble.service.model.ubl.order.OrderType} or {@link eu.nimble.service.model.ubl.iteminformationrequest.ItemInformationRequestType}).
- * All other entities are assumed to be associated with distinct parties.
- * <p>
- * Such a wrapper is required concerning especially the UBLDB since there are modifying updates where complex database
- * entities are passed with several database identifiers. There might be data integrity issues when the identifiers
- * passed in the entities are somehow mixed, are not proper.
- * <p>
- * <p>
- * Created by suat on 17-Dec-18.
+ * A wrapper implementation of {@link GenericJPARepository} with capability to process binary contents.
+ * TODO: regular DB and binary content related operations should be atomic
  */
-public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
-    private static final Logger logger = LoggerFactory.getLogger(EntityIdAwareRepositoryWrapper.class);
+public class BinaryContentAwareRepositoryWrapper implements GenericJPARepository {
+    private static final Logger logger = LoggerFactory.getLogger(BinaryContentAwareRepositoryWrapper.class);
 
     protected GenericJPARepository genericJPARepository;
     protected String partyId;
@@ -53,32 +32,22 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     protected String catalogueRepositoryName;
     private BinaryContentService binaryContentService = new BinaryContentService();
 
-    public EntityIdAwareRepositoryWrapper() {
-        this(null, null, Configuration.Standard.UBL.toString(),new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
+    public BinaryContentAwareRepositoryWrapper() {
+        this(Configuration.Standard.UBL.toString(), new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
     }
 
-    public EntityIdAwareRepositoryWrapper(String partyId) {
-        this(partyId, null, Configuration.Standard.UBL.toString(), new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
+    public BinaryContentAwareRepositoryWrapper(GenericJPARepository repository) {
+        this(Configuration.Standard.UBL.toString(),repository);
     }
 
-    public EntityIdAwareRepositoryWrapper(String partyId, GenericJPARepository repository) {
-        this(partyId, null, Configuration.Standard.UBL.toString(),repository);
-    }
-
-    public EntityIdAwareRepositoryWrapper(String partyId, String catalogueRepositoryName) {
-        this(partyId, null, catalogueRepositoryName, new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
-    }
-
-    public EntityIdAwareRepositoryWrapper(String partyId, String userId, String catalogueRepositoryName) {
-        this(partyId, userId, catalogueRepositoryName, new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
+    public BinaryContentAwareRepositoryWrapper(String catalogueRepositoryName) {
+        this(catalogueRepositoryName, new JPARepositoryFactory().forCatalogueRepository(Configuration.Standard.UBL,true,false));
     }
 
     /**
      * @param repository single-transaction enabled Catalogue repository
      * */
-    public EntityIdAwareRepositoryWrapper(String partyId, String userId, String catalogueRepositoryName, GenericJPARepository repository) {
-        this.partyId = partyId;
-        this.userId = userId;
+    public BinaryContentAwareRepositoryWrapper(String catalogueRepositoryName, GenericJPARepository repository) {
         this.catalogueRepositoryName = catalogueRepositoryName;
         this.genericJPARepository = repository;
     }
@@ -137,23 +106,16 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
 
     @Override
     public <T> T updateEntity(T entity) {
-        // check whether the ids included in the entity belongs to the party performing the update
-//        checkHjidAssociation(entity, UpdateMode.UPDATE);
-        checkHjidAssociation(entity);
         // get binary object identifiers that are not included in the updated entity
         Long id = extractIdFromEntity(entity);
         T originalEntity = (T) genericJPARepository.getSingleEntityByHjid(entity.getClass(), id);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, originalEntity, UpdateMode.UPDATE);
-        // clear the entity identifiers for the passed entity
-        clearIds(entity, originalEntity, UpdateMode.UPDATE);
         // create binary content references for the entity
         BinaryContentUtil.processBinaryContents(entity,binaryContentService);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
         // clear binary contents
         BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
-        // create entity ids for the entity
-        CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
         return entity;
     }
 
@@ -166,17 +128,10 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
      * @return
      */
     public <T> T updateEntityForPersistCases(T entity) {
-        // check whether the ids included in the entity belongs to the party performing the update
-//        checkHjidAssociation(entity, UpdateMode.PERSIST);
-        checkHjidAssociation(entity);
-        // clear the entity identifiers for the passed entity
-        clearIds(entity, UpdateMode.PERSIST);
         // create binary content references for the entity
         BinaryContentUtil.processBinaryContents(entity,binaryContentService);
         // perform the update operation on the database
         entity = genericJPARepository.updateEntity(entity);
-        // create entity ids for the entity
-        CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
         return entity;
     }
 
@@ -202,10 +157,8 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public <T> void deleteEntity(T entity) {
 //        checkHjidAssociationWithTransaction(entity);
-        checkHjidAssociation(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
-        clearIds(entity, UpdateMode.DELETE);
         // clear binary contents
         BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
     }
@@ -219,19 +172,16 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     public <T> void deleteEntityByHjid(Class<T> klass, long hjid) {
         T entity = getSingleEntityByHjid(klass, hjid);
 //        checkHjidAssociationWithTransaction(entity);
-        checkHjidAssociation(entity);
         List<String> binaryContentUrisToDelete = getBinaryObjectUrisToDeleteWithTransaction(entity, UpdateMode.DELETE);
         genericJPARepository.deleteEntity(entity);
-        clearIds(entity, UpdateMode.DELETE);
         // clear binary contents
         BinaryContentUtil.removeBinaryContentFromDatabase(binaryContentUrisToDelete,binaryContentService);
     }
 
     @Override
     public <T> void persistEntity(T entity) {
-        checkHjidExistence(entity);
         genericJPARepository.persistEntity(entity);
-        createIdsAndBinaryContentsForEntity(entity);
+        createBinaryContentsForEntity(entity);
     }
 
     public <T> void persistEntity(T entity, List<BinaryObjectType> binaryObjects) {
@@ -247,65 +197,6 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     @Override
     public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
         throw new RuntimeException("Not implemented yet");
-    }
-
-    public  <T> void clearBinaryObjectUris(T entity){
-        ObjectMapper objectMapper = JsonSerializationUtility.getObjectMapper();
-        BinaryObjectSerializerClearUris serializer = new BinaryObjectSerializerClearUris();
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(BinaryObjectType.class, serializer);
-        objectMapper.registerModule(simpleModule);
-
-        try {
-            objectMapper.writeValueAsString(entity);
-
-        } catch (JsonProcessingException e) {
-            String msg = String.format("Failed to serialize object: %s", entity.getClass().getName());
-            logger.error(msg);
-            throw new RuntimeException(msg, e);
-        }
-    }
-
-//    private <T> void checkHjidAssociation(T entity, UpdateMode updateMode) {
-//        if(updateMode.equals(UpdateMode.PERSIST)) {
-//            checkHjidAssociation(entity);
-//        } else {
-//            checkHjidAssociationWithTransaction(entity);
-//        }
-//    }
-
-//    private <T> void checkHjidAssociationWithTransaction(T entity) {
-//        EntityManager em = genericJPARepository.getEmf().createEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            checkHjidAssociation(entity);
-//            if(em.getTransaction().isActive()) {
-//                em.getTransaction().commit();
-//            }
-//        } catch (Exception e){
-//            if(em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            throw new RuntimeException("Failed to check hjid association ",e);
-//        }finally {
-//            em.close();
-//        }
-//    }
-
-    private <T> void checkHjidAssociation(T entity) {
-        boolean entityAssociationCheck = CommonSpringBridge.getInstance().getResourceValidationUtil().hjidsBelongsToParty(entity, partyId, catalogueRepositoryName);
-        if (entityAssociationCheck == false) {
-            String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
-            throw new RepositoryException(String.format("There are entity ids (hjids) belonging to another company in the passed object: %s", serializedEntity));
-        }
-    }
-
-    private <T> void checkHjidExistence(T entity) {
-        boolean hjidsExist = CommonSpringBridge.getInstance().getResourceValidationUtil().hjidsExit(entity);
-        if (hjidsExist) {
-            String serializedEntity = JsonSerializationUtility.serializeEntitySilently(entity);
-            throw new RepositoryException(String.format("There are database ids (hjids) in the entity to be persisted. Make sure there is none. The entity: %s", serializedEntity));
-        }
     }
 
     /**
@@ -356,23 +247,7 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
         }
     }
 
-    private <T> void clearIds(T entity, UpdateMode updateMode) {
-        clearIds(entity, null, updateMode);
-    }
-
-    private <T> void clearIds(T entity, T originalEntity, UpdateMode updateMode) {
-        // remove the previous ids associated with the entity.
-        // this checks the persisted entities that might be present the passed entity
-        CommonSpringBridge.getInstance().getResourceValidationUtil().removeHjidsForObject(entity, catalogueRepositoryName);
-
-        if(updateMode.equals(UpdateMode.UPDATE)) {
-            // remove ids for the entity
-            CommonSpringBridge.getInstance().getResourceValidationUtil().removeHjidsForObject(originalEntity, catalogueRepositoryName);
-        }
-    }
-
-    private <T> void createIdsAndBinaryContentsForEntity(T entity) {
-        CommonSpringBridge.getInstance().getResourceValidationUtil().insertHjidsForObject(entity, partyId, catalogueRepositoryName);
+    private <T> void createBinaryContentsForEntity(T entity) {
         BinaryContentUtil.processBinaryContents(entity,binaryContentService);
     }
 
@@ -440,6 +315,6 @@ public class EntityIdAwareRepositoryWrapper implements GenericJPARepository {
     }
 
     private enum UpdateMode {
-        PERSIST, UPDATE, DELETE
+        UPDATE, DELETE
     }
 }
