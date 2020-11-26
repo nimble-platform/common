@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.MetadataType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.serialization.*;
@@ -19,6 +20,7 @@ import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
 import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
 import eu.nimble.utility.serialization.ubl.ClauseDeserializer;
 import eu.nimble.utility.serialization.ubl.IgnoreMixin;
+import eu.nimble.utility.serialization.ubl.MetadataTypeMixin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -173,10 +175,16 @@ public class JsonSerializationUtility {
         module.addDeserializer(ClauseType.class, new ClauseDeserializer());
         mapper.registerModule(module);
 
+        // serializers for dates
         SimpleModule dateModule = new SimpleModule();
         dateModule.addSerializer(XMLGregorianCalendar.class,new XMLGregorianCalendarSerializer());
         dateModule.addSerializer(Date.class, new DateSerializer());
         mapper.registerModule(dateModule);
+
+        // serializer for entities to rename Hyperjaxb-generated attributes.
+        // We chose this way as it was not possible to transient fields in combination with the Hibernate5 module
+        mapper.addMixIn(MetadataType.class, MetadataTypeMixin.class);
+
         return mapper;
     }
 
@@ -213,7 +221,7 @@ public class JsonSerializationUtility {
                         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
                         break;
                     }
-                    case 3: {
+                    case 3: { // if lazy loading is disabled, this config should not be set. Otherwise, lazy loaded collections are not included in the serialization.
                         mapper.registerModule(new Hibernate5Module());
                         break;
                     }
