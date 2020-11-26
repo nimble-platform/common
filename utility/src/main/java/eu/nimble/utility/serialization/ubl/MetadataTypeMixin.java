@@ -12,7 +12,7 @@ public abstract class MetadataTypeMixin {
     @JsonProperty("modificationDate")
     abstract Date getModificationDateItem();
 
-    @JsonIgnore
+    @JsonIgnore // ignores should be added, otherwise we get conflict on setters of the modificationDate field
     public abstract void setModificationDateItem(Date value);
 
     @JsonIgnore

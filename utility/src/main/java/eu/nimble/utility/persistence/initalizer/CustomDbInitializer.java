@@ -24,15 +24,10 @@ import java.sql.Statement;
 @Profile("!test")
 public class CustomDbInitializer {
 
-    private static final String QUERY_CREATE_RESOURCE_TABLE =
-            "CREATE TABLE public.resource (" +
-                    "catalogue_repository varchar(255) NULL," +
-                    "entity_id int8 NULL," +
-                    "party_id varchar(255) NULL," +
-                    "user_id varchar(255) NULL," +
-                    "CONSTRAINT resource_primary_key PRIMARY KEY (entity_id,catalogue_repository)" +
-                    ")" +
-                    "WITH (OIDS=FALSE);";
+    private static final String QUERY_ADD_DEMAND_SEARCH_INDEX_COLUMN = "ALTER TABLE demand_type ADD COLUMN search_index TSVECTOR";
+    private static final String QUERY_DEMAND_SEARCH_COLUMN_EXISTS =
+            "SELECT * FROM information_schema.columns" +
+            " WHERE table_name='demand_type' AND column_name='search_index';";
 
     private static final String QUERY_CREATE_BINARY_CONTENT_TABLE =
             "CREATE TABLE public.binary_content (" +
@@ -60,27 +55,24 @@ public class CustomDbInitializer {
     public void initialize() {
         initializeBinaryContentDb();
         if(ubldbDataSource != null) {
-            initializeResourceTable();
+            initializeDemandIndexColumn();
         }
     }
 
-    private void initializeResourceTable() {
+    private void initializeDemandIndexColumn() {
         Connection c = null;
         Statement s = null;
         ResultSet rs = null;
         try {
             c = ubldbDataSource.getConnection();
             s = c.createStatement();
-            rs = s.executeQuery(String.format(QUERY_TABLE_SQL, "resource"));
+            rs = s.executeQuery(QUERY_DEMAND_SEARCH_COLUMN_EXISTS);
 
-            if(rs.next()) {
-                String tableName = rs.getString(1);
-                if(tableName == null) {
-                    s.execute(QUERY_CREATE_RESOURCE_TABLE);
-                    logger.info("created resource table in the ubl database");
-                } else {
-                    logger.info("resource table is already available in the ubl database");
-                }
+            if(!rs.next()) {
+                s.execute(QUERY_ADD_DEMAND_SEARCH_INDEX_COLUMN);
+                logger.info("Added DemandType search_index column");
+            } else {
+                logger.info("DemandType search_index column already exists");
             }
 
         } catch (SQLException e) {
