@@ -116,18 +116,28 @@ public class UblUtil {
             target.setTitle(null);
         } else {
             if (target.getTitle() == null) {
-                target.setTitle(new TextType());
+                target.setTitle(new ArrayList<>());
             }
-            copy(source.getTitle(), target.getTitle());
+            target.getTitle().clear();
+            for (TextType title : source.getTitle()) {
+                TextType newTitle = new TextType();
+                copy(title, newTitle);
+                target.getTitle().add(newTitle);
+            }
         }
 
         if (source.getDescription() == null) {
             target.setDescription(null);
         } else {
             if (target.getDescription() == null) {
-                target.setDescription(new TextType());
+                target.setDescription(new ArrayList<>());
             }
-            copy(source.getDescription(), target.getDescription());
+            target.getDescription().clear();
+            for (TextType description : source.getDescription()) {
+                TextType newDescription = new TextType();
+                copy(description, newDescription);
+                target.getDescription().add(newDescription);
+            }
         }
 
         target.setDueDateItem(null);
