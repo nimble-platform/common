@@ -209,7 +209,7 @@ public class JsonSerializationUtility {
     public static ObjectMapper getObjectMapper(int configCode) {
         ObjectMapper mapper = getObjectMapper();
         List<Integer> configs = SerializerConfig.fragmentConfig(configCode);
-        for (int i=1; i<configs.size(); i++) {
+        for (int i=0; i<configs.size(); i++) {
             if (configs.get(i) == 1) {
                 switch (i+1) {
                     case 1: {
