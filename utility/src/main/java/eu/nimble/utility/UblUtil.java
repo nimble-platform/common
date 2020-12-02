@@ -152,13 +152,22 @@ public class UblUtil {
             copy(source.getItemClassificationCode(), target.getItemClassificationCode());
         }
 
-        if (source.getCountry() == null) {
-            target.setCountry(null);
+        if (source.getBuyerCountry() == null) {
+            target.setBuyerCountry(null);
         } else {
-            if (target.getCountry() == null) {
-                target.setCountry(new CountryType());
+            if (target.getBuyerCountry() == null) {
+                target.setBuyerCountry(new CodeType());
             }
-            copy(source.getCountry(), target.getCountry());
+            copy(source.getBuyerCountry(), target.getBuyerCountry());
+        }
+
+        if (source.getDeliveryCountry() == null) {
+            target.setDeliveryCountry(null);
+        } else {
+            if (target.getDeliveryCountry() == null) {
+                target.setDeliveryCountry(new CodeType());
+            }
+            copy(source.getDeliveryCountry(), target.getDeliveryCountry());
         }
 
         if (source.getAdditionalDocumentReference() == null) {

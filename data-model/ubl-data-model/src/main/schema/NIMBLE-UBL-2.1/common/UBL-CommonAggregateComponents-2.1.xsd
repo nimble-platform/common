@@ -397,7 +397,8 @@
 			</xsd:element>
 			<xsd:element ref="cbc:DueDate"/>
 			<xsd:element ref="cbc:ItemClassificationCode"/>
-			<xsd:element ref="cac:Country"/>
+			<xsd:element name="DeliveryCountry" type="cbc:CodeType"/>
+			<xsd:element name="BuyerCountry" type="cbc:CodeType"/>
 			<xsd:element ref="cac:AdditionalDocumentReference"/>
 			<xsd:element ref="cac:Metadata"/>
 		</xsd:sequence>
