@@ -396,10 +396,27 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:DueDate"/>
-			<xsd:element ref="cbc:ItemClassificationCode"/>
+			<xsd:element ref="cbc:ItemClassificationCode" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element name="DeliveryCountry" type="cbc:CodeType"/>
 			<xsd:element name="BuyerCountry" type="cbc:CodeType"/>
 			<xsd:element ref="cac:AdditionalDocumentReference"/>
+			<xsd:element name="Image" type="cbc:BinaryObjectType">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Metadata"/>
 		</xsd:sequence>
 	</xsd:complexType>

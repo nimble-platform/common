@@ -147,9 +147,14 @@ public class UblUtil {
             target.setItemClassificationCode(null);
         } else {
             if (target.getItemClassificationCode() == null) {
-                target.setItemClassificationCode(new CodeType());
+                target.setItemClassificationCode(new ArrayList<>());
             }
-            copy(source.getItemClassificationCode(), target.getItemClassificationCode());
+            target.getItemClassificationCode().clear();
+            for (CodeType itemClassificationCode : source.getItemClassificationCode()) {
+                CodeType newCode = new CodeType();
+                copy(itemClassificationCode, newCode);
+                target.getItemClassificationCode().add(newCode);
+            }
         }
 
         if (source.getBuyerCountry() == null) {
@@ -177,6 +182,15 @@ public class UblUtil {
                 target.setAdditionalDocumentReference(new DocumentReferenceType());
             }
             copy(source.getAdditionalDocumentReference(), target.getAdditionalDocumentReference());
+        }
+
+        if (source.getImage() == null) {
+            target.setImage(null);
+        } else {
+            if (target.getImage() == null) {
+                target.setImage(new BinaryObjectType());
+            }
+            copy(source.getImage(), target.getImage());
         }
     }
 
