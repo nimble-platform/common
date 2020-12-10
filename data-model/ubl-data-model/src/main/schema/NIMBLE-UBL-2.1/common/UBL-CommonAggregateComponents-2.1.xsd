@@ -173,6 +173,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cbc:ProductStatusType"/>
 			<xsd:element ref="cac:GoodsItem"/>
 		</xsd:sequence>
 	</xsd:complexType>

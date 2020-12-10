@@ -643,6 +643,14 @@
 	<xsd:element name="ProcurementTypeCode" type="CodeType"/>
 	<xsd:element name="ProductImage" type="BinaryObjectType"/>
 	<xsd:element name="ProductionProcessTemplate" type="xsd:string"/>
+	<xsd:element name="ProductStatusType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="PUBLISHED"/>
+				<xsd:enumeration value="DRAFT"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
 	<xsd:element name="ProductTraceID" type="xsd:string"/>
 	<xsd:element name="ProfileExecutionID" type="xsd:string"/>
 	<xsd:element name="ProfileID" type="xsd:string"/>
