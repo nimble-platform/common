@@ -114,6 +114,10 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     }
 
     public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues) {
+        return getSingleEntity(queryStr, parameterNames, parameterValues, false);
+    }
+
+    public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues, boolean isNative) {
         if(singleTransactionEntityManager != null){
             try {
                 Query query = createQuery(queryStr, parameterNames, parameterValues, singleTransactionEntityManager);
@@ -132,7 +136,7 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             T result = null;
             try {
                 em.getTransaction().begin();
-                Query query = createQuery(queryStr, parameterNames, parameterValues, em);
+                Query query = createQuery(queryStr, parameterNames, parameterValues, em, isNative);
                 result = (T) query.getSingleResult();
                 em.getTransaction().commit();
             } catch (NoResultException e){
