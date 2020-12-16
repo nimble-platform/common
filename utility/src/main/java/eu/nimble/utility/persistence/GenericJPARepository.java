@@ -17,6 +17,8 @@ public interface GenericJPARepository extends TransactionAcrossMultipleDB{
 
     <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues);
 
+    <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, boolean isNative);
+
     <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset);
 
     <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset, boolean isNative);

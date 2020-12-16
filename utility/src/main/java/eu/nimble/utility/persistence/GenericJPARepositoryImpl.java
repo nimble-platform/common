@@ -164,6 +164,11 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     }
 
     @Override
+    public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, boolean isNative) {
+        return getEntities(query, parameterNames, parameterValues, null, null, isNative);
+    }
+
+    @Override
     public <T> List<T> getEntities(String queryStr, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset) {
         return getEntities(queryStr, parameterNames, parameterValues, limit, offset,false);
     }

@@ -90,6 +90,11 @@ public class BinaryContentAwareRepositoryWrapper implements GenericJPARepository
         return genericJPARepository.getEntities(query, parameterNames, parameterValues);
     }
 
+    @Override
+    public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, boolean isNative) {
+        return genericJPARepository.getEntities(query, parameterNames, parameterValues, null, null, isNative);
+    }
+
     public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, Integer limit, Integer offset) {
         return genericJPARepository.getEntities(query, parameterNames, parameterValues, limit, offset);
     }
