@@ -41,7 +41,6 @@ public class CustomDbInitializer {
     private static final String INDEX_NAME_DEMAND_DUE_DATE = "demand_due_date";
     private static final String INDEX_NAME_DEMAND_BUYER_COUNTRY = "demand_buyer_country";
     private static final String INDEX_NAME_DEMAND_DELIVERY_COUNTRY = "demand_delivery_country";
-    private static final String INDEX_NAME_DEMAND_ITEM_CLASSIFICATION_CODE = "demand_item_classification_code";
     private static final String INDEX_NAME_DEMAND_METADATA_REF = "demand_metadata_ref";
     private static final String INDEX_NAME_CATALOGUE_ID = "catalogue_id";
     private static final String INDEX_NAME_CATALOGUE_UUID = "catalogue_uuid";
@@ -64,6 +63,8 @@ public class CustomDbInitializer {
     private static final String INDEX_NAME_TEXT_MULTI_TYPE_VALUE = "text_multi_type_value";
     private static final String INDEX_NAME_TEXT_DEMAND_TITLE = "text_demand_title";
     private static final String INDEX_NAME_TEXT_DEMAND_DESCRIPTION = "text_demand_description";
+    private static final String INDEX_NAME_CODE_URI = "code_uri";
+    private static final String INDEX_NAME_CODE_DEMAND_REF = "code_demand_ref";
 
     static {
         indices.put(INDEX_NAME_METADATA_CREATION_DATE, String.format("CREATE INDEX %s ON metadata_type(creation_date_item)", INDEX_NAME_METADATA_CREATION_DATE));
@@ -73,7 +74,6 @@ public class CustomDbInitializer {
         indices.put(INDEX_NAME_DEMAND_DUE_DATE, String.format("CREATE INDEX %s ON demand_type(due_date_item)", INDEX_NAME_DEMAND_DUE_DATE));
         indices.put(INDEX_NAME_DEMAND_BUYER_COUNTRY, String.format("CREATE INDEX %s ON demand_type(buyer_country_demand_type_hj_0)", INDEX_NAME_DEMAND_BUYER_COUNTRY));
         indices.put(INDEX_NAME_DEMAND_DELIVERY_COUNTRY, String.format("CREATE INDEX %s ON demand_type(delivery_country_demand_type_0)", INDEX_NAME_DEMAND_DELIVERY_COUNTRY));
-        indices.put(INDEX_NAME_DEMAND_ITEM_CLASSIFICATION_CODE, String.format("CREATE INDEX %s ON demand_type(item_classification_code_dem_0)", INDEX_NAME_DEMAND_ITEM_CLASSIFICATION_CODE));
         indices.put(INDEX_NAME_DEMAND_METADATA_REF, String.format("CREATE INDEX %s ON demand_type(metadata_demand_type_hjid)", INDEX_NAME_DEMAND_METADATA_REF));
         indices.put(INDEX_NAME_CATALOGUE_ID, String.format("CREATE INDEX %s ON catalogue_type(id)", INDEX_NAME_CATALOGUE_ID));
         indices.put(INDEX_NAME_CATALOGUE_UUID, String.format("CREATE INDEX %s ON catalogue_type(uuid)", INDEX_NAME_CATALOGUE_UUID));
@@ -96,6 +96,8 @@ public class CustomDbInitializer {
         indices.put(INDEX_NAME_TEXT_MULTI_TYPE_VALUE, String.format("CREATE INDEX %s ON text_type(value__multi_type_value_type_0)", INDEX_NAME_TEXT_MULTI_TYPE_VALUE));
         indices.put(INDEX_NAME_TEXT_DEMAND_TITLE, String.format("CREATE INDEX %s ON text_type(title_demand_type_hjid)", INDEX_NAME_TEXT_DEMAND_TITLE));
         indices.put(INDEX_NAME_TEXT_DEMAND_DESCRIPTION, String.format("CREATE INDEX %s ON text_type(description_demand_type_hjid)", INDEX_NAME_TEXT_DEMAND_DESCRIPTION));
+        indices.put(INDEX_NAME_CODE_URI, String.format("CREATE INDEX %s ON code_type(uri)", INDEX_NAME_CODE_URI));
+        indices.put(INDEX_NAME_CODE_DEMAND_REF, String.format("CREATE INDEX %s ON code_type(item_classification_code_dem_0)", INDEX_NAME_CODE_DEMAND_REF));
     }
 
     private static final String QUERY_CREATE_BINARY_CONTENT_TABLE =
