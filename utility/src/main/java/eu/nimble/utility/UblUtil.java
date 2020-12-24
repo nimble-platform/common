@@ -96,6 +96,11 @@ public class UblUtil {
                     .collect(Collectors.toList());
             binaryObjects.addAll(objects);
         }
+        if(item.getAdditionalItemProperty() != null){
+            item.getAdditionalItemProperty().stream()
+                    .filter(itemProperty -> itemProperty.getValueBinary() != null && itemProperty.getValueBinary().size() > 0)
+                    .forEach(itemProperty -> binaryObjects.addAll(itemProperty.getValueBinary()));
+        }
         return binaryObjects;
     }
 
