@@ -428,6 +428,18 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DemandInterestCount">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="DEMAND_INTEREST_COUNT">
+						<orm:unique-constraint>
+							<orm:column-name>PartyID</orm:column-name>
+							<orm:column-name>DemandHJID</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="PartyID" type="xsd:string"/>
 			<xsd:element name="InterestCount" type="xsd:int"/>
