@@ -61,8 +61,8 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 @Entity(name = "DemandInterestCount")
 @Table(name = "DEMAND_INTEREST_COUNT", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
-        "PartyID",
-        "DemandHJID"
+        "PARTY_ID",
+        "DEMAND_HJID"
     })
 })
 @Inheritance(strategy = InheritanceType.JOINED)

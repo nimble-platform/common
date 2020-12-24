@@ -433,8 +433,8 @@
 				<hj:entity>
 					<orm:table name="DEMAND_INTEREST_COUNT">
 						<orm:unique-constraint>
-							<orm:column-name>PartyID</orm:column-name>
-							<orm:column-name>DemandHJID</orm:column-name>
+							<orm:column-name>PARTY_ID</orm:column-name>
+							<orm:column-name>DEMAND_HJID</orm:column-name>
 						</orm:unique-constraint>
 					</orm:table>
 				</hj:entity>
