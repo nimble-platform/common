@@ -69,6 +69,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
+	// certificate names
+	@Indexed(name=CERTIFICATE_NAME_FIELD)
+	private Set<String> certificateName;
 	// permitted parties
 	@Indexed(name=PERMITTED_PARTIES_FIELD)
 	private Set<String> permittedParties;
@@ -637,6 +640,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setCertificateType(Set<String> certificateType) {
 		this.certificateType = certificateType;
+	}
+	public Set<String> getCertificateName() {
+		return certificateName;
+	}
+	public void setCertificateName(Set<String> certificateName) {
+		this.certificateName = certificateName;
 	}
 	public Set<String> getPermittedParties() {
 		return permittedParties;
