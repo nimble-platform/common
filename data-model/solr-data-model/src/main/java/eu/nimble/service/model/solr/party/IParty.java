@@ -14,7 +14,7 @@ public interface IParty {
 	public String NAME_FIELD = "name";
 	public String NAME_ML_FIELD = "*_name";
 	public String ORIGIN_FIELD = "*_origin";
-	public String CERTIFICATE_TYPE_FIELD = "*_certificateType";
+	public String CERTIFICATE_CODE_FIELD = "certificateCode";
 	public String PPAP_COMPLIANCE_LEVEL_FIELD = "ppapComplianceLevel";
 	public String PPAP_DOCUMENT_TYPE_FIELD = "*_ppapDocumentType";
 	public String TRUST_SCORE_FIELD = "trustScore";

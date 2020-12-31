@@ -51,7 +51,7 @@ public interface ICatalogueItem extends IConcept {
 	/**
 	 * Certificate names
 	 */
-	String CERTIFICATE_NAME_FIELD = "certificateName";
+	String CERTIFICATE_CODE_FIELD = "certificateCode";
 	/**
 	 * Permitted parties
 	 */

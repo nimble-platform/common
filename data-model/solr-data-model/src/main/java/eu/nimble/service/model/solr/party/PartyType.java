@@ -1,9 +1,6 @@
 package eu.nimble.service.model.solr.party;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.solr.core.mapping.Dynamic;
@@ -32,8 +29,8 @@ public class PartyType extends Concept implements IParty {
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
 	private Map<String,String> origin;
-	@Indexed(name=CERTIFICATE_TYPE_FIELD, type="string") @Dynamic
-	private Map<String,Collection<String>> certificateType;
+	@Indexed(name= CERTIFICATE_CODE_FIELD, type="string")
+	private Set<String> certificateCode;
 	@Indexed(name=PPAP_COMPLIANCE_LEVEL_FIELD, type="pint")
 	private Integer ppapComplianceLevel;
 	@Indexed(name=PPAP_DOCUMENT_TYPE_FIELD) @Dynamic
@@ -145,45 +142,13 @@ public class PartyType extends Concept implements IParty {
 		addLanguage(language);
 	}
 
-	
-	public Map<String,Collection<String>> getCertificateType() {
-		return certificateType;
-	}
 
-	/**
-	 * Setter for the certificateType labels
-	 * @param certificateTypeMap
-	 */
-	public void setCertificateType(Map<String, Collection<String>> certificateTypeMap) {
-		if ( certificateTypeMap != null ) {
-			for ( String lang : certificateTypeMap.keySet() ) {
-				for (String label : certificateTypeMap.get(lang)) {
-					addCertificateType(lang, label);
-					
-				}
-			}
-		}
-		else {
-			this.certificateType = null;
-		}
+	public Set<String> getCertificateCode() {
+		return certificateCode;
 	}
-	/**
-	 * Helper method for adding a (multilingual) label to the list of certificat types 
-	 * @param language
-	 * @param certificatTypeLabel
-	 */
-	public void addCertificateType(String language, String certificatTypeLabel) {
-		if (this.certificateType ==null) {
-			this.certificateType = new HashMap<>();
-		}
-		if ( !this.certificateType.containsKey(language)) {
-			this.certificateType.put(language, new HashSet<>());
-		}
-		this.certificateType.get(language).add(certificatTypeLabel);
-		// 
-		addLanguage(language);
+	public void setCertificateCode(Set<String> certificateCode) {
+		this.certificateCode = certificateCode;
 	}
-	
 	public Integer getPpapComplianceLevel() {
 		return ppapComplianceLevel;
 	}
