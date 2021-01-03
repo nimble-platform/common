@@ -58,8 +58,19 @@ public class CountryUtil {
         return null;
     }
 
-    public static Map<String,String> getCountryNamesByISOCode(String isoCode ) {
+    public static Map<String, String> getCountryNamesByISOCode(String isoCode) {
         // get the country names for the given iso code
         return countryNames.get(isoCode);
+    }
+
+    public static String getISOCodeByCountryName(String countryName) {
+        for (Map.Entry<String, Map<String, String>> isoCodeName : countryNames.entrySet()) {
+            for (Map.Entry<String, String> names : isoCodeName.getValue().entrySet()) {
+                if (names.getValue().compareToIgnoreCase(countryName) == 0) {
+                    return isoCodeName.getKey();
+                }
+            }
+        }
+        return null;
     }
 }
