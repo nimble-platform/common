@@ -57,4 +57,9 @@ public class CountryUtil {
         }
         return null;
     }
+
+    public static Map<String,String> getCountryNamesByISOCode(String isoCode ) {
+        // get the country names for the given iso code
+        return countryNames.get(isoCode);
+    }
 }
