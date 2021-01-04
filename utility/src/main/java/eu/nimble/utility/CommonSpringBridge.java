@@ -1,7 +1,6 @@
 package eu.nimble.utility;
 
 import eu.nimble.utility.config.CommonConfig;
-import eu.nimble.utility.persistence.resource.ResourceValidationUtility;
 import eu.nimble.utility.serialization.TransactionEnabledSerializationUtility;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ public class CommonSpringBridge implements ApplicationContextAware {
 
     @Autowired
     private TransactionEnabledSerializationUtility transactionEnabledSerializationUtility;
-    @Autowired
-    private ResourceValidationUtility resourceValidationUtil;
     @Autowired(required = false)
     @Qualifier("ubldbDataSource")
     private DataSource ubldbDataSource;
@@ -48,10 +45,6 @@ public class CommonSpringBridge implements ApplicationContextAware {
 
     public TransactionEnabledSerializationUtility getTransactionEnabledSerializationUtility() {
         return transactionEnabledSerializationUtility;
-    }
-
-    public ResourceValidationUtility getResourceValidationUtil() {
-        return resourceValidationUtil;
     }
 
     public DataSource getUbldbDataSource() {

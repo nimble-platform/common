@@ -6,7 +6,7 @@ import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
 import eu.nimble.utility.exception.BinaryContentException;
 import eu.nimble.utility.exception.NimbleExceptionMessageCode;
 import eu.nimble.utility.persistence.binary.BinaryContentService;
-import eu.nimble.utility.serialization.BinaryObjectSerializerProcess;
+import eu.nimble.utility.serialization.binary_processing.BinaryObjectSerializerProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -33,6 +33,9 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeclarationType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryTermsType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DeliveryType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DemandInterestCount</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DemandLastSeenInfo</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DemandType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DespatchLineType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DigitalAgreementTermsType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.DigitalProcessType</class>
@@ -58,6 +61,8 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.LineItemType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.LineReferenceType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.LocationType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.MetadataType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.MetadataTypeOwnerCompanyItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.MonetaryTotalType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.MultiTypeValueType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.MultiTypeValueTypeValueDecimalItem</class>

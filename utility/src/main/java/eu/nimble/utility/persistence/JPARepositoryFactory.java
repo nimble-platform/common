@@ -21,7 +21,7 @@ public class JPARepositoryFactory implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public GenericJPARepository withEmf(String emfBeanName, Boolean multiTransactions) {
+    public GenericJPARepositoryImpl withEmf(String emfBeanName, Boolean multiTransactions) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         EntityManagerFactory emf = applicationContext.getBean(emfBeanName, EntityManagerFactory.class);
         repository.emf = emf;
@@ -32,39 +32,39 @@ public class JPARepositoryFactory implements ApplicationContextAware {
         return repository;
     }
 
-    public GenericJPARepository forBpRepositoryMultiTransaction() {
+    public GenericJPARepositoryImpl forBpRepositoryMultiTransaction() {
         return forBpRepositoryMultiTransaction(false);
     }
 
-    public GenericJPARepository forBpRepositoryMultiTransaction(boolean lazyDisabled) {
+    public GenericJPARepositoryImpl forBpRepositoryMultiTransaction(boolean lazyDisabled) {
         return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY,true):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY,true);
     }
 
-    public GenericJPARepository forBpRepository() {
+    public GenericJPARepositoryImpl forBpRepository() {
         return forBpRepository(false);
     }
 
-    public GenericJPARepository forBpRepository(boolean lazyDisabled) {
+    public GenericJPARepositoryImpl forBpRepository(boolean lazyDisabled) {
         return lazyDisabled ? withEmf(Configuration.BP_LAZY_DISABLED_ENTITY_MANAGER_FACTORY,false):withEmf(Configuration.BP_ENTITY_MANAGER_FACTORY,false);
     }
 
-    public GenericJPARepository forCatalogueRepositoryMultiTransaction() {
+    public GenericJPARepositoryImpl forCatalogueRepositoryMultiTransaction() {
         return forCatalogueRepository(Configuration.Standard.UBL,false,true);
     }
 
-    public GenericJPARepository forCatalogueRepositoryMultiTransaction(boolean lazyDisabled){
+    public GenericJPARepositoryImpl forCatalogueRepositoryMultiTransaction(boolean lazyDisabled){
         return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled,true);
     }
 
-    public GenericJPARepository forCatalogueRepository() {
+    public GenericJPARepositoryImpl forCatalogueRepository() {
         return forCatalogueRepository(Configuration.Standard.UBL,false,false);
     }
 
-    public GenericJPARepository forCatalogueRepository(boolean lazyDisabled){
+    public GenericJPARepositoryImpl forCatalogueRepository(boolean lazyDisabled){
         return forCatalogueRepository(Configuration.Standard.UBL,lazyDisabled,false);
     }
 
-    public GenericJPARepository forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled, boolean multiTransactions) {
+    public GenericJPARepositoryImpl forCatalogueRepository(Configuration.Standard catalogueStandard, boolean lazyDisabled, boolean multiTransactions) {
         GenericJPARepositoryImpl repository = new GenericJPARepositoryImpl();
         if(catalogueStandard.equals(Configuration.Standard.UBL)) {
             if(lazyDisabled)
