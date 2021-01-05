@@ -62,6 +62,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyIdentification" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Network" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}WebsiteURI" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}StripeAccountId" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IndustryClassification" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IndustryClassificationCode" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ExternalAward" minOccurs="0"/&gt;
@@ -99,6 +100,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "partyIdentification",
     "network",
     "websiteURI",
+    "stripeAccountId",
     "industryClassification",
     "industryClassificationCode",
     "externalAward",
@@ -143,6 +145,8 @@ public class PartyType
     protected List<NetworkType> network;
     @XmlElement(name = "WebsiteURI", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected String websiteURI;
+    @XmlElement(name = "StripeAccountId", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
+    protected String stripeAccountId;
     @XmlElement(name = "IndustryClassification", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     protected TextType industryClassification;
     @XmlElement(name = "IndustryClassificationCode", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
@@ -483,6 +487,32 @@ public class PartyType
      */
     public void setWebsiteURI(String value) {
         this.websiteURI = value;
+    }
+
+    /**
+     * Gets the value of the stripeAccountId property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    @Basic
+    @Column(name = "STRIPE_ACCOUNT_ID", length = 255)
+    public String getStripeAccountId() {
+        return stripeAccountId;
+    }
+
+    /**
+     * Sets the value of the stripeAccountId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStripeAccountId(String value) {
+        this.stripeAccountId = value;
     }
 
     /**
@@ -1207,6 +1237,15 @@ public class PartyType
             String rhsWebsiteURI;
             rhsWebsiteURI = that.getWebsiteURI();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "websiteURI", lhsWebsiteURI), LocatorUtils.property(thatLocator, "websiteURI", rhsWebsiteURI), lhsWebsiteURI, rhsWebsiteURI)) {
+                return false;
+            }
+        }
+        {
+            String lhsStripeAccountId;
+            lhsStripeAccountId = this.getStripeAccountId();
+            String rhsStripeAccountId;
+            rhsStripeAccountId = that.getStripeAccountId();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "stripeAccountId", lhsStripeAccountId), LocatorUtils.property(thatLocator, "stripeAccountId", rhsStripeAccountId), lhsStripeAccountId, rhsStripeAccountId)) {
                 return false;
             }
         }

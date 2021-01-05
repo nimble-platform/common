@@ -797,6 +797,7 @@
 	<xsd:element name="StatusReason" type="xsd:string"/>
 	<xsd:element name="StatusReasonCode" type="CodeType"/>
 	<xsd:element name="StreetName" type="xsd:string"/>
+	<xsd:element name="StripeAccountId" type="xsd:string"/>
 	<xsd:element name="SubcontractingConditionsCode" type="CodeType"/>
 	<xsd:element name="SubmissionDate" type="xsd:date"/>
 	<xsd:element name="SubmissionDueDate" type="xsd:date"/>
