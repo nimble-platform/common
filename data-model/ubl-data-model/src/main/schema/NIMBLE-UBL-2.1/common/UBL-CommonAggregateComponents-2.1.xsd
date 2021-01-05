@@ -930,6 +930,7 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
+			<xsd:element ref="cbc:StripeAccountId" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassification" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
