@@ -397,6 +397,7 @@
 	<xsd:element name="LatestPickupTime" type="xsd:time"/>
 	<xsd:element name="LatestProposalAcceptanceDate" type="xsd:date"/>
 	<xsd:element name="LatestSecurityClearanceDate" type="xsd:date"/>
+	<xsd:element name="Latitude" type="xsd:decimal"/>
 	<xsd:element name="LatitudeDegreesMeasure" type="QuantityType"/>
 	<xsd:element name="LatitudeDirectionCode" type="CodeType"/>
 	<xsd:element name="LatitudeMinutesMeasure" type="QuantityType"/>
@@ -425,6 +426,7 @@
 	<xsd:element name="LocationTypeCode" type="CodeType"/>
 	<xsd:element name="Login" type="xsd:string"/>
 	<xsd:element name="LogoReferenceID" type="xsd:string"/>
+	<xsd:element name="Longitude" type="xsd:decimal"/>
 	<xsd:element name="LongitudeDegreesMeasure" type="QuantityType"/>
 	<xsd:element name="LongitudeDirectionCode" type="CodeType"/>
 	<xsd:element name="LongitudeMinutesMeasure" type="QuantityType"/>
