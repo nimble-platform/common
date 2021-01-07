@@ -69,9 +69,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
-	// certificate names
-	@Indexed(name= CERTIFICATE_CODE_FIELD)
-	private Set<String> certificateCode;
+	// circular economy certificates
+	@Indexed(name= CIRCULAR_ECONOMY_CERTIFICATE_FIELD)
+	private Set<String> circularEconomyCertificates;
 	// permitted parties
 	@Indexed(name=PERMITTED_PARTIES_FIELD)
 	private Set<String> permittedParties;
@@ -641,11 +641,11 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setCertificateType(Set<String> certificateType) {
 		this.certificateType = certificateType;
 	}
-	public Set<String> getCertificateCode() {
-		return certificateCode;
+	public Set<String> getCircularEconomyCertificates() {
+		return circularEconomyCertificates;
 	}
-	public void setCertificateCode(Set<String> certificateCode) {
-		this.certificateCode = certificateCode;
+	public void setCircularEconomyCertificates(Set<String> circularEconomyCertificates) {
+		this.circularEconomyCertificates = circularEconomyCertificates;
 	}
 	public Set<String> getPermittedParties() {
 		return permittedParties;

@@ -29,8 +29,8 @@ public class PartyType extends Concept implements IParty {
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
 	private Map<String,String> origin;
-	@Indexed(name= CERTIFICATE_CODE_FIELD, type="string")
-	private Set<String> certificateCode;
+	@Indexed(name= CIRCULAR_ECONOMY_CERTIFICATE_FIELD, type="string")
+	private Set<String> circularEconomyCertificates;
 	@Indexed(name=PPAP_COMPLIANCE_LEVEL_FIELD, type="pint")
 	private Integer ppapComplianceLevel;
 	@Indexed(name=PPAP_DOCUMENT_TYPE_FIELD) @Dynamic
@@ -143,11 +143,11 @@ public class PartyType extends Concept implements IParty {
 	}
 
 
-	public Set<String> getCertificateCode() {
-		return certificateCode;
+	public Set<String> getCircularEconomyCertificates() {
+		return circularEconomyCertificates;
 	}
-	public void setCertificateCode(Set<String> certificateCode) {
-		this.certificateCode = certificateCode;
+	public void setCircularEconomyCertificates(Set<String> circularEconomyCertificates) {
+		this.circularEconomyCertificates = circularEconomyCertificates;
 	}
 	public Integer getPpapComplianceLevel() {
 		return ppapComplianceLevel;
