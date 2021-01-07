@@ -3,6 +3,7 @@ package eu.nimble.utility.email;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.AddressType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
+import eu.nimble.utility.country.CountryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class EmailService {
         // collect info of company
         if (company.getPostalAddress() != null) {
             AddressType address = company.getPostalAddress();
-            String countryName = address.getCountry() != null ? address.getCountry().getName().getValue() : null;
+            String countryName = address.getCountry() != null && address.getCountry().getIdentificationCode() != null? CountryUtil.getCountryNameByISOCode(address.getCountry().getIdentificationCode().getValue() ) : null;
             context.setVariable("companyCountry", countryName);
             context.setVariable("companyStreet", address.getStreetName());
             context.setVariable("companyBuildingNumber", address.getBuildingNumber());

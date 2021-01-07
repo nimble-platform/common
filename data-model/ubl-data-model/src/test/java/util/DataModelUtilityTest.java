@@ -105,6 +105,7 @@ public class DataModelUtilityTest {
         party.setExternalAward("award");
         party.setFederationInstanceID("fedid");
         party.setProcessID(new ArrayList<>());
+        party.setStripeAccountId("accountId");
         TextType industryClassification = new TextType();
         party.setIndustryClassification(industryClassification);
         party.setIndustryClassificationCode(new CodeType());
