@@ -24,6 +24,7 @@
 	<xsd:element name="Contact" type="ContactType"/>
 	<xsd:element name="ContainingPackage" type="PackageType"/>
 	<xsd:element name="Contract" type="ContractType"/>
+	<xsd:element name="Coordinate" type="CoordinateType"/>
 	<xsd:element name="Country" type="CountryType"/>
 	<xsd:element name="CustomerParty" type="CustomerPartyType"/>
 	<xsd:element name="DataMonitoringClause" type="DataMonitoringClauseType"/>
@@ -132,6 +133,7 @@
 			<xsd:element ref="cbc:Region" minOccurs="0"/>
 			<xsd:element ref="cbc:District" minOccurs="0"/>
 			<xsd:element ref="cac:Country" minOccurs="0"/>
+			<xsd:element ref="cac:Coordinate" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="AllowanceChargeType">
@@ -300,6 +302,12 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CoordinateType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Longitude"/>
+			<xsd:element ref="cbc:Latitude"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="CountryType">

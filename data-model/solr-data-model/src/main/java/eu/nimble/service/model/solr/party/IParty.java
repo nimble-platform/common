@@ -32,5 +32,6 @@ public interface IParty {
 	public String BUSINESS_KEYWORDS_FIELD = "*_businessKeywords";
 	public String VERIFIED_FIELD = "verified";
 	public String WEBSITE_FIELD = "website";
-
+	public String LOCATION_LONGITUDE = "locationLongitude";
+	public String LOCATION_LATITUDE = "locationLatitude";
 }

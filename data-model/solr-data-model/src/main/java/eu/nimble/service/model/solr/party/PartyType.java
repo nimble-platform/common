@@ -41,6 +41,10 @@ public class PartyType extends Concept implements IParty {
 	private Double trustScore;
 	@Indexed(name=TRUST_RATING_FIELD, type="pdouble")
 	private Double trustRating;
+	@Indexed(name=LOCATION_LATITUDE, type="pdouble")
+	private Double locationLatitude;
+	@Indexed(name=LOCATION_LONGITUDE, type="pdouble")
+	private Double locationLongitude;
 	@Indexed(name=TRUST_TRADING_VOLUME_FIELD, type="pdouble")
 	private Double trustTradingVolume;
 	@Indexed(name=TRUST_SELLLER_COMMUNICATION_FIELD, type="pdouble")
@@ -171,6 +175,18 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setTrustScore(Double trustScore) {
 		this.trustScore = trustScore;
+	}
+	public Double getLocationLatitude() {
+		return locationLatitude;
+	}
+	public void setLocationLatitude(Double locationLatitude) {
+		this.locationLatitude = locationLatitude;
+	}
+	public Double getLocationLongitude() {
+		return locationLongitude;
+	}
+	public void setLocationLongitude(Double locationLongitude) {
+		this.locationLongitude = locationLongitude;
 	}
 	public Double getTrustRating() {
 		return trustRating;
