@@ -49,6 +49,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String CERTIFICATE_TYPE_FIELD = "certificateType";
 	/**
+	 * Circular economy certificates
+	 */
+	String CIRCULAR_ECONOMY_CERTIFICATE_FIELD = "circularEconomyCertificates";
+	/**
 	 * Permitted parties
 	 */
 	String PERMITTED_PARTIES_FIELD = "permittedParties";
