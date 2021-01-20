@@ -42,7 +42,6 @@ public class MetadataUtility {
         c.setTimeInMillis(System.currentTimeMillis());
         try {
             XMLGregorianCalendar currentDateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-            metadata.setCreationDate(currentDateTime);
             metadata.setModificationDate(currentDateTime);
         } catch (DatatypeConfigurationException e) {
             String msg = "Could not update date for metadata";
