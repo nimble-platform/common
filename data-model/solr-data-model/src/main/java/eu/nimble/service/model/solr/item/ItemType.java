@@ -113,13 +113,15 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private String emissionStandard;
 
 	/**
-	 *  Base quantity and unit type for items
+	 * Map holding a list of used Unit's for base quantity
 	 */
-	@Indexed(required=false, name=BASE_QUANTITY_FIELD, type="pdouble")
-	private Double baseQuantity;
-	@Indexed(required=false, name=BASE_QUANTITY_UNIT_FIELD)
-	private String baseQuantityUnit;
-	
+	@Indexed(name=BASE_QUANTITY_UNIT_FIELD) @Dynamic
+	private Map<String, String> baseQuantityUnit = new HashMap<>();
+	/**
+	 * Map holding the amounts per base quantity unit
+	 */
+	@Indexed(name=BASE_QUANTITY_FIELD, type="pdouble") @Dynamic
+	private Map<String, List<Double>> baseQuantity =new HashMap<>();
 
 	/**
 	 * Possibility for joining to product class index
@@ -937,21 +939,39 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 
 	/**
-	 *  Base quantity and unit type for items
+	 * Internally the base quantity units hold
 	 */
-	public Double getBaseQuantity() {
-		return baseQuantity;
-	}
-
-	public void setBaseQuantity(Double baseQuantity) {
-		this.baseQuantity = baseQuantity;
-	}
-
 	public String getBaseQuantityUnit() {
-		return baseQuantityUnit;
+		return baseQuantityUnit.entrySet().iterator().next().getValue();
 	}
-
-	public void setBaseQuantityUnit(String baseQuantityUnit) {
-		this.baseQuantityUnit = baseQuantityUnit;
+	public Double getBaseQuantity() {
+		return baseQuantity.entrySet().iterator().next().getValue().get(0);
+	}
+	@JsonIgnore
+	public Collection<String> getBaseQuantityUnits() {
+		return this.baseQuantityUnit.values();
+	}
+	public void setBaseQuantityUnits(Collection<String> units) {
+		this.baseQuantityUnit.clear();
+		for ( String unit : units ) {
+			dynamicKey(unit,  this.baseQuantityUnit);
+		}
+	}
+	public void addBaseQuantity(String unit, List<Double> amounts) {
+		this.baseQuantity.put(dynamicKey(unit, this.baseQuantityUnit), amounts);;
+	}
+	@JsonIgnore
+	public Map<String, List<Double>> getBaseQuantities() {
+		Map<String, List<Double>> result = new HashMap<>();
+		for ( String dynUnitKey : this.baseQuantityUnit.keySet()) {
+			result.put(baseQuantityUnit.get(dynUnitKey), baseQuantity.get(dynUnitKey));
+		}
+		return result;
+	}
+	public void setBaseQuantity(Map<String, List<Double>> baseQuantityAmountPerUnit) {
+		this.baseQuantity.clear();
+		for ( String key : baseQuantityAmountPerUnit.keySet()) {
+			addBaseQuantity(key, baseQuantityAmountPerUnit.get(key));
+		}
 	}
 }

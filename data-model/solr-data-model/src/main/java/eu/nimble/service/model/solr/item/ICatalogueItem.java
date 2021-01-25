@@ -157,8 +157,8 @@ public interface ICatalogueItem extends IConcept {
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
 
-	String BASE_QUANTITY_UNIT_FIELD = "baseQuantityUnit";
-	String BASE_QUANTITY_FIELD = "baseQuantity";
+	String BASE_QUANTITY_UNIT_FIELD = "*_baseQuantityUnit";
+	String BASE_QUANTITY_FIELD = "*_baseQuantity";
 
 
 	/**
