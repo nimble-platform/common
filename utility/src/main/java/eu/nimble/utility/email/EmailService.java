@@ -101,6 +101,10 @@ public class EmailService {
     }
 
     public void send(String[] to, String subject, String template, Context context) {
+        send(to,null,subject,template,context);
+    }
+
+    public void send(String[] to,String[] cc, String subject, String template, Context context) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         String message = this.textMailTemplateEngine.process(template, context);
@@ -112,6 +116,9 @@ public class EmailService {
 
         mailMessage.setFrom(this.defaultFrom);
         mailMessage.setTo(to);
+        if(cc != null){
+            mailMessage.setCc(cc);
+        }
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
         this.emailSender.send(mailMessage);
