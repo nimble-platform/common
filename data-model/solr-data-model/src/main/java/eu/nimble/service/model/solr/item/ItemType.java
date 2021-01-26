@@ -116,12 +116,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 * Map holding a list of used Unit's for base quantity
 	 */
 	@Indexed(name=BASE_QUANTITY_UNIT_FIELD) @Dynamic
-	private Map<String, String> baseQuantityUnit = new HashMap<>();
+	private Map<String, String> baseQuantityUnits = new HashMap<>();
 	/**
 	 * Map holding the amounts per base quantity unit
 	 */
 	@Indexed(name=BASE_QUANTITY_FIELD, type="pdouble") @Dynamic
-	private Map<String, List<Double>> baseQuantity =new HashMap<>();
+	private Map<String, List<Double>> baseQuantities =new HashMap<>();
 
 	/**
 	 * Possibility for joining to product class index
@@ -942,34 +942,42 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	 * Internally the base quantity units hold
 	 */
 	public String getBaseQuantityUnit() {
-		return baseQuantityUnit.entrySet().iterator().next().getValue();
+		if(baseQuantityUnits.entrySet().size() > 0){
+				return baseQuantityUnits.entrySet().iterator().next().getValue();
+		}
+		return null;
 	}
 	public Double getBaseQuantity() {
-		return baseQuantity.entrySet().iterator().next().getValue().get(0);
+		if(baseQuantities.entrySet().size() > 0){
+			return baseQuantities.entrySet().iterator().next().getValue().get(0);
+		}
+		return null;
 	}
-	@JsonIgnore
+
 	public Collection<String> getBaseQuantityUnits() {
-		return this.baseQuantityUnit.values();
+		return this.baseQuantityUnits.values();
 	}
+
 	public void setBaseQuantityUnits(Collection<String> units) {
-		this.baseQuantityUnit.clear();
+		this.baseQuantityUnits.clear();
 		for ( String unit : units ) {
-			dynamicKey(unit,  this.baseQuantityUnit);
+			dynamicKey(unit,  this.baseQuantityUnits);
 		}
 	}
 	public void addBaseQuantity(String unit, List<Double> amounts) {
-		this.baseQuantity.put(dynamicKey(unit, this.baseQuantityUnit), amounts);;
+		this.baseQuantities.put(dynamicKey(unit, this.baseQuantityUnits), amounts);;
 	}
-	@JsonIgnore
+
 	public Map<String, List<Double>> getBaseQuantities() {
 		Map<String, List<Double>> result = new HashMap<>();
-		for ( String dynUnitKey : this.baseQuantityUnit.keySet()) {
-			result.put(baseQuantityUnit.get(dynUnitKey), baseQuantity.get(dynUnitKey));
+		for ( String dynUnitKey : this.baseQuantityUnits.keySet()) {
+			result.put(baseQuantityUnits.get(dynUnitKey), baseQuantities.get(dynUnitKey));
 		}
 		return result;
 	}
-	public void setBaseQuantity(Map<String, List<Double>> baseQuantityAmountPerUnit) {
-		this.baseQuantity.clear();
+
+	public void setBaseQuantities(Map<String, List<Double>> baseQuantityAmountPerUnit) {
+		this.baseQuantities.clear();
 		for ( String key : baseQuantityAmountPerUnit.keySet()) {
 			addBaseQuantity(key, baseQuantityAmountPerUnit.get(key));
 		}
