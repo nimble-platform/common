@@ -18,6 +18,8 @@ public class PartyType extends Concept implements IParty {
 
 //	@Indexed(name=NAME_FIELD)
 //	private String name;
+	@Indexed(name=ID_SORTED_FIELD, type="pdouble")
+	private Double idSorted;
 	@Indexed(name=LEGAL_NAME_FIELD)
 	private String legalName;
 	/**
@@ -79,6 +81,7 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setId(String id) {
 		setUri(id);
+		setIdSorted(Double.valueOf(id));
 	}
 //	public String getName() {
 //		return name;
@@ -268,6 +271,14 @@ public class PartyType extends Concept implements IParty {
 		this.ppapDocumentType.put(language, label);
 		// 
 		addLanguage(language);
+	}
+
+	public Double getIdSorted() {
+		return idSorted;
+	}
+
+	public void setIdSorted(Double idSorted) {
+		this.idSorted = idSorted;
 	}
 
 	public String getLogoId() {
