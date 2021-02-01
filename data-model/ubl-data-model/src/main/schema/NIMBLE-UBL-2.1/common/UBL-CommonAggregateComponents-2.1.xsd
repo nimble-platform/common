@@ -65,6 +65,7 @@
 	<xsd:element name="MeasurementDimension" type="DimensionType"/>
 	<xsd:element name="Metadata" type="MetadataType"/>
 	<xsd:element name="Network" type="NetworkType"/>
+	<xsd:element name="NonPublicInformation" type="NonPublicInformationType"/>
 	<xsd:element name="OrderLine" type="OrderLineType"/>
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
@@ -167,6 +168,15 @@
 			<xsd:element ref="cac:WarrantyValidityPeriod" minOccurs="0"/>
 			<xsd:element ref="cac:RequiredItemLocationQuantity" minOccurs="0"/>
 			<xsd:element ref="cac:PriceOption" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:NonPublicInformation" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
@@ -1876,6 +1886,20 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:ValueCode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NonPublicInformationType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID" minOccurs="0"/>
+			<xsd:element ref="cac:Value" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>
