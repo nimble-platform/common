@@ -60,6 +60,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// FREE of charge indicator
 	@Indexed(name=FREE_OF_CHARGE_FIELD,type="boolean")
 	private Boolean freeOfCharge;
+	// Whether the price is hidden
+	@Indexed(name=PRICE_HIDDEN_FIELD,type="boolean")
+	private Boolean priceHidden;
 	// Customizable
 	@Indexed(name=CUSTOMIZABLE_FIELD,type="boolean")
 	private Boolean customizable;
@@ -625,6 +628,15 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setFreeOfCharge(Boolean freeOfCharge) {
 		this.freeOfCharge = freeOfCharge;
 	}
+
+	public Boolean getPriceHidden() {
+		return priceHidden;
+	}
+
+	public void setPriceHidden(Boolean priceHidden) {
+		this.priceHidden = priceHidden;
+	}
+
 	public Boolean getCustomizable() {
 		return customizable;
 	}

@@ -37,6 +37,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String FREE_OF_CHARGE_FIELD = "freeOfCharge";
 	/**
+	 * Whether the price is hidden or not
+	 */
+	String PRICE_HIDDEN_FIELD = "priceHidden";
+	/**
 	 * Customizable
 	 */
 	String CUSTOMIZABLE_FIELD = "customizable";
