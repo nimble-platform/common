@@ -101,6 +101,19 @@ public class UblUtil {
                     .filter(itemProperty -> itemProperty.getValueBinary() != null && itemProperty.getValueBinary().size() > 0)
                     .forEach(itemProperty -> binaryObjects.addAll(itemProperty.getValueBinary()));
         }
+        if(item.getCertificate() != null){
+            // collect document references
+            List<DocumentReferenceType> documentReferenceTypes = new ArrayList<>();
+            item.getCertificate().stream()
+                    .filter(certificateType -> certificateType.getDocumentReference() != null && certificateType.getDocumentReference().size() > 0)
+                    .forEach(certificateType -> documentReferenceTypes.addAll(certificateType.getDocumentReference()));
+            // collect binary objects
+            List<BinaryObjectType> objects = documentReferenceTypes.stream()
+                    .filter(documentReferenceType -> documentReferenceType.getAttachment() != null && documentReferenceType.getAttachment().getEmbeddedDocumentBinaryObject() != null)
+                    .map(documentReferenceType -> documentReferenceType.getAttachment().getEmbeddedDocumentBinaryObject())
+                    .collect(Collectors.toList());
+            binaryObjects.addAll(objects);
+        }
         return binaryObjects;
     }
 
