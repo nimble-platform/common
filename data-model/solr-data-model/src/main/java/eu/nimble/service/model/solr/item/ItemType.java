@@ -60,6 +60,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// FREE of charge indicator
 	@Indexed(name=FREE_OF_CHARGE_FIELD,type="boolean")
 	private Boolean freeOfCharge;
+	// Whether the price is hidden
+	@Indexed(name=PRICE_HIDDEN_FIELD,type="boolean")
+	private Boolean priceHidden;
 	// Customizable
 	@Indexed(name=CUSTOMIZABLE_FIELD,type="boolean")
 	private Boolean customizable;
@@ -69,6 +72,9 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	// certification types 
 	@Indexed(name=CERTIFICATE_TYPE_FIELD)
 	private Set<String> certificateType;
+	// circular economy certificates
+	@Indexed(name= CIRCULAR_ECONOMY_CERTIFICATE_FIELD)
+	private Set<String> circularEconomyCertificates;
 	// permitted parties
 	@Indexed(name=PERMITTED_PARTIES_FIELD)
 	private Set<String> permittedParties;
@@ -110,13 +116,15 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	private String emissionStandard;
 
 	/**
-	 *  Base quantity and unit type for items
+	 * Map holding a list of used Unit's for base quantity
 	 */
-	@Indexed(required=false, name=BASE_QUANTITY_FIELD, type="pdouble")
-	private Double baseQuantity;
-	@Indexed(required=false, name=BASE_QUANTITY_UNIT_FIELD)
-	private String baseQuantityUnit;
-	
+	@Indexed(name=BASE_QUANTITY_UNIT_FIELD) @Dynamic
+	private Map<String, String> baseQuantityUnits = new HashMap<>();
+	/**
+	 * Map holding the amounts per base quantity unit
+	 */
+	@Indexed(name=BASE_QUANTITY_FIELD, type="pdouble") @Dynamic
+	private Map<String, List<Double>> baseQuantities =new HashMap<>();
 
 	/**
 	 * Possibility for joining to product class index
@@ -620,6 +628,15 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	public void setFreeOfCharge(Boolean freeOfCharge) {
 		this.freeOfCharge = freeOfCharge;
 	}
+
+	public Boolean getPriceHidden() {
+		return priceHidden;
+	}
+
+	public void setPriceHidden(Boolean priceHidden) {
+		this.priceHidden = priceHidden;
+	}
+
 	public Boolean getCustomizable() {
 		return customizable;
 	}
@@ -637,6 +654,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setCertificateType(Set<String> certificateType) {
 		this.certificateType = certificateType;
+	}
+	public Set<String> getCircularEconomyCertificates() {
+		return circularEconomyCertificates;
+	}
+	public void setCircularEconomyCertificates(Set<String> circularEconomyCertificates) {
+		this.circularEconomyCertificates = circularEconomyCertificates;
 	}
 	public Set<String> getPermittedParties() {
 		return permittedParties;
@@ -928,21 +951,47 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 
 	/**
-	 *  Base quantity and unit type for items
+	 * Internally the base quantity units hold
 	 */
-	public Double getBaseQuantity() {
-		return baseQuantity;
-	}
-
-	public void setBaseQuantity(Double baseQuantity) {
-		this.baseQuantity = baseQuantity;
-	}
-
 	public String getBaseQuantityUnit() {
-		return baseQuantityUnit;
+		if(baseQuantityUnits.entrySet().size() > 0){
+				return baseQuantityUnits.entrySet().iterator().next().getValue();
+		}
+		return null;
+	}
+	public Double getBaseQuantity() {
+		if(baseQuantities.entrySet().size() > 0){
+			return baseQuantities.entrySet().iterator().next().getValue().get(0);
+		}
+		return null;
 	}
 
-	public void setBaseQuantityUnit(String baseQuantityUnit) {
-		this.baseQuantityUnit = baseQuantityUnit;
+	public Collection<String> getBaseQuantityUnits() {
+		return this.baseQuantityUnits.values();
+	}
+
+	public void setBaseQuantityUnits(Collection<String> units) {
+		this.baseQuantityUnits.clear();
+		for ( String unit : units ) {
+			dynamicKey(unit,  this.baseQuantityUnits);
+		}
+	}
+	public void addBaseQuantity(String unit, List<Double> amounts) {
+		this.baseQuantities.put(dynamicKey(unit, this.baseQuantityUnits), amounts);;
+	}
+
+	public Map<String, List<Double>> getBaseQuantities() {
+		Map<String, List<Double>> result = new HashMap<>();
+		for ( String dynUnitKey : this.baseQuantityUnits.keySet()) {
+			result.put(baseQuantityUnits.get(dynUnitKey), baseQuantities.get(dynUnitKey));
+		}
+		return result;
+	}
+
+	public void setBaseQuantities(Map<String, List<Double>> baseQuantityAmountPerUnit) {
+		this.baseQuantities.clear();
+		for ( String key : baseQuantityAmountPerUnit.keySet()) {
+			addBaseQuantity(key, baseQuantityAmountPerUnit.get(key));
+		}
 	}
 }

@@ -8,13 +8,15 @@ package eu.nimble.service.model.solr.party;
 public interface IParty {
 	public String COLLECTION = "party";
 	public String ID_FIELD = "id";
+	public String ID_SORTED_FIELD = "idSorted";
 	public String BRAND_NAME_FIELD = "*_brandName";
 	public String LEGAL_NAME_FIELD = "legalName";
 	public String LOWERCASE_LEGAL_NAME_FIELD = "lowercaseLegalName";
 	public String NAME_FIELD = "name";
 	public String NAME_ML_FIELD = "*_name";
 	public String ORIGIN_FIELD = "*_origin";
-	public String CERTIFICATE_TYPE_FIELD = "*_certificateType";
+	public String CERTIFICATE_TYPE_FIELD = "certificateType";
+	public String CIRCULAR_ECONOMY_CERTIFICATE_FIELD = "circularEconomyCertificates";
 	public String PPAP_COMPLIANCE_LEVEL_FIELD = "ppapComplianceLevel";
 	public String PPAP_DOCUMENT_TYPE_FIELD = "*_ppapDocumentType";
 	public String TRUST_SCORE_FIELD = "trustScore";
@@ -31,5 +33,6 @@ public interface IParty {
 	public String BUSINESS_KEYWORDS_FIELD = "*_businessKeywords";
 	public String VERIFIED_FIELD = "verified";
 	public String WEBSITE_FIELD = "website";
-
+	public String LOCATION_LONGITUDE = "locationLongitude";
+	public String LOCATION_LATITUDE = "locationLatitude";
 }

@@ -1,9 +1,6 @@
 package eu.nimble.service.model.solr.party;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.solr.core.mapping.Dynamic;
@@ -21,6 +18,8 @@ public class PartyType extends Concept implements IParty {
 
 //	@Indexed(name=NAME_FIELD)
 //	private String name;
+	@Indexed(name=ID_SORTED_FIELD, type="pdouble")
+	private Double idSorted;
 	@Indexed(name=LEGAL_NAME_FIELD)
 	private String legalName;
 	/**
@@ -32,8 +31,10 @@ public class PartyType extends Concept implements IParty {
 	private Map<String, String> brandName;
 	@Indexed(name=ORIGIN_FIELD) @Dynamic
 	private Map<String,String> origin;
-	@Indexed(name=CERTIFICATE_TYPE_FIELD, type="string") @Dynamic
-	private Map<String,Collection<String>> certificateType;
+	@Indexed(name=CERTIFICATE_TYPE_FIELD, type="string")
+	private Set<String> certificateType;
+	@Indexed(name= CIRCULAR_ECONOMY_CERTIFICATE_FIELD, type="string")
+	private Set<String> circularEconomyCertificates;
 	@Indexed(name=PPAP_COMPLIANCE_LEVEL_FIELD, type="pint")
 	private Integer ppapComplianceLevel;
 	@Indexed(name=PPAP_DOCUMENT_TYPE_FIELD) @Dynamic
@@ -42,6 +43,10 @@ public class PartyType extends Concept implements IParty {
 	private Double trustScore;
 	@Indexed(name=TRUST_RATING_FIELD, type="pdouble")
 	private Double trustRating;
+	@Indexed(name=LOCATION_LATITUDE, type="pdouble")
+	private Double locationLatitude;
+	@Indexed(name=LOCATION_LONGITUDE, type="pdouble")
+	private Double locationLongitude;
 	@Indexed(name=TRUST_TRADING_VOLUME_FIELD, type="pdouble")
 	private Double trustTradingVolume;
 	@Indexed(name=TRUST_SELLLER_COMMUNICATION_FIELD, type="pdouble")
@@ -76,6 +81,7 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setId(String id) {
 		setUri(id);
+		setIdSorted(Double.valueOf(id));
 	}
 //	public String getName() {
 //		return name;
@@ -145,45 +151,21 @@ public class PartyType extends Concept implements IParty {
 		addLanguage(language);
 	}
 
-	
-	public Map<String,Collection<String>> getCertificateType() {
+
+	public Set<String> getCertificateType() {
 		return certificateType;
 	}
 
-	/**
-	 * Setter for the certificateType labels
-	 * @param certificateTypeMap
-	 */
-	public void setCertificateType(Map<String, Collection<String>> certificateTypeMap) {
-		if ( certificateTypeMap != null ) {
-			for ( String lang : certificateTypeMap.keySet() ) {
-				for (String label : certificateTypeMap.get(lang)) {
-					addCertificateType(lang, label);
-					
-				}
-			}
-		}
-		else {
-			this.certificateType = null;
-		}
+	public void setCertificateType(Set<String> certificateType) {
+		this.certificateType = certificateType;
 	}
-	/**
-	 * Helper method for adding a (multilingual) label to the list of certificat types 
-	 * @param language
-	 * @param certificatTypeLabel
-	 */
-	public void addCertificateType(String language, String certificatTypeLabel) {
-		if (this.certificateType ==null) {
-			this.certificateType = new HashMap<>();
-		}
-		if ( !this.certificateType.containsKey(language)) {
-			this.certificateType.put(language, new HashSet<>());
-		}
-		this.certificateType.get(language).add(certificatTypeLabel);
-		// 
-		addLanguage(language);
+
+	public Set<String> getCircularEconomyCertificates() {
+		return circularEconomyCertificates;
 	}
-	
+	public void setCircularEconomyCertificates(Set<String> circularEconomyCertificates) {
+		this.circularEconomyCertificates = circularEconomyCertificates;
+	}
 	public Integer getPpapComplianceLevel() {
 		return ppapComplianceLevel;
 	}
@@ -196,6 +178,18 @@ public class PartyType extends Concept implements IParty {
 	}
 	public void setTrustScore(Double trustScore) {
 		this.trustScore = trustScore;
+	}
+	public Double getLocationLatitude() {
+		return locationLatitude;
+	}
+	public void setLocationLatitude(Double locationLatitude) {
+		this.locationLatitude = locationLatitude;
+	}
+	public Double getLocationLongitude() {
+		return locationLongitude;
+	}
+	public void setLocationLongitude(Double locationLongitude) {
+		this.locationLongitude = locationLongitude;
 	}
 	public Double getTrustRating() {
 		return trustRating;
@@ -277,6 +271,14 @@ public class PartyType extends Concept implements IParty {
 		this.ppapDocumentType.put(language, label);
 		// 
 		addLanguage(language);
+	}
+
+	public Double getIdSorted() {
+		return idSorted;
+	}
+
+	public void setIdSorted(Double idSorted) {
+		this.idSorted = idSorted;
 	}
 
 	public String getLogoId() {

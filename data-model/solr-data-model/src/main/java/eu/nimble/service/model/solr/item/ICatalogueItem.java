@@ -37,6 +37,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String FREE_OF_CHARGE_FIELD = "freeOfCharge";
 	/**
+	 * Whether the price is hidden or not
+	 */
+	String PRICE_HIDDEN_FIELD = "priceHidden";
+	/**
 	 * Customizable
 	 */
 	String CUSTOMIZABLE_FIELD = "customizable";
@@ -48,6 +52,10 @@ public interface ICatalogueItem extends IConcept {
 	 * Certificate types
 	 */
 	String CERTIFICATE_TYPE_FIELD = "certificateType";
+	/**
+	 * Circular economy certificates
+	 */
+	String CIRCULAR_ECONOMY_CERTIFICATE_FIELD = "circularEconomyCertificates";
 	/**
 	 * Permitted parties
 	 */
@@ -153,8 +161,8 @@ public interface ICatalogueItem extends IConcept {
 	// additional property attributes
 	String VALUE_QUALIFIER_FIELD = "valueQualifier";
 
-	String BASE_QUANTITY_UNIT_FIELD = "baseQuantityUnit";
-	String BASE_QUANTITY_FIELD = "baseQuantity";
+	String BASE_QUANTITY_UNIT_FIELD = "*_baseQuantityUnit";
+	String BASE_QUANTITY_FIELD = "*_baseQuantity";
 
 
 	/**

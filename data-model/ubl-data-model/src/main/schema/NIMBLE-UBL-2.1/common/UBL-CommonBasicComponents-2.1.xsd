@@ -186,6 +186,7 @@
 	<xsd:element name="CorrectionUnitAmount" type="AmountType"/>
 	<xsd:element name="CountrySubentity" type="xsd:string"/>
 	<xsd:element name="CountrySubentityCode" type="CodeType"/>
+	<xsd:element name="CreationDate" type="xsd:dateTime"/>
 	<xsd:element name="CreditLineAmount" type="AmountType"/>
 	<xsd:element name="CreditNoteTypeCode" type="CodeType"/>
 	<xsd:element name="CreditedQuantity" type="QuantityType"/>
@@ -376,8 +377,6 @@
 	<xsd:element name="IssueTime" type="xsd:time"/>
 	<xsd:element name="IssuerID" type="xsd:string"/>
 	<xsd:element name="ItemClassificationCode" type="CodeType"/>
-	<!-- TODO remove the demo-specific element -->
-	<xsd:element name="ItemConfigurationImages" type="xsd:string"/>
 	<xsd:element name="ItemPropertyURI" type="xsd:string"/>
 	<xsd:element name="ItemUpdateRequestIndicator" type="xsd:boolean"/>
 	<xsd:element name="JobTitle" type="xsd:string"/>
@@ -398,6 +397,7 @@
 	<xsd:element name="LatestPickupTime" type="xsd:time"/>
 	<xsd:element name="LatestProposalAcceptanceDate" type="xsd:date"/>
 	<xsd:element name="LatestSecurityClearanceDate" type="xsd:date"/>
+	<xsd:element name="Latitude" type="xsd:decimal"/>
 	<xsd:element name="LatitudeDegreesMeasure" type="QuantityType"/>
 	<xsd:element name="LatitudeDirectionCode" type="CodeType"/>
 	<xsd:element name="LatitudeMinutesMeasure" type="QuantityType"/>
@@ -426,6 +426,7 @@
 	<xsd:element name="LocationTypeCode" type="CodeType"/>
 	<xsd:element name="Login" type="xsd:string"/>
 	<xsd:element name="LogoReferenceID" type="xsd:string"/>
+	<xsd:element name="Longitude" type="xsd:decimal"/>
 	<xsd:element name="LongitudeDegreesMeasure" type="QuantityType"/>
 	<xsd:element name="LongitudeDirectionCode" type="CodeType"/>
 	<xsd:element name="LongitudeMinutesMeasure" type="QuantityType"/>
@@ -484,6 +485,7 @@
 	<xsd:element name="MinimumValue" type="xsd:string"/>
 	<xsd:element name="MiscellaneousEventTypeCode" type="CodeType"/>
 	<xsd:element name="ModelName" type="xsd:string"/>
+	<xsd:element name="ModificationDate" type="xsd:dateTime"/>
 	<xsd:element name="MonetaryScope" type="xsd:string"/>
 	<xsd:element name="MonitoredCompanyID" type="xsd:string"/>
 	<xsd:element name="MonitoredMachineID" type="xsd:string"/>
@@ -537,7 +539,9 @@
 	<xsd:element name="OutstandingQuantity" type="QuantityType"/>
 	<xsd:element name="OutstandingReason" type="xsd:string"/>
 	<xsd:element name="OversupplyQuantity" type="QuantityType"/>
+	<xsd:element name="OwnerCompany" type="xsd:string"/>
 	<xsd:element name="OwnerTypeCode" type="CodeType"/>
+	<xsd:element name="OwnerUser" type="xsd:string"/>
 	<xsd:element name="PackLevelCode" type="CodeType"/>
 	<xsd:element name="PackQuantity" type="QuantityType"/>
 	<xsd:element name="PackSizeNumeric" type="xsd:decimal"/>
@@ -641,6 +645,14 @@
 	<xsd:element name="ProcurementTypeCode" type="CodeType"/>
 	<xsd:element name="ProductImage" type="BinaryObjectType"/>
 	<xsd:element name="ProductionProcessTemplate" type="xsd:string"/>
+	<xsd:element name="ProductStatusType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="PUBLISHED"/>
+				<xsd:enumeration value="DRAFT"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
 	<xsd:element name="ProductTraceID" type="xsd:string"/>
 	<xsd:element name="ProfileExecutionID" type="xsd:string"/>
 	<xsd:element name="ProfileID" type="xsd:string"/>
@@ -787,6 +799,7 @@
 	<xsd:element name="StatusReason" type="xsd:string"/>
 	<xsd:element name="StatusReasonCode" type="CodeType"/>
 	<xsd:element name="StreetName" type="xsd:string"/>
+	<xsd:element name="StripeAccountId" type="xsd:string"/>
 	<xsd:element name="SubcontractingConditionsCode" type="CodeType"/>
 	<xsd:element name="SubmissionDate" type="xsd:date"/>
 	<xsd:element name="SubmissionDueDate" type="xsd:date"/>
@@ -853,7 +866,7 @@
 	<xsd:element name="TimezoneOffset" type="xsd:string"/>
 	<xsd:element name="TimingComplaint" type="xsd:string"/>
 	<xsd:element name="TimingComplaintCode" type="CodeType"/>
-	<xsd:element name="Title" type="xsd:string"/>
+	<xsd:element name="Title" type="TextType"/>
 	<xsd:element name="ToOrderIndicator" type="xsd:boolean"/>
 	<xsd:element name="TotalAmount" type="AmountType"/>
 	<xsd:element name="TotalBalanceAmount" type="AmountType"/>

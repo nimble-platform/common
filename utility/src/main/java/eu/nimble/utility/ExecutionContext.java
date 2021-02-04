@@ -19,12 +19,16 @@ public class ExecutionContext {
     private String originalBearerToken;
     // federation id of the client calling the REST service via delegate
     private String clientFederationId;
-    // log representing the associates REST call
-    private String requestLog;
     // user roles available in the bearer token
     private List<String> userRoles;
     // user email retrieved from the bearer token
     private String userEmail;
+    // identifier of the user initiating the REST call
+    private String userId;
+    // identifier of the company to which the user initiating the REST call is associated
+    private String companyId;
+    // log representing the associates REST call
+    private String requestLog;
     // language id
     private String languageId;
     // vat number of user
@@ -92,5 +96,21 @@ public class ExecutionContext {
 
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 }

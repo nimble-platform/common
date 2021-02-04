@@ -24,6 +24,7 @@
 	<xsd:element name="Contact" type="ContactType"/>
 	<xsd:element name="ContainingPackage" type="PackageType"/>
 	<xsd:element name="Contract" type="ContractType"/>
+	<xsd:element name="Coordinate" type="CoordinateType"/>
 	<xsd:element name="Country" type="CountryType"/>
 	<xsd:element name="CustomerParty" type="CustomerPartyType"/>
 	<xsd:element name="DataMonitoringClause" type="DataMonitoringClauseType"/>
@@ -33,6 +34,7 @@
 	<xsd:element name="DeliveryLocation" type="LocationType"/>
 	<xsd:element name="DeliveryPeriod" type="PeriodType"/>
 	<xsd:element name="DeliveryTerms" type="DeliveryTermsType"/>
+	<xsd:element name="Demand" type="DemandType"/>
 	<xsd:element name="DespatchDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="DespatchLine" type="DespatchLineType"/>
 	<xsd:element name="DespatchSupplierParty" type="SupplierPartyType"/>
@@ -61,7 +63,9 @@
 	<xsd:element name="ManufacturerParty" type="PartyType"/>
 	<xsd:element name="ManufacturersItemIdentification" type="ItemIdentificationType"/>
 	<xsd:element name="MeasurementDimension" type="DimensionType"/>
+	<xsd:element name="Metadata" type="MetadataType"/>
 	<xsd:element name="Network" type="NetworkType"/>
+	<xsd:element name="NonPublicInformation" type="NonPublicInformationType"/>
 	<xsd:element name="OrderLine" type="OrderLineType"/>
 	<xsd:element name="OrderLineReference" type="OrderLineReferenceType"/>
 	<xsd:element name="OrderReference" type="OrderReferenceType"/>
@@ -130,6 +134,7 @@
 			<xsd:element ref="cbc:Region" minOccurs="0"/>
 			<xsd:element ref="cbc:District" minOccurs="0"/>
 			<xsd:element ref="cac:Country" minOccurs="0"/>
+			<xsd:element ref="cac:Coordinate" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="AllowanceChargeType">
@@ -171,6 +176,16 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cac:NonPublicInformation" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:ProductStatusType"/>
 			<xsd:element ref="cac:GoodsItem"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -299,8 +314,15 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="CoordinateType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Longitude"/>
+			<xsd:element ref="cbc:Latitude"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="CountryType">
 		<xsd:sequence>
+			<xsd:element ref="cbc:IdentificationCode" minOccurs="0"/>
 			<xsd:element ref="cbc:Name" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -370,6 +392,76 @@
 			<xsd:element ref="cbc:TransportModeCode" minOccurs="0"/>
 			<xsd:element ref="cac:DeliveryLocation" minOccurs="0"/>
 			<xsd:element ref="cac:EstimatedDeliveryPeriod" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DemandType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Title" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:Description" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:DueDate"/>
+			<xsd:element ref="cbc:ItemClassificationCode" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DeliveryCountry" type="cbc:CodeType"/>
+			<xsd:element name="BuyerCountry" type="cbc:CodeType"/>
+			<xsd:element ref="cac:AdditionalDocumentReference"/>
+			<xsd:element name="Image" type="cbc:BinaryObjectType">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cac:Metadata"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DemandLastSeenInfo">
+		<xsd:sequence>
+			<xsd:element name="LastSeenDemandID" type="xsd:long"/>
+			<xsd:element name="PersonID" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DemandInterestCount">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<hj:entity>
+					<orm:table name="DEMAND_INTEREST_COUNT">
+						<orm:unique-constraint>
+							<orm:column-name>PARTY_ID</orm:column-name>
+							<orm:column-name>DEMAND_HJID</orm:column-name>
+						</orm:unique-constraint>
+					</orm:table>
+				</hj:entity>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PartyID" type="xsd:string"/>
+			<xsd:element name="InterestCount" type="xsd:int"/>
+			<xsd:element name="DemandHJID" type="xsd:long"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DespatchLineType">
@@ -720,6 +812,15 @@
 			<xsd:element ref="cac:Address" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<!-- Generic metadata object -->
+	<xsd:complexType name="MetadataType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:CreationDate"/>
+			<xsd:element ref="cbc:ModificationDate"/>
+			<xsd:element ref="cbc:OwnerUser" minOccurs="0"/>
+			<xsd:element ref="cbc:OwnerCompany" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="MonetaryTotalType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:PayableAmount"/>
@@ -780,18 +881,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="PartyIdentificationType">
-		<xsd:annotation>
-			<xsd:appinfo>
-				<hj:entity>
-					<orm:table name="PARTY_IDENTIFICATION_TYPE">
-						<!-- adding this constraint to prevent creation of multiple party instances-->
-						<orm:unique-constraint>
-							<orm:column-name>ID</orm:column-name>
-						</orm:unique-constraint>
-					</orm:table>
-				</hj:entity>
-			</xsd:appinfo>
-		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element ref="cbc:ID"/>
 		</xsd:sequence>
@@ -859,6 +948,7 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:WebsiteURI" minOccurs="0"/>
+			<xsd:element ref="cbc:StripeAccountId" minOccurs="0"/>
 			<xsd:element ref="cbc:IndustryClassification" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1796,6 +1886,20 @@
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="cbc:ValueCode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NonPublicInformationType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:ID" minOccurs="0"/>
+			<xsd:element ref="cac:Value" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
 						<annox:annotate>

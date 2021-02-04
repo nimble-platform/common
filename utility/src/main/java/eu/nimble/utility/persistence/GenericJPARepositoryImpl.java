@@ -114,6 +114,10 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     }
 
     public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues) {
+        return getSingleEntity(queryStr, parameterNames, parameterValues, false);
+    }
+
+    public <T> T getSingleEntity(String queryStr, String[] parameterNames, Object[] parameterValues, boolean isNative) {
         if(singleTransactionEntityManager != null){
             try {
                 Query query = createQuery(queryStr, parameterNames, parameterValues, singleTransactionEntityManager);
@@ -132,7 +136,7 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
             T result = null;
             try {
                 em.getTransaction().begin();
-                Query query = createQuery(queryStr, parameterNames, parameterValues, em);
+                Query query = createQuery(queryStr, parameterNames, parameterValues, em, isNative);
                 result = (T) query.getSingleResult();
                 em.getTransaction().commit();
             } catch (NoResultException e){
@@ -157,6 +161,11 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
     @Override
     public <T> List<T> getEntities(String queryStr, String[] parameterNames, Object[] parameterValues) {
         return getEntities(queryStr, parameterNames, parameterValues, null, null);
+    }
+
+    @Override
+    public <T> List<T> getEntities(String query, String[] parameterNames, Object[] parameterValues, boolean isNative) {
+        return getEntities(query, parameterNames, parameterValues, null, null, isNative);
     }
 
     @Override
@@ -371,11 +380,14 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
         }
     }
 
-    @Override
     public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues) {
+        executeUpdate(query, parameterNames, parameterValues, false);
+    }
+
+    public void executeUpdate(String query, String[] parameterNames, Object[] parameterValues, boolean isNative) {
         if(singleTransactionEntityManager != null){
             try {
-                Query queryObj = createQuery(query, parameterNames, parameterValues, singleTransactionEntityManager);
+                Query queryObj = createQuery(query, parameterNames, parameterValues, singleTransactionEntityManager, isNative);
                 queryObj.executeUpdate();
                 singleTransactionEntityManager.flush();
             }catch (Exception e){
@@ -387,7 +399,7 @@ public class GenericJPARepositoryImpl implements GenericJPARepository, Applicati
 
             try {
                 em.getTransaction().begin();
-                Query queryObj = createQuery(query, parameterNames, parameterValues, em);
+                Query queryObj = createQuery(query, parameterNames, parameterValues, em, isNative);
                 queryObj.executeUpdate();
                 em.getTransaction().commit();
             }catch (Exception e){

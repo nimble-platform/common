@@ -8,14 +8,19 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.ClauseType;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.MetadataType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonbasiccomponents.BinaryObjectType;
-import eu.nimble.utility.serialization.ClauseDeserializer;
-import eu.nimble.utility.serialization.MixInIgnoreType;
-import eu.nimble.utility.serialization.XMLGregorianCalendarSerializer;
+import eu.nimble.utility.serialization.*;
+import eu.nimble.utility.serialization.generic.DateSerializer;
+import eu.nimble.utility.serialization.generic.XMLGregorianCalendarSerializer;
 import eu.nimble.utility.serialization.hjid_removing.JsonFieldFilter;
 import eu.nimble.utility.serialization.hjid_removing.PartyStandardSerializer;
+import eu.nimble.utility.serialization.ubl.ClauseDeserializer;
+import eu.nimble.utility.serialization.ubl.IgnoreMixin;
+import eu.nimble.utility.serialization.ubl.MetadataTypeMixin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -24,7 +29,9 @@ import org.slf4j.LoggerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by suat on 24-Apr-18.
@@ -70,7 +77,7 @@ public class JsonSerializationUtility {
     public static <T> String serializeEntitySilently(T entity) {
         String serializedEntity = "";
         try {
-            ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class,MixInIgnoreType.class);
+            ObjectMapper mapper = getObjectMapperWithMixIn(BinaryObjectType.class, IgnoreMixin.class);
             serializedEntity = mapper.writeValueAsString(entity);
         } catch (JsonProcessingException e) {
             logger.warn("Failed to serialize entity: {}", entity.getClass());
@@ -87,6 +94,10 @@ public class JsonSerializationUtility {
             logger.warn("Failed to serialize entity: {}", entity.getClass());
         }
         return serializedEntity;
+    }
+
+    public static ObjectMapper getObjectMapperWithIgnoreMixin() {
+        return getObjectMapperWithMixIn(BinaryObjectType.class, IgnoreMixin.class);
     }
 
     public static ObjectMapper getObjectMapperWithMixIn(Class target,Class source){
@@ -164,9 +175,16 @@ public class JsonSerializationUtility {
         module.addDeserializer(ClauseType.class, new ClauseDeserializer());
         mapper.registerModule(module);
 
+        // serializers for dates
         SimpleModule dateModule = new SimpleModule();
         dateModule.addSerializer(XMLGregorianCalendar.class,new XMLGregorianCalendarSerializer());
+        dateModule.addSerializer(Date.class, new DateSerializer());
         mapper.registerModule(dateModule);
+
+        // serializer for entities to rename Hyperjaxb-generated attributes.
+        // We chose this way as it was not possible to transient fields in combination with the Hibernate5 module
+        mapper.addMixIn(MetadataType.class, MetadataTypeMixin.class);
+
         return mapper;
     }
 
@@ -179,5 +197,37 @@ public class JsonSerializationUtility {
 
     public static ObjectMapper getMapperForTransientFields() {
         return new ObjectMapper().configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, false);
+    }
+
+    /**
+     * Method to get an ObjectMapper instance in any desired configuration based on the {@link SerializerConfig} configs.
+     *
+     * @param configCode Aggregated config indicating the desired mapper configurations. For instance, to exclude binary object bytes and lazy collections from serialization,
+     *                   configCode should be set to 5, which is the sum of {@link SerializerConfig#EXCLUDE_BINARY_BYTES} and {@link SerializerConfig#EXCLUDE_LAZY_COLLECTIONS}
+     * @return
+     */
+    public static ObjectMapper getObjectMapper(int configCode) {
+        ObjectMapper mapper = getObjectMapper();
+        List<Integer> configs = SerializerConfig.fragmentConfig(configCode);
+        for (int i=0; i<configs.size(); i++) {
+            if (configs.get(i) == 1) {
+                switch (i+1) {
+                    case 1: {
+                        mapper.addMixIn(BinaryObjectType.class, IgnoreMixin.class);
+                        break;
+                    }
+                    case 2: {
+                        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+                        break;
+                    }
+                    case 3: { // if lazy loading is disabled, this config should not be set. Otherwise, lazy loaded collections are not included in the serialization.
+                        mapper.registerModule(new Hibernate5Module());
+                        break;
+                    }
+                }
+            }
+        }
+        return mapper;
     }
 }

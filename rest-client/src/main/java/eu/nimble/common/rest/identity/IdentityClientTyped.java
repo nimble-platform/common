@@ -2,6 +2,7 @@ package eu.nimble.common.rest.identity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
+import eu.nimble.common.rest.identity.model.PersonPartyTuple;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
 import eu.nimble.utility.JsonSerializationUtility;
@@ -177,6 +178,36 @@ public class IdentityClientTyped implements IIdentityClientTyped{
             }
         } else {
             logger.warn("Failed to get person with bearer token: {}, response status: {}, response body: {}", bearerToken, response.status(), responseBody);
+            return null;
+        }
+    }
+
+    @Override
+    public PersonPartyTuple getPersonPartyTuple(String bearerToken) throws IOException {
+        Response response = identityClient.getPersonPartyTuple(bearerToken);
+        String responseBody = null;
+        if(response.body() != null){
+            try {
+                responseBody = IOUtils.toString(response.body().asInputStream());
+
+            } catch (IOException e) {
+                String msg = String.format("Failed to obtain body response while getting the person party tuple with token: %s", bearerToken);
+                logger.error(msg);
+                throw e;
+            }
+        }
+
+        if (response.status() == 200) {
+            try {
+                return JsonSerializationUtility.deserializeContent(responseBody, new TypeReference<PersonPartyTuple>() {
+                });
+            } catch (IOException e) {
+                String msg = String.format("Failed to deserialize person party tuple: %s", responseBody);
+                logger.error(msg);
+                throw e;
+            }
+        } else {
+            logger.warn("Failed to get person party tuple with bearer token: {}, response status: {}, response body: {}", bearerToken, response.status(), responseBody);
             return null;
         }
     }

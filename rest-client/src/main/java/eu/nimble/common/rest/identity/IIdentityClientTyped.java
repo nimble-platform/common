@@ -1,6 +1,7 @@
 package eu.nimble.common.rest.identity;
 
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
+import eu.nimble.common.rest.identity.model.PersonPartyTuple;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
 import feign.Response;
@@ -30,7 +31,10 @@ public interface IIdentityClientTyped {
 
     public PersonType getPerson(@RequestHeader("Authorization") String bearerToken) throws IOException;
 
+    public PersonPartyTuple getPersonPartyTuple(@RequestHeader("Authorization") String bearerToken) throws IOException;
+
     public Boolean getUserInfo(@RequestHeader("Authorization") String bearerToken) throws IOException;
 
     public NegotiationSettings getNegotiationSettings(@PathVariable("companyID") String companyID) throws IOException;
+
 }

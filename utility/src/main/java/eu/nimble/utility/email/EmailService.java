@@ -3,6 +3,7 @@ package eu.nimble.utility.email;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.AddressType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
+import eu.nimble.utility.country.CountryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class EmailService {
         // collect info of company
         if (company.getPostalAddress() != null) {
             AddressType address = company.getPostalAddress();
-            String countryName = address.getCountry() != null ? address.getCountry().getName().getValue() : null;
+            String countryName = address.getCountry() != null && address.getCountry().getIdentificationCode() != null? CountryUtil.getCountryNameByISOCode(address.getCountry().getIdentificationCode().getValue() ) : null;
             context.setVariable("companyCountry", countryName);
             context.setVariable("companyStreet", address.getStreetName());
             context.setVariable("companyBuildingNumber", address.getBuildingNumber());
@@ -100,6 +101,10 @@ public class EmailService {
     }
 
     public void send(String[] to, String subject, String template, Context context) {
+        send(to,null,subject,template,context);
+    }
+
+    public void send(String[] to,String[] cc, String subject, String template, Context context) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         String message = this.textMailTemplateEngine.process(template, context);
@@ -111,6 +116,9 @@ public class EmailService {
 
         mailMessage.setFrom(this.defaultFrom);
         mailMessage.setTo(to);
+        if(cc != null){
+            mailMessage.setCc(cc);
+        }
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
         this.emailSender.send(mailMessage);
