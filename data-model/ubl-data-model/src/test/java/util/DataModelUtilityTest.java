@@ -120,6 +120,7 @@ public class DataModelUtilityTest {
         party.setPurchaseTerms(new TradingPreferences());
         party.setSalesTerms(new TradingPreferences());
         party.setNetwork(new ArrayList<>());
+        party.setMetadata(new MetadataType());
         return party;
     }
 }

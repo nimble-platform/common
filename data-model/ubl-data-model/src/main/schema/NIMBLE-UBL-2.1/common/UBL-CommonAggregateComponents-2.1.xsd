@@ -893,6 +893,7 @@
 	<xsd:complexType name="PartyType">
 		<xsd:sequence>
 			<xsd:element ref="cbc:FederationInstanceID"/>
+			<xsd:element ref="cac:Metadata"/>
 			<xsd:element ref="cbc:NACE" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:appinfo>

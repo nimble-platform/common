@@ -44,6 +44,7 @@ public class DataModelUtility {
         party.setPartyName(null);
         party.setNetwork(null);
         party.setStripeAccountId(null);
+        party.setMetadata(null);
     }
 
     /**
@@ -85,5 +86,6 @@ public class DataModelUtility {
         targetParty.setProcessID(sourceParty.getProcessID());
         targetParty.setNetwork(sourceParty.getNetwork());
         targetParty.setStripeAccountId(sourceParty.getStripeAccountId());
+        targetParty.setMetadata(sourceParty.getMetadata());
     }
 }
