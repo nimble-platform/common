@@ -147,6 +147,7 @@ public class ObjectFactory {
     private final static QName _CarrierAssignedID_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CarrierAssignedID");
     private final static QName _CarrierServiceInstructions_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CarrierServiceInstructions");
     private final static QName _CatalogueIndicator_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CatalogueIndicator");
+    private final static QName _CategoryCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CategoryCode");
     private final static QName _CategoryName_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CategoryName");
     private final static QName _CertificateType_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CertificateType");
     private final static QName _CertificateTypeCode_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", "CertificateTypeCode");
@@ -2044,6 +2045,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "CatalogueIndicator")
     public JAXBElement<Boolean> createCatalogueIndicator(Boolean value) {
         return new JAXBElement<Boolean>(_CatalogueIndicator_QNAME, Boolean.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CodeType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2", name = "CategoryCode")
+    public JAXBElement<CodeType> createCategoryCode(CodeType value) {
+        return new JAXBElement<CodeType>(_CategoryCode_QNAME, CodeType.class, null, value);
     }
 
     /**

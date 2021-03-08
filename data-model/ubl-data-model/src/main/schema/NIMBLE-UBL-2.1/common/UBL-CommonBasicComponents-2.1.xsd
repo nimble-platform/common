@@ -112,6 +112,7 @@
 	<xsd:element name="CarrierAssignedID" type="xsd:string"/>
 	<xsd:element name="CarrierServiceInstructions" type="xsd:string"/>
 	<xsd:element name="CatalogueIndicator" type="xsd:boolean"/>
+	<xsd:element name="CategoryCode" type="CodeType"/>
 	<xsd:element name="CategoryName" type="xsd:string"/>
 	<xsd:element name="CertificateType" type="xsd:string"/>
 	<xsd:element name="CertificateTypeCode" type="CodeType"/>

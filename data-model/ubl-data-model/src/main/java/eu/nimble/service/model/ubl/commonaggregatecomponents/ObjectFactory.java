@@ -109,6 +109,7 @@ public class ObjectFactory {
     private final static QName _PaymentTerms_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PaymentTerms");
     private final static QName _Period_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "Period");
     private final static QName _Person_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "Person");
+    private final static QName _ProductPublishSubscription_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "ProductPublishSubscription");
     private final static QName _PostalAddress_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PostalAddress");
     private final static QName _PpapDocumentReference_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "PpapDocumentReference");
     private final static QName _Price_QNAME = new QName("urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", "Price");
@@ -624,6 +625,14 @@ public class ObjectFactory {
      */
     public PersonType createPersonType() {
         return new PersonType();
+    }
+
+    /**
+     * Create an instance of {@link ProductPublishSubscriptionType }
+     * 
+     */
+    public ProductPublishSubscriptionType createProductPublishSubscriptionType() {
+        return new ProductPublishSubscriptionType();
     }
 
     /**
@@ -1582,6 +1591,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "Person")
     public JAXBElement<PersonType> createPerson(PersonType value) {
         return new JAXBElement<PersonType>(_Person_QNAME, PersonType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ProductPublishSubscriptionType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2", name = "ProductPublishSubscription")
+    public JAXBElement<ProductPublishSubscriptionType> createProductPublishSubscription(ProductPublishSubscriptionType value) {
+        return new JAXBElement<ProductPublishSubscriptionType>(_ProductPublishSubscription_QNAME, ProductPublishSubscriptionType.class, null, value);
     }
 
     /**

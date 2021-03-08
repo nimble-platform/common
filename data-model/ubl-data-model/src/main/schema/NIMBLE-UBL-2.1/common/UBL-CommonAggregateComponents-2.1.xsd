@@ -80,6 +80,7 @@
 	<xsd:element name="PaymentTerms" type="PaymentTermsType"/>
 	<xsd:element name="Period" type="PeriodType"/>
 	<xsd:element name="Person" type="PersonType"/>
+	<xsd:element name="ProductPublishSubscription" type="ProductPublishSubscriptionType"/>
 	<xsd:element name="PostalAddress" type="AddressType"/>
 	<xsd:element name="PpapDocumentReference" type="DocumentReferenceType"/>
 	<xsd:element name="Price" type="PriceType"/>
@@ -1019,6 +1020,16 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element ref="cac:ProductPublishSubscription">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:one-to-one/>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element ref="cac:Contact" minOccurs="0">
 				<xsd:annotation>
 					<xsd:appinfo>
@@ -1211,6 +1222,28 @@
 		<xsd:sequence>
 			<xsd:element ref="cbc:PriceAmount"/>
 			<xsd:element ref="cbc:BaseQuantity" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProductPublishSubscriptionType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:CompanyID" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element ref="cbc:CategoryCode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<ha:Cascade value="DELETE_ORPHAN"/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="QualityIndicatorType">

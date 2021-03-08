@@ -75,6 +75,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}Deleted"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PostalAddress" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyTaxScheme" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}ProductPublishSubscription"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Contact" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Person" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}Certificate" maxOccurs="unbounded" minOccurs="0"/&gt;
@@ -114,6 +115,7 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "deleted",
     "postalAddress",
     "partyTaxScheme",
+    "productPublishSubscription",
     "contact",
     "person",
     "certificate",
@@ -174,6 +176,8 @@ public class PartyType
     protected AddressType postalAddress;
     @XmlElement(name = "PartyTaxScheme")
     protected List<PartyTaxSchemeType> partyTaxScheme;
+    @XmlElement(name = "ProductPublishSubscription", required = true)
+    protected ProductPublishSubscriptionType productPublishSubscription;
     @XmlElement(name = "Contact")
     protected ContactType contact;
     @XmlElement(name = "Person")
@@ -864,6 +868,34 @@ public class PartyType
     }
 
     /**
+     * Gets the value of the productPublishSubscription property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ProductPublishSubscriptionType }
+     *     
+     */
+    @OneToOne(orphanRemoval = true,targetEntity = ProductPublishSubscriptionType.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "PRODUCT_PUBLISH_SUBSCRIPTION_0")
+    public ProductPublishSubscriptionType getProductPublishSubscription() {
+        return productPublishSubscription;
+    }
+
+    /**
+     * Sets the value of the productPublishSubscription property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ProductPublishSubscriptionType }
+     *     
+     */
+    public void setProductPublishSubscription(ProductPublishSubscriptionType value) {
+        this.productPublishSubscription = value;
+    }
+
+    /**
      * Gets the value of the contact property.
      * 
      * @return
@@ -1378,6 +1410,15 @@ public class PartyType
             List<PartyTaxSchemeType> rhsPartyTaxScheme;
             rhsPartyTaxScheme = (((that.partyTaxScheme!= null)&&(!that.partyTaxScheme.isEmpty()))?that.getPartyTaxScheme():null);
             if (!strategy.equals(LocatorUtils.property(thisLocator, "partyTaxScheme", lhsPartyTaxScheme), LocatorUtils.property(thatLocator, "partyTaxScheme", rhsPartyTaxScheme), lhsPartyTaxScheme, rhsPartyTaxScheme)) {
+                return false;
+            }
+        }
+        {
+            ProductPublishSubscriptionType lhsProductPublishSubscription;
+            lhsProductPublishSubscription = this.getProductPublishSubscription();
+            ProductPublishSubscriptionType rhsProductPublishSubscription;
+            rhsProductPublishSubscription = that.getProductPublishSubscription();
+            if (!strategy.equals(LocatorUtils.property(thisLocator, "productPublishSubscription", lhsProductPublishSubscription), LocatorUtils.property(thatLocator, "productPublishSubscription", rhsProductPublishSubscription), lhsProductPublishSubscription, rhsProductPublishSubscription)) {
                 return false;
             }
         }
