@@ -119,6 +119,7 @@ public class DataModelUtilityTest {
         party.setPreferredItemClassificationCode(new ArrayList<>());
         party.setPurchaseTerms(new TradingPreferences());
         party.setSalesTerms(new TradingPreferences());
+        party.setProductPublishSubscription(new ProductPublishSubscriptionType());
         party.setNetwork(new ArrayList<>());
         party.setMetadata(new MetadataType());
         return party;

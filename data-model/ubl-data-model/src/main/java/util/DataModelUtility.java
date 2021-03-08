@@ -34,6 +34,7 @@ public class DataModelUtility {
         party.setPartyTaxScheme(null);
         party.setPerson(null);
         party.setPostalAddress(null);
+        party.setProductPublishSubscription(null);
         party.setPpapDocumentReference(null);
         party.setPreferredItemClassificationCode(null);
         party.setPurchaseTerms(null);
@@ -87,5 +88,6 @@ public class DataModelUtility {
         targetParty.setNetwork(sourceParty.getNetwork());
         targetParty.setStripeAccountId(sourceParty.getStripeAccountId());
         targetParty.setMetadata(sourceParty.getMetadata());
+        targetParty.setProductPublishSubscription(sourceParty.getProductPublishSubscription());
     }
 }
