@@ -202,6 +202,22 @@ public class UblUtil {
             copy(source.getAdditionalDocumentReference(), target.getAdditionalDocumentReference());
         }
 
+        if (source.getCertificate() == null) {
+            target.setCertificate(null);
+        } else {
+            if (target.getCertificate() == null) {
+                target.setCertificate(new ArrayList<>());
+            }
+            List<CertificateType> certificateTypes = new ArrayList<>();
+            source.getCertificate().forEach(certificateType -> {
+                CertificateType targetCertificate = new CertificateType();
+                copy(certificateType,targetCertificate);
+                certificateTypes.add(targetCertificate);
+            });
+
+            target.setCertificate(certificateTypes);
+        }
+
         if (source.getImage() == null) {
             target.setImage(null);
         } else {
@@ -265,6 +281,51 @@ public class UblUtil {
                 target.setValidityPeriod(new PeriodType());
             }
             copy(source.getValidityPeriod(), target.getValidityPeriod());
+        }
+    }
+
+    public static void copy(CertificateType source, CertificateType target) {
+        target.setCertificateType(source.getCertificateType());
+        target.setRemarks(source.getRemarks());
+        target.setID(source.getID());
+
+        if (source.getCertificateTypeCode() == null) {
+            target.setCertificateTypeCode(new CodeType());
+        } else {
+            if (target.getCertificateTypeCode() == null) {
+                target.setCertificateTypeCode(new CodeType());
+            }
+            copy(source.getCertificateTypeCode(), target.getCertificateTypeCode());
+        }
+        if (source.getCountry() == null) {
+            target.setCountry(new ArrayList<>());
+        } else {
+            if (target.getCountry() == null) {
+                target.setCountry(new ArrayList<>());
+            }
+            List<CountryType> countryTypes = new ArrayList<>();
+            source.getCountry().forEach(countryType -> {
+                CountryType targetCountry = new CountryType();
+                copy(countryType,targetCountry);
+                countryTypes.add(targetCountry);
+            });
+
+            target.setCountry(countryTypes);
+        }
+        if (source.getDocumentReference() == null) {
+            target.setDocumentReference(new ArrayList<>());
+        } else {
+            if (target.getDocumentReference() == null) {
+                target.setDocumentReference(new ArrayList<>());
+            }
+            List<DocumentReferenceType> documentReferenceTypes = new ArrayList<>();
+            source.getDocumentReference().forEach(documentReferenceType -> {
+                DocumentReferenceType targetDocumentReference = new DocumentReferenceType();
+                copy(documentReferenceType,targetDocumentReference);
+                documentReferenceTypes.add(targetDocumentReference);
+            });
+
+            target.setDocumentReference(documentReferenceTypes);
         }
     }
 
