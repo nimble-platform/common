@@ -122,6 +122,16 @@ public class UblUtil {
         if (demand.getAdditionalDocumentReference() != null) {
             binaryObjects.add(demand.getAdditionalDocumentReference().getAttachment().getEmbeddedDocumentBinaryObject());
         }
+        if(demand.getCertificate() != null){
+            // collect document references from demand certificates
+            List<DocumentReferenceType> documentReferenceTypes = new ArrayList<>();
+            demand.getCertificate()
+                    .stream().filter(certificateType -> certificateType.getDocumentReference() != null && certificateType.getDocumentReference().size() > 0)
+                    .map(CertificateType::getDocumentReference)
+            .forEach(documentReferenceTypes::addAll);
+            // collect binary objects from the document references
+            binaryObjects.addAll(documentReferenceTypes.stream().map(documentReferenceType -> documentReferenceType.getAttachment().getEmbeddedDocumentBinaryObject()).collect(Collectors.toList()));
+        }
         return binaryObjects;
     }
 
