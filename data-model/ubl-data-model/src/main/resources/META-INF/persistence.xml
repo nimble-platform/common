@@ -89,6 +89,8 @@ http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistenc
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceOptionTypeIncotermsItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.PriceType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ProductPublishSubscriptionType</class>
+        <class>eu.nimble.service.model.ubl.commonaggregatecomponents.ProductPublishSubscriptionTypeCompanyIDItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualifyingPartyType</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualifyingPartyTypePersonalSituationItem</class>
         <class>eu.nimble.service.model.ubl.commonaggregatecomponents.QualityIndicatorType</class>

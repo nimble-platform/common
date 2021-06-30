@@ -188,6 +188,9 @@ Generated on: 2021.02.01 at 02:30:14 PM EET
     <bindings if-exists="true" scd="~tns:PersonType">
       <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType"/>
     </bindings>
+    <bindings if-exists="true" scd="~tns:ProductPublishSubscriptionType">
+      <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.ProductPublishSubscriptionType"/>
+    </bindings>
     <bindings if-exists="true" scd="~tns:PriceType">
       <class ref="eu.nimble.service.model.ubl.commonaggregatecomponents.PriceType"/>
     </bindings>

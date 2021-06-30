@@ -115,6 +115,8 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	@Indexed(name=EMISSION_STANDARD_FIELD)
 	private String emissionStandard;
 
+	@Indexed(name=CREATION_DATE_FIELD)
+	private String creationDate;
 	/**
 	 * Map holding a list of used Unit's for base quantity
 	 */
@@ -680,6 +682,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 		this.applicableCountries = applicableCountries;
 	}
 
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
 
 	public String getManufacturerId() {
 		if (manufacturer != null && manufacturer.getId() != null) {

@@ -81,6 +81,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String MANUFACTURER_ID_FIELD = "manufacturerId";
 	/**
+	 * The creation date of item in the following format: yyyy-MM-dd'T'HH:mm:ss
+	 */
+	String CREATION_DATE_FIELD = "creationDate";
+	/**
 	 * The item's id in the manufacturer's context or system
 	 */
 	String MANUFACTURER_ITEM_ID_FIELD = "manufacturerItemId";
