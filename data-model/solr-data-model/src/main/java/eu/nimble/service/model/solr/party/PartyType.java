@@ -1,20 +1,27 @@
 package eu.nimble.service.model.solr.party;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.solr.core.mapping.Dynamic;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import eu.nimble.service.model.solr.common.ICustomPropertyAware;
 import eu.nimble.service.model.solr.owl.Concept;
+import eu.nimble.service.model.solr.owl.PropertyType;
 /**
  * Class representing a manufacturer in the SOLR index
  * @author dglachs
  *
  */
 @SolrDocument(collection=IParty.COLLECTION)
-public class PartyType extends Concept implements IParty {
+public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 
 //	@Indexed(name=NAME_FIELD)
 //	private String name;
@@ -75,6 +82,27 @@ public class PartyType extends Concept implements IParty {
 
 	@Indexed(name=WEBSITE_FIELD, type="string")
 	private String website;
+	
+	@Indexed(name=CUSTOM_INTEGER_PROPERTY, type=SOLR_INT)
+	@Dynamic
+	private Map<String, Collection<Integer>> customIntValues;
+	@Indexed(name=CUSTOM_DOUBLE_PROPERTY, type=SOLR_NUMBER)
+	@Dynamic
+	private Map<String, Collection<Double>> customDoubleValues;
+	@Indexed(name=CUSTOM_STRING_PROPERTY, type=SOLR_STRING, copyTo = TEXT_FIELD)
+	@Dynamic
+	private Map<String, Collection<String>> customStringValues;
+	@Indexed(name=CUSTOM_BOOLEAN_PROPERTY, type=SOLR_BOOLEAN)
+	@Dynamic
+	private Map<String, Boolean> customBooleanValue;
+	@Indexed(name=CUSTOM_KEY_FIELD, type=SOLR_STRING)
+	@Dynamic
+	private Map<String, String> customPropertyKeys;
+	/**
+	 * 
+	 */
+	private Map<String, PropertyType> customProperties;
+
 
 	public String getId() {
 		return getUri();
@@ -350,5 +378,48 @@ public class PartyType extends Concept implements IParty {
 
 	public void setWebsite(String website) {
 		this.website = website;
+	}
+	@Override
+	public Map<String, Collection<Integer>> getCustomIntValues() {
+		if ( customIntValues == null ) {
+			customIntValues = new HashMap<String, Collection<Integer>>();
+		}
+		return customIntValues;
+	}
+	@Override
+	public Map<String, Collection<Double>> getCustomDoubleValues() {
+		if (customDoubleValues == null) {
+			customDoubleValues = new HashMap<String, Collection<Double>>();
+		}
+		return customDoubleValues;
+	}
+	@Override
+	public Map<String, Collection<String>> getCustomStringValues() {
+		if ( customStringValues == null) {
+			customStringValues = new HashMap<String, Collection<String>>();
+		}
+		return customStringValues;
+	}
+	@Override
+	public Map<String, Boolean> getCustomBooleanValue() {
+		if ( customBooleanValue == null) {
+			customBooleanValue = new HashMap<String, Boolean>();
+		}
+		return customBooleanValue;
+	}
+	@Override
+	public Map<String, String> getCustomPropertyKeys() {
+		if ( customPropertyKeys == null) {
+			customPropertyKeys = new HashMap<String, String>();
+		}
+		return customPropertyKeys;
+	}
+	@Override
+	@ReadOnlyProperty
+	public Map<String, PropertyType> getCustomProperties() {
+		if ( customProperties == null) {
+			customProperties = new HashMap<String, PropertyType>();
+		}
+		return customProperties;
 	}
 }

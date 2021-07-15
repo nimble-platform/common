@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.Map;
 
 public interface IConcept {
+	String SOLR_STRING = "string";
+	String SOLR_NUMBER = "pdouble";
+	String SOLR_INT    = "pint";
+	String SOLR_BOOLEAN= "boolean";
+	
+	
 	String ID_FIELD = "id";
 	String CODE_FIELD = "code";
 	/**
