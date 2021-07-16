@@ -103,6 +103,10 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 	 */
 	private Map<String, PropertyType> customProperties;
 
+	@Override
+	public String getCollection() {
+		return IParty.COLLECTION;
+	}
 
 	public String getId() {
 		return getUri();
