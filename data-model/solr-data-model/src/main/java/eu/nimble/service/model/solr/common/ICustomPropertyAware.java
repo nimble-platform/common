@@ -1,12 +1,6 @@
 package eu.nimble.service.model.solr.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -169,7 +163,7 @@ public interface ICustomPropertyAware {
 		// use @ as delimiter and store the original qualifier
 		getCustomPropertyKeys().put(key, String.join("@", qualifier));
 		// use the first element for type detection
-		Optional<?> first = values.stream().findFirst();
+		Optional<?> first = values.stream().filter(Objects::nonNull).findFirst();
 		if ( first.isPresent() ) {
 			if ( first.get() instanceof String ) {
 				Collection<String> strVal = values.stream().map(new Function<Object, String>() {
