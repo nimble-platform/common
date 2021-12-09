@@ -56,6 +56,7 @@ public interface IConcept {
 	String NAME_SPACE_FIELD = "nameSpace";
 	String LOCAL_NAME_FIELD = "localName"; 
 	String DESCRIPTION_FIELD = "*_desc";
+	String BASE_PLATFORM_FIELD = "basePlatform";
 
 	public Collection<String> getLanguages();
 	

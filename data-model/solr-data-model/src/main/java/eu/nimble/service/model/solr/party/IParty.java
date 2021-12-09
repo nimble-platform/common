@@ -35,4 +35,5 @@ public interface IParty {
 	public String WEBSITE_FIELD = "website";
 	public String LOCATION_LONGITUDE = "locationLongitude";
 	public String LOCATION_LATITUDE = "locationLatitude";
+	public String BASEPLATFORM_COMPANY_FIELD = "basePlatformCompanyId";
 }

@@ -82,7 +82,8 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 
 	@Indexed(name=WEBSITE_FIELD, type="string")
 	private String website;
-	
+	@Indexed(name= BASEPLATFORM_COMPANY_FIELD)
+	private String basePlatformCompanyId;
 	@Indexed(name=CUSTOM_INTEGER_PROPERTY, type=SOLR_INT)
 	@Dynamic
 	private Map<String, Collection<Integer>> customIntValues;
@@ -383,6 +384,15 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+
+	public String getBasePlatformCompanyId() {
+		return basePlatformCompanyId;
+	}
+
+	public void setBasePlatformCompanyId(String basePlatformCompanyId) {
+		this.basePlatformCompanyId = basePlatformCompanyId;
+	}
+
 	@Override
 	public Map<String, Collection<Integer>> getCustomIntValues() {
 		if ( customIntValues == null ) {
