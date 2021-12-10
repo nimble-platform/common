@@ -55,7 +55,8 @@ public abstract class Concept implements IConcept {
 	@Indexed(name=COMMENT_FIELD,copyTo= {LANGUAGE_TXT_FIELD, TEXT_FIELD})
 	@Dynamic
 	protected Map<String, String> comment;
-
+	@Indexed(name=BASE_PLATFORM_FIELD)
+	private String basePlatform;
 
 	public Concept() {
 		super();
@@ -94,6 +95,22 @@ public abstract class Concept implements IConcept {
 	 */
 	public void setLanguages(Collection<String> languages) {
 		this.languages = languages;
+	}
+
+
+	/**
+	 * Getter for the basePlatform
+	 */
+	public String getBasePlatform() {
+		return basePlatform;
+	}
+
+	/**
+	 * Setter for basePlatform
+	 * @param basePlatform
+	 */
+	public void setBasePlatform(String basePlatform) {
+		this.basePlatform = basePlatform;
 	}
 
 	/**
