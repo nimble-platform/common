@@ -3,6 +3,7 @@ package eu.nimble.common.rest.identity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import eu.nimble.common.rest.identity.model.NegotiationSettings;
 import eu.nimble.common.rest.identity.model.PersonPartyTuple;
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DemandType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PartyType;
 import eu.nimble.service.model.ubl.commonaggregatecomponents.PersonType;
 import eu.nimble.utility.JsonSerializationUtility;
@@ -239,6 +240,11 @@ public class IdentityClientTyped implements IIdentityClientTyped{
             }
         }
         return null;
+    }
+
+    @Override
+    public Response inviteCompaniesToDemandDetails(DemandType demand, String bearer, String language) {
+        return identityClient.inviteCompaniesToDemandDetails(demand, bearer, language);
     }
 
     private PartyType processGetPartyResponse(Response response, String storeId) throws IOException {
