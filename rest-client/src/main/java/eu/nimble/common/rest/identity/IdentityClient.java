@@ -1,5 +1,6 @@
 package eu.nimble.common.rest.identity;
 
+import eu.nimble.service.model.ubl.commonaggregatecomponents.DemandType;
 import feign.Response;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -48,4 +49,7 @@ public interface IdentityClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/company-settings/{companyID}/negotiation/", produces = "application/json")
     Response getNegotiationSettings(@PathVariable("companyID") String companyID);
+
+    @RequestMapping( method = RequestMethod.POST, value = "/invite/demand", produces = "application/json")
+    Response inviteCompaniesToDemandDetails(@RequestBody DemandType demand, @RequestHeader("Authorization") String bearerToken, @RequestHeader("Accept-Language") String language);
 }

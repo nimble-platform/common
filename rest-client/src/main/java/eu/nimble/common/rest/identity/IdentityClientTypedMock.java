@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 @Profile("test")
 @Component
 public class IdentityClientTypedMock implements IIdentityClientTyped {
@@ -91,6 +89,15 @@ public class IdentityClientTypedMock implements IIdentityClientTyped {
         String nameIdPairs = getPartyNameIdPairs(ids);
         return Response.builder()
                 .body(nameIdPairs, StandardCharsets.UTF_8)
+                .status(200)
+                .headers(new HashMap<>())
+                .build();
+    }
+
+    @Override
+    public Response inviteCompaniesToDemandDetails(DemandType demand, String bearer, String language) {
+        return Response.builder()
+                .body(null, StandardCharsets.UTF_8)
                 .status(200)
                 .headers(new HashMap<>())
                 .build();
