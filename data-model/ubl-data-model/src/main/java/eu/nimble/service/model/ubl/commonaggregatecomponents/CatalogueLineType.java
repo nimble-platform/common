@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import eu.nimble.service.model.ubl.catalogue.CatalogueLineTypePermittedPartyIDItem;
+import eu.nimble.service.model.ubl.catalogue.CatalogueLineTypeRestrictedPartyIDItem;
 import eu.nimble.service.model.ubl.commonbasiccomponents.QuantityType;
 import org.hibernate.annotations.Cascade;
 import org.jvnet.hyperjaxb3.item.ItemUtils;
@@ -115,6 +117,12 @@ public class CatalogueLineType
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     protected transient List<CatalogueLineTypeWarrantyInformationItem> warrantyInformationItems;
+    // Transient lists populated from the corresponding JPA-managed item collections on getter invocation.
+    // Mirrors the pattern used in CatalogueType for catalogue-level access control.
+    protected transient List<String> permittedPartyID;
+    protected transient List<String> restrictedPartyID;
+    protected List<CatalogueLineTypePermittedPartyIDItem> permittedPartyIDItems;
+    protected List<CatalogueLineTypeRestrictedPartyIDItem> restrictedPartyIDItems;
 
     /**
      * Gets the value of the id property.
@@ -450,6 +458,106 @@ public class CatalogueLineType
      */
     public void setGoodsItem(GoodsItemType value) {
         this.goodsItem = value;
+    }
+
+    /**
+     * Gets the list of VAT numbers that are explicitly permitted to view this catalogue line.
+     * Values are synchronized from the JPA-managed permittedPartyIDItems collection.
+     *
+     * @return list of permitted party VAT numbers; empty list if no whitelist is configured
+     */
+    @Transient
+    public List<String> getPermittedPartyID() {
+        if (permittedPartyID == null) {
+            permittedPartyID = new ArrayList<String>();
+            for (CatalogueLineTypePermittedPartyIDItem item : getPermittedPartyIDItems()) {
+                permittedPartyID.add(item.getItem());
+            }
+        }
+        return this.permittedPartyID;
+    }
+
+    /**
+     * Sets the list of VAT numbers that are explicitly permitted to view this catalogue line.
+     * Propagates changes to the JPA-managed permittedPartyIDItems collection.
+     *
+     * @param value list of permitted party VAT numbers
+     */
+    public void setPermittedPartyID(List<String> value) {
+        this.permittedPartyID = value;
+        this.permittedPartyIDItems = new ArrayList<CatalogueLineTypePermittedPartyIDItem>();
+        if (value != null) {
+            for (String id : value) {
+                CatalogueLineTypePermittedPartyIDItem item = new CatalogueLineTypePermittedPartyIDItem();
+                item.setItem(id);
+                this.permittedPartyIDItems.add(item);
+            }
+        }
+    }
+
+    /**
+     * Gets the list of VAT numbers that are explicitly restricted from viewing this catalogue line.
+     * Values are synchronized from the JPA-managed restrictedPartyIDItems collection.
+     *
+     * @return list of restricted party VAT numbers; empty list if no blacklist is configured
+     */
+    @Transient
+    public List<String> getRestrictedPartyID() {
+        if (restrictedPartyID == null) {
+            restrictedPartyID = new ArrayList<String>();
+            for (CatalogueLineTypeRestrictedPartyIDItem item : getRestrictedPartyIDItems()) {
+                restrictedPartyID.add(item.getItem());
+            }
+        }
+        return this.restrictedPartyID;
+    }
+
+    /**
+     * Sets the list of VAT numbers that are explicitly restricted from viewing this catalogue line.
+     * Propagates changes to the JPA-managed restrictedPartyIDItems collection.
+     *
+     * @param value list of restricted party VAT numbers
+     */
+    public void setRestrictedPartyID(List<String> value) {
+        this.restrictedPartyID = value;
+        this.restrictedPartyIDItems = new ArrayList<CatalogueLineTypeRestrictedPartyIDItem>();
+        if (value != null) {
+            for (String id : value) {
+                CatalogueLineTypeRestrictedPartyIDItem item = new CatalogueLineTypeRestrictedPartyIDItem();
+                item.setItem(id);
+                this.restrictedPartyIDItems.add(item);
+            }
+        }
+    }
+
+    @OneToMany(orphanRemoval = true, targetEntity = CatalogueLineTypePermittedPartyIDItem.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "PERMITTED_PARTY_IDITEMS_LINE_0")
+    public List<CatalogueLineTypePermittedPartyIDItem> getPermittedPartyIDItems() {
+        if (permittedPartyIDItems == null) {
+            permittedPartyIDItems = new ArrayList<CatalogueLineTypePermittedPartyIDItem>();
+        }
+        return this.permittedPartyIDItems;
+    }
+
+    public void setPermittedPartyIDItems(List<CatalogueLineTypePermittedPartyIDItem> value) {
+        this.permittedPartyIDItems = value;
+    }
+
+    @OneToMany(orphanRemoval = true, targetEntity = CatalogueLineTypeRestrictedPartyIDItem.class, cascade = {
+        javax.persistence.CascadeType.ALL
+    })
+    @JoinColumn(name = "RESTRICTED_PARTY_IDITEMS_LIN_0")
+    public List<CatalogueLineTypeRestrictedPartyIDItem> getRestrictedPartyIDItems() {
+        if (restrictedPartyIDItems == null) {
+            restrictedPartyIDItems = new ArrayList<CatalogueLineTypeRestrictedPartyIDItem>();
+        }
+        return this.restrictedPartyIDItems;
+    }
+
+    public void setRestrictedPartyIDItems(List<CatalogueLineTypeRestrictedPartyIDItem> value) {
+        this.restrictedPartyIDItems = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
