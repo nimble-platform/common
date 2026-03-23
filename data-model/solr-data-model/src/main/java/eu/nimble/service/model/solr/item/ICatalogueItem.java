@@ -81,6 +81,10 @@ public interface ICatalogueItem extends IConcept {
 	 */
 	String MANUFACTURER_ID_FIELD = "manufacturerId";
 	/**
+	 * The country code (ISO 3166-1 alpha-2) of the manufacturer
+	 */
+	String MANUFACTURER_COUNTRY_FIELD = "manufacturerCountry";
+	/**
 	 * The creation date of item in the following format: yyyy-MM-dd'T'HH:mm:ss
 	 */
 	String CREATION_DATE_FIELD = "creationDate";

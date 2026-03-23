@@ -101,8 +101,13 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	/**
 	 * Id of the corresponding manufacturer
 	 */
-	@Indexed(name=MANUFACTURER_ID_FIELD) 
+	@Indexed(name=MANUFACTURER_ID_FIELD)
 	private String manufacturerId;
+	/**
+	 * Country code (ISO 3166-1 alpha-2) of the manufacturer
+	 */
+	@Indexed(name=MANUFACTURER_COUNTRY_FIELD)
+	private String manufacturerCountry;
 	@Indexed(name=MANUFACTURER_ITEM_ID_FIELD)
 	private String manufactuerItemId;
 	// Transportation Service Details
@@ -698,6 +703,12 @@ public class ItemType extends Concept implements ICatalogueItem, Serializable {
 	}
 	public void setManufacturerId(String manufacturerId) {
 		this.manufacturerId = manufacturerId;
+	}
+	public String getManufacturerCountry() {
+		return manufacturerCountry;
+	}
+	public void setManufacturerCountry(String manufacturerCountry) {
+		this.manufacturerCountry = manufacturerCountry;
 	}
 	public Set<String> getServiceType() {
 		return serviceType;
