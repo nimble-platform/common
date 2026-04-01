@@ -36,4 +36,10 @@ public interface IParty {
 	public String LOCATION_LONGITUDE = "locationLongitude";
 	public String LOCATION_LATITUDE = "locationLatitude";
 	public String BASEPLATFORM_COMPANY_FIELD = "basePlatformCompanyId";
+	// HCDP-01.2: VAT number (VATIN) used as the party key in white/black list filtering.
+	// Must match the value stored in catalogue_type_restricted_pa_0 and used in search filter:
+	// permittedParties:{vatin} OR (-permittedParties:[* TO *] AND (-restrictedParties:{vatin}))
+	public String VAT_NUMBER_FIELD = "vatNumber";
+	// HCDP-01.2: flag indicating the party has a registered user (required for company search)
+	public String HAS_REGISTERED_USER_FIELD = "hasRegisteredUser";
 }

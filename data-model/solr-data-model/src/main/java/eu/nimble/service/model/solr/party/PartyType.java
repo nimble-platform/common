@@ -82,6 +82,14 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 
 	@Indexed(name=WEBSITE_FIELD, type="string")
 	private String website;
+
+	// HCDP-01.2: VATIN used as the key for white/black list filtering
+	@Indexed(name=VAT_NUMBER_FIELD, type="string")
+	private String vatNumber;
+
+	// HCDP-01.2: flag required for company search query filter (hasRegisteredUser:true)
+	@Indexed(name=HAS_REGISTERED_USER_FIELD, type="boolean")
+	private Boolean hasRegisteredUser;
 	@Indexed(name= BASEPLATFORM_COMPANY_FIELD)
 	private String basePlatformCompanyId;
 	@Indexed(name=CUSTOM_INTEGER_PROPERTY, type=SOLR_INT)
@@ -391,6 +399,22 @@ public class PartyType extends Concept implements IParty, ICustomPropertyAware {
 
 	public void setBasePlatformCompanyId(String basePlatformCompanyId) {
 		this.basePlatformCompanyId = basePlatformCompanyId;
+	}
+
+	public String getVatNumber() {
+		return vatNumber;
+	}
+
+	public void setVatNumber(String vatNumber) {
+		this.vatNumber = vatNumber;
+	}
+
+	public Boolean getHasRegisteredUser() {
+		return hasRegisteredUser;
+	}
+
+	public void setHasRegisteredUser(Boolean hasRegisteredUser) {
+		this.hasRegisteredUser = hasRegisteredUser;
 	}
 
 	@Override
